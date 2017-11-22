@@ -1,0 +1,14 @@
+html,body{
+  height: 100%;
+  width: 100%;
+}
+
+#bluehead{
+  height: 5%;
+  background-color: lightblue;
+}
+
+#navi{
+  height:5%;
+  font-family: sans-serif;
+}
