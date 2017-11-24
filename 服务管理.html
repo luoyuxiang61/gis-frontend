@@ -467,9 +467,59 @@
     <script src="./bootstrap3-editable/js/bootstrap-editable.js"></script>
     <script type="text/javascript">
 
+
+      var nowRow = [];
+      var ths = [];
+
+      ths = $("thead > tr").children();
+      for(var j =0;j<ths.length;j++){
+        console.log(ths[j].innerText);
+      }
+      
+
+      // 表格的每一行点击之后高亮显示
+      $("tbody>tr").click(function(){
+
+        $("tbody>tr").removeClass("clicked");
+        $(this).addClass("clicked");
+        nowRow = $(this).children();
+        for(var i = 0;i < nowRow.length;i++){
+          // console.log(nowRow[i].innerText);
+        }
+        
+        
+
+      })
+
+
+
+
       $.fn.editable.defaults.mode = 'inline';
       $("#zdname").editable({
-        url:'http://localhost:3000'
+
+        url:function(params){
+          console.log(params);
+          $.ajax({
+            type:"POST",
+            url:"http://localhost:3000",
+            data:{"age":100},
+            success:function(){
+              alert("成功")
+            },
+            error:function(){
+              alert("失败")
+            },
+            dataType:'JSON'
+          })
+
+        },
+
+
+        validate:function(value){
+          if(!$.trim(value)){
+            return "不能为空";
+          }
+        }
       });
 
 
@@ -503,6 +553,8 @@
         }
 
       })
+
+
 
 
       //点击新增按钮之后弹出一个表单让用户填写新增的信息保存提交
