@@ -377,7 +377,7 @@
                 <tbody>
                   <tr>
                     <td><a href="#" id="zdname" data-type="text" data-pk="1" data-title="Enter zdname">Area</a></td>
-                    <td>面积</td>
+                    <td><a href="#"  data-type="text" data-pk="1" data-title="Enter zdname">面积</a></td>
                     <td>Number</td>
                     <td>能</td>
                     <td>否</td>
@@ -385,11 +385,6 @@
                 </tbody>
 
               </table>
-
-
-
-
-
             </div>
           </div>
         </div>
@@ -495,14 +490,15 @@
 
 
       $.fn.editable.defaults.mode = 'inline';
-      $("#zdname").editable({
+      $("tbody a").editable({
 
         url:function(params){
-          console.log(params);
+          var data = {};
+          data[params.name] = params.value;
           $.ajax({
             type:"POST",
             url:"http://localhost:3000",
-            data:{"age":100},
+            data:data,
             success:function(){
               alert("成功")
             },
