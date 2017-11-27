@@ -368,6 +368,7 @@
                   <tr>
                     <th>字段名称</th>
                     <th>显示名称</th>
+                    <th>所属图层</th>
                     <th>数据类型</th>
                     <th>能否查询</th>
                     <th>能否搜索</th>
@@ -378,9 +379,10 @@
                   <tr>
                     <td><a href="#"  class="text" data-type="text" data-pk="1" data-title="Enter zdname">Area</a></td>
                     <td><a href="#"  class="text" data-type="text" data-pk="1" data-title="Enter zdname">面积</a></td>
+                    <td><a href="#"  class="text" data-type="text" data-pk="1" data-title="Enter zdname">生态红线</a></td>
                     <td><a href="#"  class="select-datatype" data-type="select" data-pk="1"  data-title="Select status"></a></td>
-                    <td><input type="checkbox" id="blankCheckbox" value="option1" aria-label="..." style="zoom:100%"></td>
-                    <td><a href="#"  class="checklist"  data-type="checklist" data-pk="1" data-title="Select options"></a></td>
+                    <td><a href="#"  class="text" data-type="text" data-pk="1" data-title="Enter zdname">能</a></td>
+                    <td><a href="#"  class="text" data-type="text" data-pk="1" data-title="Enter zdname">能</a></td>
                   </tr>
                 </tbody>
 
@@ -464,12 +466,7 @@
 
 
       var nowRow = [];
-      var ths = [];
 
-      ths = $("thead > tr").children();
-      for(var j =0;j<ths.length;j++){
-        console.log(ths[j].innerText);
-      }
       
 
       // 表格的每一行点击之后高亮显示
@@ -478,17 +475,10 @@
         $("tbody>tr").removeClass("clicked");
         $(this).addClass("clicked");
         nowRow = $(this).children();
-
-        console.log(nowRow);
-
-
       })
 
       $("tbody td").click(function(){
 
-
-        console.log("td!");
-        console.log($(this).innerText);
       })
 
 
@@ -497,8 +487,25 @@
       $("tbody a.text").editable({
 
         url:function(params){
-          var data = {};
-          data[params.name] = params.value;
+
+          console.log(params);
+
+          var data={
+            "zdmc":nowRow[0].innerText,
+            "xsmc":nowRow[1].innerText,
+            "sstc":nowRow[2].innerText,
+            "sjlx":nowRow[3].innerText,
+            "nfcx":nowRow[4].innerText,
+            "nfss":nowRow[5].innerText
+          }
+
+          if(data.zdmc==='')data.zdmc=params.value;
+          if(data.xsmc==='')data.xsmc=params.value;
+          if(data.sstc==='')data.sstc=params.value;
+          if(data.sjlx==='')data.sjlx=params.value;
+          if(data.nfcx==='')data.nfcx=params.value;
+          if(data.nfss==='')data.nfss=params.value;
+         
           $.ajax({
             type:"POST",
             url:"http://localhost:3000",
@@ -508,8 +515,8 @@
             },
             error:function(){
               alert("失败")
-            },
-            dataType:'JSON'
+            }
+            
           })
 
         },
@@ -522,6 +529,7 @@
         }
       });
 
+
       $('tbody a.select-datatype').editable({
         value: 2,    
         source: [
@@ -529,16 +537,9 @@
               {value: 2, text: 'Blocked'},
               {value: 3, text: 'Deleted'}
            ]
-      });
-
-      $('tbody a.checklist').editable({
-        value: [1, 2],    
-        source: [
-              {value: 1, text: 'web-online'},
-              {value: 2, text: 'mobile-online'},
-              {value: 3, text: 'mobile-offline'}
-           ]
     });
+
+
 
 
 
