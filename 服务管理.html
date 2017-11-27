@@ -368,10 +368,15 @@
                   <tr>
                     <th>字段名称</th>
                     <th>显示名称</th>
-                    <th>所属图层</th>
-                    <th>数据类型</th>
-                    <th>能否查询</th>
-                    <th>能否搜索</th>
+                    <th>数据类型</th>                   
+                    <th>面积字段单位</th>
+                    <th>字段序号</th>
+                    
+                    <th>是否显示</th>
+                    <th>是否搜索</th>
+                    <th>是否标注</th>
+
+                    <th style="display:none">所属图层</th>
                   </tr>
                 </thead>
 
@@ -379,10 +384,14 @@
                   <tr>
                     <td><a href="#"  class="text" data-type="text" data-pk="1" data-title="Enter zdname">Area</a></td>
                     <td><a href="#"  class="text" data-type="text" data-pk="1" data-title="Enter zdname">面积</a></td>
-                    <td><a href="#"  class="text" data-type="text" data-pk="1" data-title="Enter zdname">生态红线</a></td>
-                    <td><a href="#"  class="select-datatype" data-type="select" data-pk="1"  data-title="Select status"></a></td>
-                    <td><a href="#"  class="text" data-type="text" data-pk="1" data-title="Enter zdname">能</a></td>
-                    <td><a href="#"  class="text" data-type="text" data-pk="1" data-title="Enter zdname">能</a></td>
+                    <td><a href="#"  class="text" data-type="text" data-pk="1" data-title="Enter zdname">Number</a></td>
+                    <td><a href="#"  class="text" data-type="text" data-pk="1" data-title="Enter zdname">平方米</a></td>
+                    <td><a href="#"  class="text" data-type="text" data-pk="1" data-title="Enter zdname">1</a></td>
+                    <td><a href="#"  class="text" data-type="text" data-pk="1" data-title="Enter zdname">是</a></td>
+                    <td><a href="#"  class="text" data-type="text" data-pk="1" data-title="Enter zdname">是</a></td>
+                    <td><a href="#"  class="text" data-type="text" data-pk="1" data-title="Enter zdname">否</a></td>
+
+                    <td style="display:none"><a href="#"  class="text" data-type="text" data-pk="1" data-title="Enter zdname">生态红线</a></td>
                   </tr>
                 </tbody>
 
@@ -493,18 +502,23 @@
           var data={
             "zdmc":nowRow[0].innerText,
             "xsmc":nowRow[1].innerText,
-            "sstc":nowRow[2].innerText,
-            "sjlx":nowRow[3].innerText,
-            "nfcx":nowRow[4].innerText,
-            "nfss":nowRow[5].innerText
+            "sjlx":nowRow[2].innerText,
+            "mjzddw":nowRow[3].innerText,
+            "zdxh":nowRow[4].innerText,
+            "sfxs":nowRow[5].innerText,
+            "sfss":nowRow[6].innerText,
+            "sfbz":nowRow[7].innerText
           }
 
           if(data.zdmc==='')data.zdmc=params.value;
           if(data.xsmc==='')data.xsmc=params.value;
-          if(data.sstc==='')data.sstc=params.value;
           if(data.sjlx==='')data.sjlx=params.value;
-          if(data.nfcx==='')data.nfcx=params.value;
-          if(data.nfss==='')data.nfss=params.value;
+          if(data.mjzddw==='')data.mjzddw=params.value;
+          if(data.zdxh==='')data.zdxh=params.value;
+          if(data.sfxs==='')data.sfxs=params.value;
+          if(data.sfss==='')data.sfss=params.value;
+          if(data.sfbz==='')data.sfbz=params.value;
+          
          
           $.ajax({
             type:"POST",
@@ -516,7 +530,6 @@
             error:function(){
               alert("失败")
             }
-            
           })
 
         },
