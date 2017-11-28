@@ -1,14 +1,6 @@
-var $btn = document.getElementById("submit");
-var $form = document.getElementById("form")
+$("#login-button").click(function(event){
+  event.preventDefault();
 
-function signIn() {
-  if ($form.checkValidity()) {
-    $btn.classList.add('pending');
-    window.setTimeout(function(){ $btn.classList.add('granted');
-  }, 500);
-  }
-
-  window.location.href="./index.html";
-}
-
-$btn.addEventListener("click", signIn);
+$('form').fadeOut(500);
+$('.wrapper').addClass('form-success');
+});

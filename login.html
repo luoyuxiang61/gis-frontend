@@ -3,49 +3,67 @@
     <meta charset="utf-8">
     <title>登录到发布系统</title>
     <link rel="stylesheet" href="./css/login.css">
+    
   </head>
   <body>
-      <div class="tile">
-          <div class="tile-header">
-            <h2 style="color: white; opacity: .75; font-size: 1.3rem; display: flex; justify-content: center; align-items: center; height: 100%;">南通经济开发区<em>规划信息综合服务平台</em></h2>         
+    <body>
+      <div class="content">
+        <!--Echo out errors here. See example-->
+        <!--<p class=error>Error, wrong username or password used. Please, try again.-->
+        <form>
+          <div class="mat-in">
+            <input type="text" name="username" value="" required></input>
+            <span class="bar"></span>
+            <label>用户名</label>
           </div>
-          
-          <div class="tile-body">
-            <form id="form">
-              <label class="form-input">
-                <i class="material-icons">person</i>
-                <input type="text" autofocus="true" required />
-                <span class="label">Username</span>
-                <span class="underline"></span>
-              </label>
-              
-              <label class="form-input">
-                <i class="material-icons">lock</i>
-                <input type="password" required />
-                <span class="label">Password</span>
-                <div class="underline"></div>
-              </label>
-              
-              <div class="submit-container clearfix" style="margin-top: 2rem;">          
-                <div id="submit" role="button" type="button" class="btn btn-irenic float-right" tabindex="0">
-                  <span>登录</span>
-                </div>
-                
-                <div class="login-pending">
-                  <div class=spinner>
-                    <span class="dot1"></span>
-                    <span class="dot2"></span>
-                  </div>
-                  
-                  <div class="login-granted-content">
-                    <i class="material-icons">done</i>
-                  </div>
-                </div>
-              </div>
-            </form>
+          <div class="mat-in">
+            <input type="password" name="password" value="" required></input>
+            <span class="bar"></span>
+            <label>密码</label>
           </div>
-        </div>
+          <button type="submit" name="submit" id="login">登录</button>
+        </form>
+      </div>
+      <div class="bg-boxes">
+            <svg width="300px" height="100%" id="col1">
+          <rect width="150px" height="150px" x="75px" y="75px" class="bubble" id="bub1" />
+        </svg>
+        <svg width="200px" height="100%" id="col2">
+          <rect width="100px" height="100px" x="50px" y="50px" class="bubble" id="bub2" />
+        </svg>
+        <svg width="260px" height="100%" id="col3">
+            <rect width="130px" height="130px" x="65px" y="65px" class="bubble" id="bub3" />
+        </svg>
+        <svg width="160px" height="100%" id="col4">
+            <rect width="80px" height="80px" x="40px" y="40px" class="bubble" id="bub4" />
+        </svg>
+        <svg width="240px" height="100%" id="col5">
+            <rect width="120px" height="120px" x="60px" y="60px" class="bubble" id="bub5" />
+        </svg>
+        <!--Here is a triangle-->
+        <svg width="200px" height="100%" id="col6">
+            <polygon points="50,150 100,50 150,150" class="bubble" id="bub6" />
+        </svg>
+        <svg width="200px" height="100%" id="col7">
+            <rect width="100px" height="100px" x="50px" y="50px" class="bubble" id="bub7" />
+        </svg>
+        <svg width="200px" height="100%" id="col8">
+            <rect width="100px" height="100px" x="50px" y="50px" class="bubble" id="bub8" />
+        </svg>
+        <svg width="200px" height="100%" id="col9">
+            <rect width="100px" height="100px" x="50px" y="50px" class="bubble" id="bub9" />
+        </svg>
+        <svg width="200px" height="100%" id="col10">
+            <rect width="100px" height="100px" x="50px" y="50px" class="bubble" id="bub10" />
+        </svg>
+        <svg width="100px" height="100%" id="col11">
+            <rect width="50px" height="50px" x="25px" y="25px" class="bubble" id="bub11" />
+        </svg>
+      </div>
+    </body>
 
+
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
   <script src="./js/login.js"></script>
   </body>
 </html>

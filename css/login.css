@@ -1,263 +1,337 @@
-@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900,900i|Monoton");
-@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
-* {
-  box-sizing: border-box; }
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
-html {
-  font-size: 14px; }
+html, body {
+  background: #50a3a2;
+  background: -webkit-linear-gradient(top left, #50a3a2 0%, #53e3a6 100%);
+  background: linear-gradient(to bottom right, #50a3a2 0%, #53e3a6 100%);
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  height: 100%; /*Allow spacing based on window height*/
+  margin: 0;
+  min-height: 240px;
+}
 
-body {
-  background: linear-gradient(to bottom, #68d8d6, #ffffff);
-  color: #454749;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Source Sans Pro', sans-serif;
-  min-height: 100vh; }
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: Monoton, sans-serif;
-  margin-bottom: .5rem; }
-
-/**
- * Tiles
- */
-.tile {
-  background-color: #ffffff;
-  border-radius: .1rem;
-  box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.2), 0 0.25rem 0.25rem rgba(0, 0, 0, 0.2);
-  position: relative;
-  width: 100%;
-  min-width: 320px;
-  max-width: 24rem;
-  overflow: hidden; }
-  .tile .tile-header {
-    background-image: url("https://res.cloudinary.com/dgmilxzy7/image/upload/c_scale,w_500,o_75,b_rgb:07beb8/v1506735375/CodePen/ViddenPixel.jpg");
-    background-position: center;
-    background-size: cover;
-    height: 12rem; }
-  .tile .tile-body {
-    padding: 2rem; }
-
-/**
- * Forms
- */
-.form-input {
+/*The form part*/
+.content {
+/*A box that the form resides in - centered vertically and horizontally based on the window. The max-width and % width combo allow it to resize for small devices*/  
+  background: #FFF;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: block;
+  left: 50%;
+  max-width: 360px;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 90%;
+  z-index: 2;
+}
+
+form {
+  display: block;
+  margin: auto;
+  padding: 27px 0;
+  width: 85%;
+}
+
+/*Text-inputs*/
+.mat-in {
   position: relative;
-  margin-bottom: 1rem; }
-  .form-input > .material-icons {
-    position: absolute;
-    font-size: 1.5rem;
-    top: 1.2rem; }
-    .form-input > .material-icons ~ input, .form-input > .material-icons ~ .label, .form-input > .material-icons ~ .underline {
-      margin-left: 2.25rem;
-      width: calc(100% - 2.25rem); }
-  .form-input input {
-    border: none;
-    box-shadow: none;
-    padding-top: 1.5rem;
-    padding-right: 0;
-    padding-bottom: 0.5rem;
-    padding-left: 0;
-    outline-style: none;
-    width: 100%; }
-    .form-input input ~ .label {
-      color: #868e96;
-      font-size: 1rem;
-      margin: 0;
-      pointer-events: none;
-      position: absolute;
-      top: 1.5rem;
-      left: 0;
-      transition: top .2s,font .2s;
-      z-index: 1; }
-    .form-input input ~ .underline {
-      background-color: #bdc1c5;
-      height: 1px;
-      width: 100%;
-      position: absolute;
-      bottom: 0; }
-    .form-input input:hover ~ .underline, .form-input input:focus ~ .underline {
-      background-color: #07beb8; }
-    .form-input input:hover ~ .label, .form-input input:focus ~ .label {
-      color: #07beb8; }
-    .form-input input:focus ~ .underline {
-      height: 2px; }
-    .form-input input:focus ~ .label, .form-input input:valid ~ .label {
-      top: 0;
-      font-size: 0.85rem; }
-    .form-input input:-webkit-autofill ~ .label {
-      top: 0;
-      font-size: 0.85rem; }
+  margin-bottom: 32px;
+}
 
-/**
- * Buttons
- */
-.btn {
-  border-radius: .2rem;
-  display: inline-block;
-  padding-top: 0.5rem;
-  padding-right: 1rem;
-  padding-bottom: 0.5rem;
-  padding-left: 1rem; }
+input {
+  border: none;
+  border-bottom: 1px solid #9E9E9E;
+  display: block;
+  font-size: 16px;
+  padding: 8px 0px;
+  -webkit-transition: 0.2s border-bottom;
+  transition: 0.2s border-bottom;
+  width: 100%;
+}
 
-.btn, [role="button"], [type="button"] {
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-  cursor: pointer; }
+input:focus, input:invalid {
+  box-shadow: none;
+  outline: none;
+}
 
-.btn-irenic {
-  background-color: #07beb8;
-  color: white; }
-  .btn-irenic:hover, .btn-irenic:focus, .btn-irenic:active {
-    background-color: #06a5a0; }
+input:focus {
+  border-bottom: 1px solid #2196f3;
+}
 
-.btn-serene {
-  background-color: #3dccc7;
-  color: white; }
-  .btn-serene:hover, .btn-serene:focus, .btn-serene:active {
-    background-color: #32beb9; }
+/*Labels*/
+label {
+  color: #9E9E9E;
+  font-size: 16px;
+  pointer-events: none;
+  position: absolute;
+  top: 10px;
+  -webkit-transition: 0.2s ease all;
+  transition: 0.2s ease all;
+}
 
-.btn-tranquil {
-  background-color: #68d8d6;
-  color: white; }
-  .btn-tranquil:hover, .btn-tranquil:focus, .btn-tranquil:active {
-    background-color: #54d3d0; }
+input:focus ~ label, input:valid ~ label {
+  color: #2196f3;
+  font-size: 12px;
+  top: -16px;
+}
 
-.btn-calm {
-  background-color: #9ceaef;
-  color: white; }
-  .btn-calm:hover, .btn-calm:focus, .btn-calm:active {
-    background-color: #86e5eb; }
+/*Bar that appears when an input is selected*/
+.bar:before, .bar:after {
+  background: #2196f3;
+  bottom: 1px;
+  content: '';
+  height: 2px;
+  position: absolute;
+  -webkit-transition: 0.2s ease all;
+  transition: 0.2s ease all;
+  width: 0;
+}
 
-.btn-cool {
-  background-color: #c4fff9;
-  color: white; }
-  .btn-cool:hover, .btn-cool:focus, .btn-cool:active {
-    background-color: #abfff6; }
+.bar:before {
+  left: 50%;
+}
 
-.btn-ice {
-  background-color: #ffffff;
-  color: white; }
-  .btn-ice:hover, .btn-ice:focus, .btn-ice:active {
-    background-color: #f2f2f2; }
+.bar:after {
+  right: 50%;
+}
 
-.btn-base {
-  background-color: #454749;
-  color: white; }
-  .btn-base:hover, .btn-base:focus, .btn-base:active {
-    background-color: #393a3c; }
+input:focus ~ .bar:before, input:focus ~ .bar:after {
+  width: 50%;
+}
 
-/**
- * Utilities
- */
-.clearfix:after {
-  content: "";
-  display: table;
-  clear: both; }
-
-.float-right {
-  float: right; }
-
-/**
- *
- */
-.submit-container {
-  position: relative; }
-  .submit-container #submit {
-    position: relative;
-    z-index: 2;
-    outline: none;
-    opacity: 1;
-    transition: transform .1s ease-in, opacity .1s ease-in, border-radius .1s ease-in;
-    right: -1px; }
-    .submit-container #submit span {
-      opacity: 1;
-      transition: opacity .1s ease-in; }
-    .submit-container #submit.pending {
-      transform: scale(0.55, 1.5);
-      background-color: #07beb8;
-      border-radius: 50%;
-      opacity: 1; }
-      .submit-container #submit.pending span {
-        opacity: 0; }
-      .submit-container #submit.pending ~ .login-pending {
-        opacity: 1;
-        transform: scale(1, 1);
-        z-index: 3; }
-    .submit-container #submit.granted ~ .login-pending {
-      opacity: 1;
-      transform: translate(-9rem, -11rem) scale(18, 18);
-      z-index: 3; }
-      .submit-container #submit.granted ~ .login-pending .spinner {
-        opacity: 0; }
-      .submit-container #submit.granted ~ .login-pending .login-granted-content {
-        opacity: 1; }
-  .submit-container .login-pending {
-    height: 3rem;
-    width: 3rem;
-    background-color: #07beb8;
-    position: absolute;
-    border-radius: 50%;
-    right: 1rem;
-    bottom: -0.5rem;
-    opacity: 0;
-    overflow: hidden;
-    transform: translate(0, 0) scale(0.5, 0.5);
-    transition: transform .2s ease-in, scale .2s ease-in;
-    z-index: 1; }
-    .submit-container .login-pending .login-granted-content {
-      background-image: url(https://res.cloudinary.com/dgmilxzy7/image/upload/c_scale,w_700,o_25,b_rgb:07beb8/v1506735375/CodePen/ViddenPixel.jpg);
-      background-position: center;
-      background-size: cover;
-      color: #ffffff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-      width: 100%;
-      opacity: 0;
-      position: absolute;
-      top: 0;
-      left: 0;
-      transition: opacity .2s ease-in .2s;
-      text-shadow: 0px 0px 20px #ffffff; }
-      .submit-container .login-pending .login-granted-content .material-icons {
-        font-size: 5px;
-        position: relative;
-        left: 1.25px; }
-
-.spinner {
-  width: 3rem;
-  height: 3rem;
+/*Submit Button*/
+#login {
+  background: #2196f3;
+  border: none;
+  border-radius: 2px;
+  color: #FFF;
+  cursor: pointer;
+  font-size: 16px;
+  opacity: 0.999;
+  padding: 8px 0;
   position: relative;
-  margin: 0 auto; }
-  .spinner .dot1, .spinner .dot2 {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background-color: #68d8d6;
-    opacity: 0.6;
-    position: absolute;
-    top: 0;
-    left: 0;
-    -webkit-animation: dot-bounce 2.0s infinite ease-in-out;
-    animation: dot-bounce 2.0s infinite ease-in-out; }
-  .spinner .dot2 {
-    -webkit-animation-delay: -1.0s;
-    animation-delay: -1.0s; }
-@-webkit-keyframes dot-bounce {
-  0%, 100% {
-    -webkit-transform: scale(0); }
-  50% {
-    -webkit-transform: scale(1); } }
-@keyframes dot-bounce {
-  0%, 100% {
-    transform: scale(0);
-    -webkit-transform: scale(0); }
-  50% {
-    transform: scale(1);
-    -webkit-transform: scale(1); } }
+  -webkit-transition: 0.2s ease background;
+  transition: .2s ease background;
+  width: 100%;
+}
 
-/*# sourceMappingURL=login.css.map */
+#login:hover {
+  background: #1976d2;
+}
+
+#login:before, #login:after {
+  border-radius: 2px;
+  content: '';
+  height: 0;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  -webkit-transition: 0.2s ease all;
+  transition: .2s ease all;
+  z-index: -1;
+}
+
+#login:before {
+  top: 50%;
+}
+
+#login:after {
+  bottom: 50%;
+}
+
+#login:active:before, #login:active:after {
+  background: #0d47a1;
+  height: 50%;
+  opacity: 1;
+}
+
+/*Error Messages*/
+.error {
+  color: #F44336;
+  margin: 16px auto 0;
+  text-align: center;
+  width: 90%;
+}
+
+/*The Background Part - Each svg element will act as a column that rises. Within each svg column will be a rect element that rotates. Due to an error FF regarding the transform-origin of objects in an svg, the transform-orgin must be explicitly given without percents*/
+
+.bg-boxes{
+/*Set the container for the svg elements to take up the whole window and hide objects outside of the window*/
+  height: 100%;
+  min-height: 240px;
+  position: absolute;
+  overflow: hidden;
+  width: 100%;
+  z-index: 1;
+}
+
+svg{
+/*Set defaults for svg columns. Opacity set to 0 so the elements are invisible before the animation begins and will not show up on browsers without animation*/
+  -webkit-animation: riser 20s infinite;
+  animation: riser 20s infinite;
+  opacity: 0;
+  overflow: visible;
+  position: absolute;
+}
+
+.bubble{
+ /*Set the defaults for the "bubbles". transform-origin should always be the center-point of the object including blank-space within the svg. Since the object should be centered, this is equal to the width of the object. The default bubble is 100px by 100px in an svg object with a width of 200px*/
+  -webkit-animation: rotator 20s linear infinite;
+  animation: rotator 20s linear infinite;
+  fill: #FFF;
+  -webkit-transform-origin: 100px 100px;
+  transform-origin: 100px 100px;
+}
+#col1{
+/*Since this element is larger than the set default, I want it to rise a little faster to give a subtle sense of depth*/
+  -webkit-animation-duration: 15s;
+  animation-duration: 15s;
+}
+#bub1{
+/*The transform-origin has to be redefined because this bubble is not the set default size*/
+  -webkit-transform-origin: 150px 150px;
+  transform-origin: 150px 150px;
+}
+
+#col2{
+/*To offset the columns, adjust their left attribute and add an animation-delay*/
+  left: 15%;
+  -webkit-animation-delay: 18s;
+  animation-delay: 18s;
+}
+
+#col3{
+  left: 30%;
+  -webkit-animation-delay: 14s;
+  animation-delay: 14s;
+  -webkit-animation-duration: 17s;
+  animation-duration: 17s;
+}
+
+#bub3{
+  -webkit-animation-delay: 14s;
+  animation-delay: 14s;
+  -webkit-transform-origin: 130px 130px;
+  transform-origin: 130px 130px;
+}
+
+#col4{
+  left: 45%;
+  -webkit-animation-delay: 8s;
+  animation-delay: 8s;
+  -webkit-animation-duration: 22s;
+  animation-duration: 22s;
+}
+
+#bub4{
+  -webkit-animation-delay: 8s;
+  animation-delay: 8s;
+  -webkit-transform-origin: 80px 80px;
+  transform-origin: 80px 80px;
+}
+
+#col5{
+  left: 60%;
+  -webkit-animation-delay: 15s;
+  animation-delay: 15s;
+  -webkit-animation-duration: 18s;
+  animation-duration: 18s;
+}
+
+#bub5{
+  -webkit-animation-delay: 15s;
+  animation-delay: 15s;
+  -webkit-transform-origin: 120px 120px;
+  transform-origin: 120px 120px;
+}
+
+#col6{
+  left: 75%;
+  -webkit-animation-delay: 19s;
+  animation-delay: 19s;
+}
+
+#col7{
+  left: 90%;
+  -webkit-animation-delay: 4s;
+  animation-delay: 4s;
+}
+
+#col8{
+  left: -5%;
+  -webkit-animation-delay: 11s;
+  animation-delay: 11s;
+}
+
+#col9{
+  left: 25%;
+  -webkit-animation-delay: 5s;
+  animation-delay: 5s;
+}
+
+#col10{
+  left: 50%;
+  -webkit-animation-delay: 12s;
+  animation-delay: 12s;
+}
+
+#col11{
+  left: 67%;
+  -webkit-animation-delay: 1s;
+  animation-delay: 1s;
+  -webkit-animation-duration: 25s;
+  animation-duration: 25s;
+}
+
+#bub11{
+  -webkit-animation-delay: 1s;
+  animation-delay: 1s;
+  -webkit-transform-origin: 50px 50px;
+  transform-origin: 50px 50px;
+}
+
+/*Rotation Animation - Should be set to a factor of 360 to prevent jumpiness*/ 
+@-webkit-keyframes rotator{
+  to{
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotator{
+  to{
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes riser{
+  0%{
+    opacity: 0.2;
+    -webkit-transform: translateY(100%);
+    transform: translateY(100%);
+  }
+  100%{
+    opacity: 0.2;
+    -webkit-transform: translateY(-250px);
+    transform: translateY(-250px);
+  }
+}
+
+@keyframes riser{
+  0%{
+    opacity: 0.2;
+    -webkit-transform: translateY(100%);
+    transform: translateY(100%);
+  }
+  100%{
+    opacity: 0.2;
+    -webkit-transform: translateY(-250px);
+    transform: translateY(-250px);
+  }
+}
