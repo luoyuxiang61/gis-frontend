@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="./css/login.css">
 </head>
 <body>
-    <form class='login-form' action="http://baidu.com" onsubmit="return checkForm()">
+    <h1>南通经济技术开发区规划信息综合服务系统</h1>
+    <form class='login-form' action="./index.html" onsubmit="return checkUser()">
       
       <div class="flex-row">
         <label class="lf--label" for="username">
@@ -28,16 +29,22 @@
         </label>
         <input id="password" class='lf--input' placeholder='Password' type='password' required>
       </div>
-      <input class='lf--submit' type='submit' value='登录'>
+      <input id="denglu" class='lf--submit' type='submit' value='登录'>
     </form>
               
-
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 <script>
-  function checkForm(){
-    console.log("验证表单");
-    
-    return false;
+  function checkUser(){
+    var user;
+    $.get("http://localhost:3000/test",function(data){
+      user = data;
+
+    }).then(function(){
+    })
+
+    return user="test";
   }
+  
 </script>
 </body>
 </html>
