@@ -10,11 +10,12 @@
         <link rel="stylesheet" href="./css/index.css">
 
         <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
-
-
-        <script src="https://js.arcgis.com/4.5/"></script>
-        <script src="./js/index.js"></script>
-
+        <script src="./js/jcookie/jquery.cookie.js"></script>
+        <script>
+          var ck = $.cookie('user');    
+          console.log(ck);  
+          if(ck==undefined) window.location.href='login.html';
+        </script>
     </head>
 
     <body>
@@ -32,5 +33,9 @@
           </div>
         </div>
 
+
+        
+        <script src="https://js.arcgis.com/4.5/"></script>
+        <script src="./js/index.js"></script>
     </body>
 </html>
