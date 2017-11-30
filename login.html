@@ -10,7 +10,7 @@
 </head>
 <body>
     <h1>南通经济技术开发区规划信息综合服务系统</h1>
-    <form class='login-form' action="./index.html" method="get" onsubmit="return checkUser()">
+    <form class='login-form' action="./index.html" method="post" onsubmit="return checkUser()">
       
       <div class="flex-row">
         <label class="lf--label" for="username">
@@ -32,6 +32,8 @@
       </div>
       <input  class='lf--submit' type='submit' value='登录'>
     </form>
+    <div style="background-color:#9797959a;font-size:80%;color:aliceblue">Copyright ©2017 联讯图创软件有限责任公司</div>
+
               
 <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 <script src="./js/jcookie/jquery.cookie.js"></script>
@@ -50,6 +52,7 @@ $.ajaxSetup (
       console.log(data);
       user = data;
       if(user!=null){
+        $.removeCookie('user');
         $.cookie('user', 'admin');
       }
     })
