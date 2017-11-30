@@ -41,10 +41,16 @@ function checkUser(){
     user = data;
   })
 
-  if(user==='test') {
+  if(user===null) {
     alert('用户名或密码错误！');
     return false;
+  }else{
+    $.removeCookie('user');
+    $.cookie('user',user);
+
+    return true;
   }
   
-  return user!=null;
+  
+  
 }
