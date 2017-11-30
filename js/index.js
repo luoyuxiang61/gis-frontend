@@ -11,6 +11,76 @@ require(["esri/Map", "esri/views/SceneView", "esri/views/MapView",
             Expand,LayerList,Legend,GroupLayer,Print,ScaleBar,SketchViewModel,Graphic
         ) {
 
+
+          
+          
+          var layers = []; 
+          $.ajaxSetup (
+            {
+               async: false
+            });
+
+            $.get("http://localhost:3000/myLayers?depart="+depart,function(myLayers){
+              layers = myLayers;
+            })
+          
+            console.log(layers);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             //规划用地点击弹出信息模板
             var template = { //自动转变为一个PopupTemplate实例
               title: "About the feature of code: {code}",
@@ -173,18 +243,16 @@ require(["esri/Map", "esri/views/SceneView", "esri/views/MapView",
             })
 
 
-            //视图加载完成之后
+            //视图加载完成之后，在这个方法里添加各种地图控件
             view.then(function(evt){
 
               //添加控件：图层控制列表
-              var layerList = new LayerList({
-                view:view
-              })
-
-
-              view.ui.add(layerList,{
-                position:"top-right"
-              })
+              // var layerList = new LayerList({
+              //   view:view
+              // })
+              // view.ui.add(layerList,{
+              //   position:"top-right"
+              // })
 
 
               //添加控件：图例
@@ -308,30 +376,22 @@ require(["esri/Map", "esri/views/SceneView", "esri/views/MapView",
 
 
 
-              // typical usage
-              var print = new Print({
-                view: view,
-                printServiceUrl: "http://localhost:6080/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
-              });
+              // 添加地图打印控件
+              // var print = new Print({
+              //   view: view,
+              //   printServiceUrl: "http://localhost:6080/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
+              // });
+              // view.ui.add(print,"top-left");
 
-              view.ui.add(print,"top-left");
-
-
-
-
-
-              layerList.on('trigger-action',function(evt){
-                console.log("11111111111111")
-              })
 
               view.on('click',function(){
                 console.log("map click")
               })
 
-              console.log(layerList.operationalItems);
-
-
+              //添加控件结束
             })
+
+
 
 
 
