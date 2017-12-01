@@ -28,6 +28,14 @@ html,body{
     z-index: 50;
 }
 
+#printButton{
+    position: absolute;
+    top: 170px;
+    left:10px;
+    z-index: 50;
+    
+}
+
 #layerList{
     display: none;
     overflow: auto;
@@ -39,6 +47,11 @@ html,body{
     right:5px;
     z-index: 49;
 }
+
+
+
+
+
 
 div.titleButton.maximize{
     display: none;

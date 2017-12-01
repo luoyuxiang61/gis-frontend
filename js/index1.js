@@ -2,10 +2,10 @@ require(["esri/map","esri/dijit/OverviewMap","dojo/parser",
 "esri/dijit/BasemapToggle","esri/dijit/HomeButton","esri/dijit/Scalebar","dojo/dom",
 "esri/dijit/BasemapLayer","esri/dijit/Basemap","esri/basemaps","esri/dijit/Legend",
 "esri/dijit/LayerList","esri/layers/FeatureLayer","esri/InfoTemplate","esri/layers/ArcGISDynamicMapServiceLayer",
-"esri/dijit/Measurement", "esri/units",
+"esri/dijit/Measurement", "esri/units","esri/dijit/Print",
 "dijit/layout/BorderContainer", "dijit/layout/ContentPane","dojo/domReady!"],
  function(Map,OverviewMap,parser,BasemapToggle,HomeButton,Scalebar,dom,BasemapLayer,Basemap,esriBasemaps,
-          Legend,LayerList,FeatureLayer,InfoTemplate,ArcGISDynamicMapServiceLayer,Measurement, Units
+          Legend,LayerList,FeatureLayer,InfoTemplate,ArcGISDynamicMapServiceLayer,Measurement, Units,Print
 
 ) {
 
@@ -90,6 +90,14 @@ require(["esri/map","esri/dijit/OverviewMap","dojo/parser",
     },"layerList");
     console.log(map);
     layerList.startup();
-   
+
+    
+
+    //打印按钮
+    var printer = new Print({
+      map: map,
+      url: "http://localhost:6080/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
+    }, "printButton");
+    printer.startup();
 
   });
