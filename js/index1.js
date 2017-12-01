@@ -1,19 +1,22 @@
 require(["esri/map","esri/dijit/OverviewMap","dojo/parser",
 "esri/dijit/BasemapToggle","esri/dijit/HomeButton","esri/dijit/Scalebar","dojo/dom",
-"esri/dijit/BasemapLayer","esri/dijit/Basemap","esri/basemaps",
-
+"esri/dijit/BasemapLayer","esri/dijit/Basemap","esri/basemaps","esri/dijit/Legend",
+"esri/dijit/LayerList","esri/layers/FeatureLayer","esri/InfoTemplate","esri/layers/ArcGISDynamicMapServiceLayer",
 "dijit/layout/BorderContainer", "dijit/layout/ContentPane","dojo/domReady!"],
- function(Map,OverviewMap,parser,BasemapToggle,HomeButton,Scalebar,dom,BasemapLayer,Basemap,esriBasemaps) {
+ function(Map,OverviewMap,parser,BasemapToggle,HomeButton,Scalebar,dom,BasemapLayer,Basemap,esriBasemaps,
+          Legend,LayerList,FeatureLayer,InfoTemplate,ArcGISDynamicMapServiceLayer
+
+) {
 
 
-
+    //基础底图
     esriBasemaps.jcdt = {
       baseMapLayers: [{url: "http://a.unimap.cn:6080/arcgis/rest/services/NT/NTMap/MapServer"}
       ],
       thumbnailUrl: "https://js.arcgis.com/3.15/esri/images/basemap/streets.jpg",
       title: "基础底图"
     };
-
+    //影像底图
     esriBasemaps.yxdt = {
       baseMapLayers: [{url: "http://a.unimap.cn:6080/arcgis/rest/services/NT/Raster2012/MapServer"}
       ],
@@ -23,12 +26,30 @@ require(["esri/map","esri/dijit/OverviewMap","dojo/parser",
 
 
 
-
+    //地图
     var map = new Map("map", {
       showAttribution:false,
       basemap: "jcdt",
       logo:false
     });
+
+
+    var infoTemplate = new InfoTemplate("属性", "${*}");
+    var fl1 = new FeatureLayer("http://a.unimap.cn:6080/arcgis/rest/services/NT/Redline_ZS/MapServer/0",{
+      visible:false,
+      id:"正式红线",
+      infoTemplate:infoTemplate,
+      outFields:["*"]
+    });
+    var fl2 = new FeatureLayer("http://a.unimap.cn:6080/arcgis/rest/services/NT/NTKG/MapServer/0",{
+      visible:true,
+      id:"规划用地图",
+      infoTemplate:infoTemplate,
+      outFields:["*"]
+    })
+    console.log(fl1);
+    console.log(fl2);
+    map.addLayers([fl1,fl2]);
 
 
     //鹰眼视图
@@ -61,18 +82,14 @@ require(["esri/map","esri/dijit/OverviewMap","dojo/parser",
       scalebarUnit: "metric"
     });
 
-
-
-
-
-
-
-
-
-
-
-    
-
+    //图层控制
+    var layerList = new LayerList({
+      map: map,
+      showLegend: true,
+      showSubLayers: true,
+      showOpacitySlider: false    
+    },"layerList");
+    layerList.startup();
 
 
   });
