@@ -1,0 +1,38 @@
+html,body{
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#top{
+    height: 5%;
+    background-color: lightblue;
+}
+
+#map{
+    height: 95%;
+}
+
+#basemapToggle{
+    position: absolute;
+    top: 5%;
+    right: 15px;
+    z-index: 50;
+}
+
+#homeButton{
+    position: absolute;
+    top: 125px;
+    left: 20px;
+    z-index: 50;
+}
+
+#overviewMapDiv{
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 50; 
+}
+
+
