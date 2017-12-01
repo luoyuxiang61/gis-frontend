@@ -16,8 +16,8 @@ html,body{
 
 #basemapToggle{
     position: absolute;
-    top: 5%;
-    right: 15px;
+    top: 60px;
+    left: 100px;
     z-index: 50;
 }
 
@@ -30,12 +30,12 @@ html,body{
 
 #layerList{
     overflow: auto;
-    height: 300px;
+    height: auto;
     width: 200px;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.185);
     position: absolute;
-    top:50px;
-    right:120px;
+    top:6%;
+    right:5px;
     z-index: 51;
 }
 

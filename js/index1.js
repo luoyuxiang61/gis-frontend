@@ -42,14 +42,12 @@ require(["esri/map","esri/dijit/OverviewMap","dojo/parser",
       outFields:["*"]
     });
     var fl2 = new FeatureLayer("http://a.unimap.cn:6080/arcgis/rest/services/NT/NTKG/MapServer/0",{
-      visible:true,
+      visible:false,
       id:"规划用地图",
       infoTemplate:infoTemplate,
       outFields:["*"]
     })
-    console.log(fl1);
-    console.log(fl2);
-    map.addLayers([fl1,fl2]);
+    map.addLayers([fl2,fl1]);
 
 
     //鹰眼视图
@@ -87,8 +85,9 @@ require(["esri/map","esri/dijit/OverviewMap","dojo/parser",
       map: map,
       showLegend: true,
       showSubLayers: true,
-      showOpacitySlider: false    
+      showOpacitySlider: false 
     },"layerList");
+    console.log(map);
     layerList.startup();
 
 
