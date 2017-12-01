@@ -29,14 +29,19 @@ html,body{
 }
 
 #layerList{
+    display: none;
     overflow: auto;
-    height: auto;
+    height: 200px;
     width: 200px;
-    background-color: rgba(255, 255, 255, 0.185);
+    background-color: rgba(139, 139, 139, 0.726);
     position: absolute;
     top:6%;
     right:5px;
-    z-index: 51;
+    z-index: 49;
+}
+
+div.titleButton.maximize{
+    display: none;
 }
 
 

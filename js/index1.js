@@ -2,9 +2,10 @@ require(["esri/map","esri/dijit/OverviewMap","dojo/parser",
 "esri/dijit/BasemapToggle","esri/dijit/HomeButton","esri/dijit/Scalebar","dojo/dom",
 "esri/dijit/BasemapLayer","esri/dijit/Basemap","esri/basemaps","esri/dijit/Legend",
 "esri/dijit/LayerList","esri/layers/FeatureLayer","esri/InfoTemplate","esri/layers/ArcGISDynamicMapServiceLayer",
+"esri/dijit/Measurement", "esri/units",
 "dijit/layout/BorderContainer", "dijit/layout/ContentPane","dojo/domReady!"],
  function(Map,OverviewMap,parser,BasemapToggle,HomeButton,Scalebar,dom,BasemapLayer,Basemap,esriBasemaps,
-          Legend,LayerList,FeatureLayer,InfoTemplate,ArcGISDynamicMapServiceLayer
+          Legend,LayerList,FeatureLayer,InfoTemplate,ArcGISDynamicMapServiceLayer,Measurement, Units
 
 ) {
 
@@ -89,6 +90,6 @@ require(["esri/map","esri/dijit/OverviewMap","dojo/parser",
     },"layerList");
     console.log(map);
     layerList.startup();
-
+   
 
   });
