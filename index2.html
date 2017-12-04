@@ -56,10 +56,11 @@
         "esri/units",
         "esri/dijit/OverviewMap",
         "esri/dijit/Bookmarks",
-
-
-
         "esri/dijit/Scalebar",
+        "esri/dijit/HomeButton",
+
+
+
         "dijit/layout/BorderContainer",
         "dijit/layout/ContentPane",
         "dijit/TitlePane",
@@ -68,7 +69,7 @@
       ], function(
         dom, Color, keys, parser,
         esriConfig, has, Map, SnappingManager, Measurement, FeatureLayer, SimpleRenderer, GeometryService, SimpleLineSymbol, SimpleFillSymbol,
-        esriBasemaps,BasemapToggle,InfoTemplate,Units,OverviewMap,Bookmarks
+        esriBasemaps,BasemapToggle,InfoTemplate,Units,OverviewMap,Bookmarks,Scalebar,HomeButton
 
 
       ) {
@@ -140,9 +141,9 @@
         //鹰眼视图
         var overviewMapDijit = new OverviewMap({
           map: map,
-          attachTo: "bottom-left",
+          maximizeButton: true,
           visible: true
-        });
+        },dom.byId("overviewDiv"));
         overviewMapDijit.startup();
 
         //书签
@@ -151,6 +152,23 @@
             bookmarks: [],
             editable: true
           }, "bookmarksDiv");
+
+
+        //比例尺
+        var scalebar = new Scalebar({
+        map: map,
+        scalebarUnit:"metric"
+          },dom.byId("scaleBarDiv"));
+
+
+        //全局视图home
+        var homeButton = new HomeButton({
+        theme: "HomeButton",
+        map: map,
+        extent: null,
+        visible: true
+          }, dom.byId("homeButtonDiv"));
+        homeButton.startup();
 
 
       });
@@ -164,14 +182,13 @@
         
         <!-- 量测工具 -->
         <div style="position:absolute; right:20px; top:10px; z-Index:999;">
-          <div id="titlePane" data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Measurement', closable:false">
-            <div id="measurementDiv"></div>
-            
+          <div id="titlePane" data-dojo-type="dijit/TitlePane" data-dojo-props="title:'量测工具', closable:false">
+            <div id="measurementDiv"></div>   
           </div>
         </div>
 
         <!-- 底图切换按钮 -->
-        <div style="position:absolute; left:16px; top:90px; z-Index:999;">      
+        <div style="position:absolute; left:15px; top:115px; z-Index:999;">      
             <div id="basemapToggleDiv"></div>          
         </div>
 
@@ -180,6 +197,20 @@
             <div id="bookmarksDiv"></div>          
         </div>
 
+        <!-- 比例尺 -->
+        <div style="position:absolute; left:5px; bottom:25px; z-Index:999;">      
+          <div id="scaleBarDiv"></div>          
+        </div>
+
+        <!-- 鹰眼视图 -->
+        <div style="position:absolute; left:10px; bottom:280px; z-Index:999;">      
+          <div id="overviewDiv" style="width:250px;height:250px"></div>          
+        </div>
+
+        <!-- 全局视图 -->
+        <div style="position:absolute; left:15px; top:80px; z-Index:999;">      
+          <div id="homeButtonDiv"></div>          
+        </div>
 
       </div>
     </div>
