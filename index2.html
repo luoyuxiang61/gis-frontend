@@ -4,10 +4,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
-    <title>Measure Tool</title>
+    <title>GIS3.22</title>
     <link rel="stylesheet" href="https://js.arcgis.com/3.22/esri/themes/calcite/dijit/calcite.css">
     <link rel="stylesheet" href="https://js.arcgis.com/3.22/esri/themes/calcite/esri/esri.css">
-    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
     <style>
       html,body {
         height:100%;
@@ -26,21 +25,11 @@
         padding:0px;
       }
       #titlePane{
-        width:200px;
+        width:280px;
       }
-
-      .dijitTitlePaneTitle.dijitTitlePaneTitleOpen.dijitOpen{
-        display: none;
-      }
-
-      #celiang2{
-        display: none;
-      }
-
-
-
 
       </style>
+      <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
       <script src="https://js.arcgis.com/3.22/"></script>
     <script>
     var map;
@@ -60,12 +49,14 @@
         "esri/tasks/GeometryService",
         "esri/symbols/SimpleLineSymbol",
         "esri/symbols/SimpleFillSymbol",
+
         "esri/basemaps",
         "esri/dijit/BasemapToggle",
         "esri/InfoTemplate",
         "esri/units",
         "esri/dijit/OverviewMap",
         "esri/dijit/Bookmarks",
+
 
 
         "esri/dijit/Scalebar",
@@ -78,6 +69,8 @@
         dom, Color, keys, parser,
         esriConfig, has, Map, SnappingManager, Measurement, FeatureLayer, SimpleRenderer, GeometryService, SimpleLineSymbol, SimpleFillSymbol,
         esriBasemaps,BasemapToggle,InfoTemplate,Units,OverviewMap,Bookmarks
+
+
       ) {
         parser.parse();
         //This sample may require a proxy page to handle communications with the ArcGIS Server services. You will need to
@@ -87,7 +80,8 @@
         esriConfig.defaults.io.alwaysUseProxy = false;
 
         //This service is for development and testing purposes only. We recommend that you create your own geometry service for use within your applications
-        esriConfig.defaults.geometryService = new GeometryService("https://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer");
+        esriConfig.defaults.geometryService = new GeometryService("http://localhost:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+
 
 
         //基础底图
@@ -105,53 +99,35 @@
           title: "影像底图"
         };
 
+        var infoTemplate = new InfoTemplate("属性", "${*}");
+        var fl1 = new FeatureLayer("http://a.unimap.cn:6080/arcgis/rest/services/NT/NTKG/MapServer/0",{
+            infoTemplate:infoTemplate,
+            outFields:["*"]
+        });
+        
+
+
+
         map = new Map("map", {
           basemap: "jcdt",
           logo:false
         });
 
-
-        var infoTemplate = new InfoTemplate("属性", "${*}");
-        var fl1 = new FeatureLayer("http://a.unimap.cn:6080/arcgis/rest/services/NT/Redline_ZS/MapServer/0", {
-          mode: FeatureLayer.MODE_ONDEMAND,
-          outFields: ["*"],
-          infoTemplate:infoTemplate
-        });
-        var fl2 = new FeatureLayer("http://a.unimap.cn:6080/arcgis/rest/services/NT/NTKG/MapServer/0",{
-        visible:true,
-        id:"规划用地图",
-        infoTemplate:infoTemplate,
-        outFields:["*"]
-        })     
-        map.addLayers([fl1,fl2]);
+        map.addLayer(fl1);
+        
 
 
 
 
-        //测量工具
+
+
+        //量测工具
         var measurement = new Measurement({
           map: map,
           defaultAreaUnit: Units.SQUARE_KILOMETERS,
           defaultLengthUnit: Units.KILOMETERS
-        }, dom.byId("measurementDiv"));       
-        measurement.startup();  
-        measurement.hideTool("location");
-        var celiang = false;
-        $("#celiang").click(function(){
-         
-          if(!celiang){
-            $("#celiang2").show();
-            fl2.setInfoTemplate(null);
-          }
-          else if(celiang){
-            $("#celiang2").hide();
-            fl2.setInfoTemplate(infoTemplate);            
-          }
-          celiang = !celiang;
-        })
-
-
-
+        }, dom.byId("measurementDiv"));
+        measurement.startup();
 
         //底图切换按钮
         var toggle = new BasemapToggle({
@@ -159,13 +135,13 @@
           basemap:"yxdt"
         }, dom.byId("basemapToggleDiv"));
         toggle.startup();
-      
+
 
         //鹰眼视图
         var overviewMapDijit = new OverviewMap({
           map: map,
           attachTo: "bottom-left",
-          visible: false
+          visible: true
         });
         overviewMapDijit.startup();
 
@@ -174,9 +150,9 @@
             map: map,
             bookmarks: [],
             editable: true
-          }, "bookmark");
-      
-      
+          }, "bookmarksDiv");
+
+
       });
     </script>
   </head>
@@ -186,11 +162,11 @@
     style="width:100%; height:100%;">
       <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
         
-        <!-- 测量工具 -->
-        <div id="celiang" style="position:absolute;right:20px;top:40px;width:50px;height:50px;z-index:999;background-color:bisque;">测量</div>
-        <div id="celiang2" style="position:absolute; right:20px; top:100px; z-Index:999;">
-          <div id="titlePane" data-dojo-type="dijit/TitlePane" data-dojo-props="title:'', closable:false">
-            <div id="measurementDiv"></div> 
+        <!-- 量测工具 -->
+        <div style="position:absolute; right:20px; top:10px; z-Index:999;">
+          <div id="titlePane" data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Measurement', closable:false">
+            <div id="measurementDiv"></div>
+            
           </div>
         </div>
 
@@ -200,12 +176,17 @@
         </div>
 
         <!-- 书签 -->
-        <div style="position:absolute; left:16px; top:200px; z-Index:999;">      
-            <div id="bookmark"></div>          
+        <div style="position:absolute; left:16px; top:200px; z-Index:999;background-color:azure">      
+            <div id="bookmarksDiv"></div>          
         </div>
 
-        
+
       </div>
     </div>
+
+
+    <script>
+
+    </script>
   </body>
 </html>
