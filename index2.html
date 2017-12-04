@@ -145,15 +145,9 @@
 
         // fill symbol used for extent, polygon and freehand polygon, use a picture fill symbol
         // the images folder contains additional fill images, other options: sand.png, swamp.png or stiple.png
-        var fillSymbol = new PictureFillSymbol(
-          "images/mangrove.png",
-          new SimpleLineSymbol(
-            SimpleLineSymbol.STYLE_SOLID,
-            new Color('#000'), 
-            1
-          ), 
-          42, 
-          42
+        var fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+        new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+        new Color([255,0,0]), 2),new Color([255,0,0,0.25])
         );
 
         function initToolbar() {
@@ -204,6 +198,7 @@
           defaultLengthUnit: Units.KILOMETERS
         }, dom.byId("measurementDiv"));
         measurement.startup();
+        
 
         //底图切换按钮
         var toggle = new BasemapToggle({
@@ -258,19 +253,18 @@
       <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
         
         <!-- 量测工具 -->
-        <div style="position:absolute; right:20px; top:10px; z-Index:999;">
-          <div id="titlePane" data-dojo-type="dijit/TitlePane" data-dojo-props="title:'量测工具', closable:false">
-            <div id="measurementDiv"></div>   
-          </div>
+        <div style="position:absolute; left:15px; top:300px; z-Index:999;width:150px;">
+          <button>量测工具</button>  
+          <div id="measurementDiv"></div>   
         </div>
 
         <!-- 底图切换按钮 -->
-        <div style="position:absolute; left:15px; top:115px; z-Index:999;">      
+        <div style="position:absolute; right:220px; top:10px; z-Index:999;">      
             <div id="basemapToggleDiv"></div>          
         </div>
 
         <!-- 书签 -->
-        <div style="position:absolute; left:16px; top:200px; z-Index:999;background-color:azure">      
+        <div style="position:absolute; left:15px; top:115px; z-Index:999;background-color:rgba(243, 243, 243, 0.719)">      
             <div id="bookmarksDiv"></div>          
         </div>
 
@@ -290,19 +284,15 @@
         </div>
 
         <!-- 画图工具 -->
-        <div id="draw" style="position:absolute;top:300px;right:20px;height:200px;width:200px;z-index:999;background-color:antiquewhite">
-          <div>选择类型</div>
-          <button id="Point">点</button>
-          <button id="Multipoint">多个点</button>
-          <button id="Line">Line</button>
-          <button id="Polyline">Polyline</button>
-          <button id="FreehandPolyline">Freehand Polyline</button>
-          <button id="Triangle">Triangle</button>
-          <button id="Extent">Rectangle</button>
-          <button id="Circle">Circle</button>
-          <button id="Ellipse">Ellipse</button>
-          <button id="Polygon">Polygon</button>
-          <button id="FreehandPolygon">Freehand Polygon</button>
+        <div id="draw" style="position:absolute;bottom:40px;left:220px;height:100px;width:200px;z-index:999;background-color:rgb(238, 235, 231)">
+          <div>画板</div>
+          <button id="Point">点</button>     
+          <button id="Line">线</button>
+          <button id="FreehandPolyline">手绘线</button>
+          <button id="Extent">矩形</button>
+          <button id="Circle">圆形</button>
+          <button id="Polygon">多边形</button>
+          <button id="FreehandPolygon">手绘多边形</button>
         </div>
 
 
