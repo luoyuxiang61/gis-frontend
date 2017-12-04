@@ -253,17 +253,11 @@
           }, dom.byId("homeButtonDiv"));
         homeButton.startup();
 
-        //图层控制(未完成)
-        var layerList = new LayerList({
-        map: map,
-        showLegend: false,
-        showSubLayers: true,
-        showOpacitySlider: false,
-        layers: []
-          },"layerListDiv");
-        layerList.startup();
 
-        //图例
+
+
+
+        //图例（在图层加载完成之后添加）
         map.on("layers-add-result", function (evt) {
         var layerInfo = arrayUtils.map(evt.layers, function (layer, index) {
           return {layer:layer.layer, title:layer.layer.name};
@@ -278,6 +272,14 @@
       });
 
 
+
+
+
+
+      $("#testAdd").click(function(){
+        console.log("222");
+        $("#layerList").append("<h1>asdasd</h1>");
+      })
 
       });
     </script>
@@ -332,7 +334,10 @@
         </div>
 
         <!-- 图层控制 -->
-        <div></div>
+        <div id="layerList" style="height:200px;width:150px;background-color:azure;position:absolute;right:5px;top:5px;overflow:auto;z-index:999">
+          <button id="testAdd">add</button>
+        </div>
+       
 
         <!-- 图例 -->
         <div style="position:absolute; right:15px; bottom:5px;height:400px;z-Index:999;overflow:scroll">      
