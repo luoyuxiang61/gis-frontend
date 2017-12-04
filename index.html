@@ -1,41 +1,322 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>南通开发区规划信息综合服务系统</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+    <title>GIS3.22</title>
 
-        <link rel="stylesheet" href="https://js.arcgis.com/4.5/esri/themes/light/main.css">
-        <!-- <link rel="stylesheet" href="https://js.arcgis.com/4.5/esri/css/main.css"> -->
-        <link rel="stylesheet" href="./css/index.css">
+    <style>
+      html,body {
+        height:100%;
+        width:100%;
+        margin:0;
+      }
+      body {
+        background-color:#FFF;
+        overflow:hidden;
+        font-family:"Trebuchet MS";
+      }
+      #map {
+        height: 100%;
+        width: 100%;
+        margin:0px;
+        padding:0px;
+      }
+      #titlePane{
+        width:280px;
+      }
 
-        <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
-        <script src="./js/jcookie/jquery.cookie.js"></script>
-        <script>
-          var depart = $.cookie('user');    
+      </style>
+      <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+      <script src="./js/jcookie/jquery.cookie.js"></script>
+      <script>
+        var depart = $.cookie('user');    
 
-          if(depart==undefined) window.location.href='login.html';
-        </script>
-    </head>
+        if(depart==undefined) window.location.href='login.html';
+      </script>
 
-    <body>
+      <link rel="stylesheet" href="https://js.arcgis.com/3.22/esri/themes/calcite/dijit/calcite.css">
+      <link rel="stylesheet" href="https://js.arcgis.com/3.22/esri/themes/calcite/esri/esri.css">
+      <script src="https://js.arcgis.com/3.22/"></script>
+    <script>
+    var map, tb;
+    require([
+        "dojo/dom",
+        "dojo/on",
+        "esri/Color",
+        "dojo/keys",
+        "dojo/parser",
+
+        "esri/config",
+        "esri/sniff",
+        "esri/map",
+        "esri/SnappingManager",
+        "esri/dijit/Measurement",
+        "esri/layers/FeatureLayer",
+        "esri/renderers/SimpleRenderer",
+        "esri/tasks/GeometryService",
+        "esri/symbols/SimpleMarkerSymbol",
+        "esri/symbols/SimpleLineSymbol",
+        "esri/symbols/SimpleFillSymbol",
+        "esri/symbols/PictureFillSymbol",
+        "esri/symbols/CartographicLineSymbol",
 
 
-        <div id="viewDiv">
-          <div id="topbar">
-            <button class="action-button esri-icon-blank-map-pin" id="pointButton" type="button"
-              title="Draw point"></button>
-            <button class="action-button esri-icon-polyline" id="polylineButton" type="button"
-              title="Draw polyline"></button>
-            <button class="action-button esri-icon-polygon" id="polygonButton" type="button"
-              title="Draw polygon"></button>
-            <button class="action-button esri-icon-trash" id="resetBtn" type="button" title="Clear graphics"></button>
-          </div>
+        "esri/basemaps",
+        "esri/dijit/BasemapToggle",
+        "esri/InfoTemplate",
+        "esri/units",
+        "esri/dijit/OverviewMap",
+        "esri/dijit/Bookmarks",
+        "esri/dijit/Scalebar",
+        "esri/dijit/HomeButton",
+        "esri/toolbars/draw",
+        "esri/graphic",
+        "esri/dijit/LayerList",
+
+
+        "dijit/layout/BorderContainer",
+        "dijit/layout/ContentPane",
+        "dijit/TitlePane",
+        "dijit/form/CheckBox",
+        "dojo/domReady!"
+      ], function(
+        dom,on,Color, keys, parser,
+        esriConfig, has, Map, SnappingManager, Measurement, FeatureLayer, SimpleRenderer, GeometryService,SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol,PictureFillSymbol,
+        CartographicLineSymbol,esriBasemaps,BasemapToggle,InfoTemplate,Units,OverviewMap,Bookmarks,Scalebar,HomeButton,Draw, Graphic,LayerList
+
+
+      ) {
+        parser.parse();
+        //This sample may require a proxy page to handle communications with the ArcGIS Server services. You will need to
+        //replace the url below with the location of a proxy on your machine. See the 'Using the proxy page' help topic
+        //for details on setting up a proxy page.
+        esriConfig.defaults.io.proxyUrl = "/proxy/";
+        esriConfig.defaults.io.alwaysUseProxy = false;
+
+        //This service is for development and testing purposes only. We recommend that you create your own geometry service for use within your applications
+        esriConfig.defaults.geometryService = new GeometryService("http://localhost:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+
+
+
+        //基础底图
+        esriBasemaps.jcdt = {
+          baseMapLayers: [{url: "http://a.unimap.cn:6080/arcgis/rest/services/NT/NTMap/MapServer"}
+          ],
+          thumbnailUrl: "https://js.arcgis.com/3.15/esri/images/basemap/streets.jpg",
+          title: "基础底图"
+        };
+        //影像底图
+        esriBasemaps.yxdt = {
+          baseMapLayers: [{url: "http://a.unimap.cn:6080/arcgis/rest/services/NT/Raster2012/MapServer"}
+          ],
+          thumbnailUrl: "https://js.arcgis.com/3.15/esri/images/basemap/satellite.jpg",
+          title: "影像底图"
+        };
+
+        var infoTemplate = new InfoTemplate("属性", "${*}");
+        var fl1 = new FeatureLayer("http://a.unimap.cn:6080/arcgis/rest/services/NT/NTKG/MapServer/0",{
+            infoTemplate:infoTemplate,
+            outFields:["*"]
+        });
+        
+
+
+
+        map = new Map("map", {
+          basemap: "jcdt",
+          logo:false
+        });
+
+        map.addLayer(fl1);
+
+        map.on("load", initToolbar);
+
+        // markerSymbol is used for point and multipoint, see http://raphaeljs.com/icons/#talkq for more examples
+        var markerSymbol = new SimpleMarkerSymbol();
+        markerSymbol.setPath("M16,4.938c-7.732,0-14,4.701-14,10.5c0,1.981,0.741,3.833,2.016,5.414L2,25.272l5.613-1.44c2.339,1.316,5.237,2.106,8.387,2.106c7.732,0,14-4.701,14-10.5S23.732,4.938,16,4.938zM16.868,21.375h-1.969v-1.889h1.969V21.375zM16.772,18.094h-1.777l-0.176-8.083h2.113L16.772,18.094z");
+        markerSymbol.setColor(new Color("#00FFFF"));
+
+        // lineSymbol used for freehand polyline, polyline and line. 
+        var lineSymbol = new CartographicLineSymbol(
+          CartographicLineSymbol.STYLE_SOLID,
+          new Color([255,0,0]), 10, 
+          CartographicLineSymbol.CAP_ROUND,
+          CartographicLineSymbol.JOIN_MITER, 5
+        );
+
+        // fill symbol used for extent, polygon and freehand polygon, use a picture fill symbol
+        // the images folder contains additional fill images, other options: sand.png, swamp.png or stiple.png
+        var fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+        new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+        new Color([255,0,0]), 2),new Color([255,0,0,0.25])
+        );
+
+        function initToolbar() {
+          tb = new Draw(map);
+          tb.on("draw-end", addGraphic);
+
+          // event delegation so a click handler is not
+          // needed for each individual button
+          on(dom.byId("draw"), "click", function(evt) {
+            if ( evt.target.id === "draw" ) {
+              return;
+            }
+            var tool = evt.target.id.toLowerCase();
+            map.disableMapNavigation();
+            tb.activate(tool);
+          });
+        }
+
+        function addGraphic(evt) {
+          //deactivate the toolbar and clear existing graphics 
+          tb.deactivate(); 
+          map.enableMapNavigation();
+
+          // figure out which symbol to use
+          var symbol;
+          if ( evt.geometry.type === "point" || evt.geometry.type === "multipoint") {
+            symbol = markerSymbol;
+          } else if ( evt.geometry.type === "line" || evt.geometry.type === "polyline") {
+            symbol = lineSymbol;
+          }
+          else {
+            symbol = fillSymbol;
+          }
+
+          map.graphics.add(new Graphic(evt.geometry, symbol));
+        }
+        
+
+
+
+
+
+
+        //量测工具
+        var measurement = new Measurement({
+          map: map,
+          defaultAreaUnit: Units.SQUARE_KILOMETERS,
+          defaultLengthUnit: Units.KILOMETERS
+        }, dom.byId("measurementDiv"));
+        measurement.startup();
+        
+
+        //底图切换按钮
+        var toggle = new BasemapToggle({
+          map: map,
+          basemap:"yxdt"
+        }, dom.byId("basemapToggleDiv"));
+        toggle.startup();
+
+
+        //鹰眼视图
+        var overviewMapDijit = new OverviewMap({
+          map: map,
+          maximizeButton: true,
+          visible: true
+        },dom.byId("overviewDiv"));
+        overviewMapDijit.startup();
+
+        //书签
+        var bookmarks = new Bookmarks({
+            map: map,
+            bookmarks: [],
+            editable: true
+          }, "bookmarksDiv");
+
+
+        //比例尺
+        var scalebar = new Scalebar({
+        map: map,
+        scalebarUnit:"metric"
+          },dom.byId("scaleBarDiv"));
+
+
+        //全局视图home
+        var homeButton = new HomeButton({
+        theme: "HomeButton",
+        map: map,
+        extent: null,
+        visible: true
+          }, dom.byId("homeButtonDiv"));
+        homeButton.startup();
+
+        //图层控制
+        var layerList = new LayerList({
+        map: map,
+        showLegend: false,
+        showSubLayers: true,
+        showOpacitySlider: false,
+        layers: []
+          },"layerListDiv");
+        layerList.startup();
+
+
+
+
+      });
+    </script>
+  </head>
+
+  <body class="calcite">
+    <div id="mainWindow" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline',gutters:false"
+    style="width:100%; height:100%;">
+      <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
+        
+        <!-- 量测工具 -->
+        <div style="position:absolute; left:15px; top:300px; z-Index:999;width:150px;">
+          <button>量测工具</button>  
+          <div id="measurementDiv"></div>   
         </div>
 
+        <!-- 底图切换按钮 -->
+        <div style="position:absolute; right:220px; top:10px; z-Index:999;">      
+            <div id="basemapToggleDiv"></div>          
+        </div>
 
+        <!-- 书签 -->
+        <div style="position:absolute; left:15px; top:115px; z-Index:999;background-color:rgba(243, 243, 243, 0.719)">      
+            <div id="bookmarksDiv"></div>          
+        </div>
+
+        <!-- 比例尺 -->
+        <div style="position:absolute; left:5px; bottom:25px; z-Index:999;">      
+          <div id="scaleBarDiv"></div>          
+        </div>
+
+        <!-- 鹰眼视图 -->
+        <div style="position:absolute; left:10px; bottom:230px; z-Index:999;">      
+          <div id="overviewDiv" style="width:200px;height:200px"></div>          
+        </div>
+
+        <!-- 全局视图 -->
+        <div style="position:absolute; left:15px; top:80px; z-Index:999;">      
+          <div id="homeButtonDiv"></div>          
+        </div>
+
+        <!-- 画图工具 -->
+        <div id="draw" style="position:absolute;bottom:40px;left:220px;height:100px;width:200px;z-index:999;background-color:rgb(238, 235, 231)">
+          <div>画板</div>
+          <button id="Point">点</button>     
+          <button id="Line">线</button>
+          <button id="FreehandPolyline">手绘线</button>
+          <button id="Extent">矩形</button>
+          <button id="Circle">圆形</button>
+          <button id="Polygon">多边形</button>
+          <button id="FreehandPolygon">手绘多边形</button>
+        </div>
+
+        <!-- 图层控制 -->
         
-        <script src="https://js.arcgis.com/4.5/"></script>
-        <script src="./js/index.js"></script>
-    </body>
+
+      </div>
+    </div>
+
+
+    <script>
+
+    </script>
+  </body>
 </html>

@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+    <head>
+        <title>南通开发区规划信息综合服务系统</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+
+        <link rel="stylesheet" href="https://js.arcgis.com/4.5/esri/themes/light/main.css">
+        <!-- <link rel="stylesheet" href="https://js.arcgis.com/4.5/esri/css/main.css"> -->
+        <link rel="stylesheet" href="./css/index.css">
+
+        <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+        <script src="./js/jcookie/jquery.cookie.js"></script>
+        <script>
+          var depart = $.cookie('user');    
+
+          if(depart==undefined) window.location.href='login.html';
+        </script>
+    </head>
+
+    <body>
+
+
+        <div id="viewDiv">
+          <div id="topbar">
+            <button class="action-button esri-icon-blank-map-pin" id="pointButton" type="button"
+              title="Draw point"></button>
+            <button class="action-button esri-icon-polyline" id="polylineButton" type="button"
+              title="Draw polyline"></button>
+            <button class="action-button esri-icon-polygon" id="polygonButton" type="button"
+              title="Draw polygon"></button>
+            <button class="action-button esri-icon-trash" id="resetBtn" type="button" title="Clear graphics"></button>
+          </div>
+        </div>
+
+
+        
+        <script src="https://js.arcgis.com/4.5/"></script>
+        <script src="./js/index.js"></script>
+    </body>
+</html>
