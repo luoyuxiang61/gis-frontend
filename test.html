@@ -20,16 +20,21 @@
         font-family:"Trebuchet MS";
       }
       #map {
-        border:solid 2px #808775;
-        -moz-border-radius:4px;
-        -webkit-border-radius:4px;
-        border-radius:4px;
-        margin:5px;
+        height: 100%;
+        width: 100%;
+        margin:0px;
         padding:0px;
       }
       #titlePane{
-        width:280px;
+        width:200px;
       }
+
+      .dijitTitlePaneTitle.dijitTitlePaneTitleOpen.dijitOpen{
+        display: none;
+      }
+
+
+
       </style>
       <script src="https://js.arcgis.com/3.22/"></script>
     <script>
@@ -53,7 +58,7 @@
         "esri/basemaps",
         "esri/dijit/BasemapToggle",
         "esri/InfoTemplate",
-
+        "esri/units",
 
 
         "esri/dijit/Scalebar",
@@ -65,7 +70,7 @@
       ], function(
         dom, Color, keys, parser,
         esriConfig, has, Map, SnappingManager, Measurement, FeatureLayer, SimpleRenderer, GeometryService, SimpleLineSymbol, SimpleFillSymbol,
-        esriBasemaps,BasemapToggle,InfoTemplate
+        esriBasemaps,BasemapToggle,InfoTemplate,Units
       ) {
         parser.parse();
         //This sample may require a proxy page to handle communications with the ArcGIS Server services. You will need to
@@ -111,7 +116,9 @@
         infoTemplate:infoTemplate,
         outFields:["*"]
         })
-        map.addLayers([parcelsLayer,fl2]);
+        
+        // fl2.setInfoTemplate(null);
+        map.addLayers([fl2]);
 
         //dojo.keys.copyKey maps to CTRL on windows and Cmd on Mac., but has wrong code for Chrome on Mac
         var snapManager = map.enableSnapping({
@@ -122,10 +129,20 @@
         }];
         snapManager.setLayerInfos(layerInfos);
 
+
+        //测量工具
         var measurement = new Measurement({
-          map: map
+          map: map,
+          defaultAreaUnit: Units.SQUARE_KILOMETERS,
+          defaultLengthUnit: Units.KILOMETERS
         }, dom.byId("measurementDiv"));
-        measurement.startup();
+        
+        measurement.startup();  
+        measurement.hideTool("location");
+        measurement.on('too-change',function(e){
+          console.log(e);
+          fl2.setInfoTemplate(null);
+        })
 
         //底图切换按钮
         var toggle = new BasemapToggle({
@@ -135,9 +152,9 @@
         toggle.startup();
       
         $("span.dijitReset.dijitInline.dijitIcon.areaIcon").click(function(){
-          console.log("22222222222");
-          fl2.disableMouseEvents();
-          parcelsLayer.disableMouseEvents();
+          
+         
+         
         })
       
       
@@ -150,9 +167,9 @@
     style="width:100%; height:100%;">
       <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
         <div style="position:absolute; right:20px; top:10px; z-Index:999;">
-          <div id="titlePane" data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Measurement', closable:false">
+          <div id="titlePane" data-dojo-type="dijit/TitlePane" data-dojo-props="title:'测量工具', closable:false">
             <div id="measurementDiv"></div>
-            <span style="font-size:smaller;padding:5px 5px;">Press <b>CTRL</b> to enable snapping.</span>
+            
           </div>
         </div>
 
