@@ -47,6 +47,7 @@
         "esri/Color",
         "dojo/keys",
         "dojo/parser",
+        "dojo/_base/array",
 
         "esri/config",
         "esri/sniff",
@@ -74,6 +75,7 @@
         "esri/toolbars/draw",
         "esri/graphic",
         "esri/dijit/LayerList",
+        "esri/dijit/Legend",
 
 
         "dijit/layout/BorderContainer",
@@ -82,9 +84,9 @@
         "dijit/form/CheckBox",
         "dojo/domReady!"
       ], function(
-        dom,on,Color, keys, parser,
+        dom,on,Color, keys, parser,arrayUtils,
         esriConfig, has, Map, SnappingManager, Measurement, FeatureLayer, SimpleRenderer, GeometryService,SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol,PictureFillSymbol,
-        CartographicLineSymbol,esriBasemaps,BasemapToggle,InfoTemplate,Units,OverviewMap,Bookmarks,Scalebar,HomeButton,Draw, Graphic,LayerList
+        CartographicLineSymbol,esriBasemaps,BasemapToggle,InfoTemplate,Units,OverviewMap,Bookmarks,Scalebar,HomeButton,Draw, Graphic,LayerList,Legend
 
 
       ) {
@@ -243,7 +245,7 @@
           }, dom.byId("homeButtonDiv"));
         homeButton.startup();
 
-        //图层控制
+        //图层控制(未完成)
         var layerList = new LayerList({
         map: map,
         showLegend: false,
@@ -253,6 +255,12 @@
           },"layerListDiv");
         layerList.startup();
 
+        //图例
+        var legend = new Legend({
+          map:map,
+          layerInfos:[{layer:fl1}]
+        },"legendDiv")
+        legend.startup();
 
 
 
@@ -309,7 +317,13 @@
         </div>
 
         <!-- 图层控制 -->
-        
+        <div></div>
+
+        <!-- 图例 -->
+        <div style="position:absolute; right:15px; bottom:80px; z-Index:999;overflow:scroll">      
+          <div id="legendDiv"></div>          
+        </div>
+
 
       </div>
     </div>
