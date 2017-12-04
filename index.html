@@ -122,6 +122,11 @@
             infoTemplate:infoTemplate,
             outFields:["*"]
         });
+
+        var fl2 = new FeatureLayer("http://a.unimap.cn:6080/arcgis/rest/services/NT/Redline_ZS/MapServer/0",{
+            infoTemplate:infoTemplate,
+            outFields:["*"]
+        })
         
 
 
@@ -131,7 +136,7 @@
           logo:false
         });
 
-        map.addLayer(fl1);
+        map.addLayers([fl1,fl2]);
 
         map.on("load", initToolbar);
 
@@ -258,7 +263,7 @@
         //图例
         var legend = new Legend({
           map:map,
-          layerInfos:[{layer:fl1}]
+          layerInfos:[{layer:fl1,title:"规划"},{layer:fl2,title:"红线"}]
         },"legendDiv")
         legend.startup();
 
@@ -320,7 +325,7 @@
         <div></div>
 
         <!-- 图例 -->
-        <div style="position:absolute; right:15px; bottom:80px; z-Index:999;overflow:scroll">      
+        <div style="position:absolute; right:15px; bottom:80px;height:400px;z-Index:999;overflow:scroll">      
           <div id="legendDiv"></div>          
         </div>
 
