@@ -119,7 +119,10 @@
         };
 
 
+        
         /*数据图层部分*/
+
+        var infoTemplate = new InfoTemplate("属性", "${*}");
         var myLayers = [];
         var showLayers = []; 
           $.ajaxSetup (
@@ -134,10 +137,12 @@
         
 
             for(var i=0;i<myLayers.length;i++){
-              if(myLayers[i].LayerType==="TiledService"){
-
-
-                var lyr =  new ArcGISTiledMapServiceLayer(myLayers[i].ServiceUrl);
+              if(myLayers[i].LayerType==="FeatureLayer" && myLayers[i].ServiceUrl!=null && i<40){
+                var lyr =  new FeatureLayer(myLayers[i].ServiceUrl,{
+                  id:myLayers[i].LayerName,
+                  visible:false,
+                  infoTemplate:infoTemplate
+                });
                 showLayers.push(lyr);
               }
             }
@@ -147,7 +152,7 @@
        
 
 
-        var infoTemplate = new InfoTemplate("属性", "${*}");
+        
         var NTKG = new FeatureLayer("http://a.unimap.cn:6080/arcgis/rest/services/NT/NTKG/MapServer/0",{
             infoTemplate:infoTemplate,
             outFields:["*"],
@@ -167,7 +172,7 @@
 
 
 
-        map.addLayers([NTKG,RedLine]);
+        map.addLayers(showLayers);
 
 
 
@@ -292,30 +297,34 @@
         //图层控制和图例（在图层加载完成之后添加）
         map.on("layers-add-result", function (evt) {
         var layerInfo = arrayUtils.map(evt.layers, function (layer, index) {
-          return {layer:layer.layer, title:layer.layer.name};
+ 
+          return {layer:layer.layer, title:layer.layer.id};
         });
-        console.log(layerInfo);
+        console.log(map);
         //生成图层控制列表
         for(var i=0;i<layerInfo.length;i++){
-          $("#layerList").append("<li class='layerListItem'><input class='inputItem' type='checkbox' onclick='return false'><label>"+layerInfo[i].title+"</label></li>");
+          $("#layerList").append("<li class='layerListItem'><input class='inputItem' type='checkbox'><label>"+layerInfo[i].title+"</label></li>");
         }
 
-        $(".layerListItem").click(function(){
+        $(".inputItem").click(function(){
           
           console.log("kkk");
-          var liCheckbox = $($(this).children()[0]);
+          var liCheckbox = $(this);
           var checked = liCheckbox.prop('checked');
-          var liLabel = $($(this).children()[1]);
+          var liLabel = liCheckbox.next();
           var layerName = liLabel.text();
 
+
+          console.log(checked);
+          console.log(layerName);
         
-          if(!checked){
+          if(checked){
             liCheckbox.prop('checked',true);
-            eval(layerName).setVisibility(true);
+            map.getLayer(layerName).setVisibility(true);
 
           }else{
             liCheckbox.prop('checked',false);
-            eval(layerName).setVisibility(false);
+            map.getLayer(layerName).setVisibility(false);
           }
 
         })
