@@ -137,7 +137,7 @@
         
 
             for(var i=0;i<myLayers.length;i++){
-              if(myLayers[i].LayerType==="FeatureLayer" && myLayers[i].ServiceUrl!=null && i<40){
+              if(myLayers[i].LayerType==="FeatureLayer" && myLayers[i].ServiceUrl!=null && i<49){
                 var lyr =  new FeatureLayer(myLayers[i].ServiceUrl,{
                   id:myLayers[i].DisplayName,
                   visible:false,
@@ -209,6 +209,11 @@
           // needed for each individual button
           on(dom.byId("draw"), "click", function(evt) {
             if ( evt.target.id === "draw" || evt.target.id==="") {
+              return;
+            }
+
+            if( evt.target.id === "clear"){
+              map.graphics.clear();
               return;
             }
             var tool = evt.target.id.toLowerCase();
@@ -348,7 +353,12 @@
 
 
 
-
+      $("#measureToggle").click(function(){
+        $("#measure").toggle();
+      })
+      $("#drawToggle").click(function(){
+        $("#draw").toggle();
+      })
 
       });
     </script>
@@ -360,8 +370,8 @@
       <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
         
         <!-- 量测工具 -->
-        <div style="position:absolute; left:15px; top:300px; z-Index:999;width:150px;">
-          <button>量测工具</button>  
+        <button id="measureToggle" style="position:absolute; left:15px; top:270px; z-Index:999;width:100px;">量测工具</button>
+        <div id="measure" style="position:absolute; left:15px; top:300px; z-Index:999;width:150px;background-color:#FFF;display:none">
           <div id="measurementDiv"></div>   
         </div>
 
@@ -391,8 +401,8 @@
         </div>
 
         <!-- 画图工具 -->
-        <div id="draw" style="position:absolute;bottom:40px;left:220px;height:100px;width:200px;z-index:999;background-color:rgb(238, 235, 231)">
-          <div>画板</div>
+        <button id="drawToggle" style="position:absolute;bottom:150px;left:220px;z-index:999">草图画板</button>
+        <div id="draw" style="position:absolute;bottom:40px;left:220px;height:100px;width:200px;z-index:999;background-color:#fff;display:none" onselectstart="return false">
           <button id="Point">点</button>     
           <button id="Line">线</button>
           <button id="FreehandPolyline">手绘线</button>
@@ -400,10 +410,11 @@
           <button id="Circle">圆形</button>
           <button id="Polygon">多边形</button>
           <button id="FreehandPolygon">手绘多边形</button>
+          <button id="clear">清除所有</button>
         </div>
 
         <!-- 图层控制 -->
-        <div style="height:70%;width:180px;background-color:azure;position:absolute;right:5px;top:5px;z-index:999;overflow:auto" onselectstart="return false" >
+        <div style="height:68%;width:180px;background-color:azure;position:absolute;right:5px;top:0px;z-index:999;overflow:auto" onselectstart="return false" >
           <ul id="layerList" style="list-style:none;padding-left:0px">
 
           </ul>
