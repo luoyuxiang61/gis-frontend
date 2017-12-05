@@ -77,7 +77,7 @@
         "esri/graphic",
         "esri/dijit/LayerList",
         "esri/dijit/Legend",
-
+        "esri/layers/ArcGISTiledMapServiceLayer",
 
         "dijit/layout/BorderContainer",
         "dijit/layout/ContentPane",
@@ -87,7 +87,7 @@
       ], function(
         dom,on,Color, keys, parser,arrayUtils,
         esriConfig, has, Map, SnappingManager, Measurement, FeatureLayer, SimpleRenderer, GeometryService,SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol,PictureFillSymbol,
-        CartographicLineSymbol,esriBasemaps,BasemapToggle,InfoTemplate,Units,OverviewMap,Bookmarks,Scalebar,HomeButton,Draw, Graphic,LayerList,Legend
+        CartographicLineSymbol,esriBasemaps,BasemapToggle,InfoTemplate,Units,OverviewMap,Bookmarks,Scalebar,HomeButton,Draw, Graphic,LayerList,Legend,ArcGISTiledMapServiceLayer
 
 
       ) {
@@ -102,7 +102,7 @@
         esriConfig.defaults.geometryService = new GeometryService("http://localhost:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
 
 
-
+        /*底图部分*/
         //基础底图
         esriBasemaps.jcdt = {
           baseMapLayers: [{url: "http://a.unimap.cn:6080/arcgis/rest/services/NT/NTMap/MapServer"}
@@ -118,21 +118,48 @@
           title: "影像底图"
         };
 
-        var infoTemplate = new InfoTemplate("属性", "${*}");
-        var fl1 = new FeatureLayer("http://a.unimap.cn:6080/arcgis/rest/services/NT/NTKG/MapServer/0",{
-            infoTemplate:infoTemplate,
-            outFields:["*"]
-        });
 
-        var fl2 = new FeatureLayer("http://a.unimap.cn:6080/arcgis/rest/services/NT/Redline_ZS/MapServer/0",{
-            infoTemplate:infoTemplate,
-            outFields:["*"],
-            visible:true
-        })
+        /*数据图层部分*/
+        var myLayers = [];
+        var showLayers = []; 
+          $.ajaxSetup (
+            {
+               async: false
+            });
+
+            $.get("http://localhost:3000/myLayers?depart="+depart,function(layers){
+              myLayers = layers;
+            })
+          
         
 
+            for(var i=0;i<myLayers.length;i++){
+              if(myLayers[i].LayerType==="TiledService"){
 
 
+                var lyr =  new ArcGISTiledMapServiceLayer(myLayers[i].ServiceUrl);
+                showLayers.push(lyr);
+              }
+            }
+
+            console.log(showLayers);
+
+       
+
+
+        var infoTemplate = new InfoTemplate("属性", "${*}");
+        var NTKG = new FeatureLayer("http://a.unimap.cn:6080/arcgis/rest/services/NT/NTKG/MapServer/0",{
+            infoTemplate:infoTemplate,
+            outFields:["*"],
+            visible:false
+        });
+
+        var RedLine = new FeatureLayer("http://a.unimap.cn:6080/arcgis/rest/services/NT/Redline_ZS/MapServer/0",{
+            infoTemplate:infoTemplate,
+            outFields:["*"],
+            visible:false
+        })
+        
         map = new Map("map", {
           basemap: "jcdt",
           logo:false
@@ -140,10 +167,14 @@
 
 
 
-        map.addLayers([fl1,fl2]);
+        map.addLayers([NTKG,RedLine]);
 
+
+
+
+
+        //画图工具
         map.on("load", initToolbar);
-
         // markerSymbol is used for point and multipoint, see http://raphaeljs.com/icons/#talkq for more examples
         var markerSymbol = new SimpleMarkerSymbol();
         markerSymbol.setPath("M16,4.938c-7.732,0-14,4.701-14,10.5c0,1.981,0.741,3.833,2.016,5.414L2,25.272l5.613-1.44c2.339,1.316,5.237,2.106,8.387,2.106c7.732,0,14-4.701,14-10.5S23.732,4.938,16,4.938zM16.868,21.375h-1.969v-1.889h1.969V21.375zM16.772,18.094h-1.777l-0.176-8.083h2.113L16.772,18.094z");
@@ -266,10 +297,27 @@
         console.log(layerInfo);
         //生成图层控制列表
         for(var i=0;i<layerInfo.length;i++){
-          $("#layerList").append("<li class='layerListItem'><input type='checkbox'><label>"+layerInfo[i].title+"</label></li>");
+          $("#layerList").append("<li class='layerListItem'><input class='inputItem' type='checkbox' onclick='return false'><label>"+layerInfo[i].title+"</label></li>");
         }
+
         $(".layerListItem").click(function(){
-          console.log($(this)[0].innerText);
+          
+          console.log("kkk");
+          var liCheckbox = $($(this).children()[0]);
+          var checked = liCheckbox.prop('checked');
+          var liLabel = $($(this).children()[1]);
+          var layerName = liLabel.text();
+
+        
+          if(!checked){
+            liCheckbox.prop('checked',true);
+            eval(layerName).setVisibility(true);
+
+          }else{
+            liCheckbox.prop('checked',false);
+            eval(layerName).setVisibility(false);
+          }
+
         })
 
 
@@ -345,15 +393,22 @@
         </div>
 
         <!-- 图层控制 -->
-        <div style="height:auto;width:150px;background-color:azure;position:absolute;right:5px;top:5px;z-index:999">
-          <ul id="layerList" style="list-style:none">
+        <div style="height:auto;width:150px;background-color:azure;position:absolute;right:5px;top:5px;z-index:999;" onselectstart="return false" >
+          <ul id="layerList" style="list-style:none;padding-left:0px">
+            <!-- <li>
+              <ul style="list-style:none">
+                <li><input type="checkbox"><label for="">11111111</label></li>
+                <li><input type="checkbox"><label for="">1111111</label></li>
+                <li><input type="checkbox"><label for="">111111</label></li>
+              </ul>
+            </li> -->
           </ul>
         </div>
 
        
 
         <!-- 图例 -->
-        <div style="position:absolute; right:15px; bottom:5px;height:400px;z-Index:999;overflow:scroll">      
+        <div style="position:absolute; right:15px; bottom:15px;height:300px;z-Index:999;overflow:auto;">      
           <div id="legendDiv"></div>          
         </div>
 
