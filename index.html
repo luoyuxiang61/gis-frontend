@@ -27,6 +27,7 @@
         width:280px;
       }
 
+
       </style>
       <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
       <script src="./js/jcookie/jquery.cookie.js"></script>
@@ -170,7 +171,7 @@
           // event delegation so a click handler is not
           // needed for each individual button
           on(dom.byId("draw"), "click", function(evt) {
-            if ( evt.target.id === "draw" ) {
+            if ( evt.target.id === "draw" || evt.target.id==="") {
               return;
             }
             var tool = evt.target.id.toLowerCase();
@@ -257,11 +258,23 @@
 
 
 
-        //图例（在图层加载完成之后添加）
+        //图层控制和图例（在图层加载完成之后添加）
         map.on("layers-add-result", function (evt) {
         var layerInfo = arrayUtils.map(evt.layers, function (layer, index) {
           return {layer:layer.layer, title:layer.layer.name};
         });
+        console.log(layerInfo);
+        //生成图层控制列表
+        for(var i=0;i<layerInfo.length;i++){
+          $("#layerList").append("<li class='layerListItem'><input type='checkbox'><label>"+layerInfo[i].title+"</label></li>");
+        }
+        $(".layerListItem").click(function(){
+          console.log($(this)[0].innerText);
+        })
+
+
+
+        //生成图例
         if (layerInfo.length > 0) {
           var legendDijit = new Legend({
             map: map,
@@ -276,10 +289,8 @@
 
 
 
-      $("#testAdd").click(function(){
-        console.log("222");
-        $("#layerList").append("<h1>asdasd</h1>");
-      })
+
+
 
       });
     </script>
@@ -334,9 +345,11 @@
         </div>
 
         <!-- 图层控制 -->
-        <div id="layerList" style="height:200px;width:150px;background-color:azure;position:absolute;right:5px;top:5px;overflow:auto;z-index:999">
-          <button id="testAdd">add</button>
+        <div style="height:auto;width:150px;background-color:azure;position:absolute;right:5px;top:5px;z-index:999">
+          <ul id="layerList" style="list-style:none">
+          </ul>
         </div>
+
        
 
         <!-- 图例 -->
