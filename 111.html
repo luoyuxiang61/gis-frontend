@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+    <title>苏州城市信息查询系统</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/3.21/esri/css/esri.css">
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script src="https://js.arcgis.com/3.21/"></script>
+
+    <!-- 一些CSS样式 -->
+    <style>
+      html, body, #map {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* 地图容器宽度为body的75% */
+      #map {
+          width: 75%;
+      }
+
+      /* 图层控制的样式 */
+      #layerList {
+          position: absolute;
+          width: 25%;
+          height: 250px;
+          top: 0px;
+          right: 0px;
+      }
+
+      /* 搜索框的样式 */
+      #search {
+          display: block;
+          position: absolute;
+          z-index: 3;
+          top: 20px;
+          left: 75px;
+      }
+
+      /* 全局显示按钮的样式 */
+      #quanju {
+          display: block;
+          position: absolute;
+          z-index: 3;
+          top: 90px;
+          left: 20px;
+      }
+
+      /* 右下角的姑苏LOGO样式 */
+      #logo {
+        position: absolute;
+        top: 230px;
+        right: 0px;
+        width: 25%;
+        height: 410px;
+      }
+      .spotlight {
+  z-index:-1;
+  position:absolute;
+  left:50%;
+  top:50%;
+  border-radius:50%;
+  opacity:0;
+  box-shadow:
+  inset rgba(0,0,0,0.25) 0px 0px 20px 20px,
+  rgba(0,0,0,0.25) 0px 0px 0px 1000px;
+  transition:all 1000ms;
+  -moz-transition:all 1000ms;
+  -webkit-transition:all 1000ms;
+}
+.spotlight-active {
+  z-index:2;
+  opacity:1;
+}
+
+    </style>
+    
+    <script>
+      //定义地图对象，金融、科教、治安、法律、治安、医疗图层
+      var map,jinrong,kejiao,falv,zhian,yiliao;
+      //定义点查询任务和查询参数
+      var identifyTask,identifyParams;
+
+      //获取需要用的API的类
+      require(["esri/map", "esri/layers/ArcGISDynamicMapServiceLayer","esri/dijit/LayerList","esri/InfoTemplate",
+               "esri/dijit/Popup", "dojo/dom-construct","esri/geometry/Point","esri/tasks/IdentifyTask","esri/tasks/IdentifyParameters",
+               "dojo/_base/array",  
+               "esri/dijit/Search",      
+               "esri/geometry/Extent",
+               "esri/graphic",
+               "esri/symbols/SimpleMarkerSymbol",
+               "esri/geometry/screenUtils",
+               "dojo/dom",
+               "dojo/query",
+               "dojo/_base/Color",
+               "esri/layers/FeatureLayer",
+               "dojo/domReady!"], function(Map,ArcGISDynamicMapServiceLayer,LayerList,InfoTemplate,Popup,
+               domConstruct,Point,IdentifyTask,IdentifyParameters,arrayUtils,
+               Search, Extent, Graphic, SimpleMarkerSymbol, screenUtils, dom,query, Color,FeatureLayer
+               
+               ) {
+
+            
+
+         //从ArcGIS Server获取需要的5个图层    
+        jinrong = new ArcGISDynamicMapServiceLayer("http://jacksung.cn:6080/arcgis/rest/services/luoyuxiang/jinrong/MapServer", {opacity: 0.9,visible:true});      
+        jinrong.id = "金融";
+        yiliao = new ArcGISDynamicMapServiceLayer("http://jacksung.cn:6080/arcgis/rest/services/luoyuxiang/yiliao/MapServer", {opacity: 0.9,visible:true});      
+        yiliao.id = "医疗";
+        kejiao = new ArcGISDynamicMapServiceLayer("http://jacksung.cn:6080/arcgis/rest/services/luoyuxiang/kejiao/MapServer", {opacity: 0.9,visible:true});      
+        kejiao.id = "科教";
+        zhian = new ArcGISDynamicMapServiceLayer("http://jacksung.cn:6080/arcgis/rest/services/luoyuxiang/zhian/MapServer", {opacity: 0.9,visible:true});      
+        zhian.id = "治安";
+        falv = new ArcGISDynamicMapServiceLayer("http://jacksung.cn:6080/arcgis/rest/services/luoyuxiang/falv/MapServer", {opacity: 0.9,visible:true});      
+        falv.id = "法律";
+
+        
+	          
+       
+	      
+
+        //创建地图，底图指定为satellite     
+        map = new Map("map", {
+          basemap: "satellite",  //For full list of pre-defined basemaps, navigate to http://arcg.is/1JVo6Wd
+          center: [120.5853, 31.2988], // longitude, latitude
+          zoom: 11
+        });
+        map.addLayers([jinrong,yiliao,kejiao,zhian,falv]);
+           
+       
+     
+        //新建右侧的图层控制
+        var layerList = new LayerList({
+        map: map,
+        showLegend: false,
+        showSubLayers: false,
+        showOpacitySlider: false
+        },"layerList");      
+        layerList.startup();
+
+
+        //新建搜索框
+        var search = new Search({
+          map: map,
+          enableButtonMode: false, //this enables the search widget to display as a single button
+          enableLabel: false,
+          enableInfoWindow: true,
+          showInfoWindowOnSelect: false,
+        }, dom.byId("search"));
+
+
+        //获取搜索框的数据源
+        var sources = search.get("sources");
+        
+                 //Push the sources used to search, by default the ArcGIS Online World geocoder is included. In addition there is a feature layer of US congressional districts. The districts search is set up to find the "DISTRICTID". Also, a feature layer of senator information is set up to find based on the senator name. 
+        
+                 //添加科教图层到搜索框的数据源
+                 sources.push({
+                    featureLayer: new FeatureLayer("http://jacksung.cn:6080/arcgis/rest/services/luoyuxiang/kejiao/MapServer/0"),
+                    searchFields: ["NAME"],
+                    displayField: "NAME",
+                    exactMatch: true,
+                    outFields: ["NAME", "TELEPHONE", "ADDRESS"],
+                    name: "科教",
+                    placeholder: "苏州大学",
+                    maxResults: 6,
+                    maxSuggestions: 6,
+                    enableSuggestions: true,
+                    minCharacters: 0
+                 });
+
+                 //添加金融图层到搜索框的数据源
+                 sources.push({
+                    featureLayer: new FeatureLayer("http://jacksung.cn:6080/arcgis/rest/services/luoyuxiang/jinrong/MapServer/0"),
+                    searchFields: ["NAME"],
+                    displayField: "NAME",
+                    exactMatch: false,
+                    outFields: ["NAME", "TELEPHONE", "ADDRESS"],
+                    name: "金融",
+                    placeholder: "苏州银行",
+                    maxResults: 6,
+                    maxSuggestions: 6,
+                    enableSuggestions: true,
+                    minCharacters: 0
+                 });
+                 
+                 //添加医疗图层到搜索框的数据源
+                 sources.push({
+                    featureLayer: new FeatureLayer("http://jacksung.cn:6080/arcgis/rest/services/luoyuxiang/yiliao/MapServer/0"),
+                    searchFields: ["NAME"],
+                    displayField: "NAME",
+                    exactMatch: false,
+                    outFields: ["NAME", "TELEPHONE", "ADDRESS"],
+                    name: "医疗",
+                    placeholder: "仁和医院",
+                    maxResults: 6,
+                    maxSuggestions: 6,
+                    enableSuggestions: true,
+                    minCharacters: 0
+                 });
+
+                 //添加法律图层到搜索框的数据源
+                 sources.push({
+                    featureLayer: new FeatureLayer("http://jacksung.cn:6080/arcgis/rest/services/luoyuxiang/falv/MapServer/0"),
+                    searchFields: ["NAME"],
+                    displayField: "NAME",
+                    exactMatch: false,
+                    outFields: ["NAME", "TELEPHONE", "ADDRESS"],
+                    name: "法律",
+                    placeholder: "苏州市吴中区人民法院",
+                    maxResults: 6,
+                    maxSuggestions: 6,
+                    enableSuggestions: true,
+                    minCharacters: 0
+                 });
+
+                 //添加治安图层到搜索框的数据源
+                 sources.push({
+                    featureLayer: new FeatureLayer("http://jacksung.cn:6080/arcgis/rest/services/luoyuxiang/zhian/MapServer/0"),
+                    searchFields: ["NAME"],
+                    displayField: "NAME",
+                    exactMatch: false,
+                    outFields: ["NAME", "TELEPHONE", "ADDRESS"],
+                    name: "治安",
+                    placeholder: "吴江区公安局巡防大队",
+                    maxResults: 6,
+                    maxSuggestions: 6,
+                    enableSuggestions: true,
+                    minCharacters: 0
+                 });
+                 
+
+        
+                 //将所有的数据源添加到搜索框
+                 search.set("sources", sources);
+    
+
+
+
+        //开启搜索框         
+        search.startup();
+
+
+        
+        //从官网复制的代码         
+        map.on("load", enableSpotlight);
+        search.on("select-result", showLocation); 
+        search.on("clear-search", removeSpotlight);
+
+        function showLocation(e) {
+           map.infoWindow.setTitle("搜索结果");
+           map.infoWindow.setContent(e.result.name);
+           map.infoWindow.show(e.result.feature.geometry);
+            
+           var spotlight = map.on("extent-change", function () {
+              var geom = screenUtils.toScreenGeometry(map.extent,  map.width, map.height, e.result.extent);
+              var width = geom.xmax - geom.xmin;
+              var height = geom.ymin - geom.ymax;
+
+              var max = height;
+              if (width > height) {
+                 max = width;
+              }
+
+              var margin = '-' + Math.floor(max / 2) + 'px 0 0 -' + Math.floor(max / 2) + 'px';
+
+              query(".spotlight").addClass("spotlight-active").style({
+                 width: max + "px",
+                 height: max + "px",
+                 margin: margin
+              });
+              spotlight.remove();
+            });
+         }
+
+        function enableSpotlight() {
+          var html = "<div id='spotlight' class='spotlight'></div>"
+          domConstruct.place(html, dom.byId("map_container"), "first");
+        }
+
+        function removeSpotlight() {
+          query(".spotlight").removeClass("spotlight-active");
+          map.infoWindow.hide();
+          map.graphics.clear();
+        }
+        
+
+        //从官方复制的代码
+        map.on('click',function(event){
+		  console.log("you click the map!");
+		  console.log(event.mapPoint);
+		  identifyTask = new IdentifyTask("http://www.jacksung.cn:6080/arcgis/rest/services/luoyuxiang/5cen/MapServer");
+		  identifyParams = new IdentifyParameters();
+		  identifyParams.tolerance = 2;
+		  identifyParams.returnGeometry = true;
+	    identifyParams.layerOption = IdentifyParameters.LAYER_OPTION_ALL;		  
+
+		  identifyParams.geometry = event.mapPoint;
+		  identifyParams.mapExtent = map.extent;
+
+		  
+			var deferred = identifyTask
+			.execute(identifyParams)
+			.addCallback(function(response) {
+
+				return arrayUtils.map(response, function(result) {
+					var feature = result.feature;
+          var layerName = result.layerName;
+					feature.attributes.layerName = layerName;
+					var info = "<div class=\"infoo\">名称:${NAME}<br/>地址:${ADDRESS}<br/>电话:${TELEPHONE}</div>";        
+					var taxParcelTemplate = new InfoTemplate(layerName,info);
+					feature.setInfoTemplate(taxParcelTemplate);
+
+					if($(".outerPointer").css("display")=="block")
+					{
+						$(".outerPointer").css("opacity",1);
+					}
+					if($(".pointer").css("display")=="block")
+					{
+						$(".pointer").css("opacity",1);
+					}
+					return feature;
+				});
+			});
+
+			map.infoWindow.setFeatures([deferred]);
+			map.infoWindow.show(event.mapPoint);		  
+	  });
+    
+
+
+    //全局显示按钮点击之后执行的函数
+    $("#quanju").click(function(){
+      console.log("1111111");
+      var pt = new Point(120.5853, 31.2988);
+      map.centerAndZoom(pt,11);
+    })    
+
+      });
+    </script>
+  </head>
+
+  <body>
+      <div id="search"></div>
+      <div id="map"></div>
+      <div id="layerList"></div>
+      <button id="quanju">全局显示</button>
+      <img id="logo" src="gusu.jpg"/>
+  </body>
+</html>

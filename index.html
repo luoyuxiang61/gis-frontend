@@ -27,6 +27,90 @@
         width:280px;
       }
 
+      #layerList{
+        position: absolute;
+        top:10px;
+        right:10px;
+        height:200px;
+        width: 200px;
+        background-color: #ffffdd;
+        z-index: 999;
+      }
+
+      .esriLayer{
+  background-color: #fff;
+}
+.esriLayerList .esriList{
+    border-top:none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.esriLayerList .esriTitle {
+  background-color: #fff;
+  border-bottom:none;
+  font-size: 14px;
+  line-height: 16px;
+}
+.esriLayerList .esriList ul{
+  background-color: #fff;
+}
+.esriLayerList .esriLayer:first-child .esriTitleContainer {
+    border-top: none;
+}
+
+.esriLayerList .esriContainer {
+    background-color: #f8f8f8;
+    color: #6e6e6e;
+    border-top: 2px solid #ccc;
+    border-bottom: 2px solid #ccc;
+    margin:0;
+}
+ul, menu, dir {
+    display: block;
+    list-style-type: disc;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 40px;
+}
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+.esriLayerList .esriCheckbox {
+    float: left;
+    height: 16px;
+    width: 16px;
+    padding: 0;
+    margin: 10px;
+}
+.esriLayerList .esriToggleButton {
+    float: right;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    margin: 0;
+    padding: 10px;
+    cursor: pointer;
+    display: none;
+    text-align: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.esriLayerList .esriLabel {
+    display: block;
+    padding: 10px 10px 10px 36px;
+    margin: 0;
+    word-wrap: break-word;
+}
+label {
+    cursor: default;
+}
 
       </style>
       <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
@@ -119,30 +203,7 @@
         };
 
 
-        /*数据图层部分*/
-        var myLayers = [];
-        var showLayers = []; 
-          $.ajaxSetup (
-            {
-               async: false
-            });
 
-            $.get("http://localhost:3000/myLayers?depart="+depart,function(layers){
-              myLayers = layers;
-            })
-          
-        
-
-            for(var i=0;i<myLayers.length;i++){
-              if(myLayers[i].LayerType==="TiledService"){
-
-
-                var lyr =  new ArcGISTiledMapServiceLayer(myLayers[i].ServiceUrl);
-                showLayers.push(lyr);
-              }
-            }
-
-            console.log(showLayers);
 
        
 
@@ -295,30 +356,7 @@
           return {layer:layer.layer, title:layer.layer.name};
         });
         console.log(layerInfo);
-        //生成图层控制列表
-        for(var i=0;i<layerInfo.length;i++){
-          $("#layerList").append("<li class='layerListItem'><input class='inputItem' type='checkbox' onclick='return false'><label>"+layerInfo[i].title+"</label></li>");
-        }
 
-        $(".layerListItem").click(function(){
-          
-          console.log("kkk");
-          var liCheckbox = $($(this).children()[0]);
-          var checked = liCheckbox.prop('checked');
-          var liLabel = $($(this).children()[1]);
-          var layerName = liLabel.text();
-
-        
-          if(!checked){
-            liCheckbox.prop('checked',true);
-            eval(layerName).setVisibility(true);
-
-          }else{
-            liCheckbox.prop('checked',false);
-            eval(layerName).setVisibility(false);
-          }
-
-        })
 
 
 
@@ -330,6 +368,16 @@
           }, "legendDiv");
           legendDijit.startup();
         }
+
+
+        //图层控制
+        var layerList = new LayerList({
+          map:map,
+          layers:[NTKG,RedLine]
+        },dom.byId("layerList"))
+        layerList.startup();
+
+
       });
 
 
@@ -392,18 +440,7 @@
           <button id="FreehandPolygon">手绘多边形</button>
         </div>
 
-        <!-- 图层控制 -->
-        <div style="height:auto;width:150px;background-color:azure;position:absolute;right:5px;top:5px;z-index:999;" onselectstart="return false" >
-          <ul id="layerList" style="list-style:none;padding-left:0px">
-            <!-- <li>
-              <ul style="list-style:none">
-                <li><input type="checkbox"><label for="">11111111</label></li>
-                <li><input type="checkbox"><label for="">1111111</label></li>
-                <li><input type="checkbox"><label for="">111111</label></li>
-              </ul>
-            </li> -->
-          </ul>
-        </div>
+        <div id="layerList"></div>
 
        
 
