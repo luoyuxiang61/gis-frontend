@@ -26,6 +26,20 @@
       #titlePane{
         width:280px;
       }
+      .action-button {
+    font-size: 16px;
+    background-color: transparent;
+    border: 1px solid #D3D3D3;
+    color: #6e6e6e;
+    height: 32px;
+    width: 32px;
+    text-align: center;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+    
+}
+.action-button:hover{
+  background-color:aqua;
+}
 
 
       </style>
@@ -78,6 +92,8 @@
         "esri/dijit/LayerList",
         "esri/dijit/Legend",
         "esri/layers/ArcGISTiledMapServiceLayer",
+        "esri/dijit/Print",
+
 
         "dijit/layout/BorderContainer",
         "dijit/layout/ContentPane",
@@ -87,7 +103,8 @@
       ], function(
         dom,on,Color, keys, parser,arrayUtils,
         esriConfig, has, Map, SnappingManager, Measurement, FeatureLayer, SimpleRenderer, GeometryService,SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol,PictureFillSymbol,
-        CartographicLineSymbol,esriBasemaps,BasemapToggle,InfoTemplate,Units,OverviewMap,Bookmarks,Scalebar,HomeButton,Draw, Graphic,LayerList,Legend,ArcGISTiledMapServiceLayer
+        CartographicLineSymbol,esriBasemaps,BasemapToggle,InfoTemplate,Units,OverviewMap,Bookmarks,Scalebar,HomeButton,Draw, Graphic,LayerList,Legend,ArcGISTiledMapServiceLayer,
+        Print
 
 
       ) {
@@ -297,6 +314,12 @@
         homeButton.startup();
 
 
+        //打印
+        var printer = new Print({
+          map: map,
+          url: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
+        }, dom.byId("printButton"));
+        printer.startup();
 
 
 
@@ -370,8 +393,8 @@
       <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
         
         <!-- 量测工具 -->
-        <button id="measureToggle" style="position:absolute; left:15px; top:270px; z-Index:999;width:100px;">量测工具</button>
-        <div id="measure" style="position:absolute; left:15px; top:300px; z-Index:999;width:150px;background-color:#FFF;display:none">
+        <img id="measureToggle" src="./images/chizi.png" style="position:absolute; left:16px; top:150px; z-Index:999;width:30px;height:30px;cursor:pointer">
+        <div id="measure" style="position:absolute; left:15px; top:180px; z-Index:999;width:150px;background-color:#FFF;display:none">
           <div id="measurementDiv"></div>   
         </div>
 
@@ -381,7 +404,7 @@
         </div>
 
         <!-- 书签 -->
-        <div style="position:absolute; left:15px; top:115px; z-Index:999;background-color:rgba(243, 243, 243, 0.719)">      
+        <div style="position:absolute; left:65px; top:15px; z-Index:999;background-color:rgba(243, 243, 243, 0.719)">      
             <div id="bookmarksDiv"></div>          
         </div>
 
@@ -401,20 +424,21 @@
         </div>
 
         <!-- 画图工具 -->
-        <button id="drawToggle" style="position:absolute;bottom:150px;left:220px;z-index:999">草图画板</button>
-        <div id="draw" style="position:absolute;bottom:40px;left:220px;height:100px;width:200px;z-index:999;background-color:#fff;display:none" onselectstart="return false">
-          <button id="Point">点</button>     
-          <button id="Line">线</button>
-          <button id="FreehandPolyline">手绘线</button>
-          <button id="Extent">矩形</button>
-          <button id="Circle">圆形</button>
-          <button id="Polygon">多边形</button>
-          <button id="FreehandPolygon">手绘多边形</button>
-          <button id="clear">清除所有</button>
+        <img id="drawToggle" src="./images/draw.png" style="position:absolute;top:350px;left:16px;z-index:999;width:30px;height:30px;cursor:pointer">
+        <div id="draw" style="position:absolute;top:385px;left:16px;height:auto;width:auto;z-index:999;background-color:#fff;display:none" onselectstart="return false">
+          <div id="topbar">
+            <button class="action-button esri-icon-blank-map-pin" id="point" type="button"
+              title="点"></button>
+            <button class="action-button esri-icon-polyline" id="polyline" type="button"
+              title="多段线"></button>
+            <button class="action-button esri-icon-polygon" id="polygon" type="button"
+              title="多边形"></button>
+            <button class="action-button esri-icon-trash" id="clear" type="button" title="清除草图"></button>
+          </div>
         </div>
 
         <!-- 图层控制 -->
-        <div style="height:68%;width:180px;background-color:azure;position:absolute;right:5px;top:0px;z-index:999;overflow:auto" onselectstart="return false" >
+        <div style="height:68%;width:180px;background-color:rgb(255, 255, 255);position:absolute;right:5px;top:0px;z-index:999;overflow:auto" onselectstart="return false" >
           <ul id="layerList" style="list-style:none;padding-left:0px">
 
           </ul>
@@ -427,6 +451,8 @@
           <div id="legendDiv"></div>          
         </div>
 
+        <!-- 打印 -->
+        <div id="printButton" style="position:absolute; left:15px; top:430px; z-Index:999;"></div>
 
       </div>
     </div>
