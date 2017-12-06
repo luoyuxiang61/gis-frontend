@@ -41,6 +41,10 @@
         background-color:aqua;
       }
 
+      .no{
+        display: none;
+      }
+
 
 
 
@@ -394,13 +398,15 @@
     style="width:100%; height:100%;">
       <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
         
-        <div id="toolbar" style="position:absolute;top:10px;right:100px;width:auto;height:auto;background-color:#fff;z-index:999;padding:0;margin:0">
-          <img src="./images/measure.png" alt="量测" style="height:30px;width:30px;margin:0;padding:0;">
-          <img src="./images/draw.png" alt="绘图" style="height:30px;width:30px;margin:0;padding:0;">
+        <div id="toolbar" style="position:absolute;top:10px;right:100px;width:auto;height:auto;background-color:rgb(255, 255, 255);z-index:999;padding:5px;padding-bottom:0px;border:1px solid black;border-radius:3px">
+          <img src="./images/measure.png" alt="量测" style="height:25px;width:25px;z-index:999;cursor:pointer" title="量测">
+          <img src="./images/draw.png" alt="绘图" style="height:25px;width:25px;z-index:999;cursor:pointer" title="绘图">
+          <img src="./images/bookmark.png" alt="书签" style="height:25px;width:25px;z-index:999;cursor:pointer" title="书签">
+          <img src="./images/print.png" alt="打印" style="height:25px;width:25px;z-index:999;cursor:pointer" title="打印">
         </div>
 
         <!-- 量测工具 -->
-        <div id="measureTool" style="position:absolute;bottom:10px;right:150px;z-index:999;height:auto">
+        <div class="no" id="measureTool" style="position:absolute;bottom:10px;right:150px;z-index:999;height:auto">
           <img id="measureToggle" src="./images/chizi.png" style="z-Index:999;width:30px;height:30px;cursor:pointer;background-color:#fff" title="量测">
           <div id="measure" style="height:auto;z-Index:999;width:150px;background-color:#FFF;display:none">
             <div id="measurementDiv"></div>   
@@ -434,7 +440,7 @@
         </div>
 
         <!-- 画图工具 -->
-        <div id="drawTool" style="position:absolute;right:300px;bottom:10px;height:auto;z-index:999">
+        <div class="no" id="drawTool" style="position:absolute;right:300px;bottom:10px;height:auto;z-index:999">
           <img id="drawToggle" src="./images/draw.png" style="z-index:999;width:30px;height:30px;cursor:pointer;background-color:#fff" title="绘图">
           <div id="draw" style="height:auto;width:auto;z-index:999;background-color:#fff;display:none" onselectstart="return false">
             <div id="topbar">
@@ -465,7 +471,7 @@
         </div>
 
         <!-- 打印 -->
-        <div id="printButton" style="position:absolute; left:15px; top:430px; z-Index:999;"></div>
+        <div class="no" id="printButton" style="position:absolute; left:15px; top:430px; z-Index:999;"></div>
 
       </div>
     </div>
