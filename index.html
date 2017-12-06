@@ -27,19 +27,21 @@
         width:280px;
       }
       .action-button {
-    font-size: 16px;
-    background-color: transparent;
-    border: 1px solid #D3D3D3;
-    color: #6e6e6e;
-    height: 32px;
-    width: 32px;
-    text-align: center;
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
-    
-}
-.action-button:hover{
-  background-color:aqua;
-}
+        font-size: 16px;
+        background-color: transparent;
+        border: 1px solid #D3D3D3;
+        color: #6e6e6e;
+        height: 32px;
+        width: 32px;
+        text-align: center;
+        box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+        
+      }
+      .action-button:hover{
+        background-color:aqua;
+      }
+
+
 
 
       </style>
@@ -392,9 +394,14 @@
     style="width:100%; height:100%;">
       <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
         
+        <div id="toolbar" style="position:absolute;top:10px;right:100px;width:auto;height:auto;background-color:#fff;z-index:999;padding:0;margin:0">
+          <img src="./images/measure.png" alt="量测" style="height:30px;width:30px;margin:0;padding:0;">
+          <img src="./images/draw.png" alt="绘图" style="height:30px;width:30px;margin:0;padding:0;">
+        </div>
+
         <!-- 量测工具 -->
-        <div id="measureTool" style="position:absolute;top:10px;right:150px;z-index:999;height:auto">
-          <img id="measureToggle" src="./images/chizi.png" style="z-Index:999;width:30px;height:30px;cursor:pointer;background-color:#fff">
+        <div id="measureTool" style="position:absolute;bottom:10px;right:150px;z-index:999;height:auto">
+          <img id="measureToggle" src="./images/chizi.png" style="z-Index:999;width:30px;height:30px;cursor:pointer;background-color:#fff" title="量测">
           <div id="measure" style="height:auto;z-Index:999;width:150px;background-color:#FFF;display:none">
             <div id="measurementDiv"></div>   
           </div>
@@ -407,7 +414,7 @@
         </div>
 
         <!-- 书签 -->
-        <div style="position:absolute; left:65px; top:15px; z-Index:999;background-color:rgba(243, 243, 243, 0.719)">      
+        <div style="position:absolute; left:65px; top:15px; z-Index:999;background-color:#fff">      
             <div id="bookmarksDiv"></div>          
         </div>
 
@@ -427,8 +434,8 @@
         </div>
 
         <!-- 画图工具 -->
-        <div id="drawTool" style="position:absolute;right:300px;top:10px;height:auto;z-index:999">
-          <img id="drawToggle" src="./images/draw.png" style="z-index:999;width:30px;height:30px;cursor:pointer;background-color:#fff">
+        <div id="drawTool" style="position:absolute;right:300px;bottom:10px;height:auto;z-index:999">
+          <img id="drawToggle" src="./images/draw.png" style="z-index:999;width:30px;height:30px;cursor:pointer;background-color:#fff" title="绘图">
           <div id="draw" style="height:auto;width:auto;z-index:999;background-color:#fff;display:none" onselectstart="return false">
             <div id="topbar">
               <button class="action-button esri-icon-blank-map-pin" id="point" type="button"
