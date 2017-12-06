@@ -3,10 +3,14 @@ body {
 
 }
 
+#logo{
+  margin-bottom: 15px;
+}
+
 .wrapper {	
   position: absolute;
-  top:28%;
-  right:15%;
+  top:25%;
+  right:8%;
 }
 
 .form-signin {
@@ -14,11 +18,13 @@ body {
   padding: 25px 35px 45px;
   margin: 0 auto;
   background-color: #fff;
-  border-top: 1px solid rgba(0,0,0,0.08);
+  border-top: 2px solid rgba(20, 12, 133, 0.459);
   border-right: 1px solid rgba(0,0,0,0.1);
   border-bottom: 1px solid rgba(0,0,0,0.12);
   border-left: 1px solid rgba(0,0,0,0.08);
   box-shadow: 0 3rem 5rem -2rem rgba(0, 0, 0, 0.2);
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
 }
 
 .form-control {
