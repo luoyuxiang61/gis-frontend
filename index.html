@@ -284,9 +284,9 @@
         //鹰眼视图
         var overviewMapDijit = new OverviewMap({
           map: map,
-          maximizeButton: true,
-          visible: true
-        },dom.byId("overviewDiv"));
+          visible: false,
+          attachTo:"bottom-left"
+        });
         overviewMapDijit.startup();
 
         //书签
@@ -317,7 +317,7 @@
         //打印
         var printer = new Print({
           map: map,
-          url: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
+          url: "http://localhost:6080/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
         }, dom.byId("printButton"));
         printer.startup();
 
@@ -393,13 +393,16 @@
       <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
         
         <!-- 量测工具 -->
-        <img id="measureToggle" src="./images/chizi.png" style="position:absolute; left:16px; top:150px; z-Index:999;width:30px;height:30px;cursor:pointer;background-color:#fff">
-        <div id="measure" style="position:absolute; left:15px; top:180px; z-Index:999;width:150px;background-color:#FFF;display:none">
-          <div id="measurementDiv"></div>   
+        <div id="measureTool" style="position:absolute;top:10px;right:150px;z-index:999;height:auto">
+          <img id="measureToggle" src="./images/chizi.png" style="z-Index:999;width:30px;height:30px;cursor:pointer;background-color:#fff">
+          <div id="measure" style="height:auto;z-Index:999;width:150px;background-color:#FFF;display:none">
+            <div id="measurementDiv"></div>   
+          </div>
         </div>
 
+
         <!-- 底图切换按钮 -->
-        <div style="position:absolute; right:220px; top:10px; z-Index:999;">      
+        <div style="position:absolute; right:10px; top:10px; z-Index:999;">      
             <div id="basemapToggleDiv"></div>          
         </div>
 
@@ -409,7 +412,7 @@
         </div>
 
         <!-- 比例尺 -->
-        <div style="position:absolute; left:5px; bottom:25px; z-Index:999;">      
+        <div style="position:absolute; right:140px; bottom:25px; z-Index:999;">      
           <div id="scaleBarDiv"></div>          
         </div>
 
@@ -424,21 +427,24 @@
         </div>
 
         <!-- 画图工具 -->
-        <img id="drawToggle" src="./images/draw.png" style="position:absolute;top:350px;left:16px;z-index:999;width:30px;height:30px;cursor:pointer;background-color:#fff">
-        <div id="draw" style="position:absolute;top:385px;left:16px;height:auto;width:auto;z-index:999;background-color:#fff;display:none" onselectstart="return false">
-          <div id="topbar">
-            <button class="action-button esri-icon-blank-map-pin" id="point" type="button"
-              title="点"></button>
-            <button class="action-button esri-icon-polyline" id="polyline" type="button"
-              title="多段线"></button>
-            <button class="action-button esri-icon-polygon" id="polygon" type="button"
-              title="多边形"></button>
-            <button class="action-button esri-icon-trash" id="clear" type="button" title="清除草图"></button>
+        <div id="drawTool" style="position:absolute;right:300px;top:10px;height:auto;z-index:999">
+          <img id="drawToggle" src="./images/draw.png" style="z-index:999;width:30px;height:30px;cursor:pointer;background-color:#fff">
+          <div id="draw" style="height:auto;width:auto;z-index:999;background-color:#fff;display:none" onselectstart="return false">
+            <div id="topbar">
+              <button class="action-button esri-icon-blank-map-pin" id="point" type="button"
+                title="点"></button>
+              <button class="action-button esri-icon-polyline" id="polyline" type="button"
+                title="多段线"></button>
+              <button class="action-button esri-icon-polygon" id="polygon" type="button"
+                title="多边形"></button>
+              <button class="action-button esri-icon-trash" id="clear" type="button" title="清除草图"></button>
+            </div>
           </div>
         </div>
 
+
         <!-- 图层控制 -->
-        <div style="height:68%;width:180px;background-color:rgb(255, 255, 255);position:absolute;right:5px;top:0px;z-index:999;overflow:auto" onselectstart="return false" >
+        <div style="height:68%;width:180px;background-color:rgb(255, 255, 255);position:absolute;right:5px;top:0px;z-index:999;overflow:auto;display:none" onselectstart="return false">
           <ul id="layerList" style="list-style:none;padding-left:0px">
 
           </ul>
@@ -447,7 +453,7 @@
        
 
         <!-- 图例 -->
-        <div style="position:absolute; right:0px; bottom:0px;height:30%;z-Index:999;overflow:auto;background-color:#FFF;width:180px">      
+        <div style="position:absolute; right:0px; bottom:0px;height:30%;z-Index:999;overflow:auto;background-color:#FFF;width:180px;display:none">      
           <div id="legendDiv"></div>          
         </div>
 

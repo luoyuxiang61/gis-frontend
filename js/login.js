@@ -32,7 +32,7 @@ $.ajaxSetup (
 
 
 function checkUser(){
-  var userName = document.getElementById('userName').value;
+  var userName = document.getElementById('username').value;
   var password = document.getElementById('password').value;
   var user;
   console.log(userName);
