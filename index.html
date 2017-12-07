@@ -154,7 +154,7 @@
         </div>
 
         <!-- 比例尺 -->
-        <div style="position:absolute; right:140px; bottom:25px; z-Index:999;">      
+        <div style="position:absolute; right:150px; bottom:25px; z-Index:999;">      
           <div id="scaleBarDiv"></div>          
         </div>
 
@@ -175,7 +175,7 @@
         </div>
 
         <!-- 图例 -->
-        <div style="position:absolute; right:0px; bottom:50px;height:30%;z-Index:999;overflow:auto;background-color:#FFF;width:180px;">      
+        <div style="position:absolute; right:0px; bottom:50px;min-height:1px;max-height:40%;z-Index:999;overflow:auto;background-color:#FFF;width:180px;">      
           <div id="legendDiv"></div>          
         </div>
 
@@ -459,10 +459,18 @@
             printer.startup();
     
             
+            var layerInfos = [];
+            for(var i = 0;i<showLayers.length;i++){
+              layerInfos[i] = {
+                layer:showLayers[i],
+                title:showLayers[i].id
+              }
+            }
+
             //图例
             var legendDijit = new Legend({
                 map: map,
-                layers:showLayers
+                layerInfos:layerInfos
               }, "legendDiv");
               legendDijit.startup();
     
