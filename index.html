@@ -121,7 +121,7 @@
 
         <!-- 工具条下方显示工具 -->
         <div id="tool" class="no">
-          <button>关闭</button>
+          <button id="closeTool">关闭</button>
             <!-- 画图工具 -->
             <div class="no tool" id="draw" onselectstart="return false">
                   <button class="action-button esri-icon-blank-map-pin" id="point" type="button"
@@ -512,20 +512,32 @@
           });
     
     
+          // toobar点击
           var toolId0 = "xx";
           $(".icon").click(function(){
 
             var toolId = $(this).prop("alt");
+
+            console.log(toolId0);
+            console.log(toolId);
+
             if(toolId!=toolId0) {
               $(".tool").hide();
               $("#tool").show();
               $("#"+toolId).show();
             }
-            else $("#tool").hide();
+            else {
+              if($("#tool").css("display")=="none"){
+                $("#tool").show();
+              }
+              else $("#tool").hide();
+            }
             toolId0 = toolId;
           })
-    
-
+          //关闭tool
+          $("#closeTool").click(function(){
+            $("#tool").hide();
+          })
     
           });
         </script>
