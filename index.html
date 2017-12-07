@@ -85,12 +85,6 @@
         display: none;
       }
 
-
-
-
-
-
-
       </style>
       <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
       <script src="./js/jcookie/jquery.cookie.js"></script>
@@ -121,17 +115,19 @@
 
         <!-- 工具条下方显示工具 -->
         <div id="tool" class="no">
-          <button id="closeTool">关闭</button>
+          <img id="closeTool" src="./images/close.png" width="10px" height="10px" onselectstart="return false">
+            
+          <div>
             <!-- 画图工具 -->
             <div class="no tool" id="draw" onselectstart="return false">
-                  <button class="action-button esri-icon-blank-map-pin" id="point" type="button"
-                    title="点"></button>
-                  <button class="action-button esri-icon-polyline" id="polyline" type="button"
-                    title="多段线"></button>
-                  <button class="action-button esri-icon-polygon" id="polygon" type="button"
-                    title="多边形"></button>
-                  <button class="action-button esri-icon-trash" id="clear" type="button" title="清除草图"></button>
-            </div>
+                <button class="action-button esri-icon-blank-map-pin" id="point" type="button"
+                  title="点"></button>
+                <button class="action-button esri-icon-polyline" id="polyline" type="button"
+                  title="多段线"></button>
+                <button class="action-button esri-icon-polygon" id="polygon" type="button"
+                  title="多边形"></button>
+                <button class="action-button esri-icon-trash" id="clear" type="button" title="清除草图"></button>
+           </div>
 
             <!-- 量测工具 -->
             <div class="no tool" id="measure">
@@ -145,11 +141,9 @@
 
             <!-- 打印 -->
             <div class="no tool" id="print"></div>
+          </div>
 
         </div> 
-
-
-
 
 
 
@@ -173,16 +167,11 @@
           <div id="homeButtonDiv"></div>          
         </div>
 
-
-
-
         <!-- 图层控制 -->
         <div  style="height:68%;width:180px;background-color:rgb(255, 255, 255);position:absolute;left:5px;top:100px;z-index:999;overflow:auto;" onselectstart="return false">
           <ul id="layerList" style="list-style:none;padding-left:0px">
           </ul>
         </div>
-
-       
 
         <!-- 图例 -->
         <div style="position:absolute; right:0px; bottom:50px;height:30%;z-Index:999;overflow:auto;background-color:#FFF;width:180px;">      
@@ -307,22 +296,6 @@
                 }
     
                 console.log(showLayers);
-    
-           
-    
-    
-            
-            var NTKG = new FeatureLayer("http://a.unimap.cn:6080/arcgis/rest/services/NT/NTKG/MapServer/0",{
-                infoTemplate:infoTemplate,
-                outFields:["*"],
-                visible:false
-            });
-    
-            var RedLine = new FeatureLayer("http://a.unimap.cn:6080/arcgis/rest/services/NT/Redline_ZS/MapServer/0",{
-                infoTemplate:infoTemplate,
-                outFields:["*"],
-                visible:false
-            })
             
             map = new Map("map", {
               basemap: "jcdt",
@@ -530,13 +503,13 @@
               if($("#tool").css("display")=="none"){
                 $("#tool").show();
               }
-              else $("#tool").hide();
+              else $("#tool").hide(200);
             }
             toolId0 = toolId;
           })
           //关闭tool
           $("#closeTool").click(function(){
-            $("#tool").hide();
+            $("#tool").hide(200);
           })
     
           });
