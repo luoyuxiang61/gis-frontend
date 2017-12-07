@@ -17,12 +17,51 @@
         overflow:hidden;
         font-family:"Trebuchet MS";
       }
-      #map {
-        height: 100%;
-        width: 100%;
-        margin:0px;
-        padding:0px;
+        #blueHead{
+          height:3%;
+          width: 100%;
+          background-color: rgba(185, 192, 194, 0.822);
+        }
+
+        #mainWindow{
+          width:100%; height:97%;
+        }
+          #map {
+            height: 100%;
+            width: 100%;
+            margin:0px;
+            padding:0px;
+          }
+
+      #toolbar{
+        position:absolute;top:10px;right:100px;width:auto;height:auto;background-color:rgb(255, 255,255);z-index:999;padding:5px;padding-bottom:0px;border:1px solid black;border-radius:3px
       }
+        .icon{
+          height:25px;width:25px;z-index:999;cursor:pointer;
+        }
+
+      
+      #tool{
+        position: absolute;
+        top: 60px;
+        right: 100px;
+        height: auto;
+        width: auto;
+        z-index: 999;
+      }
+        #draw{
+          height:auto;width:138px;z-index:999;background-color:#fff;
+        }
+        #measure{
+          height:auto;z-Index:999;width:150px;background-color:#FFF;
+        }
+        #bookmark{
+          background-color: #fff;
+        }
+
+
+
+
       #titlePane{
         width:280px;
       }
@@ -38,12 +77,15 @@
         
       }
       .action-button:hover{
-        background-color:aqua;
+        background-color:rgba(6, 121, 121, 0.637);
       }
 
       .no{
         display: none;
       }
+
+
+
 
 
 
@@ -60,368 +102,60 @@
       <link rel="stylesheet" href="https://js.arcgis.com/3.22/esri/themes/calcite/dijit/calcite.css">
       <link rel="stylesheet" href="https://js.arcgis.com/3.22/esri/themes/calcite/esri/esri.css">
       <script src="https://js.arcgis.com/3.22/"></script>
-    <script>
-    var map, tb;
-    require([
-        "dojo/dom",
-        "dojo/on",
-        "esri/Color",
-        "dojo/keys",
-        "dojo/parser",
-        "dojo/_base/array",
 
-        "esri/config",
-        "esri/sniff",
-        "esri/map",
-        "esri/SnappingManager",
-        "esri/dijit/Measurement",
-        "esri/layers/FeatureLayer",
-        "esri/renderers/SimpleRenderer",
-        "esri/tasks/GeometryService",
-        "esri/symbols/SimpleMarkerSymbol",
-        "esri/symbols/SimpleLineSymbol",
-        "esri/symbols/SimpleFillSymbol",
-        "esri/symbols/PictureFillSymbol",
-        "esri/symbols/CartographicLineSymbol",
-
-
-        "esri/basemaps",
-        "esri/dijit/BasemapToggle",
-        "esri/InfoTemplate",
-        "esri/units",
-        "esri/dijit/OverviewMap",
-        "esri/dijit/Bookmarks",
-        "esri/dijit/Scalebar",
-        "esri/dijit/HomeButton",
-        "esri/toolbars/draw",
-        "esri/graphic",
-        "esri/dijit/LayerList",
-        "esri/dijit/Legend",
-        "esri/layers/ArcGISTiledMapServiceLayer",
-        "esri/dijit/Print",
-
-
-        "dijit/layout/BorderContainer",
-        "dijit/layout/ContentPane",
-        "dijit/TitlePane",
-        "dijit/form/CheckBox",
-        "dojo/domReady!"
-      ], function(
-        dom,on,Color, keys, parser,arrayUtils,
-        esriConfig, has, Map, SnappingManager, Measurement, FeatureLayer, SimpleRenderer, GeometryService,SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol,PictureFillSymbol,
-        CartographicLineSymbol,esriBasemaps,BasemapToggle,InfoTemplate,Units,OverviewMap,Bookmarks,Scalebar,HomeButton,Draw, Graphic,LayerList,Legend,ArcGISTiledMapServiceLayer,
-        Print
-
-
-      ) {
-        parser.parse();
-        //This sample may require a proxy page to handle communications with the ArcGIS Server services. You will need to
-        //replace the url below with the location of a proxy on your machine. See the 'Using the proxy page' help topic
-        //for details on setting up a proxy page.
-        esriConfig.defaults.io.proxyUrl = "/proxy/";
-        esriConfig.defaults.io.alwaysUseProxy = false;
-
-        //This service is for development and testing purposes only. We recommend that you create your own geometry service for use within your applications
-        esriConfig.defaults.geometryService = new GeometryService("http://localhost:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
-
-
-        /*底图部分*/
-        //基础底图
-        esriBasemaps.jcdt = {
-          baseMapLayers: [{url: "http://a.unimap.cn:6080/arcgis/rest/services/NT/NTMap/MapServer"}
-          ],
-          thumbnailUrl: "https://js.arcgis.com/3.15/esri/images/basemap/streets.jpg",
-          title: "基础底图"
-        };
-        //影像底图
-        esriBasemaps.yxdt = {
-          baseMapLayers: [{url: "http://a.unimap.cn:6080/arcgis/rest/services/NT/Raster2012/MapServer"}
-          ],
-          thumbnailUrl: "https://js.arcgis.com/3.15/esri/images/basemap/satellite.jpg",
-          title: "影像底图"
-        };
-
-
-        
-        /*数据图层部分*/
-
-        var infoTemplate = new InfoTemplate("属性", "${*}");
-        var myLayers = [];
-        var showLayers = []; 
-          $.ajaxSetup (
-            {
-               async: false
-            });
-
-            $.get("http://localhost:3000/myLayers?depart="+depart,function(layers){
-              myLayers = layers;
-            })
-          
-        
-
-            for(var i=0;i<myLayers.length;i++){
-              if(myLayers[i].LayerType==="FeatureLayer" && myLayers[i].ServiceUrl!=null && i<49){
-                var lyr =  new FeatureLayer(myLayers[i].ServiceUrl,{
-                  id:myLayers[i].DisplayName,
-                  visible:false,
-                  outFields:["*"],
-                  infoTemplate:infoTemplate
-                });
-                showLayers.push(lyr);
-              }
-            }
-
-            console.log(showLayers);
-
-       
-
-
-        
-        var NTKG = new FeatureLayer("http://a.unimap.cn:6080/arcgis/rest/services/NT/NTKG/MapServer/0",{
-            infoTemplate:infoTemplate,
-            outFields:["*"],
-            visible:false
-        });
-
-        var RedLine = new FeatureLayer("http://a.unimap.cn:6080/arcgis/rest/services/NT/Redline_ZS/MapServer/0",{
-            infoTemplate:infoTemplate,
-            outFields:["*"],
-            visible:false
-        })
-        
-        map = new Map("map", {
-          basemap: "jcdt",
-          logo:false
-        });
-
-
-
-        map.addLayers(showLayers);
-
-
-
-
-
-        //画图工具
-        map.on("load", initToolbar);
-        // markerSymbol is used for point and multipoint, see http://raphaeljs.com/icons/#talkq for more examples
-        var markerSymbol = new SimpleMarkerSymbol();
-        markerSymbol.setPath("M16,4.938c-7.732,0-14,4.701-14,10.5c0,1.981,0.741,3.833,2.016,5.414L2,25.272l5.613-1.44c2.339,1.316,5.237,2.106,8.387,2.106c7.732,0,14-4.701,14-10.5S23.732,4.938,16,4.938zM16.868,21.375h-1.969v-1.889h1.969V21.375zM16.772,18.094h-1.777l-0.176-8.083h2.113L16.772,18.094z");
-        markerSymbol.setColor(new Color("#00FFFF"));
-
-        // lineSymbol used for freehand polyline, polyline and line. 
-        var lineSymbol = new CartographicLineSymbol(
-          CartographicLineSymbol.STYLE_SOLID,
-          new Color([255,0,0]), 10, 
-          CartographicLineSymbol.CAP_ROUND,
-          CartographicLineSymbol.JOIN_MITER, 5
-        );
-
-        // fill symbol used for extent, polygon and freehand polygon, use a picture fill symbol
-        // the images folder contains additional fill images, other options: sand.png, swamp.png or stiple.png
-        var fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-        new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-        new Color([255,0,0]), 2),new Color([255,0,0,0.25])
-        );
-
-        function initToolbar() {
-          tb = new Draw(map);
-          tb.on("draw-end", addGraphic);
-
-          // event delegation so a click handler is not
-          // needed for each individual button
-          on(dom.byId("draw"), "click", function(evt) {
-            if ( evt.target.id === "draw" || evt.target.id==="") {
-              return;
-            }
-
-            if( evt.target.id === "clear"){
-              map.graphics.clear();
-              return;
-            }
-            var tool = evt.target.id.toLowerCase();
-            map.disableMapNavigation();
-            tb.activate(tool);
-          });
-        }
-
-        function addGraphic(evt) {
-          //deactivate the toolbar and clear existing graphics 
-          tb.deactivate(); 
-          map.enableMapNavigation();
-
-          // figure out which symbol to use
-          var symbol;
-          if ( evt.geometry.type === "point" || evt.geometry.type === "multipoint") {
-            symbol = markerSymbol;
-          } else if ( evt.geometry.type === "line" || evt.geometry.type === "polyline") {
-            symbol = lineSymbol;
-          }
-          else {
-            symbol = fillSymbol;
-          }
-
-          map.graphics.add(new Graphic(evt.geometry, symbol));
-        }
-        
-
-
-
-
-
-
-        //量测工具
-        var measurement = new Measurement({
-          map: map,
-          defaultAreaUnit: Units.SQUARE_KILOMETERS,
-          defaultLengthUnit: Units.KILOMETERS
-        }, dom.byId("measurementDiv"));
-        measurement.startup();
-        
-
-        //底图切换按钮
-        var toggle = new BasemapToggle({
-          map: map,
-          basemap:"yxdt"
-        }, dom.byId("basemapToggleDiv"));
-        toggle.startup();
-
-
-        //鹰眼视图
-        var overviewMapDijit = new OverviewMap({
-          map: map,
-          visible: false,
-          attachTo:"bottom-left"
-        });
-        overviewMapDijit.startup();
-
-        //书签
-        var bookmarks = new Bookmarks({
-            map: map,
-            bookmarks: [],
-            editable: true
-          }, "bookmarksDiv");
-
-
-        //比例尺
-        var scalebar = new Scalebar({
-        map: map,
-        scalebarUnit:"metric"
-          },dom.byId("scaleBarDiv"));
-
-
-        //全局视图home
-        var homeButton = new HomeButton({
-        theme: "HomeButton",
-        map: map,
-        extent: null,
-        visible: true
-          }, dom.byId("homeButtonDiv"));
-        homeButton.startup();
-
-
-        //打印
-        var printer = new Print({
-          map: map,
-          url: "http://localhost:6080/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
-        }, dom.byId("printButton"));
-        printer.startup();
-
-
-
-        //图层控制和图例（在图层加载完成之后添加）
-        map.on("layers-add-result", function (evt) {
-        var layerInfo = arrayUtils.map(evt.layers, function (layer, index) {
- 
-          return {layer:layer.layer, title:layer.layer.id};
-        });
-        console.log(map);
-        //生成图层控制列表
-        for(var i=0;i<layerInfo.length;i++){
-          $("#layerList").append("<li class='layerListItem'><input class='inputItem' type='checkbox'><label>"+layerInfo[i].title+"</label></li>");
-        }
-
-        $(".inputItem").click(function(){
-          
-          console.log("kkk");
-          var liCheckbox = $(this);
-          var checked = liCheckbox.prop('checked');
-          var liLabel = liCheckbox.next();
-          var layerName = liLabel.text();
-
-
-          console.log(checked);
-          console.log(layerName);
-        
-          if(checked){
-            liCheckbox.prop('checked',true);
-            map.getLayer(layerName).setVisibility(true);
-
-          }else{
-            liCheckbox.prop('checked',false);
-            map.getLayer(layerName).setVisibility(false);
-          }
-
-        })
-
-
-
-        //生成图例
-        if (layerInfo.length > 0) {
-          var legendDijit = new Legend({
-            map: map,
-            layerInfos: layerInfo
-          }, "legendDiv");
-          legendDijit.startup();
-        }
-      });
-
-
-
-
-
-
-
-      $("#measureToggle").click(function(){
-        $("#measure").toggle();
-      })
-      $("#drawToggle").click(function(){
-        $("#draw").toggle();
-      })
-
-      });
-    </script>
   </head>
 
   <body class="calcite">
-    <div id="mainWindow" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline',gutters:false"
-    style="width:100%; height:100%;">
+    <div id="blueHead"></div>
+    <div id="mainWindow" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline',gutters:false">
       <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
         
-        <div id="toolbar" style="position:absolute;top:10px;right:100px;width:auto;height:auto;background-color:rgb(255, 255, 255);z-index:999;padding:5px;padding-bottom:0px;border:1px solid black;border-radius:3px">
-          <img src="./images/measure.png" alt="量测" style="height:25px;width:25px;z-index:999;cursor:pointer" title="量测">
-          <img src="./images/draw.png" alt="绘图" style="height:25px;width:25px;z-index:999;cursor:pointer" title="绘图">
-          <img src="./images/bookmark.png" alt="书签" style="height:25px;width:25px;z-index:999;cursor:pointer" title="书签">
-          <img src="./images/print.png" alt="打印" style="height:25px;width:25px;z-index:999;cursor:pointer" title="打印">
+        <!-- 工具条 -->
+        <div id="toolbar">
+          <img class="icon" src="./images/measure.png" alt="量测"  title="量测">
+          <img class="icon" src="./images/draw.png" alt="绘图"  title="绘图">
+          <img class="icon" src="./images/bookmark.png" alt="书签"  title="书签">
+          <img class="icon" src="./images/print.png" alt="打印"  title="打印">
         </div>
 
-        <!-- 量测工具 -->
-        <div class="no" id="measureTool" style="position:absolute;bottom:10px;right:150px;z-index:999;height:auto">
-          <img id="measureToggle" src="./images/chizi.png" style="z-Index:999;width:30px;height:30px;cursor:pointer;background-color:#fff" title="量测">
-          <div id="measure" style="height:auto;z-Index:999;width:150px;background-color:#FFF;display:none">
-            <div id="measurementDiv"></div>   
-          </div>
-        </div>
+        <!-- 工具条下方显示工具 -->
+        <div id="tool">
+
+            <!-- 画图工具 -->
+            <div class="no" id="draw" onselectstart="return false">
+                  <button class="action-button esri-icon-blank-map-pin" id="point" type="button"
+                    title="点"></button>
+                  <button class="action-button esri-icon-polyline" id="polyline" type="button"
+                    title="多段线"></button>
+                  <button class="action-button esri-icon-polygon" id="polygon" type="button"
+                    title="多边形"></button>
+                  <button class="action-button esri-icon-trash" id="clear" type="button" title="清除草图"></button>
+            </div>
+
+            <!-- 量测工具 -->
+            <div class="no" id="measure">
+                <div id="measurementDiv"></div>   
+            </div>
+
+
+            <!-- 书签 -->
+            <div class="no" id="bookmark">
+                <div id="bookmarksDiv"></div>
+            </div>
+
+            <!-- 打印 -->
+            <div class="no" id="printButton"></div>
+
+        </div> 
+
+
+
+
 
 
         <!-- 底图切换按钮 -->
         <div style="position:absolute; right:10px; top:10px; z-Index:999;">      
             <div id="basemapToggleDiv"></div>          
-        </div>
-
-        <!-- 书签 -->
-        <div style="position:absolute; left:65px; top:15px; z-Index:999;background-color:#fff">      
-            <div id="bookmarksDiv"></div>          
         </div>
 
         <!-- 比例尺 -->
@@ -439,25 +173,11 @@
           <div id="homeButtonDiv"></div>          
         </div>
 
-        <!-- 画图工具 -->
-        <div class="no" id="drawTool" style="position:absolute;right:300px;bottom:10px;height:auto;z-index:999">
-          <img id="drawToggle" src="./images/draw.png" style="z-index:999;width:30px;height:30px;cursor:pointer;background-color:#fff" title="绘图">
-          <div id="draw" style="height:auto;width:auto;z-index:999;background-color:#fff;display:none" onselectstart="return false">
-            <div id="topbar">
-              <button class="action-button esri-icon-blank-map-pin" id="point" type="button"
-                title="点"></button>
-              <button class="action-button esri-icon-polyline" id="polyline" type="button"
-                title="多段线"></button>
-              <button class="action-button esri-icon-polygon" id="polygon" type="button"
-                title="多边形"></button>
-              <button class="action-button esri-icon-trash" id="clear" type="button" title="清除草图"></button>
-            </div>
-          </div>
-        </div>
+
 
 
         <!-- 图层控制 -->
-        <div style="height:68%;width:180px;background-color:rgb(255, 255, 255);position:absolute;right:5px;top:0px;z-index:999;overflow:auto;display:none" onselectstart="return false">
+        <div class="no" style="height:68%;width:180px;background-color:rgb(255, 255, 255);position:absolute;right:5px;top:0px;z-index:999;overflow:auto;" onselectstart="return false">
           <ul id="layerList" style="list-style:none;padding-left:0px">
 
           </ul>
@@ -470,15 +190,342 @@
           <div id="legendDiv"></div>          
         </div>
 
-        <!-- 打印 -->
-        <div class="no" id="printButton" style="position:absolute; left:15px; top:430px; z-Index:999;"></div>
+      
 
       </div>
     </div>
 
 
     <script>
-
-    </script>
+        var map, tb;
+        require([
+            "dojo/dom",
+            "dojo/on",
+            "esri/Color",
+            "dojo/keys",
+            "dojo/parser",
+            "dojo/_base/array",
+    
+            "esri/config",
+            "esri/sniff",
+            "esri/map",
+            "esri/SnappingManager",
+            "esri/dijit/Measurement",
+            "esri/layers/FeatureLayer",
+            "esri/renderers/SimpleRenderer",
+            "esri/tasks/GeometryService",
+            "esri/symbols/SimpleMarkerSymbol",
+            "esri/symbols/SimpleLineSymbol",
+            "esri/symbols/SimpleFillSymbol",
+            "esri/symbols/PictureFillSymbol",
+            "esri/symbols/CartographicLineSymbol",
+    
+    
+            "esri/basemaps",
+            "esri/dijit/BasemapToggle",
+            "esri/InfoTemplate",
+            "esri/units",
+            "esri/dijit/OverviewMap",
+            "esri/dijit/Bookmarks",
+            "esri/dijit/Scalebar",
+            "esri/dijit/HomeButton",
+            "esri/toolbars/draw",
+            "esri/graphic",
+            "esri/dijit/LayerList",
+            "esri/dijit/Legend",
+            "esri/layers/ArcGISTiledMapServiceLayer",
+            "esri/dijit/Print",
+    
+    
+            "dijit/layout/BorderContainer",
+            "dijit/layout/ContentPane",
+            "dijit/TitlePane",
+            "dijit/form/CheckBox",
+            "dojo/domReady!"
+          ], function(
+            dom,on,Color, keys, parser,arrayUtils,
+            esriConfig, has, Map, SnappingManager, Measurement, FeatureLayer, SimpleRenderer, GeometryService,SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol,PictureFillSymbol,
+            CartographicLineSymbol,esriBasemaps,BasemapToggle,InfoTemplate,Units,OverviewMap,Bookmarks,Scalebar,HomeButton,Draw, Graphic,LayerList,Legend,ArcGISTiledMapServiceLayer,
+            Print
+    
+    
+          ) {
+            parser.parse();
+            //This sample may require a proxy page to handle communications with the ArcGIS Server services. You will need to
+            //replace the url below with the location of a proxy on your machine. See the 'Using the proxy page' help topic
+            //for details on setting up a proxy page.
+            esriConfig.defaults.io.proxyUrl = "/proxy/";
+            esriConfig.defaults.io.alwaysUseProxy = false;
+    
+            //This service is for development and testing purposes only. We recommend that you create your own geometry service for use within your applications
+            esriConfig.defaults.geometryService = new GeometryService("http://localhost:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+    
+    
+            /*底图部分*/
+            //基础底图
+            esriBasemaps.jcdt = {
+              baseMapLayers: [{url: "http://a.unimap.cn:6080/arcgis/rest/services/NT/NTMap/MapServer"}
+              ],
+              thumbnailUrl: "https://js.arcgis.com/3.15/esri/images/basemap/streets.jpg",
+              title: "基础底图"
+            };
+            //影像底图
+            esriBasemaps.yxdt = {
+              baseMapLayers: [{url: "http://a.unimap.cn:6080/arcgis/rest/services/NT/Raster2012/MapServer"}
+              ],
+              thumbnailUrl: "https://js.arcgis.com/3.15/esri/images/basemap/satellite.jpg",
+              title: "影像底图"
+            };
+    
+    
+            
+            /*数据图层部分*/
+    
+            var infoTemplate = new InfoTemplate("属性", "${*}");
+            var myLayers = [];
+            var showLayers = []; 
+              $.ajaxSetup (
+                {
+                   async: false
+                });
+    
+                $.get("http://localhost:3000/myLayers?depart="+depart,function(layers){
+                  myLayers = layers;
+                })
+              
+            
+    
+                for(var i=0;i<myLayers.length;i++){
+                  if(myLayers[i].LayerType==="FeatureLayer" && myLayers[i].ServiceUrl!=null && i<49){
+                    var lyr =  new FeatureLayer(myLayers[i].ServiceUrl,{
+                      id:myLayers[i].DisplayName,
+                      visible:false,
+                      outFields:["*"],
+                      infoTemplate:infoTemplate
+                    });
+                    showLayers.push(lyr);
+                  }
+                }
+    
+                console.log(showLayers);
+    
+           
+    
+    
+            
+            var NTKG = new FeatureLayer("http://a.unimap.cn:6080/arcgis/rest/services/NT/NTKG/MapServer/0",{
+                infoTemplate:infoTemplate,
+                outFields:["*"],
+                visible:false
+            });
+    
+            var RedLine = new FeatureLayer("http://a.unimap.cn:6080/arcgis/rest/services/NT/Redline_ZS/MapServer/0",{
+                infoTemplate:infoTemplate,
+                outFields:["*"],
+                visible:false
+            })
+            
+            map = new Map("map", {
+              basemap: "jcdt",
+              logo:false
+            });
+    
+    
+    
+            map.addLayers(showLayers);
+    
+    
+    
+    
+    
+            //画图工具
+            map.on("load", initToolbar);
+            // markerSymbol is used for point and multipoint, see http://raphaeljs.com/icons/#talkq for more examples
+            var markerSymbol = new SimpleMarkerSymbol();
+            markerSymbol.setPath("M16,4.938c-7.732,0-14,4.701-14,10.5c0,1.981,0.741,3.833,2.016,5.414L2,25.272l5.613-1.44c2.339,1.316,5.237,2.106,8.387,2.106c7.732,0,14-4.701,14-10.5S23.732,4.938,16,4.938zM16.868,21.375h-1.969v-1.889h1.969V21.375zM16.772,18.094h-1.777l-0.176-8.083h2.113L16.772,18.094z");
+            markerSymbol.setColor(new Color("#00FFFF"));
+    
+            // lineSymbol used for freehand polyline, polyline and line. 
+            var lineSymbol = new CartographicLineSymbol(
+              CartographicLineSymbol.STYLE_SOLID,
+              new Color([255,0,0]), 10, 
+              CartographicLineSymbol.CAP_ROUND,
+              CartographicLineSymbol.JOIN_MITER, 5
+            );
+    
+            // fill symbol used for extent, polygon and freehand polygon, use a picture fill symbol
+            // the images folder contains additional fill images, other options: sand.png, swamp.png or stiple.png
+            var fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+            new Color([255,0,0]), 2),new Color([255,0,0,0.25])
+            );
+    
+            function initToolbar() {
+              tb = new Draw(map);
+              tb.on("draw-end", addGraphic);
+    
+              // event delegation so a click handler is not
+              // needed for each individual button
+              on(dom.byId("draw"), "click", function(evt) {
+                if ( evt.target.id === "draw" || evt.target.id==="") {
+                  return;
+                }
+    
+                if( evt.target.id === "clear"){
+                  map.graphics.clear();
+                  return;
+                }
+                var tool = evt.target.id.toLowerCase();
+                map.disableMapNavigation();
+                tb.activate(tool);
+              });
+            }
+    
+            function addGraphic(evt) {
+              //deactivate the toolbar and clear existing graphics 
+              tb.deactivate(); 
+              map.enableMapNavigation();
+    
+              // figure out which symbol to use
+              var symbol;
+              if ( evt.geometry.type === "point" || evt.geometry.type === "multipoint") {
+                symbol = markerSymbol;
+              } else if ( evt.geometry.type === "line" || evt.geometry.type === "polyline") {
+                symbol = lineSymbol;
+              }
+              else {
+                symbol = fillSymbol;
+              }
+    
+              map.graphics.add(new Graphic(evt.geometry, symbol));
+            }
+            
+    
+    
+    
+    
+    
+    
+            //量测工具
+            var measurement = new Measurement({
+              map: map,
+              defaultAreaUnit: Units.SQUARE_KILOMETERS,
+              defaultLengthUnit: Units.KILOMETERS
+            }, dom.byId("measurementDiv"));
+            measurement.startup();
+            
+    
+            //底图切换按钮
+            var toggle = new BasemapToggle({
+              map: map,
+              basemap:"yxdt"
+            }, dom.byId("basemapToggleDiv"));
+            toggle.startup();
+    
+    
+            //鹰眼视图
+            var overviewMapDijit = new OverviewMap({
+              map: map,
+              visible: false,
+              attachTo:"bottom-left"
+            });
+            overviewMapDijit.startup();
+    
+            //书签
+            var bookmarks = new Bookmarks({
+                map: map,
+                bookmarks: [],
+                editable: true
+              }, "bookmarksDiv");
+    
+    
+            //比例尺
+            var scalebar = new Scalebar({
+            map: map,
+            scalebarUnit:"metric"
+              },dom.byId("scaleBarDiv"));
+    
+    
+            //全局视图home
+            var homeButton = new HomeButton({
+            theme: "HomeButton",
+            map: map,
+            extent: null,
+            visible: true
+              }, dom.byId("homeButtonDiv"));
+            homeButton.startup();
+    
+    
+            //打印
+            var printer = new Print({
+              map: map,
+              url: "http://localhost:6080/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
+            }, dom.byId("printButton"));
+            printer.startup();
+    
+    
+    
+            //图层控制和图例（在图层加载完成之后添加）
+            map.on("layers-add-result", function (evt) {
+            var layerInfo = arrayUtils.map(evt.layers, function (layer, index) {
+     
+              return {layer:layer.layer, title:layer.layer.id};
+            });
+            console.log(map);
+            //生成图层控制列表
+            for(var i=0;i<layerInfo.length;i++){
+              $("#layerList").append("<li class='layerListItem'><input class='inputItem' type='checkbox'><label>"+layerInfo[i].title+"</label></li>");
+            }
+    
+            $(".inputItem").click(function(){
+              
+              console.log("kkk");
+              var liCheckbox = $(this);
+              var checked = liCheckbox.prop('checked');
+              var liLabel = liCheckbox.next();
+              var layerName = liLabel.text();
+    
+    
+              console.log(checked);
+              console.log(layerName);
+            
+              if(checked){
+                liCheckbox.prop('checked',true);
+                map.getLayer(layerName).setVisibility(true);
+    
+              }else{
+                liCheckbox.prop('checked',false);
+                map.getLayer(layerName).setVisibility(false);
+              }
+    
+            })
+    
+    
+    
+            //生成图例
+            if (layerInfo.length > 0) {
+              var legendDijit = new Legend({
+                map: map,
+                layerInfos: layerInfo
+              }, "legendDiv");
+              legendDijit.startup();
+            }
+          });
+    
+    
+    
+    
+    
+    
+    
+          $("#measureToggle").click(function(){
+            $("#measure").toggle();
+          })
+          $("#drawToggle").click(function(){
+            $("#draw").toggle();
+          })
+    
+          });
+        </script>
   </body>
 </html>
