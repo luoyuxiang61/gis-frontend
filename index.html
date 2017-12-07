@@ -287,13 +287,31 @@
 
                   var oneLayer = myLayers[i];
 
-                  $("#layerList").append("<li class='layerListItem'><input class='inputItem' type='checkbox'><label>"+oneLayer.DisplayName+"</label></li>");
-
-
-                  if(oneLayer.LayerType=="GroupLayer")console.log(oneLayer.DisplayName);
                   
 
-                  if(myLayers[i].LayerType==="FeatureLayer" && myLayers[i].ServiceUrl!=null && i<49){
+
+                  if(oneLayer.LayerType=="GroupLayer"){
+                    $("#layerList").append("<li class='layerListItem'><input class='inputItem groupLayer' type='checkbox'><label>"+oneLayer.DisplayName+"</label></li>");
+                  };
+
+                  if(oneLayer.LayerType=="TiledService" && (i<9)){
+                    $("#layerList").append("<li class='layerListItem'><input class='inputItem tiledService' type='checkbox'><label>"+oneLayer.DisplayName+"</label></li>");
+                    var lyr = new ArcGISTiledMapServiceLayer(oneLayer.ServiceUrl,{
+                      id:oneLayer.DisplayName,
+                      visible:false
+                    })
+
+                    showLayers.push(lyr);
+                    
+                  }
+                    
+
+
+
+
+                  if((myLayers[i].LayerType==="FeatureLayer" && myLayers[i].ServiceUrl!=null) && (i<=50 || i>=65)){
+                    $("#layerList").append("<li class='layerListItem'><input class='inputItem' type='checkbox'><label>"+oneLayer.DisplayName+"</label></li>");
+
                     var lyr =  new FeatureLayer(myLayers[i].ServiceUrl,{
                       id:myLayers[i].DisplayName,
                       visible:false,
@@ -443,16 +461,17 @@
     
             //图层控制和图例（在图层加载完成之后添加）
             map.on("layers-add-result", function (evt) {
+
+              console.log(map);
+
             var layerInfo = arrayUtils.map(evt.layers, function (layer, index) {
      
               return {layer:layer.layer, title:layer.layer.id};
             });
 
-            //生成图层控制列表
-            // for(var i=0;i<layerInfo.length;i++){
-            //   $("#layerList").append("<li class='layerListItem'><input class='inputItem' type='checkbox'><label>"+layerInfo[i].title+"</label></li>");
-            // }
-    
+            
+
+            //图层控制点击之后
             $(".inputItem").click(function(){
               
 
