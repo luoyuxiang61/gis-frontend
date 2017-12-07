@@ -57,6 +57,7 @@
         }
         #bookmark{
           background-color: #fff;
+          
         }
 
 
@@ -112,17 +113,17 @@
         
         <!-- 工具条 -->
         <div id="toolbar">
-          <img class="icon" src="./images/measure.png" alt="量测"  title="量测">
-          <img class="icon" src="./images/draw.png" alt="绘图"  title="绘图">
-          <img class="icon" src="./images/bookmark.png" alt="书签"  title="书签">
-          <img class="icon" src="./images/print.png" alt="打印"  title="打印">
+          <img class="icon" src="./images/measure.png" alt="measure"  title="量测">
+          <img class="icon" src="./images/draw.png" alt="draw"  title="绘图">
+          <img class="icon" src="./images/bookmark.png" alt="bookmark"  title="书签">
+          <img class="icon" src="./images/print.png" alt="print"  title="打印">
         </div>
 
         <!-- 工具条下方显示工具 -->
         <div id="tool">
 
             <!-- 画图工具 -->
-            <div class="no" id="draw" onselectstart="return false">
+            <div class="no tool" id="draw" onselectstart="return false">
                   <button class="action-button esri-icon-blank-map-pin" id="point" type="button"
                     title="点"></button>
                   <button class="action-button esri-icon-polyline" id="polyline" type="button"
@@ -133,18 +134,18 @@
             </div>
 
             <!-- 量测工具 -->
-            <div class="no" id="measure">
+            <div class="no tool" id="measure">
                 <div id="measurementDiv"></div>   
             </div>
 
 
             <!-- 书签 -->
-            <div class="no" id="bookmark">
+            <div class="no tool" id="bookmark">
                 <div id="bookmarksDiv"></div>
             </div>
 
             <!-- 打印 -->
-            <div class="no" id="printButton"></div>
+            <div class="no tool" id="print"></div>
 
         </div> 
 
@@ -460,7 +461,7 @@
             var printer = new Print({
               map: map,
               url: "http://localhost:6080/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
-            }, dom.byId("printButton"));
+            }, dom.byId("print"));
             printer.startup();
     
     
@@ -514,16 +515,13 @@
     
     
     
-    
-    
-    
-    
-          $("#measureToggle").click(function(){
-            $("#measure").toggle();
+          $(".icon").click(function(){
+           
+            var toolId = $(this).prop("alt");
+            $("#"+toolId).toggle();
           })
-          $("#drawToggle").click(function(){
-            $("#draw").toggle();
-          })
+    
+
     
           });
         </script>
