@@ -284,6 +284,15 @@
             
     
                 for(var i=0;i<myLayers.length;i++){
+
+                  var oneLayer = myLayers[i];
+
+                  $("#layerList").append("<li class='layerListItem'><input class='inputItem' type='checkbox'><label>"+oneLayer.DisplayName+"</label></li>");
+
+
+                  if(oneLayer.LayerType=="GroupLayer")console.log(oneLayer.DisplayName);
+                  
+
                   if(myLayers[i].LayerType==="FeatureLayer" && myLayers[i].ServiceUrl!=null && i<49){
                     var lyr =  new FeatureLayer(myLayers[i].ServiceUrl,{
                       id:myLayers[i].DisplayName,
@@ -295,7 +304,7 @@
                   }
                 }
     
-                console.log(showLayers);
+                
             
             map = new Map("map", {
               basemap: "jcdt",
@@ -373,11 +382,6 @@
             }
             
     
-    
-    
-    
-    
-    
             //量测工具
             var measurement = new Measurement({
               map: map,
@@ -443,23 +447,21 @@
      
               return {layer:layer.layer, title:layer.layer.id};
             });
-            console.log(map);
+
             //生成图层控制列表
-            for(var i=0;i<layerInfo.length;i++){
-              $("#layerList").append("<li class='layerListItem'><input class='inputItem' type='checkbox'><label>"+layerInfo[i].title+"</label></li>");
-            }
+            // for(var i=0;i<layerInfo.length;i++){
+            //   $("#layerList").append("<li class='layerListItem'><input class='inputItem' type='checkbox'><label>"+layerInfo[i].title+"</label></li>");
+            // }
     
             $(".inputItem").click(function(){
               
-              console.log("kkk");
+
               var liCheckbox = $(this);
               var checked = liCheckbox.prop('checked');
               var liLabel = liCheckbox.next();
               var layerName = liLabel.text();
     
-    
-              console.log(checked);
-              console.log(layerName);
+
             
               if(checked){
                 liCheckbox.prop('checked',true);
@@ -491,8 +493,7 @@
 
             var toolId = $(this).prop("alt");
 
-            console.log(toolId0);
-            console.log(toolId);
+
 
             if(toolId!=toolId0) {
               $(".tool").hide();
