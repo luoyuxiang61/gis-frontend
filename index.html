@@ -120,8 +120,8 @@
         </div>
 
         <!-- 工具条下方显示工具 -->
-        <div id="tool">
-
+        <div id="tool" class="no">
+          <button>关闭</button>
             <!-- 画图工具 -->
             <div class="no tool" id="draw" onselectstart="return false">
                   <button class="action-button esri-icon-blank-map-pin" id="point" type="button"
@@ -137,7 +137,6 @@
             <div class="no tool" id="measure">
                 <div id="measurementDiv"></div>   
             </div>
-
 
             <!-- 书签 -->
             <div class="no tool" id="bookmark">
@@ -178,16 +177,15 @@
 
 
         <!-- 图层控制 -->
-        <div class="no" style="height:68%;width:180px;background-color:rgb(255, 255, 255);position:absolute;right:5px;top:0px;z-index:999;overflow:auto;" onselectstart="return false">
+        <div  style="height:68%;width:180px;background-color:rgb(255, 255, 255);position:absolute;left:5px;top:100px;z-index:999;overflow:auto;" onselectstart="return false">
           <ul id="layerList" style="list-style:none;padding-left:0px">
-
           </ul>
         </div>
 
        
 
         <!-- 图例 -->
-        <div style="position:absolute; right:0px; bottom:0px;height:30%;z-Index:999;overflow:auto;background-color:#FFF;width:180px;display:none">      
+        <div style="position:absolute; right:0px; bottom:50px;height:30%;z-Index:999;overflow:auto;background-color:#FFF;width:180px;">      
           <div id="legendDiv"></div>          
         </div>
 
@@ -514,11 +512,17 @@
           });
     
     
-    
+          var toolId0 = "xx";
           $(".icon").click(function(){
-           
+
             var toolId = $(this).prop("alt");
-            $("#"+toolId).toggle();
+            if(toolId!=toolId0) {
+              $(".tool").hide();
+              $("#tool").show();
+              $("#"+toolId).show();
+            }
+            else $("#tool").hide();
+            toolId0 = toolId;
           })
     
 
