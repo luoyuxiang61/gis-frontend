@@ -103,6 +103,7 @@
 
   <body class="calcite">
     <div id="blueHead"></div>
+
     <div id="mainWindow" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline',gutters:false">
       <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
         
@@ -292,11 +293,11 @@
 
 
                   if(oneLayer.LayerType=="GroupLayer"){
-                    $("#layerList").append("<li class='layerListItem'><input class='inputItem groupLayer' type='checkbox'><label>"+oneLayer.DisplayName+"</label></li>");
+                    $("#layerList").append("<li class='layerListItem'><input class='inputItem groupLayer' type='checkbox'><label><em>"+oneLayer.DisplayName+"</em></label></li>");
                   };
 
                   if(oneLayer.LayerType=="TiledService"){
-                    $("#layerList").append("<li class='layerListItem'><input class='inputItem tiledService' type='checkbox'><label>"+oneLayer.DisplayName+"</label></li>");
+                    $("#layerList").append("<li class='layerListItem' style='padding-left:8px;'><input class='inputItem layer' type='checkbox'><label>"+oneLayer.DisplayName+"</label></li>");
                     var lyr = new ArcGISTiledMapServiceLayer(oneLayer.ServiceUrl,{
                       id:oneLayer.DisplayName,
                       visible:false
@@ -311,7 +312,7 @@
 
 
                   if(myLayers[i].LayerType==="FeatureLayer" && myLayers[i].ServiceUrl!=null){
-                    $("#layerList").append("<li class='layerListItem'><input class='inputItem' type='checkbox'><label>"+oneLayer.DisplayName+"</label></li>");
+                    $("#layerList").append("<li class='layerListItem' style='padding-left:8px;'><input class='inputItem layer' type='checkbox'><label>"+oneLayer.DisplayName+"</label></li>");
 
                     var lyr =  new FeatureLayer(myLayers[i].ServiceUrl,{
                       id:myLayers[i].DisplayName,
@@ -479,16 +480,12 @@
 
 
               //图层控制点击之后
-              $(".inputItem").click(function(){
-              
-
+              //非图层组
+              $(".inputItem.layer").click(function(){
               var liCheckbox = $(this);
               var checked = liCheckbox.prop('checked');
               var liLabel = liCheckbox.next();
-              var layerName = liLabel.text();
-    
-
-            
+              var layerName = liLabel.text();       
               if(checked){
                 liCheckbox.prop('checked',true);
                 map.getLayer(layerName).setVisibility(true);
@@ -499,6 +496,17 @@
               }
     
             })
+
+            //图层组
+            $(".inputItem.groupLayer").click(function(){
+              console.log("tucengzu!");
+
+
+
+
+            })
+
+
 
 
 
