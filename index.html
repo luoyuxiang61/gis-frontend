@@ -97,6 +97,7 @@
       <link rel="stylesheet" href="https://js.arcgis.com/3.22/esri/themes/calcite/dijit/calcite.css">
       <link rel="stylesheet" href="https://js.arcgis.com/3.22/esri/themes/calcite/esri/esri.css">
       <script src="https://js.arcgis.com/3.22/"></script>
+      <!-- <script src="https://182.254.152.78/arcgis_js_api/library/3.22/3.22/init.js"></script> -->
 
   </head>
 
@@ -294,7 +295,7 @@
                     $("#layerList").append("<li class='layerListItem'><input class='inputItem groupLayer' type='checkbox'><label>"+oneLayer.DisplayName+"</label></li>");
                   };
 
-                  if(oneLayer.LayerType=="TiledService" && (i<9)){
+                  if(oneLayer.LayerType=="TiledService"){
                     $("#layerList").append("<li class='layerListItem'><input class='inputItem tiledService' type='checkbox'><label>"+oneLayer.DisplayName+"</label></li>");
                     var lyr = new ArcGISTiledMapServiceLayer(oneLayer.ServiceUrl,{
                       id:oneLayer.DisplayName,
@@ -309,7 +310,7 @@
 
 
 
-                  if((myLayers[i].LayerType==="FeatureLayer" && myLayers[i].ServiceUrl!=null) && (i<=50 || i>=65)){
+                  if(myLayers[i].LayerType==="FeatureLayer" && myLayers[i].ServiceUrl!=null){
                     $("#layerList").append("<li class='layerListItem'><input class='inputItem' type='checkbox'><label>"+oneLayer.DisplayName+"</label></li>");
 
                     var lyr =  new FeatureLayer(myLayers[i].ServiceUrl,{
@@ -457,22 +458,20 @@
             }, dom.byId("print"));
             printer.startup();
     
-    
-    
-            //图层控制和图例（在图层加载完成之后添加）
-            map.on("layers-add-result", function (evt) {
-
-              console.log(map);
-
-            var layerInfo = arrayUtils.map(evt.layers, function (layer, index) {
-     
-              return {layer:layer.layer, title:layer.layer.id};
-            });
-
             
+            //图例
+            var legendDijit = new Legend({
+                map: map,
+                layers:showLayers
+              }, "legendDiv");
+              legendDijit.startup();
+    
+    
 
-            //图层控制点击之后
-            $(".inputItem").click(function(){
+
+
+              //图层控制点击之后
+              $(".inputItem").click(function(){
               
 
               var liCheckbox = $(this);
@@ -492,20 +491,10 @@
               }
     
             })
-    
-    
-    
-            //生成图例
-            if (layerInfo.length > 0) {
-              var legendDijit = new Legend({
-                map: map,
-                layerInfos: layerInfo
-              }, "legendDiv");
-              legendDijit.startup();
-            }
-          });
-    
-    
+
+
+
+
           // toobar点击
           var toolId0 = "xx";
           $(".icon").click(function(){
