@@ -170,7 +170,7 @@
         </div>
 
         <!-- 图层控制 -->
-        <div  style="height:68%;width:180px;background-color:rgb(255, 255, 255);position:absolute;left:5px;top:100px;z-index:999;overflow:auto;" onselectstart="return false">
+        <div  style="height:68%;width:180px;background-color:rgb(255, 255, 255);position:absolute;left:15px;top:120px;z-index:999;overflow:auto;" onselectstart="return false">
           <ul id="layerList" style="list-style:none;padding-left:0px">
           </ul>
         </div>
@@ -284,20 +284,19 @@
                 })
               
             
-    
+                var nowGroup = " ";
                 for(var i=0;i<myLayers.length;i++){
 
-                  var oneLayer = myLayers[i];
-
                   
-
-
+                  var oneLayer = myLayers[i];
+                  
                   if(oneLayer.LayerType=="GroupLayer"){
-                    $("#layerList").append("<li class='layerListItem'><input class='inputItem groupLayer' type='checkbox'><label><em>"+oneLayer.DisplayName+"</em></label></li>");
+                    nowGroup = oneLayer.DisplayName;
+                    $("#layerList").append("<li class='layerListItem'><input class='inputItem groupLayer' type='checkbox'><label><strong>"+oneLayer.DisplayName+"</strong></label></li>");
                   };
 
                   if(oneLayer.LayerType=="TiledService"){
-                    $("#layerList").append("<li class='layerListItem' style='padding-left:8px;'><input class='inputItem layer' type='checkbox'><label>"+oneLayer.DisplayName+"</label></li>");
+                    $("#layerList").append("<li class='layerListItem "+nowGroup+"' style='padding-left:8px;display:none;'><input class='inputItem layer' type='checkbox'><label>"+oneLayer.DisplayName+"</label></li>");
                     var lyr = new ArcGISTiledMapServiceLayer(oneLayer.ServiceUrl,{
                       id:oneLayer.DisplayName,
                       visible:false
@@ -312,7 +311,7 @@
 
 
                   if(myLayers[i].LayerType==="FeatureLayer" && myLayers[i].ServiceUrl!=null){
-                    $("#layerList").append("<li class='layerListItem' style='padding-left:8px;'><input class='inputItem layer' type='checkbox'><label>"+oneLayer.DisplayName+"</label></li>");
+                    $("#layerList").append("<li class='layerListItem "+nowGroup+"' style='padding-left:8px;display:none'><input class='inputItem layer' type='checkbox'><label>"+oneLayer.DisplayName+"</label></li>");
 
                     var lyr =  new FeatureLayer(myLayers[i].ServiceUrl,{
                       id:myLayers[i].DisplayName,
@@ -497,14 +496,30 @@
     
             })
 
-            //图层组
-            $(".inputItem.groupLayer").click(function(){
-              console.log("tucengzu!");
+              //图层组
+              $(".inputItem.groupLayer").click(function(){
+                var liCheckbox = $(this);
+                var checked = liCheckbox.prop('checked');
+                var liLabel = liCheckbox.next();
+                var layerName = liLabel.text();
+
+                console.log(layerName);
+
+                console.log(checked);
+
+
+                if(checked){
+                  $(".layerListItem."+layerName).show(200);
+
+                  
+                }else {
+                  $(".layerListItem."+layerName).hide(200);
+
+                };
 
 
 
-
-            })
+              })
 
 
 
