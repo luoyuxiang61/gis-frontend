@@ -170,7 +170,7 @@
         </div>
 
         <!-- 图层控制 -->
-        <div  style="height:68%;width:180px;background-color:rgb(255, 255, 255);position:absolute;left:15px;top:120px;z-index:999;overflow:auto;" onselectstart="return false">
+        <div  style="height:auto;width:170px;background-color:rgb(255, 255, 255);position:absolute;left:15px;top:120px;z-index:999;overflow:auto;" onselectstart="return false">
           <ul id="layerList" style="list-style:none;padding-left:0px">
           </ul>
         </div>
@@ -514,7 +514,7 @@
                   
                 }else {
                   $(".layerListItem."+layerName).hide(200);
-
+                  console.log($(".layerListItem."+layerName));
                 };
 
 
