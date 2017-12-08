@@ -106,6 +106,7 @@
   </head>
 
   <body class="calcite">
+    <div id="test1" style="position:absolute;top:10px;left:10px;background-color:#fff;height:auto;width:auto;z-index:999;"></div>
     <div id="blueHead">
       <div style="float:right">
           <p style="display:inline">您好，管理员</p>
@@ -368,7 +369,6 @@
             });
     
     
-    
             map.addLayers(showLayers);
     
     
@@ -445,6 +445,40 @@
               defaultLengthUnit: Units.KILOMETERS
             }, dom.byId("measurementDiv"));
             measurement.startup();
+
+            var nowXy = new Object();
+            map.on('click',function(evt){
+              nowXy.x = evt.pageX;
+              nowXy.y = evt.pageY;
+            })
+            map.on("dbl-click",function(evt){
+              nowXy.x = evt.pageX;
+              nowXy.y = evt.pageY;
+            })
+
+            measurement.on("measure",function(evt){
+              $("#test1").show();
+              $("#test1").empty();
+              $("#test1").append("<p>"+evt.values+"</p>");
+              $("#test1").css("left",nowXy.x+"px");
+              $("#test1").css("top",nowXy.y+"px");
+            })
+
+
+
+            measurement.on('measure-end',function(evt){
+              $("#test1").empty();
+              $("#test1").append("<p>"+evt.values+"</p>");
+              $("#test1").css("left",nowXy.x+"px");
+              $("#test1").css("top",nowXy.y+"px");
+              setTimeout(function(){
+                $("#test1").hide(100);
+              },2000)
+            })
+
+
+
+
             
     
             //底图切换按钮
@@ -512,7 +546,18 @@
               }, "legendDiv");
               legendDijit.startup();
     
-    
+              
+
+
+
+
+
+
+
+
+
+
+
 
 
 
