@@ -32,6 +32,7 @@
             margin:0px;
             padding:0px;
           }
+          #layerListDiv{height:auto;max-height:400px;width:170px;background-color:rgb(255, 255, 255);position:absolute;left:15px;top:150px;z-index:999;overflow:auto;padding-left:5px;}
 
       #toolbar{
         position:absolute;top:10px;right:100px;width:auto;height:auto;background-color:rgb(255, 255,255);z-index:999;padding:5px;padding-bottom:0px;border:1px solid black;border-radius:3px
@@ -57,7 +58,6 @@
         }
         #bookmark{
           background-color: #fff;
-          
         }
 
 
@@ -170,7 +170,8 @@
         </div>
 
         <!-- 图层控制 -->
-        <div  style="height:auto;max-height:400px;width:170px;background-color:rgb(255, 255, 255);position:absolute;left:15px;top:120px;z-index:999;overflow:auto;padding-left:5px" onselectstart="return false">
+        <img id="layersToggle" src="./images/layerControl.png" style="width:30px;height:30px;background-color:#fff;position:absolute; left:15px; top:120px; z-Index:999;cursor:pointer" alt="">
+        <div  id="layerListDiv" onselectstart="return false">
           <ul id="layerList" style="list-style:none;padding-left:0px">
           </ul>
         </div>
@@ -293,11 +294,11 @@
                   
                   if(oneLayer.LayerType=="GroupLayer"){
                     nowGroup = oneLayer.DisplayName;
-                    $("#layerList").append("<li class='layerListItem'><input class='inputItem groupLayer' type='checkbox'><label><strong>"+oneLayer.DisplayName+"</strong></label></li>");
+                    $("#layerList").append("<li class='layerListItem'><input class='inputItem groupLayer' type='checkbox'><label class='labelItem groupLayer'><strong>"+oneLayer.DisplayName+"</strong></label></li>");
                   };
 
                   if(oneLayer.LayerType=="TiledService"){
-                    $("#layerList").append("<li class='layerListItem "+nowGroup+"' style='padding-left:8px;display:none;'><input class='inputItem layer' type='checkbox'><label>"+oneLayer.DisplayName+"</label></li>");
+                    $("#layerList").append("<li class='layerListItem "+nowGroup+"' style='padding-left:8px;display:none;'><input class='inputItem layer' type='checkbox'><label class='labelItem layer'>"+oneLayer.DisplayName+"</label></li>");
                     var lyr = new ArcGISTiledMapServiceLayer(oneLayer.ServiceUrl,{
                       id:oneLayer.DisplayName,
                       visible:false
@@ -316,7 +317,7 @@
 
                     
 
-                    $("#layerList").append("<li class='layerListItem "+nowGroup+"' style='padding-left:8px;display:none'><input class='inputItem layer' type='checkbox'><label>"+oneLayer.DisplayName+"</label></li>");
+                    $("#layerList").append("<li class='layerListItem "+nowGroup+"' style='padding-left:8px;display:none'><input class='inputItem layer' type='checkbox'><label class='labelItem layer'>"+oneLayer.DisplayName+"</label></li>");
 
                     var lyr =  new FeatureLayer(myLayers[i].ServiceUrl,{
                       id:myLayers[i].DisplayName,
@@ -491,7 +492,7 @@
 
 
               //图层控制点击之后
-              //非图层组
+              //非图层组（点击前面的checkbox)
               $(".inputItem.layer").click(function(){
               var liCheckbox = $(this);
               var checked = liCheckbox.prop('checked');
@@ -505,10 +506,30 @@
                 liCheckbox.prop('checked',false);
                 map.getLayer(layerName).setVisibility(false);
               }
+              })
+              //非图层组（点击后面的label)
+              $(".labelItem.layer").click(function(){
+                var label = $(this);
+                var layerName = label.text();
+                var checkbox = label.prev();
+                var checked = checkbox.prop('checked');
+
+                if(!checked){
+                checkbox.prop('checked',true);
+                map.getLayer(layerName).setVisibility(true);
     
-            })
+                }else{
+                  checkbox.prop('checked',false);
+                  map.getLayer(layerName).setVisibility(false);
+                }               
+              })
+
+
+
+
 
               //图层组
+              //点击前面的checkbox
               $(".inputItem.groupLayer").click(function(){
                 var liCheckbox = $(this);
                 var checked = liCheckbox.prop('checked');
@@ -516,32 +537,49 @@
                 var layerName = liLabel.text();
 
                 if(checked){
-                  $(".layerListItem."+layerName).show(200);
-
-                  
+                  $(".layerListItem."+layerName).show(200);                
                 }else {
                   $(".layerListItem."+layerName).hide(200);
-
-                  var subLayers = $($(".layerListItem."+layerName));
-      
-                  
+                  var subLayers = $($(".layerListItem."+layerName));             
                   for(var i=0;i<subLayers.length;i++){
                     var checkbox = $(subLayers[i]).children()[0];
                     var label = $(subLayers[i]).children()[1];
-
-
                     $(checkbox).prop('checked',false);
                     var sLayerName = $(label).text();
-
                     map.getLayer(sLayerName).setVisibility(false);
-
                   }
                 };
+              })
+              //点击后面的label
+              $(".labelItem.groupLayer").click(function(){
+                var label = $(this);
+                var layerName = label.text();
+                var checkbox = label.prev();
+                var checked = checkbox.prop('checked');
+
+                console.log(layerName);
+                console.log(checked);
+
+                if(!checked){
+                  checkbox.prop('checked',true);
+                  $(".layerListItem."+layerName).show(200);                
+                }else {
+                  checkbox.prop('checked',false);
+                  $(".layerListItem."+layerName).hide(200);
+                  var subLayers = $($(".layerListItem."+layerName));             
+                  for(var i=0;i<subLayers.length;i++){
+                    var checkbox = $(subLayers[i]).children()[0];
+                    var label = $(subLayers[i]).children()[1];
+                    $(checkbox).prop('checked',false);
+                    var sLayerName = $(label).text();
+                    map.getLayer(sLayerName).setVisibility(false);
+                  }
+                }
+
 
 
 
               })
-
 
 
 
@@ -572,6 +610,13 @@
           $("#closeTool").click(function(){
             $("#tool").hide(200);
           })
+
+
+          //图层控制toggle
+          $("#layersToggle").click(function(){
+            $("#layerListDiv").toggle(150);
+          })
+
 
 
 
