@@ -170,7 +170,7 @@
         </div>
 
         <!-- 图层控制 -->
-        <div  style="height:auto;width:170px;background-color:rgb(255, 255, 255);position:absolute;left:15px;top:120px;z-index:999;overflow:auto;" onselectstart="return false">
+        <div  style="height:auto;max-height:400px;width:170px;background-color:rgb(255, 255, 255);position:absolute;left:15px;top:120px;z-index:999;overflow:auto;padding-left:5px" onselectstart="return false">
           <ul id="layerList" style="list-style:none;padding-left:0px">
           </ul>
         </div>
@@ -273,7 +273,8 @@
     
             var infoTemplate = new InfoTemplate("属性", "${*}");
             var myLayers = [];
-            var showLayers = []; 
+            var showLayers = [];
+            var legendLayers = []; 
               $.ajaxSetup (
                 {
                    async: false
@@ -311,6 +312,10 @@
 
 
                   if(myLayers[i].LayerType==="FeatureLayer" && myLayers[i].ServiceUrl!=null){
+
+
+                    
+
                     $("#layerList").append("<li class='layerListItem "+nowGroup+"' style='padding-left:8px;display:none'><input class='inputItem layer' type='checkbox'><label>"+oneLayer.DisplayName+"</label></li>");
 
                     var lyr =  new FeatureLayer(myLayers[i].ServiceUrl,{
@@ -319,6 +324,12 @@
                       outFields:["*"],
                       infoTemplate:infoTemplate
                     });
+
+                    if(myLayers[i].IsLegend==1) {
+
+                      legendLayers.push(lyr);
+                    };
+
                     showLayers.push(lyr);
                   }
                 }
@@ -460,13 +471,14 @@
     
             
             var layerInfos = [];
-            for(var i = 0;i<showLayers.length;i++){
+            for(var i = 0;i<legendLayers.length;i++){
               layerInfos[i] = {
-                layer:showLayers[i],
-                title:showLayers[i].id
+                layer:legendLayers[i],
+                title:legendLayers[i].id
               }
             }
 
+  
             //图例
             var legendDijit = new Legend({
                 map: map,
@@ -503,18 +515,27 @@
                 var liLabel = liCheckbox.next();
                 var layerName = liLabel.text();
 
-                console.log(layerName);
-
-                console.log(checked);
-
-
                 if(checked){
                   $(".layerListItem."+layerName).show(200);
 
                   
                 }else {
                   $(".layerListItem."+layerName).hide(200);
-                  console.log($(".layerListItem."+layerName));
+
+                  var subLayers = $($(".layerListItem."+layerName));
+      
+                  
+                  for(var i=0;i<subLayers.length;i++){
+                    var checkbox = $(subLayers[i]).children()[0];
+                    var label = $(subLayers[i]).children()[1];
+
+
+                    $(checkbox).prop('checked',false);
+                    var sLayerName = $(label).text();
+
+                    map.getLayer(sLayerName).setVisibility(false);
+
+                  }
                 };
 
 
@@ -551,6 +572,10 @@
           $("#closeTool").click(function(){
             $("#tool").hide(200);
           })
+
+
+
+
     
           });
         </script>
