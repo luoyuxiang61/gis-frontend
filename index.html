@@ -541,6 +541,7 @@
               //非图层组（点击后面的label)
               $(".labelItem.layer").click(function(){
                 var label = $(this);
+                var groupLayerName = label.parent().attr('class').substr(20,10).trim();
                 var layerName = label.text();
                 var checkbox = label.prev();
                 var checked = checkbox.prop('checked');
@@ -548,10 +549,19 @@
                 if(!checked){
                 checkbox.prop('checked',true);
                 map.getLayer(layerName).setVisibility(true);
+                var groupLi = $(".layerListItem.groupLayer."+groupLayerName);
+                $(groupLi.children()[0]).prop('checked',true);
     
                 }else{
                   checkbox.prop('checked',false);
                   map.getLayer(layerName).setVisibility(false);
+                  var subLayers = $(".layerListItem.layer."+groupLayerName);       
+                  var groupLi = $(".layerListItem.groupLayer."+groupLayerName);
+                  $(groupLi.children()[0]).prop('checked',false);
+                  for(var i=0;i<subLayers.length;i++){
+                    var checked = $($(subLayers[i]).children()[0]).prop('checked');
+                    if(checked) $(groupLi.children()[0]).prop('checked',true);
+                  }
                 }               
               })
 
