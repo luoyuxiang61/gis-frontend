@@ -33,7 +33,7 @@
             padding:0px;
           }
           #layerListDiv{height:auto;max-height:400px;width:170px;background-color:rgb(255, 255, 255);position:absolute;left:15px;top:150px;z-index:999;overflow:auto;padding-left:5px;}
-
+          .layerListItem.groupLayer{margin-bottom:5px;}
       #toolbar{
         position:absolute;top:10px;right:100px;width:auto;height:auto;background-color:rgb(255, 255,255);z-index:999;padding:5px;padding-bottom:0px;border:1px solid black;border-radius:3px
       }
@@ -294,11 +294,11 @@
                   
                   if(oneLayer.LayerType=="GroupLayer"){
                     nowGroup = oneLayer.DisplayName;
-                    $("#layerList").append("<li class='layerListItem'><input class='inputItem groupLayer' type='checkbox'><label class='labelItem groupLayer'><strong>"+oneLayer.DisplayName+"</strong></label></li>");
+                    $("#layerList").append("<li class='layerListItem groupLayer'><input class='inputItem groupLayer' type='checkbox'><label class='labelItem groupLayer'><strong>"+oneLayer.DisplayName+"</strong></label></li>");
                   };
 
                   if(oneLayer.LayerType=="TiledService"){
-                    $("#layerList").append("<li class='layerListItem "+nowGroup+"' style='padding-left:8px;display:none;'><input class='inputItem layer' type='checkbox'><label class='labelItem layer'>"+oneLayer.DisplayName+"</label></li>");
+                    $("#layerList").append("<li class='layerListItem layer "+nowGroup+"' style='padding-left:8px;display:none;'><input class='inputItem layer' type='checkbox'><label class='labelItem layer'>"+oneLayer.DisplayName+"</label></li>");
                     var lyr = new ArcGISTiledMapServiceLayer(oneLayer.ServiceUrl,{
                       id:oneLayer.DisplayName,
                       visible:false
@@ -317,7 +317,7 @@
 
                     
 
-                    $("#layerList").append("<li class='layerListItem "+nowGroup+"' style='padding-left:8px;display:none'><input class='inputItem layer' type='checkbox'><label class='labelItem layer'>"+oneLayer.DisplayName+"</label></li>");
+                    $("#layerList").append("<li class='layerListItem layer "+nowGroup+"' style='padding-left:8px;display:none'><input class='inputItem layer' type='checkbox'><label class='labelItem layer'>"+oneLayer.DisplayName+"</label></li>");
 
                     var lyr =  new FeatureLayer(myLayers[i].ServiceUrl,{
                       id:myLayers[i].DisplayName,
@@ -537,10 +537,10 @@
                 var layerName = liLabel.text();
 
                 if(checked){
-                  $(".layerListItem."+layerName).show(200);                
+                  $(".layerListItem.layer."+layerName).show(200);                
                 }else {
-                  $(".layerListItem."+layerName).hide(200);
-                  var subLayers = $($(".layerListItem."+layerName));             
+                  $(".layerListItem.layer."+layerName).hide(200);
+                  var subLayers = $($(".layerListItem.layer."+layerName));             
                   for(var i=0;i<subLayers.length;i++){
                     var checkbox = $(subLayers[i]).children()[0];
                     var label = $(subLayers[i]).children()[1];
@@ -562,11 +562,11 @@
 
                 if(!checked){
                   checkbox.prop('checked',true);
-                  $(".layerListItem."+layerName).show(200);                
+                  $(".layerListItem.layer."+layerName).show(200);                
                 }else {
                   checkbox.prop('checked',false);
-                  $(".layerListItem."+layerName).hide(200);
-                  var subLayers = $($(".layerListItem."+layerName));             
+                  $(".layerListItem.layer."+layerName).hide(200);
+                  var subLayers = $($(".layerListItem.layer."+layerName));             
                   for(var i=0;i<subLayers.length;i++){
                     var checkbox = $(subLayers[i]).children()[0];
                     var label = $(subLayers[i]).children()[1];
