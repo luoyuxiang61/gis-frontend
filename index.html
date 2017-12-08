@@ -258,19 +258,21 @@
             /*底图部分*/
             //基础底图
             esriBasemaps.jcdt = {
-              baseMapLayers: [{url: "http://a.unimap.cn:6080/arcgis/rest/services/SND/SNDmap/MapServer"}
+              baseMapLayers: [{url: ""}
               ],
               thumbnailUrl: "https://js.arcgis.com/3.15/esri/images/basemap/streets.jpg",
               title: "基础底图"
             };
             //影像底图
             esriBasemaps.yxdt = {
-              baseMapLayers: [{url: "http://a.unimap.cn:6080/arcgis/rest/services/SND/Raster2011/MapServer"}
+              baseMapLayers: [{url: ""}
               ],
               thumbnailUrl: "https://js.arcgis.com/3.15/esri/images/basemap/satellite.jpg",
               title: "影像底图"
             };
-    
+            
+
+            
     
             
             /*数据图层部分*/
@@ -310,6 +312,16 @@
 
                   //瓦片地图服务
                   if(oneLayer.LayerType=="TiledService"){
+
+                    if(oneLayer.DisplayName==="基础底图"){
+                      esriBasemaps.jcdt.baseMapLayers[0].url=oneLayer.ServiceUrl;
+                    }
+                    
+                    if(oneLayer.DisplayName==="影像底图"){
+                      esriBasemaps.yxdt.baseMapLayers[0].url=oneLayer.ServiceUrl;
+                    }
+
+
                     $("#layerList").append("<li class='layerListItem layer "+nowGroup+"' style='padding-left:8px;display:none;'><input class='inputItem layer' type='checkbox'><label class='labelItem layer'>"+oneLayer.DisplayName+"</label></li>");
                     var lyr = new ArcGISTiledMapServiceLayer(oneLayer.ServiceUrl,{
                       id:oneLayer.DisplayName,
