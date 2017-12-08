@@ -308,7 +308,7 @@
                   //图层组
                   if(oneLayer.LayerType=="GroupLayer"){
                     nowGroup = oneLayer.DisplayName;
-                    $("#layerList").append("<li class='layerListItem groupLayer'><input class='inputItem groupLayer' type='checkbox'><label class='labelItem groupLayer'><strong>"+oneLayer.DisplayName+"</strong></label></li>");
+                    $("#layerList").append("<li class='layerListItem groupLayer "+nowGroup+"'><input class='inputItem groupLayer' type='checkbox'><label class='labelItem groupLayer'><strong>"+oneLayer.DisplayName+"</strong></label></li>");
                   };
 
                   //瓦片地图服务
@@ -513,16 +513,29 @@
               //非图层组（点击前面的checkbox)
               $(".inputItem.layer").click(function(){
               var liCheckbox = $(this);
+              var groupLayerName = liCheckbox.parent().attr('class').substr(20,10).trim();
               var checked = liCheckbox.prop('checked');
               var liLabel = liCheckbox.next();
               var layerName = liLabel.text();       
               if(checked){
                 liCheckbox.prop('checked',true);
                 map.getLayer(layerName).setVisibility(true);
-    
+                var groupLi = $(".layerListItem.groupLayer."+groupLayerName);
+                $(groupLi.children()[0]).prop('checked',true);
               }else{
                 liCheckbox.prop('checked',false);
                 map.getLayer(layerName).setVisibility(false);
+                var subLayers = $(".layerListItem.layer."+groupLayerName);
+                
+                var groupLi = $(".layerListItem.groupLayer."+groupLayerName);
+                $(groupLi.children()[0]).prop('checked',false);
+
+                for(var i=0;i<subLayers.length;i++){
+                  var checked = $($(subLayers[i]).children()[0]).prop('checked');
+                  if(checked) $(groupLi.children()[0]).prop('checked',true);
+                }
+
+
               }
               })
               //非图层组（点击后面的label)
