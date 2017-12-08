@@ -32,8 +32,11 @@
             margin:0px;
             padding:0px;
           }
-          #layerListDiv{height:auto;max-height:400px;width:170px;background-color:rgb(255, 255, 255);position:absolute;left:15px;top:150px;z-index:999;overflow:auto;padding-left:5px;}
+          #layerListDiv{height:auto;max-height:400px;width:170px;background-color:rgb(255, 255, 255);position:absolute;left:15px;top:152px;z-index:999;overflow:auto;padding-left:5px;box-shadow: 5px 5px 2px #888888;}
           .layerListItem.groupLayer{margin-bottom:5px;}
+          .layerListItem.groupLayer:hover{background-color: rgba(177, 174, 169, 0.815);}
+          .layerListItem.layer:hover{background-color: rgba(218, 217, 216, 0.685);}
+          .labelItem{display:inline-block;width:85%}
       #toolbar{
         position:absolute;top:10px;right:100px;width:auto;height:auto;background-color:rgb(255, 255,255);z-index:999;padding:5px;padding-bottom:0px;border:1px solid black;border-radius:3px
       }
@@ -291,12 +294,21 @@
 
                   
                   var oneLayer = myLayers[i];
-                  
+
+                  //图形量算服务
+                  // if(oneLayer.LayerType=="GeometryService"){
+                  //   esriConfig.defaults.geometryService = new GeometryService(oneLayer.ServiceUrl);
+                  // }
+
+
+
+                  //图层组
                   if(oneLayer.LayerType=="GroupLayer"){
                     nowGroup = oneLayer.DisplayName;
                     $("#layerList").append("<li class='layerListItem groupLayer'><input class='inputItem groupLayer' type='checkbox'><label class='labelItem groupLayer'><strong>"+oneLayer.DisplayName+"</strong></label></li>");
                   };
 
+                  //瓦片地图服务
                   if(oneLayer.LayerType=="TiledService"){
                     $("#layerList").append("<li class='layerListItem layer "+nowGroup+"' style='padding-left:8px;display:none;'><input class='inputItem layer' type='checkbox'><label class='labelItem layer'>"+oneLayer.DisplayName+"</label></li>");
                     var lyr = new ArcGISTiledMapServiceLayer(oneLayer.ServiceUrl,{
@@ -308,15 +320,8 @@
                     
                   }
                     
-
-
-
-
+                  //要素图层
                   if(myLayers[i].LayerType==="FeatureLayer" && myLayers[i].ServiceUrl!=null){
-
-
-                    
-
                     $("#layerList").append("<li class='layerListItem layer "+nowGroup+"' style='padding-left:8px;display:none'><input class='inputItem layer' type='checkbox'><label class='labelItem layer'>"+oneLayer.DisplayName+"</label></li>");
 
                     var lyr =  new FeatureLayer(myLayers[i].ServiceUrl,{
