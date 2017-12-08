@@ -20,7 +20,7 @@
         #blueHead{
           height:3%;
           width: 100%;
-          background-color: rgba(185, 192, 194, 0.822);
+          background-color: rgba(231, 234, 235, 0.822);
         }
 
         #mainWindow{
@@ -106,7 +106,14 @@
   </head>
 
   <body class="calcite">
-    <div id="blueHead"></div>
+    <div id="blueHead">
+      <div style="float:right">
+          <p style="display:inline">您好，管理员</p>
+          <a href="./服务管理.html">后台管理</a>&nbsp;&nbsp;&nbsp;
+          <a href="./login.html">退出</a>
+      </div>
+
+    </div>
 
     <div id="mainWindow" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline',gutters:false">
       <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
