@@ -42,10 +42,12 @@
         position:absolute;top:10px;right:100px;width:auto;height:auto;background-color:rgb(255, 255,255);z-index:999;padding:5px;padding-bottom:0px;border:1px solid black;border-radius:3px
       }
         .icon{
-          height:25px;width:25px;z-index:999;cursor:pointer;
+          height:25px;width:25px;z-index:999;cursor:pointer;margin-right: 10px;
         }
+        .icon:hover{background-color:lightgreen;}
 
-      
+      #closeTool{cursor: pointer;margin-left: 140px;} 
+      #closeTool:hover{background-color: lightgray;}
       #tool{
         position: absolute;
         top: 60px;
@@ -53,6 +55,8 @@
         height: auto;
         width: auto;
         z-index: 999;
+        margin-right: 10px;
+        margin-top:15px;
       }
         #draw{
           height:auto;width:138px;z-index:999;background-color:#fff;
@@ -87,6 +91,10 @@
 
       .no{
         display: none;
+      }
+
+      .titleButton.maximize{
+        display:none;
       }
 
       </style>
@@ -129,7 +137,11 @@
 
         <!-- 工具条下方显示工具 -->
         <div id="tool" class="no">
-          <img id="closeTool" src="./images/close.png" width="10px" height="10px" onselectstart="return false">
+          
+          <div>
+            <img id="closeTool" src="./images/close.png" width="10px" height="10px" onselectstart="return false">
+          </div>
+          
             
           <div>
             <!-- 画图工具 -->
