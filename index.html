@@ -456,24 +456,31 @@
               nowXy.y = evt.pageY;
             })
 
+            var mUnit;
+            measurement.on('measure-start',function(evt){
+              
+            })
+
             measurement.on("measure",function(evt){
-              $("#test1").show();
               $("#test1").empty();
-              $("#test1").append("<p>"+evt.values+"</p>");
-              $("#test1").css("left",nowXy.x+"px");
-              $("#test1").css("top",nowXy.y+"px");
+              $("#test1").show();
+              
+              $("#test1").append("<p>"+evt.values.toFixed(2)+"千米"+"</p>");
+              $("#test1").css("left",nowXy.x+10+"px");
+              $("#test1").css("top",nowXy.y+10+"px");
             })
 
 
 
             measurement.on('measure-end',function(evt){
               $("#test1").empty();
-              $("#test1").append("<p>"+evt.values+"</p>");
-              $("#test1").css("left",nowXy.x+"px");
-              $("#test1").css("top",nowXy.y+"px");
+              $("#test1").show();
+              $("#test1").append("<p>"+evt.values.toFixed(2)+"千米"+"</p>");
+              $("#test1").css("left",nowXy.x-10+"px");
+              $("#test1").css("top",nowXy.y-10+"px");
               setTimeout(function(){
                 $("#test1").hide(100);
-              },2000)
+              },1200)
             })
 
 

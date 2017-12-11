@@ -1,26 +1,3 @@
-// var working = false;
-// $('.login').on('submit', function(e) {
-//   e.preventDefault();
-
-
-//   if (working) return;
-//   working = true;
-//   var $this = $(this),
-//     $state = $this.find('button > .state');
-//   $this.addClass('loading');
-//   $state.html('验证中');
-//   setTimeout(function() {
-//     $this.addClass('ok');
-//     $state.html('登录成功!');
-    
-//     setTimeout(function() {
-//       $state.html('进入主页');
-//       $this.removeClass('ok loading');
-//       working = false;
-//       window.location.href="./index.html";
-//     }, 1000);
-//   }, 2000);
-// });
 
 
 
