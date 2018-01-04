@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>TEST</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.13/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
+</head>
+<body>
+    <div id="leftSide" v-bind:style="style">
+        <service-tree v-bind:services="services"></service-tree>
+    </div>
+
+
+    <script>
+        Vue.component('serviceTree', {
+            props: ['services'],
+            template: "<ul v-bind:style='style'><li v-for='service in services' > {{service.DisplayName}} </li></ul>",
+            data: function() {
+                return {
+                    style: {
+                        'color': 'green',
+                        'list-style': 'none',
+                        'width': '150px',
+                        'padding': '0px'
+                    }
+                }
+            }            
+        })
+
+
+
+        var leftSide = new Vue({
+            el: '#leftSide',
+            created: function() {
+                this.getData()
+            },
+            data: {
+                style:{
+                    'position': 'absolute',
+                    'top': '80px',
+                    'left': '0px',
+                    'bottom': '0px',
+                    'width': '150px',
+                    'background-color': 'lightblue',
+                    'overflow-x': 'auto',
+                    'overflow-y': 'auto'
+                },
+                loading: false,
+                test: 'this is a test data',
+                services: []
+            },
+            methods: {
+                getData: function () {
+                    this.loading = true
+
+                    this.$http.get('http://localhost:3000/myLayers').then(response => {
+                        this.loading = false
+                        this.services = response.body
+                    }, response => {
+                        // error callback
+                    });
+                }
+            }
+        })
+    </script>
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>服务管理</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.13/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
+    <style>
+        .groupLayer {color: red;}
+        .groupLayer:hover {background-color: antiquewhite;}
+        .sonLayer {color: green;padding-left: 10px;}
+        .sonLayer:hover {background-color: aqua;}
+    </style>
+</head>
+<body>
+
+
+        <ul id="sideTree" v-bind:style="ulstyle" v-if="gotData">
+            <li v-for="(service, index ) in services" v-bind:style="listyle" v-bind:class="{groupLayer:service.LayerType == 'GroupLayer', sonLayer:service.LayerType != 'GroupLayer'}"
+                v-on:click="liClick(service.Id,service.ParentId,$event)" :sID='service.Id'  :sParentID='service.ParentId'  v-show="service.ParentId == 0 || service.ParentId == nowParentId">
+                {{ service.DisplayName }}
+            </li>
+        </ul>
+ 
+
+
+ 
+
+    <script>
+
+        var sideTree = new Vue({
+            el: '#sideTree',
+            created: function() {
+                this.getData()
+            },
+            data:{
+                loading: false,
+                gotData: false,
+                ulstyle: {
+                    'background-color':'#eee',
+                    'list-style':'none',
+                    'width': '150px',
+                    'position': 'absolute',
+                    'top': '80px',
+                    'left': '10px',
+                    'padding': '0px',
+                    'bottom': '0px',
+                    'overflow-y': 'auto'                        
+                },
+                listyle: {
+                    'cursor': 'pointer',
+                    'margin-bottom': '5px',
+                    'text-align': 'center',
+                    'background-color': 'lightblue'
+                },
+                services: [],
+
+
+                nowParentId: 0
+            },
+            methods: {
+                liClick: function(x,y,event) {
+                  this.nowParentId = x
+                  console.log(y)
+                  console.log(event)
+                 
+                },
+                getData: function() {
+                    this.loading = true
+
+                    this.$http.get('http://localhost:3000/myLayers').then(response => {
+                        this.loading = false
+                        this.gotData = true
+                        // get body data
+                        this.services = response.body
+                    }, response => {
+                        // error callback
+                    });
+
+                }
+            }
+        })
+    </script>
+
+</body>
+</html>

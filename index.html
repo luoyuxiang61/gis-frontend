@@ -69,6 +69,8 @@
         }
 
 
+
+
       #titlePane{
         width:280px;
       }
@@ -304,11 +306,15 @@
                    async: false
                 });
     
-                $.get("http://localhost:3000/myLayers?depart="+depart,function(layers){
-                  myLayers = layers;
+                $.ajax({
+                  url:"http://localhost:3000/myLayers?depart="+depart,
+                  async: false,
+                  success: function (layers) {
+                    myLayers = layers;
+                    console.log(myLayers)
+                  }
                 })
-              
-            
+                            
                 var nowGroup = " ";
                 for(var i=0;i<myLayers.length;i++){
 

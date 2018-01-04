@@ -36,34 +36,9 @@
         margin-bottom: 0px;
 
       }
-
-      tr.clicked{
-        background-color:rgb(173, 255, 163);
-      }
-
-      .table-striped>tbody>tr.clicked:nth-of-type(odd) {
-          background-color: rgb(173, 255, 163);
-      }
-
       .list-group{
         margin-top: 10px;
         margin-bottom: 10px;
-      }
-
-      .table-striped>tbody>tr.clicked:nth-of-type(odd) {
-          background-color: rgb(173, 255, 163);
-      }
-
-      .table-striped>tbody>tr:nth-of-type(even) {
-          background-color: rgb(236, 223, 230);
-      }
-
-      .table-striped>tbody>tr.clicked:nth-of-type(even) {
-          background-color: rgb(173, 255, 163);
-      }
-
-      .table-striped>tbody>tr:hover{
-        background-color: rgb(136, 200, 93);
       }
 
 
@@ -88,469 +63,180 @@
       <!-- 容器一分为二，横向排列-->
       <div class="row" style="height:100%">
         <!-- 左边的目录树，在PC上占比为2/12，在移动端占比为4/12，主要是为了在移动端是还能看全目录树上的元素的字 -->
-        <div class="col-xs-4 col-md-2" style="height:100%;padding:0;background-color:#efefff;overflow:scroll">
-
-          <button type="button" class="btn btn-default btn-lg btn-block active"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>系统服务组</button>
-          <div class="list-group" >
-            <a href="#" class="list-group-item active">图形量算</a>
-            <a href="#" class="list-group-item">影像底图</a>
-            <a href="#" class="list-group-item">鹰眼服务</a>
-            <a href="#" class="list-group-item">基础底图</a>
-            <a href="#" class="list-group-item">2012年影像</a>
-            <a href="#" class="list-group-item">2015年影像</a>
-            <button type="button" class="btn btn-default addService" title="添加图层服务" aria-label="Left Align">
-              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-default moveup" title="上移" aria-label="Left Align">
-              <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-default movedown" title="下移" aria-label="Left Align">
-              <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-            </button>
-          </div>
-
-          <button type="button" class="btn btn-default btn-lg btn-block"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>红线协调</button>
-          <div class="list-group" style="display:none">
-            <a href="#" class="list-group-item">反馈红线(土地)</a>
-            <a href="#" class="list-group-item">预划红线(规划)</a>
-            <button type="button" class="btn btn-default addService" title="添加图层服务" aria-label="Left Align">
-              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-default moveup" title="上移" aria-label="Left Align">
-              <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-default movedown" title="下移" aria-label="Left Align">
-              <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-            </button>
-          </div>
-
-          <button type="button" class="btn btn-default btn-lg btn-block"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>影像图</button>
-          <div class="list-group" style="display:none">
-            <a href="#" class="list-group-item">2012年影像图</a>
-            <a href="#" class="list-group-item">2015年影像图</a>
-            <button type="button" class="btn btn-default addService" title="添加图层服务" aria-label="Left Align">
-              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-default moveup" title="上移" aria-label="Left Align">
-              <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-default movedown" title="下移" aria-label="Left Align">
-              <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-            </button>
-          </div>
-
-          <button type="button" class="btn btn-default btn-lg btn-block"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>地形图</button>
-          <div class="list-group" style="display:none">
-            <a href="#" class="list-group-item">2007年地形图</a>
-            <a href="#" class="list-group-item">2012年地形图</a>
-            <a href="#" class="list-group-item">2013年地形图</a>
-            <a href="#" class="list-group-item">2014年地形图</a>
-            <button type="button" class="btn btn-default addService" title="添加图层服务" aria-label="Left Align">
-              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-default moveup" title="上移" aria-label="Left Align">
-              <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-default movedown" title="下移" aria-label="Left Align">
-              <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-            </button>
-          </div>
-
-          <button type="button" class="btn btn-default btn-lg btn-block"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>管线图</button>
-          <div class="list-group" style="display:none">
-            <a href="#" class="list-group-item">给水管线</a>
-            <a href="#" class="list-group-item">给水管点</a>
-            <a href="#" class="list-group-item">雨水管线</a>
-            <a href="#" class="list-group-item">给水管线</a>
-            <a href="#" class="list-group-item">给水管点</a>
-            <a href="#" class="list-group-item">雨水管线</a>
-            <a href="#" class="list-group-item">给水管线</a>
-            <a href="#" class="list-group-item">给水管点</a>
-            <a href="#" class="list-group-item">雨水管线</a>
-            <a href="#" class="list-group-item">给水管线</a>
-            <a href="#" class="list-group-item">给水管点</a>
-            <a href="#" class="list-group-item">雨水管线</a>
-            <a href="#" class="list-group-item">给水管线</a>
-            <a href="#" class="list-group-item">给水管点</a>
-            <a href="#" class="list-group-item">雨水管线</a>
-            <a href="#" class="list-group-item">给水管线</a>
-            <a href="#" class="list-group-item">给水管点</a>
-            <a href="#" class="list-group-item">雨水管线</a>
-            <a href="#" class="list-group-item">给水管线</a>
-            <a href="#" class="list-group-item">给水管点</a>
-            <a href="#" class="list-group-item">雨水管线</a>
-            <button type="button" class="btn btn-default addService" title="添加图层服务" aria-label="Left Align">
-              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-default moveup" title="上移" aria-label="Left Align">
-              <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-default movedown" title="下移" aria-label="Left Align">
-              <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-            </button>
-          </div>
-
-          <button type="button" class="btn btn-default btn-lg btn-block"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>招商</button>
-          <div class="list-group" style="display:none">
-            <a href="#" class="list-group-item">招商进展图</a>
-            <button type="button" class="btn btn-default addService" title="添加图层服务" aria-label="Left Align">
-              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-default moveup" title="上移" aria-label="Left Align">
-              <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-default movedown" title="下移" aria-label="Left Align">
-              <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-            </button>
-          </div>
-
-          <button type="button" class="btn btn-default btn-lg btn-block"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>建设</button>
-          <div class="list-group" style="display:none">
-            <a href="#" class="list-group-item">工程进展图</a>
-            <button type="button" class="btn btn-default addService" title="添加图层服务" aria-label="Left Align">
-              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-default moveup" title="上移" aria-label="Left Align">
-              <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-default movedown" title="下移" aria-label="Left Align">
-              <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-            </button>
-          </div>
-
-          <button type="button" class="btn btn-default btn-lg btn-block"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>规划</button>
-          <div class="list-group" style="display:none">
-            <a href="#" class="list-group-item">规划用地图</a>
-            <a href="#" class="list-group-item">正式红线</a>
-            <button type="button" class="btn btn-default addService" title="添加图层服务" aria-label="Left Align">
-              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-default moveup" title="上移" aria-label="Left Align">
-              <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-default movedown" title="下移" aria-label="Left Align">
-              <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-            </button>
-          </div>
-
-          <button type="button" class="btn btn-default btn-lg btn-block"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>土地</button>
-          <div class="list-group" style="display:none">
-            <a href="#" class="list-group-item">土地利用规划图</a>
-            <a href="#" class="list-group-item">征地图</a>
-            <button type="button" class="btn btn-default addService" title="添加图层服务" aria-label="Left Align">
-              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-default moveup" title="上移" aria-label="Left Align">
-              <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-default movedown" title="下移" aria-label="Left Align">
-              <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-            </button>
-          </div>
-
-          <button type="button" class="btn btn-default btn-lg btn-block"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>基础信息</button>
-          <div class="list-group" style="display:none">
-            <a href="#" class="list-group-item">2014年地形图</a>
-            <a href="#" class="list-group-item">2015年影像图</a>
-            <button type="button" class="btn btn-default addService" title="添加图层服务" aria-label="Left Align">
-              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-default moveup" title="上移" aria-label="Left Align">
-              <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-default movedown" title="下移" aria-label="Left Align">
-              <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-            </button>
-          </div>
+        <div id="sideTree"class="col-xs-4 col-md-2" style="height:100%;padding:0;background-color:#efefff;overflow:scroll">
         </div>
+
+
         <!-- 右边的可修改的详细信息，在PC端占比为10/12，在移动端占比为8/12 -->
         <div class="col-xs-8 col-md-10" style="height:100%;padding:0;overflow:auto">
           <div class="row" style="height:100%;margin-left:0px;margin-right:0px">
-            
-            <!-- <div class="col-xs-3 col-md-3" style="background-color:rgb(230, 232, 231);padding:10px;margin-left:15px">
-              <form>
-                <div class="form-group">
-                  <label for="fwid">服务ID</label>
-                  <input type="text" class="form-control" id="fwid" placeholder="">
-                </div>
-
-                <div class="form-group">
-                  <label for="lxid">服务名称</label>
-                  <input type="text" class="form-control" id="fwmc" placeholder="">
-                </div>
-                <div class="form-group">
-                  <label for="ssfwz">所属服务组</label>
-                  <select class="form-control" name="">
-                    <option value="1">系统服务组</option>
-                    <option value="2">影像图</option>
-                    <option value="3">地形图</option>
-                    <option value="4">管线图</option>
-                    <option value="4">招商</option>
-                    <option value="4">建设</option>
-                    <option value="4">规划</option>
-                    <option value="4">土地</option>
-                    <option value="4">基础信息</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="fwurl">服务url</label>
-                  <input type="url" class="form-control" id="fwurl">
-                </div>
-                <div class="form-group">
-                  <label for="fwlx">服务类型</label>
-                  <select class="form-control" name="">
-                    <option value="1">DynamicService</option>
-                    <option value="2">TiledService</option>
-                    <option value="3">FeatureLayer</option>
-                    <option value="4">GeometryService</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="fzurl">透明度</label>
-                  <input type="number" class="form-control" id="fzurl">
-                </div>
-
-              </form>
-            </div>
-            <div class="col-xs-3 col-md-3" style="background-color:rgb(230, 232, 231);padding:10px;margin-left:15px">
-              <form>
-                <div class="form-group">
-                  <label for="fwid">服务ID</label>
-                  <input type="text" class="form-control" id="fwid" placeholder="">
-                </div>
-                <div class="form-group">
-                  <label for="lxid">离线ID</label>
-                  <input type="text" class="form-control" id="lxid" placeholder="">
-                </div>
-                <div class="form-group">
-                  <label for="lxid">服务名称</label>
-                  <input type="text" class="form-control" id="fwmc" placeholder="">
-                </div>
-                <div class="form-group">
-                  <label for="ssfwz">所属服务组</label>
-                  <select class="form-control" name="">
-                    <option value="1">系统服务组</option>
-                    <option value="2">影像图</option>
-                    <option value="3">地形图</option>
-                    <option value="4">管线图</option>
-                    <option value="4">招商</option>
-                    <option value="4">建设</option>
-                    <option value="4">规划</option>
-                    <option value="4">土地</option>
-                    <option value="4">基础信息</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="fwurl">服务url</label>
-                  <input type="url" class="form-control" id="fwurl">
-                </div>
-                <div class="form-group">
-                  <label for="fwlx">服务类型</label>
-                  <select class="form-control" name="">
-                    <option value="1">DynamicService</option>
-                    <option value="2">TiledService</option>
-                    <option value="3">FeatureLayer</option>
-                    <option value="4">GeometryService</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="fzurl">透明度</label>
-                  <input type="number" class="form-control" id="fzurl">
-                </div>
-
-              </form>
-            </div> -->
-
-            <div class="col-xs-6 col-md-6" style="height:100%;">
-
-              <table class="table table-hover table-striped">
-                <thead>
-                  <tr>
-                    <th>字段名称</th>
-                    <th>显示名称</th>
-                    <th>数据类型</th>                   
-                    <th>面积字段单位</th>
-                    <th>字段序号</th>
-                    
-                    <th>是否显示</th>
-                    <th>是否搜索</th>
-                    <th>是否标注</th>
-
-                    <th style="display:none">所属图层ID</th>
-                  </tr>
-                </thead>
-
+            <div class="col-md-4" style="height:100%;">
+              <button><img src="" alt=""></button>
+              <table id="service" class="table table-bordered table-striped" style="clear:both">
                 <tbody>
-                  <tr>
-                    <td><a href="#"  class="text" data-type="text" data-pk="1" data-title="Enter zdname">Area</a></td>
-                    <td><a href="#"  class="text" data-type="text" data-pk="1" data-title="Enter zdname">面积</a></td>
-                    <td><a href="#"  class="text" data-type="text" data-pk="1" data-title="Enter zdname">Number</a></td>
-                    <td><a href="#"  class="text" data-type="text" data-pk="1" data-title="Enter zdname">平方米</a></td>
-                    <td><a href="#"  class="text" data-type="text" data-pk="1" data-title="Enter zdname">1</a></td>
-                    <td><a href="#"  class="text" data-type="text" data-pk="1" data-title="Enter zdname">是</a></td>
-                    <td><a href="#"  class="text" data-type="text" data-pk="1" data-title="Enter zdname">是</a></td>
-                    <td><a href="#"  class="text" data-type="text" data-pk="1" data-title="Enter zdname">否</a></td>
 
-                    <td style="display:none"><a href="#"  class="text" data-type="text" data-pk="1" data-title="Enter zdname">1437</a></td>
-                  </tr>
                 </tbody>
-
               </table>
             </div>
           </div>
         </div>
+
+
       </div>
     </div>
 
-
-    <!-- 弹出窗口，用于在增加或修改服务时填入信息 -->
-    <div class="" style="width:30%;display:none;position:absolute;left:35%;top:10%;background-color:rgb(230, 232, 231);padding:10px;">
-      <form>
-        <div class="form-group">
-          <label for="fwid">服务ID</label>
-          <input type="text" class="form-control" id="fwid" placeholder="">
-        </div>
-        <div class="form-group">
-          <label for="lxid">离线ID</label>
-          <input type="text" class="form-control" id="lxid" placeholder="">
-        </div>
-        <div class="form-group">
-          <label for="lxid">服务名称</label>
-          <input type="text" class="form-control" id="fwmc" placeholder="">
-        </div>
-
-        <div class="form-group">
-          <label for="ssfwz">所属服务组</label>
-          <select class="form-control" name="">
-            <option value="1">系统服务组</option>
-            <option value="2">影像图</option>
-            <option value="3">地形图</option>
-            <option value="4">管线图</option>
-            <option value="4">招商</option>
-            <option value="4">建设</option>
-            <option value="4">规划</option>
-            <option value="4">土地</option>
-            <option value="4">基础信息</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="fwurl">服务url</label>
-          <input type="url" class="form-control" id="fwurl" >
-        </div>
-        <div class="form-group">
-          <label for="fzurl">辅助url</label>
-          <input type="url" class="form-control" id="fzurl" >
-        </div>
-
-        <div class="form-group">
-          <label for="fwlx">服务类型</label>
-          <select class="form-control" name="">
-            <option value="1">DynamicService</option>
-            <option value="2">TiledService</option>
-            <option value="3">FeatureLayer</option>
-            <option value="4">GeometryService</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="fzurl">透明度</label>
-          <input type="number" class="form-control" id="fzurl">
-        </div>
-
-
-        <button type="submit" class="btn btn-primary">确定</button>
-        <button type="button" name="button" class="btn btn-default cancel">取消</button>
-      </form>
-    </div>
-
-
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
-    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="./bootstrap3-editable/js/bootstrap-editable.js"></script>
     <script type="text/javascript">
 
 
-      var nowRow = [];
-
-      
-
-      // 表格的每一行点击之后高亮显示
-      $("tbody>tr").click(function(){
-
-        $("tbody>tr").removeClass("clicked");
-        $(this).addClass("clicked");
-        nowRow = $(this).children();
-      })
-
-      $("tbody td").click(function(){
-
-      })
 
 
 
-      $.fn.editable.defaults.mode = 'inline';
-      $("tbody a.text").editable({
+      $.ajax({
+        type:'get',
+        async: false,
+        url: 'http://localhost:3000/layersForTree',
+        success: function(layersForTree) {
+            for (var i = 0; i < layersForTree.length; i++) {
 
-        url:function(params){
-
-          console.log(params);
-
-          var data={
-            "zdmc":nowRow[0].innerText,
-            "xsmc":nowRow[1].innerText,
-            "sjlx":nowRow[2].innerText,
-            "mjzddw":nowRow[3].innerText,
-            "zdxh":nowRow[4].innerText,
-            "sfxs":nowRow[5].innerText,
-            "sfss":nowRow[6].innerText,
-            "sfbz":nowRow[7].innerText
+            var item = layersForTree[i];
+            var sonshtml = "<div class='list-group' style='display:none'>";
+            for (var j = 0; j < item.sons.length; j++) {
+              sonshtml += "<a href='#' class='list-group-item sonli' layerId=" + item.sons[j].Id + ">" + item.sons[j].DisplayName + "</a>";
+            }
+            sonshtml += "</div>";
+            $("#sideTree").append("<button type='button' class='btn btn-default btn-lg btn-block'><span class='glyphicon glyphicon-chevron-right' aria-hidden='true'</span>" + item.father.DisplayName + "</button>" + sonshtml)
           }
+        }
 
-          if(data.zdmc==='')data.zdmc=params.value;
-          if(data.xsmc==='')data.xsmc=params.value;
-          if(data.sjlx==='')data.sjlx=params.value;
-          if(data.mjzddw==='')data.mjzddw=params.value;
-          if(data.zdxh==='')data.zdxh=params.value;
-          if(data.sfxs==='')data.sfxs=params.value;
-          if(data.sfss==='')data.sfss=params.value;
-          if(data.sfbz==='')data.sfbz=params.value;
+      })
+
+    // 点击服务名，高亮，右侧进行相应的更新
+      $(".sonli").click(function(){
+        $(".sonli").removeClass("active");
+        $(this).addClass("active");
+
+        $("#service>tbody").empty();
+
+        var layerId = $(this).attr('layerId');
+
+        $.get('http://localhost:3000/oneLayer?layerId='+ layerId,function(oneLayer) {
+
+          console.log(oneLayer)
+
+          oneLayer.IsVisble = oneLayer.IsVisble == 0?'否':'是';
+          oneLayer.IsLegend = oneLayer.IsLegend == 0?'否':'是';
+          oneLayer.IsShowInMobile = oneLayer.IsShowInMobile == 0?'否':'是';
+
           
-         
-          $.ajax({
-            type:"POST",
-            url:"http://localhost:3000",
-            data:data,
-            success:function(){
-              alert("成功")
+
+
+
+          $("#service>tbody").append
+          ("<tr><td>"+ "服务名称" +"</td><td><a href='#' id='LayerName' data-type='text'  class='editable editable-click' data-pk='"+ oneLayer.Id +"'> "+ oneLayer.LayerName +"</a></td></tr>"+
+            "<tr><td>" + "显示名称" + "</td><td><a href='#' id='DisplayName' data-type='text'  class='editable editable-click' data-pk='" + oneLayer.Id + "'> " + oneLayer.DisplayName +"</a></td></tr>"+
+            "<tr><td>" + "服务url" + "</td><td><a href='#' id='ServiceUrl' data-type='text' class='editable editable-click' data-pk='" + oneLayer.Id + "'> " + oneLayer.ServiceUrl +"</a></td></tr>"+
+            "<tr><td>" + "图层类型" + "</td><td><a href='#' id='LayerType' data-type='select' data-value='2'  data-source='http://localhost:3000/layerType'  class='editable editable-click editable-open' data-pk='" + oneLayer.Id + "'> " + oneLayer.LayerType + "</td></tr>"+
+            "<tr><td>" + "TokenUserName" + "</td><td><a href='#' id='TokenUserName' data-type='text' class='editable editable-click' data-pk='" + oneLayer.Id + "'> " + oneLayer.TokenUserName +"</a></td></tr>" +
+            "<tr><td>" + "TokenPassword" + "</td><td><a href='#' id='TokenPassword' data-type='text' class='editable editable-click' data-pk='" + oneLayer.Id + "'> " + oneLayer.TokenPassword +"</a></td></tr>" +
+            "<tr><td>" + "TokenURL" + "</td><td><a href='#' id='TokenURL' data-type='text' class='editable editable-click' data-pk='" + oneLayer.Id + "'> " + oneLayer.TokenURL +"</a></td></tr>" +
+            "<tr><td>" + "是否显示" + "</td><td><a href='#' id='IsVisble' data-type='select' data-value='"+ (oneLayer.IsVisble == '是' ? 1 : 0) +"'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" + oneLayer.Id + "'> " + oneLayer.IsVisble + "</td></tr>" +
+            "<tr><td>" + "透明度" + "</td><td>" + oneLayer.Opacity + "</td></tr>" +
+            "<tr><td>" + "SortCode" + "</td><td>" + oneLayer.SortCode + "</td></tr>" +
+            "<tr><td>" + "显示图例" + "</td><td><a href='#' id='IsLegend' data-type='select' data-value='" + (oneLayer.IsLegend == '是' ? 1 : 0) + "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" + oneLayer.Id + "'> " + oneLayer.IsLegend + "</td></tr>" +
+            "<tr><td>" + "CacheName" + "</td><td><a href='#' id='CacheName' data-type='text' class='editable editable-click' data-pk='" + oneLayer.Id + "'> " + oneLayer.CacheName +"</a></td></tr>" +
+            "<tr><td>" + "移动端服务url" + "</td><td><a href='#' id='MobileServiceUrl' data-type='text' class='editable editable-click' data-pk='" + oneLayer.Id + "'> " + oneLayer.MobileServiceUrl +"</a></td></tr>" +
+            "<tr><td>" + "是否在移动端显示" + "</td><td><a href='#' id='IsShowInMobile' data-type='select' data-value='"+ (oneLayer.IsShowInMobile == '是' ? 1 : 0) +"'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" + oneLayer.Id + "'> " + oneLayer.IsShowInMobile + "</td></tr>"
+          )
+
+
+
+          $.fn.editable.defaults.mode = 'inline';
+          $('#LayerName').editable({
+            url: 'http://localhost:3000/updateLayer',
+            ajaxOptions: {
+              dataType: 'json'
             },
-            error:function(){
-              alert("失败")
+            success: function(response){
+              if (!response) {
+                return "发生错误";
+              }
+
+              if (response.success === false) {
+                return response.msg;
+              }
+            }
+             
+          })
+          $('#DisplayName').editable({
+            url: function (params) {
+              console.log(params)
+            }
+          })
+          $('#ServiceUrl').editable({
+            url: function (params) {
+              console.log(params)
+            }
+          })
+          $('#TokenUserName').editable({
+            url: function (params) {
+              console.log(params)
+            }
+          })
+          $('#TokenPassword').editable({
+            url: function (params) {
+              console.log(params)
+            }
+          })
+          $('#TokenURL').editable({
+            url: function (params) {
+              console.log(params)
+            }
+          })
+          $('#CacheName').editable({
+            url: function (params) {
+              console.log(params)
+            }
+          })
+          $('#MobileServiceUrl').editable({
+            url: function (params) {
+              console.log(params)
             }
           })
 
-        },
+
+          $('#LayerType').editable({
+            showbuttons: false,
+            url: function (params) {
+              console.log(params)
+            }
+          })
+
+          
+          $('#IsVisble').editable({
+            showbuttons: false,
+            url: function (params) {
+              console.log(params)
+            }
+          })
+
+          $("#IsShowInMobile").editable({
+            showbuttons: false,
+            url: function (params) {
+              console.log(params)
+            }
+          })
+
+          $("#IsLegend").editable({
+            showbuttons: false,
+            url: function (params) {
+              console.log(params)
+            }
 
 
-        validate:function(value){
-          if(!$.trim(value)){
-            return "不能为空";
-          }
-        }
-      });
-
-
-      $('tbody a.select-datatype').editable({
-        value: 2,    
-        source: [
-              {value: 1, text: 'Active'},
-              {value: 2, text: 'Blocked'},
-              {value: 3, text: 'Deleted'}
-           ]
-    });
+          })
 
 
 
@@ -558,10 +244,18 @@
 
 
 
-    // 左边子元素点击变为深蓝色
-      $(".list-group-item").click(function(){
-        $(".list-group-item").removeClass("active");
-        $(this).addClass("active");
+
+
+        })
+
+
+
+
+
+
+
+
+
       })
 
     // 左边树状图点击父元素显示或者关闭子元素
@@ -587,26 +281,14 @@
       })
 
 
+      //表格编辑
+      $('#group').editable({
+          showbuttons: false,
+          url:  function(params) {
+            console.log(params)
+          }
 
-
-      //点击新增按钮之后弹出一个表单让用户填写新增的信息保存提交
-      $(".addService").click(function(){
-
-        $("#serviceDlg").show();
-
-      })
-
-      //点击修改按钮之后弹出一个表单，有些输入项可以更改，有的不能更改
-      $("#editService").click(function(){
-        $("#serviceDlg").show();
-      })
-
-      //点击cancel关闭新增用户、修改用户的弹出框
-      $(".cancel").click(function(){
-        $("#serviceDlg input").val("");
-        $("#serviceDlg").hide();
-      })
-
+        });
 
 
 
