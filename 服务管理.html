@@ -130,6 +130,23 @@
           oneLayer.IsLegend = oneLayer.IsLegend == 0?'否':'是';
           oneLayer.IsShowInMobile = oneLayer.IsShowInMobile == 0?'否':'是';
 
+          let lt = 0;
+          switch(oneLayer.LayerType) {
+            case 'GroupLayer':
+              lt = 0;
+              break;
+            case 'TiledService':
+              lt = 1;
+              break;
+            case 'FeatureLayer':
+              lt = 2;
+              break;
+            case 'GeometryService':
+              lt = 3
+              break;
+            default:
+              lt = 0;
+          }
           
 
 
@@ -138,12 +155,12 @@
           ("<tr><td>"+ "服务名称" +"</td><td><a href='#' id='LayerName' data-type='text'  class='editable editable-click' data-pk='"+ oneLayer.Id +"'> "+ oneLayer.LayerName +"</a></td></tr>"+
             "<tr><td>" + "显示名称" + "</td><td><a href='#' id='DisplayName' data-type='text'  class='editable editable-click' data-pk='" + oneLayer.Id + "'> " + oneLayer.DisplayName +"</a></td></tr>"+
             "<tr><td>" + "服务url" + "</td><td><a href='#' id='ServiceUrl' data-type='text' class='editable editable-click' data-pk='" + oneLayer.Id + "'> " + oneLayer.ServiceUrl +"</a></td></tr>"+
-            "<tr><td>" + "图层类型" + "</td><td><a href='#' id='LayerType' data-type='select' data-value='2'  data-source='http://localhost:3000/layerType'  class='editable editable-click editable-open' data-pk='" + oneLayer.Id + "'> " + oneLayer.LayerType + "</td></tr>"+
+            "<tr><td>" + "图层类型" + "</td><td><a href='#' id='LayerType' data-type='select' data-value='"+ lt + "'  data-source='http://localhost:3000/layerType'  class='editable editable-click editable-open' data-pk='" + oneLayer.Id + "'> " + oneLayer.LayerType + "</td></tr>"+
             "<tr><td>" + "TokenUserName" + "</td><td><a href='#' id='TokenUserName' data-type='text' class='editable editable-click' data-pk='" + oneLayer.Id + "'> " + oneLayer.TokenUserName +"</a></td></tr>" +
             "<tr><td>" + "TokenPassword" + "</td><td><a href='#' id='TokenPassword' data-type='text' class='editable editable-click' data-pk='" + oneLayer.Id + "'> " + oneLayer.TokenPassword +"</a></td></tr>" +
             "<tr><td>" + "TokenURL" + "</td><td><a href='#' id='TokenURL' data-type='text' class='editable editable-click' data-pk='" + oneLayer.Id + "'> " + oneLayer.TokenURL +"</a></td></tr>" +
             "<tr><td>" + "是否显示" + "</td><td><a href='#' id='IsVisble' data-type='select' data-value='"+ (oneLayer.IsVisble == '是' ? 1 : 0) +"'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" + oneLayer.Id + "'> " + oneLayer.IsVisble + "</td></tr>" +
-            "<tr><td>" + "透明度" + "</td><td>" + oneLayer.Opacity + "</td></tr>" +
+            "<tr><td>" + "透明度" + "</td><td><a href='#' id='Opacity' data-type='number' data-pk='"+ oneLayer.Id +"'> " + oneLayer.Opacity + "</a></td></tr>" +
             "<tr><td>" + "SortCode" + "</td><td>" + oneLayer.SortCode + "</td></tr>" +
             "<tr><td>" + "显示图例" + "</td><td><a href='#' id='IsLegend' data-type='select' data-value='" + (oneLayer.IsLegend == '是' ? 1 : 0) + "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" + oneLayer.Id + "'> " + oneLayer.IsLegend + "</td></tr>" +
             "<tr><td>" + "CacheName" + "</td><td><a href='#' id='CacheName' data-type='text' class='editable editable-click' data-pk='" + oneLayer.Id + "'> " + oneLayer.CacheName +"</a></td></tr>" +
@@ -154,7 +171,15 @@
 
 
           $.fn.editable.defaults.mode = 'inline';
-          $('#LayerName').editable({
+          var original = $.fn.editableutils.setCursorPosition;
+          $.fn.editableutils.setCursorPosition = function () {
+            try {
+              original.apply(this, Array.prototype.slice.call(arguments));
+            } catch (e) { /* noop */ }
+          };
+
+          $('.editable-click').editable({
+            showbuttons: false,
             url: 'http://localhost:3000/updateLayer',
             ajaxOptions: {
               dataType: 'json'
@@ -170,92 +195,7 @@
             }
              
           })
-          $('#DisplayName').editable({
-            url: function (params) {
-              console.log(params)
-            }
-          })
-          $('#ServiceUrl').editable({
-            url: function (params) {
-              console.log(params)
-            }
-          })
-          $('#TokenUserName').editable({
-            url: function (params) {
-              console.log(params)
-            }
-          })
-          $('#TokenPassword').editable({
-            url: function (params) {
-              console.log(params)
-            }
-          })
-          $('#TokenURL').editable({
-            url: function (params) {
-              console.log(params)
-            }
-          })
-          $('#CacheName').editable({
-            url: function (params) {
-              console.log(params)
-            }
-          })
-          $('#MobileServiceUrl').editable({
-            url: function (params) {
-              console.log(params)
-            }
-          })
-
-
-          $('#LayerType').editable({
-            showbuttons: false,
-            url: function (params) {
-              console.log(params)
-            }
-          })
-
-          
-          $('#IsVisble').editable({
-            showbuttons: false,
-            url: function (params) {
-              console.log(params)
-            }
-          })
-
-          $("#IsShowInMobile").editable({
-            showbuttons: false,
-            url: function (params) {
-              console.log(params)
-            }
-          })
-
-          $("#IsLegend").editable({
-            showbuttons: false,
-            url: function (params) {
-              console.log(params)
-            }
-
-
-          })
-
-
-
-
-
-
-
-
-
         })
-
-
-
-
-
-
-
-
-
       })
 
     // 左边树状图点击父元素显示或者关闭子元素
