@@ -83,13 +83,13 @@
                 <thead>
                   <tr>
                     <th>字段名称</th>
-                    <th>字段序号</th>
+                    <th>序号</th>
                     <th>显示名称</th>
-                    <th>量测单位</th>
-                    <th>是否显示</th>
-                    <th>是否搜索</th>
-                    <th>是否标注</th>
-                    <th>是否转换为亩</th>
+                    <th>单位</th>
+                    <th>显示</th>
+                    <th>搜索</th>
+                    <th>标注</th>
+                    <th>转换为亩</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -142,11 +142,11 @@
         var layerId = $(this).attr('layerId');
 
         $.get('http://localhost:3000/oneLayer?layerId='+ layerId,function(oneLayer) {
-          oneLayer.IsVisble = oneLayer.IsVisble == 0?'否':'是';
-          oneLayer.IsLegend = oneLayer.IsLegend == 0?'否':'是';
-          oneLayer.IsShowInMobile = oneLayer.IsShowInMobile == 0?'否':'是';
+          oneLayer.IsVisble = oneLayer.IsVisble == 0?'-':'是';
+          oneLayer.IsLegend = oneLayer.IsLegend == 0?'-':'是';
+          oneLayer.IsShowInMobile = oneLayer.IsShowInMobile == 0?'-':'是';
 
-          let lt = 0;
+          var lt = 0;
           switch(oneLayer.LayerType) {
             case 'GroupLayer':
               lt = 0;
@@ -188,26 +188,61 @@
 
               for(var i = 0;i< fields.length;i++) {
                 var field = fields[i];
+                var un = 4;
 
+                switch(field.UnitName.trim()) {
+                  case 'm':
+                    un = 0;
+                    break;
+                  case '米':
+                    un = 0;
+                    break;
+                  case '㎡':
+                    un = 1;
+                    break;
+                  case '平方米':
+                    un = 1;
+                    break;
+                  case 'km':
+                    un = 2;
+                    break;
+                  case '千米':
+                    un = 2;
+                    break;
+                  case 'k㎡':
+                    un = 3;
+                    break;
+                  case '平方千米':
+                    un = 3;
+                    break;
+                  default:
+                    un = 4;
+                }
+                
                 $("#fields>tbody").append(
                   "<tr>"+
-                  "<td>"+field.FieldName+"</td>"+
-                  "<td>"+field.SortCode+"</td>"+
-                  "<td>" + field.DisplayName + "</td>" +
-                  "<td>" + field.UnitName + "</td>" +
+                  "<td><a href='#' id='FieldName' data-type='text'  class='editable editable-click' data-pk='" + field.Id + "'> " + field.FieldName +"</a></td>"+
+                  "<td><a href='#' id='SortCode' data-type='number' data-value='" + parseInt(field.SortCode) + "' class='editable editable-click' data-pk='" + field.Id + "'> " + "</a></td>" +
+                  "<td><a href='#' id='DisplayName' data-type='text'  class='editable editable-click' data-pk='" + field.Id + "'> " + field.DisplayName + "</a></td>" +
+                  "<td><a href='#' id='UnitName' data-type='select' data-value='" + un + "'  data-source='http://localhost:3000/unitName'  class='editable editable-click editable-open' data-pk='" + field.Id + "'> " + field.UnitName + "</td>" +
                   "<td>" + field.IsDisplay + "</td>" +
                   "<td>" + field.IsSearch + "</td>" +
                   "<td>" + field.IsLabel + "</td>" +
                   "<td>" + field.IsShowMuFormSquareMeters + "</td>" 
                 )
               }
+
+              $("#fields>tbody .editable.editable-click").editable({
+                url: function(params) {
+
+
+                  console.log(params)
+                }
+
+              })
+
+
             })
-
-
-
-
-
-
           }
 
 
@@ -223,7 +258,7 @@
           };
 
 
-          $("#Opacity").editable({
+          $("#service>tbody #Opacity").editable({
             step: 0.1,
             showbuttons: true,
             url: 'http://localhost:3000/updateLayer',
@@ -241,7 +276,7 @@
             }
           })
 
-          $('.editable.editable-click').editable({
+          $('#service>tbody .editable.editable-click').editable({
             showbuttons: true,
             url: 'http://localhost:3000/updateLayer',
             ajaxOptions: {
@@ -251,7 +286,6 @@
               if (!(response[0] == 1)) {
                 return "发生错误";
               }
-
               if (response.success === false) {
                 return response.msg;
               }
