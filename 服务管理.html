@@ -78,7 +78,7 @@
               </table> 
             </div>
 
-            <div class="col-md-6" style="height:100%;padding-left:20px;">
+            <div class="col-md-6" style="height:100%;padding-left:20px;overflow:auto;">
               <table id="fields" class="table table-bordered table-striped" style="clear:both;">
                 <thead>
                   <tr>
@@ -92,13 +92,13 @@
                     <th>是否转换为亩</th>
                   </tr>
                 </thead>
+                <tbody>
+
+                </tbody>
               </table>
             </div>
-
-
           </div>
         </div>
-
 
       </div>
     </div>
@@ -137,6 +137,7 @@
         $(this).addClass("active");
 
         $("#service>tbody").empty();
+        $("#fields>tbody").empty();
 
         var layerId = $(this).attr('layerId');
 
@@ -179,6 +180,38 @@
             "<tr><td>" + "移动端服务url" + "</td><td><a href='#' id='MobileServiceUrl' data-type='text' class='editable editable-click' data-pk='" + oneLayer.Id + "'> " + oneLayer.MobileServiceUrl +"</a></td></tr>" +
             "<tr><td>" + "是否在移动端显示" + "</td><td><a href='#' id='IsShowInMobile' data-type='select' data-value='"+ (oneLayer.IsShowInMobile == '是' ? 1 : 0) +"'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" + oneLayer.Id + "'> " + oneLayer.IsShowInMobile + "</td></tr>"
           )
+
+
+          if(oneLayer.LayerType == 'FeatureLayer') {
+            
+            $.get('http://localhost:3000/fields?id='+oneLayer.Id,function(fields) {
+
+              for(var i = 0;i< fields.length;i++) {
+                var field = fields[i];
+
+                $("#fields>tbody").append(
+                  "<tr>"+
+                  "<td>"+field.FieldName+"</td>"+
+                  "<td>"+field.SortCode+"</td>"+
+                  "<td>" + field.DisplayName + "</td>" +
+                  "<td>" + field.UnitName + "</td>" +
+                  "<td>" + field.IsDisplay + "</td>" +
+                  "<td>" + field.IsSearch + "</td>" +
+                  "<td>" + field.IsLabel + "</td>" +
+                  "<td>" + field.IsShowMuFormSquareMeters + "</td>" 
+                )
+              }
+            })
+
+
+
+
+
+
+          }
+
+
+
 
 
           $.fn.editable.defaults.mode = 'inline';
