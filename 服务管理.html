@@ -69,16 +69,33 @@
 
 
         <!-- 右边的可修改的详细信息，在PC端占比为10/12，在移动端占比为8/12 -->
-        <div class="col-xs-8 col-md-10" style="height:100%;padding:0;overflow:auto">
+        <div class="col-xs-8 col-md-10" style="height:100%;padding:0;">
           <div class="row" style="height:100%;margin-left:0px;margin-right:0px">
-            <div class="col-md-4" style="height:100%;">
-              <button><img src="" alt=""></button>
-              <table id="service" class="table table-bordered table-striped" style="clear:both">
+            <div class="col-md-6" style="height:100%;overflow:auto;">
+              <table id="service" class="table table-bordered table-striped">
                 <tbody>
-
                 </tbody>
+              </table> 
+            </div>
+
+            <div class="col-md-6" style="height:100%;padding-left:20px;">
+              <table id="fields" class="table table-bordered table-striped" style="clear:both;">
+                <thead>
+                  <tr>
+                    <th>字段名称</th>
+                    <th>字段序号</th>
+                    <th>显示名称</th>
+                    <th>量测单位</th>
+                    <th>是否显示</th>
+                    <th>是否搜索</th>
+                    <th>是否标注</th>
+                    <th>是否转换为亩</th>
+                  </tr>
+                </thead>
               </table>
             </div>
+
+
           </div>
         </div>
 
@@ -124,9 +141,6 @@
         var layerId = $(this).attr('layerId');
 
         $.get('http://localhost:3000/oneLayer?layerId='+ layerId,function(oneLayer) {
-
-          console.log(oneLayer)
-
           oneLayer.IsVisble = oneLayer.IsVisble == 0?'否':'是';
           oneLayer.IsLegend = oneLayer.IsLegend == 0?'否':'是';
           oneLayer.IsShowInMobile = oneLayer.IsShowInMobile == 0?'否':'是';
@@ -149,9 +163,6 @@
               lt = 0;
           }
           
-
-
-
           $("#service>tbody").append
           ("<tr><td>"+ "服务名称" +"</td><td><a href='#' id='LayerName' data-type='text'  class='editable editable-click' data-pk='"+ oneLayer.Id +"'> "+ oneLayer.LayerName +"</a></td></tr>"+
             "<tr><td>" + "显示名称" + "</td><td><a href='#' id='DisplayName' data-type='text'  class='editable editable-click' data-pk='" + oneLayer.Id + "'> " + oneLayer.DisplayName +"</a></td></tr>"+
@@ -162,7 +173,7 @@
             "<tr><td>" + "TokenURL" + "</td><td><a href='#' id='TokenURL' data-type='text' class='editable editable-click' data-pk='" + oneLayer.Id + "'> " + oneLayer.TokenURL +"</a></td></tr>" +
             "<tr><td>" + "是否显示" + "</td><td><a href='#' id='IsVisble' data-type='select' data-value='"+ (oneLayer.IsVisble == '是' ? 1 : 0) +"'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" + oneLayer.Id + "'> " + oneLayer.IsVisble + "</td></tr>" +
             "<tr><td>" + "透明度" + "</td><td><a href='#' id='Opacity' data-type='number' data-value='"+ oneLayer.Opacity.toFixed(1) +"' class='editable' data-pk='"+ oneLayer.Id +"'> " + "</a></td></tr>" +
-            "<tr><td>" + "SortCode" + "</td><td><a href='#' id='SortCode' data-type='number' data-value='" + parseInt(oneLayer.SortCode) + "' class='editable editable-click' data-pk='"+ oneLayer.Id +"'> " +  "</a></td></tr>" +
+            "<tr><td>" + "服务序号" + "</td><td><a href='#' id='SortCode' data-type='number' data-value='" + parseInt(oneLayer.SortCode) + "' class='editable editable-click' data-pk='"+ oneLayer.Id +"'> " +  "</a></td></tr>" +
             "<tr><td>" + "显示图例" + "</td><td><a href='#' id='IsLegend' data-type='select' data-value='" + (oneLayer.IsLegend == '是' ? 1 : 0) + "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" + oneLayer.Id + "'> " + oneLayer.IsLegend + "</td></tr>" +
             "<tr><td>" + "CacheName" + "</td><td><a href='#' id='CacheName' data-type='text' class='editable editable-click' data-pk='" + oneLayer.Id + "'> " + oneLayer.CacheName +"</a></td></tr>" +
             "<tr><td>" + "移动端服务url" + "</td><td><a href='#' id='MobileServiceUrl' data-type='text' class='editable editable-click' data-pk='" + oneLayer.Id + "'> " + oneLayer.MobileServiceUrl +"</a></td></tr>" +
@@ -187,9 +198,6 @@
               dataType: 'json'
             },
             success: function (response) {
-
-              console.log(response)
-
               if (!(response[0] == 1)) {
                 return "发生错误";
               }
@@ -207,9 +215,6 @@
               dataType: 'json'
             },
             success: function(response){
-
-              console.log(response)
-
               if (!(response[0] == 1)) {
                 return "发生错误";
               }
