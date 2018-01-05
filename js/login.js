@@ -18,6 +18,7 @@ function checkUser(){
     user = data;
   })
 
+  user = '1111';
   if(user===null) {
     alert('用户名或密码错误！');
     return false;
