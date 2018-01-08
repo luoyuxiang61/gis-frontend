@@ -117,35 +117,35 @@
   <script src="./bootstrap3-editable/js/bootstrap-editable.js"></script>
   <script src="https://js.arcgis.com/3.22/"></script>
 
-  <script>
+  <!-- <script>
     var featureLayers = [];
     require(["esri/layers/FeatureLayer"], function (FeatureLayer) {
 
-      // $.get('http://localhost:3000/featureLayers', function (result) {
+      $.get('http://localhost:3000/featureLayers', function (result) {
 
-      //   for (var i = 0; i < result.length; i++) {
-      //     var fl = new FeatureLayer(result[i].ServiceUrl, {
-      //       id: result[i].Id
-      //     });
+        for (var i = 0; i < result.length; i++) {
+          var fl = new FeatureLayer(result[i].ServiceUrl, {
+            id: result[i].Id
+          });
 
-      //     fl.on('load', function (fl1) {
+          fl.on('load', function (fl1) {
 
-      //       console.log(fl1.layer)
+            console.log(fl1.layer)
 
-      //       $.post('http://localhost:3000/addFields', {
-      //         id: fl1.layer.id,
-      //         fields: JSON.stringify(fl1.layer.fields)
-      //       }, function (res) {
-      //         console.log(res)
-      //       })
+            $.post('http://localhost:3000/addFields', {
+              id: fl1.layer.id,
+              fields: JSON.stringify(fl1.layer.fields)
+            }, function (res) {
+              console.log(res)
+            })
 
-      //       featureLayers.push(fl1.layer)
-      //     })
+            featureLayers.push(fl1.layer)
+          })
 
-      //   }
-      // })
+        }
+      })
     })
-  </script>
+  </script> -->
 
 
 
