@@ -121,27 +121,29 @@
     var featureLayers = [];
     require(["esri/layers/FeatureLayer"], function (FeatureLayer) {
 
-      $.get('http://localhost:3000/featureLayers', function (result) {
+      // $.get('http://localhost:3000/featureLayers', function (result) {
 
-        for (var i = 0; i < result.length; i++) {
-          var fl = new FeatureLayer(result[i].ServiceUrl, {
-            id: result[i].Id
-          });
+      //   for (var i = 0; i < result.length; i++) {
+      //     var fl = new FeatureLayer(result[i].ServiceUrl, {
+      //       id: result[i].Id
+      //     });
 
-          fl.on('load', function (fl1) {
+      //     fl.on('load', function (fl1) {
 
-            $.post('http://localhost:3000/addFields', {
-              id: fl1.layer.id,
-              fields: JSON.stringify(fl1.layer.fields)
-            }, function (res) {
-              console.log(res)
-            })
+      //       console.log(fl1.layer)
 
-            featureLayers.push(fl1.layer)
-          })
+      //       $.post('http://localhost:3000/addFields', {
+      //         id: fl1.layer.id,
+      //         fields: JSON.stringify(fl1.layer.fields)
+      //       }, function (res) {
+      //         console.log(res)
+      //       })
 
-        }
-      })
+      //       featureLayers.push(fl1.layer)
+      //     })
+
+      //   }
+      // })
     })
   </script>
 
@@ -250,82 +252,80 @@
 
         if (oneLayer.LayerType == 'FeatureLayer') {
 
+          $.get('http://localhost:3000/fields?id=' + oneLayer.Id, function (fields) {
 
-
-          // $.get('http://localhost:3000/fields?id=' + oneLayer.Id, function (fields) {
-
-          //   for (var i = 0; i < fields.length; i++) {
-          //     var field = fields[i];
-          //     var un = 4;
-          //     switch (field.UnitName.trim()) {
-          //       case 'm':
-          //         un = 0;
-          //         break;
-          //       case '米':
-          //         un = 0;
-          //         break;
-          //       case '㎡':
-          //         un = 1;
-          //         break;
-          //       case '平方米':
-          //         un = 1;
-          //         break;
-          //       case 'km':
-          //         un = 2;
-          //         break;
-          //       case '千米':
-          //         un = 2;
-          //         break;
-          //       case 'k㎡':
-          //         un = 3;
-          //         break;
-          //       case '平方千米':
-          //         un = 3;
-          //         break;
-          //       default:
-          //         un = 4;
-          //     }
+            for (var i = 0; i < fields.length; i++) {
+              var field = fields[i];
+              var un = 4;
+              switch (field.UnitName) {
+                case 'm':
+                  un = 0;
+                  break;
+                case '米':
+                  un = 0;
+                  break;
+                case '㎡':
+                  un = 1;
+                  break;
+                case '平方米':
+                  un = 1;
+                  break;
+                case 'km':
+                  un = 2;
+                  break;
+                case '千米':
+                  un = 2;
+                  break;
+                case 'k㎡':
+                  un = 3;
+                  break;
+                case '平方千米':
+                  un = 3;
+                  break;
+                default:
+                  un = 4;
+              }
 
 
 
 
-          //     $("#fields>tbody").append(
-          //       "<tr>" +
-          //       "<td><a href='#' id='FieldName' data-type='text'  class='editable editable-click' data-pk='" +
-          //       field.Id + "'> " + field.FieldName + "</a></td>" +
-          //       "<td><a href='#' id='SortCode' data-type='number' data-value='" + parseInt(field.SortCode) +
-          //       "' class='editable editable-click' data-pk='" + field.Id + "'> " + "</a></td>" +
-          //       "<td><a href='#' id='DisplayName' data-type='text'  class='editable editable-click' data-pk='" +
-          //       field.Id + "'> " + field.DisplayName + "</a></td>" +
-          //       "<td><a href='#' id='UnitName' data-type='select' data-value='" + un +
-          //       "'  data-source='http://localhost:3000/unitName'  class='editable editable-click editable-open' data-pk='" +
-          //       field.Id + "'> " + field.UnitName + "</td>" +
-          //       "<td><a href='#' id='IsDisplay' data-type='select' data-value='" + field.IsDisplay +
-          //       "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
-          //       field.Id + "'> " + "</td>" +
-          //       "<td><a href='#' id='IsSearch' data-type='select' data-value='" + field.IsSearch +
-          //       "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
-          //       field.Id + "'> " + "</td>" +
-          //       "<td><a href='#' id='IsLabel' data-type='select' data-value='" + field.IsLabel +
-          //       "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
-          //       field.Id + "'> " + "</td>" +
-          //       "<td><a href='#' id='IsShowMuFormSquareMeters' data-type='select' data-value='" + field.IsShowMuFormSquareMeters +
-          //       "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
-          //       field.Id + "'> " + "</td>"
-          //     )
-          //   }
+              $("#fields>tbody").append(
+                "<tr>" +
+                "<td><a href='#' id='FieldName' data-type='text'  class='editable editable-click' data-pk='" +
+                field.Id + "'> " + field.FieldName + "</a></td>" +
+                "<td><a href='#' id='SortCode' data-type='number' data-value='" + parseInt(field.SortCode) +
+                "' class='editable editable-click' data-pk='" + field.Id + "'> " + "</a></td>" +
+                "<td><a href='#' id='DisplayName' data-type='text'  class='editable editable-click' data-pk='" +
+                field.Id + "'> " + field.DisplayName + "</a></td>" +
+                "<td><a href='#' id='UnitName' data-type='select' data-value='" + un +
+                "'  data-source='http://localhost:3000/unitName'  class='editable editable-click editable-open' data-pk='" +
+                field.Id + "'> " + field.UnitName + "</td>" +
+                "<td><a href='#' id='IsDisplay' data-type='select' data-value='" + field.IsDisplay +
+                "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
+                field.Id + "'> " + "</td>" +
+                "<td><a href='#' id='IsSearch' data-type='select' data-value='" + field.IsSearch +
+                "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
+                field.Id + "'> " + "</td>" +
+                "<td><a href='#' id='IsLabel' data-type='select' data-value='" + field.IsLabel +
+                "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
+                field.Id + "'> " + "</td>" +
+                "<td><a href='#' id='IsShowMuFormSquareMeters' data-type='select' data-value='" + field.IsShowMuFormSquareMeters +
+                "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
+                field.Id + "'> " + "</td>"
+              )
+            }
 
-          //   $("#fields>tbody .editable.editable-click").editable({
-          //     url: function (params) {
-
-
-          //       console.log(params)
-          //     }
-
-          //   })
+            $("#fields>tbody .editable.editable-click").editable({
+              url: function (params) {
 
 
-          // })
+                console.log(params)
+              }
+
+            })
+
+
+          })
 
 
 
