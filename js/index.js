@@ -91,7 +91,6 @@ require([
 
 
   /*数据图层部分*/
-
   var infoTemplate = new InfoTemplate("属性", "${*}");
   var myLayers = [];
   var showLayers = [];
@@ -153,11 +152,7 @@ require([
         };
         showLayers.push(lyr);
       }
-
-
     }
-
-
   }
 
 
@@ -173,13 +168,7 @@ require([
 
 
 
-  function test() {
-    console.log('test!!!!');
-    console.log(map.extent);
-  }
 
-
-  map.on('click', test);
 
 
 
@@ -275,24 +264,24 @@ require([
   })
 
   measurement.on("measure", function (evt) {
-    $("#test1").empty();
-    $("#test1").show();
+    $("#onMeasure").empty();
+    $("#onMeasure").show();
 
-    $("#test1").append("<p>" + evt.values.toFixed(2) + "千米" + "</p>");
-    $("#test1").css("left", nowXy.x + 10 + "px");
-    $("#test1").css("top", nowXy.y + 10 + "px");
+    $("#onMeasure").append("<p>" + evt.values.toFixed(2) + "千米" + "</p>");
+    $("#onMeasure").css("left", nowXy.x + 10 + "px");
+    $("#onMeasure").css("top", nowXy.y + 10 + "px");
   })
 
 
 
   measurement.on('measure-end', function (evt) {
-    $("#test1").empty();
-    $("#test1").show();
-    $("#test1").append("<p>" + evt.values.toFixed(2) + "千米" + "</p>");
-    $("#test1").css("left", nowXy.x - 10 + "px");
-    $("#test1").css("top", nowXy.y - 10 + "px");
+    $("#onMeasure").empty();
+    $("#onMeasure").show();
+    $("#onMeasure").append("<p>" + evt.values.toFixed(2) + "千米" + "</p>");
+    $("#onMeasure").css("left", nowXy.x - 10 + "px");
+    $("#onMeasure").css("top", nowXy.y - 10 + "px");
     setTimeout(function () {
-      $("#test1").hide(100);
+      $("#onMeasure").hide(100);
     }, 1200)
   })
 

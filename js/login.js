@@ -1,12 +1,19 @@
+//回车事件
+document.onkeydown = function (event) {
+  var e = event || window.event;
+  if (e && e.keyCode == 13) { //回车键的键值为13
+    login(); //调用登录按钮的登录事件
+  }
+};
+
+
 function login() {
 
-  console.log('111111111111111111111jjjjjjjjjjjjjjjjjjjj')
-
-  var userName = document.getElementById('username').value;
-  var password = document.getElementById('password').value;
+  var userName = md5(document.getElementById('username').value.trim());
+  var password = md5(document.getElementById('password').value.trim());
+  console.log(userName)
+  console.log(password)
   var user;
-  console.log(userName);
-  console.log(password);
   $.ajax({
     type: 'post',
     url: 'http://localhost:3000/login',
@@ -17,17 +24,16 @@ function login() {
     async: false,
     success: function (res) {
       user = res;
-      console.log(res);
     }
   })
 
-  if (user === null) {
+  if (user === null || user == '') {
     alert('用户名或密码错误！');
     return false;
   } else {
     $.removeCookie('user');
     $.cookie('user', user);
-    return true;
+    window.location.href = './index.html';
   }
 
 }
