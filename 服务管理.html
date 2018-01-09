@@ -253,6 +253,8 @@
 
             for (var i = 0; i < fields.length; i++) {
               var field = fields[i];
+              console.log(field)
+
               var un = 4;
               switch (field.UnitName) {
                 case 'm':
@@ -262,16 +264,16 @@
                   un = 0;
                   break;
                 case '㎡':
-                  un = 1;
+                  un = 2;
                   break;
                 case '平方米':
-                  un = 1;
+                  un = 2;
                   break;
                 case 'km':
-                  un = 2;
+                  un = 1;
                   break;
                 case '千米':
-                  un = 2;
+                  un = 1;
                   break;
                 case 'k㎡':
                   un = 3;
@@ -284,6 +286,9 @@
                   break;
               }
 
+
+              console.log(un + "xxxxxxxxxxxxxxx")
+
               var tomu = field.IsShowMuFormSquareMeters == 1 ? 1 : 0
 
 
@@ -292,26 +297,26 @@
               $("#fields>tbody").append(
                 "<tr>" +
                 "<td><a href='#' id='FieldName' data-type='text'  class='editable editable-click' data-pk='" +
-                oneLayer.Id + "'> " + field.FieldName + "</a></td>" +
+                field.id + "'> " + field.FieldName + "</a></td>" +
                 "<td><a href='#' id='SortCode' data-type='number' data-value='" + parseInt(field.SortCode) +
-                "' class='editable editable-click' data-pk='" + field.Id + "'> " + "</a></td>" +
+                "' class='editable editable-click' data-pk='" + field.id + "'> " + "</a></td>" +
                 "<td><a href='#' id='DisplayName' data-type='text'  class='editable editable-click' data-pk='" +
-                oneLayer.Id + "'> " + field.DisplayName + "</a></td>" +
+                field.id + "'> " + field.DisplayName + "</a></td>" +
                 "<td><a href='#' id='UnitName' data-type='select' data-value='" + un +
                 "'  data-source='http://localhost:3000/unitName'  class='editable editable-click editable-open' data-pk='" +
-                oneLayer.Id + "' data-value='" + un + "'> " + "</td>" +
+                field.id + "' data-value='" + un + "'> " + "</td>" +
                 "<td><a href='#' id='IsDisplay' data-type='select' data-value='" + field.IsDisplay +
                 "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
-                oneLayer.Id + "'> " + "</td>" +
+                field.id + "'> " + "</td>" +
                 "<td><a href='#' id='IsSearch' data-type='select' data-value='" + field.IsSearch +
                 "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
-                oneLayer.Id + "'> " + "</td>" +
+                field.id + "'> " + "</td>" +
                 "<td><a href='#' id='IsLabel' data-type='select' data-value='" + field.IsLabel +
                 "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
-                oneLayer.Id + "'> " + "</td>" +
+                field.id + "'> " + "</td>" +
                 "<td><a href='#' id='IsShowMuFormSquareMeters' data-type='select' data-value='" + tomu +
                 "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
-                oneLayer.Id + "'> " + "</td>"
+                field.id + "'> " + "</td>"
               )
             }
 
@@ -329,7 +334,6 @@
                   return response.msg;
                 }
               }
-
             })
 
 

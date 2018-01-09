@@ -126,6 +126,16 @@
       background-color: #FFF;
     }
 
+    #onMeasure {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: #fff;
+      height: auto;
+      width: auto;
+      z-index: 999;
+    }
+
     #bookmark {
       background-color: #fff;
     }

@@ -307,11 +307,11 @@ require([
   overviewMapDijit.startup();
 
   //书签
-  var bookmarks = new Bookmarks({
-    map: map,
-    bookmarks: [],
-    editable: true
-  }, "bookmarksDiv");
+  // var bookmarks = new Bookmarks({
+  //   map: map,
+  //   bookmarks: [],
+  //   editable: true
+  // }, "bookmarksDiv");
 
 
   //比例尺
@@ -467,7 +467,7 @@ require([
 
 
 
-  // toobar点击
+  // toolbar点击
   var toolId0 = "xx";
   $(".icon").click(function () {
 

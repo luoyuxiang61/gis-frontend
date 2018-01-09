@@ -19,7 +19,7 @@
 
 <body class="calcite">
 
-  <div id="onMeasure" style="position:absolute;top:10px;left:10px;background-color:#fff;height:auto;width:auto;z-index:999;"></div>
+  <div id="onMeasure"></div>
 
   <div id="topBar">
     <div style="float:right">
@@ -40,13 +40,11 @@
   <div id="mainWindow" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline',gutters:false">
     <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
 
-
-
       <!-- 工具条下方显示的工具 -->
       <div id="tool" class="no">
-        <div>
-          <img id="closeTool" src="./images/close.png" width="10px" height="10px" onselectstart="return false">
-        </div>
+        <!-- <div>
+          <img id="closeTool" src="./images/close.png" width="20px" height="20px" onselectstart="return false">
+        </div> -->
 
         <div>
           <!-- 画图工具 -->
@@ -64,7 +62,10 @@
 
           <!-- 书签 -->
           <div class="no tool" id="bookmark">
-            <div id="bookmarksDiv"></div>
+            <!-- <div id="bookmarksDiv"></div> -->
+            <div style="height:150px;width:150px;background-color:aquamarine">
+
+            </div>
           </div>
 
           <!-- 打印 -->
