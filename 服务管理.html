@@ -292,26 +292,26 @@
               $("#fields>tbody").append(
                 "<tr>" +
                 "<td><a href='#' id='FieldName' data-type='text'  class='editable editable-click' data-pk='" +
-                field.Id + "'> " + field.FieldName + "</a></td>" +
+                oneLayer.Id + "'> " + field.FieldName + "</a></td>" +
                 "<td><a href='#' id='SortCode' data-type='number' data-value='" + parseInt(field.SortCode) +
                 "' class='editable editable-click' data-pk='" + field.Id + "'> " + "</a></td>" +
                 "<td><a href='#' id='DisplayName' data-type='text'  class='editable editable-click' data-pk='" +
-                field.Id + "'> " + field.DisplayName + "</a></td>" +
+                oneLayer.Id + "'> " + field.DisplayName + "</a></td>" +
                 "<td><a href='#' id='UnitName' data-type='select' data-value='" + un +
                 "'  data-source='http://localhost:3000/unitName'  class='editable editable-click editable-open' data-pk='" +
-                field.Id + "' data-value='" + un + "'> " + "</td>" +
+                oneLayer.Id + "' data-value='" + un + "'> " + "</td>" +
                 "<td><a href='#' id='IsDisplay' data-type='select' data-value='" + field.IsDisplay +
                 "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
-                field.Id + "'> " + "</td>" +
+                oneLayer.Id + "'> " + "</td>" +
                 "<td><a href='#' id='IsSearch' data-type='select' data-value='" + field.IsSearch +
                 "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
                 oneLayer.Id + "'> " + "</td>" +
                 "<td><a href='#' id='IsLabel' data-type='select' data-value='" + field.IsLabel +
                 "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
-                field.Id + "'> " + "</td>" +
+                oneLayer.Id + "'> " + "</td>" +
                 "<td><a href='#' id='IsShowMuFormSquareMeters' data-type='select' data-value='" + tomu +
                 "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
-                field.Id + "'> " + "</td>"
+                oneLayer.Id + "'> " + "</td>"
               )
             }
 
