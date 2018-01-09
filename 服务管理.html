@@ -129,9 +129,6 @@
           });
 
           fl.on('load', function (fl1) {
-
-            console.log(fl1.layer)
-
             $.post('http://localhost:3000/addFields', {
               id: fl1.layer.id,
               fields: JSON.stringify(fl1.layer.fields)
@@ -284,7 +281,10 @@
                   break;
                 default:
                   un = 4;
+                  break;
               }
+
+              var tomu = field.IsShowMuFormSquareMeters == 1 ? 1 : 0
 
 
 
@@ -299,27 +299,35 @@
                 field.Id + "'> " + field.DisplayName + "</a></td>" +
                 "<td><a href='#' id='UnitName' data-type='select' data-value='" + un +
                 "'  data-source='http://localhost:3000/unitName'  class='editable editable-click editable-open' data-pk='" +
-                field.Id + "'> " + field.UnitName + "</td>" +
+                field.Id + "' data-value='" + un + "'> " + "</td>" +
                 "<td><a href='#' id='IsDisplay' data-type='select' data-value='" + field.IsDisplay +
                 "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
                 field.Id + "'> " + "</td>" +
                 "<td><a href='#' id='IsSearch' data-type='select' data-value='" + field.IsSearch +
                 "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
-                field.Id + "'> " + "</td>" +
+                oneLayer.Id + "'> " + "</td>" +
                 "<td><a href='#' id='IsLabel' data-type='select' data-value='" + field.IsLabel +
                 "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
                 field.Id + "'> " + "</td>" +
-                "<td><a href='#' id='IsShowMuFormSquareMeters' data-type='select' data-value='" + field.IsShowMuFormSquareMeters +
+                "<td><a href='#' id='IsShowMuFormSquareMeters' data-type='select' data-value='" + tomu +
                 "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
                 field.Id + "'> " + "</td>"
               )
             }
 
             $("#fields>tbody .editable.editable-click").editable({
-              url: function (params) {
-
-
-                console.log(params)
+              showbuttons: true,
+              url: 'http://localhost:3000/updateField',
+              ajaxOptions: {
+                dataType: 'json'
+              },
+              success: function (response) {
+                if (!(response[0] == 1)) {
+                  return "发生错误";
+                }
+                if (response.success === false) {
+                  return response.msg;
+                }
               }
 
             })
