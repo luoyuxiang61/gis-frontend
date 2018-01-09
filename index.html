@@ -381,73 +381,65 @@
       var legendLayers = [];
 
       $.ajax({
-        url: "http://localhost:3000/myLayers?depart=" + depart,
+        url: "http://localhost:3000/layersForTree?depart=" + depart,
         async: false,
-        success: function (layers) {
-          myLayers = layers;
-
+        success: function (layersForTree) {
+          myLayers = layersForTree;
+          console.log(myLayers)
         }
       })
 
-      var nowGroup = " ";
+
       for (var i = 0; i < myLayers.length; i++) {
-
-
-        var oneLayer = myLayers[i];
-
-        //图形量算服务
-        // if(oneLayer.LayerType=="GeometryService"){
-        //   esriConfig.defaults.geometryService = new GeometryService(oneLayer.ServiceUrl);
-        // }
+        var item = myLayers[i];
+        var nowGroup = item.father.DisplayName;
+        $("#layerList").append("<li class='layerListItem groupLayer " + nowGroup +
+          "'><input class='inputItem groupLayer' type='checkbox'><label class='labelItem groupLayer'><strong>" +
+          item.father.DisplayName + "</strong></label></li>");
 
 
 
-        //图层组
-        if (oneLayer.LayerType == "GroupLayer") {
-          nowGroup = oneLayer.DisplayName;
-          $("#layerList").append("<li class='layerListItem groupLayer " + nowGroup +
-            "'><input class='inputItem groupLayer' type='checkbox'><label class='labelItem groupLayer'><strong>" +
-            oneLayer.DisplayName + "</strong></label></li>");
-        };
+        for (var j = 0; j < item.sons.length; j++) {
 
-        //瓦片地图服务
-        if (oneLayer.LayerType == "TiledService") {
+          var oneLayer = item.sons[j];
 
-          if (oneLayer.DisplayName === "基础底图") {
-            esriBasemaps.jcdt.baseMapLayers[0].url = oneLayer.ServiceUrl;
+          //瓦片地图服务
+          if (oneLayer.LayerType == "TiledService") {
+            if (oneLayer.DisplayName === "基础底图") {
+              esriBasemaps.jcdt.baseMapLayers[0].url = oneLayer.ServiceUrl;
+            }
+            if (oneLayer.DisplayName === "影像底图") {
+              esriBasemaps.yxdt.baseMapLayers[0].url = oneLayer.ServiceUrl;
+            }
+            $("#layerList").append("<li class='layerListItem layer " + nowGroup +
+              "' style='padding-left:8px;display:none;'><input class='inputItem layer' type='checkbox'><label class='labelItem layer'>" +
+              oneLayer.DisplayName + "</label></li>");
+            var lyr = new ArcGISTiledMapServiceLayer(oneLayer.ServiceUrl, {
+              id: oneLayer.DisplayName,
+              visible: false
+            })
+            showLayers.push(lyr);
+          }
+          //要素图层
+          if (oneLayer.LayerType === "FeatureLayer" && oneLayer.ServiceUrl != null) {
+            $("#layerList").append("<li class='layerListItem layer " + nowGroup +
+              "' style='padding-left:8px;display:none'><input class='inputItem layer' type='checkbox'><label class='labelItem layer'>" +
+              oneLayer.DisplayName + "</label></li>");
+            var lyr = new FeatureLayer(oneLayer.ServiceUrl, {
+              id: oneLayer.DisplayName,
+              visible: false,
+              outFields: ["*"],
+              infoTemplate: infoTemplate
+            });
+            if (oneLayer.IsLegend == 1) {
+              legendLayers.push(lyr);
+            };
+            showLayers.push(lyr);
           }
 
-          if (oneLayer.DisplayName === "影像底图") {
-            esriBasemaps.yxdt.baseMapLayers[0].url = oneLayer.ServiceUrl;
-          }
-
-
-          $("#layerList").append("<li class='layerListItem layer " + nowGroup +
-            "' style='padding-left:8px;display:none;'><input class='inputItem layer' type='checkbox'><label class='labelItem layer'>" +
-            oneLayer.DisplayName + "</label></li>");
-          var lyr = new ArcGISTiledMapServiceLayer(oneLayer.ServiceUrl, {
-            id: oneLayer.DisplayName,
-            visible: false
-          })
-
-          showLayers.push(lyr);
 
         }
 
-        //要素图层
-        if (oneLayer.LayerType === "FeatureLayer" && oneLayer.ServiceUrl != null) {
-
-
-          $("#layerList").append("<li class='layerListItem layer " + nowGroup +
-            "' style='padding-left:8px;display:none'><input class='inputItem layer' type='checkbox'><label class='labelItem layer'>" +
-            oneLayer.DisplayName + "</label></li>");
-
-          var lyr = new FeatureLayer(myLayers[i].ServiceUrl, {
-            id: myLayers[i].DisplayName,
-            visible: false,
-            outFields: ["*"],
-            infoTemplate: infoTemplate
-          });
 
 
 
@@ -455,15 +447,10 @@
 
 
 
-
-          if (myLayers[i].IsLegend == 1) {
-
-            legendLayers.push(lyr);
-          };
-
-          showLayers.push(lyr);
-        }
       }
+
+
+
 
 
 
