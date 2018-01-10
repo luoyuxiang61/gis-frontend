@@ -12,10 +12,7 @@
     if (user == undefined) window.location.href = 'login.html';
   </script>
   <link rel="stylesheet" href="./css/index.css">
-  <link rel="stylesheet" href="https://js.arcgis.com/3.22/esri/themes/calcite/dijit/calcite.css">
-  <link rel="stylesheet" href="http://182.254.152.78:8080/arcgis_js_api/library/3.22/3.22/esri/themes/calcite/esri/esri.css">
-  <!-- <script src="https://js.arcgis.com/3.22/"></script> -->
-  <script src="http://182.254.152.78:8080/arcgis_js_api/library/3.22/3.22/init.js"></script>
+  <link rel="stylesheet" href="./bootstrap-3.3.7/css/bootstrap.min.css">
 </head>
 
 <body class="calcite">
@@ -49,15 +46,31 @@
     </div>
     <!-- 量测工具 -->
     <div class="no tool" id="measure">
+      <div style="height:auto;" align="right">
+        <button type="button" class="btn btn-default btn-sm closeTool" aria-label="Left Align">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        </button>
+      </div>
       <div id="measurementDiv"></div>
     </div>
     <!-- 书签 -->
     <div class="no tool" id="bookmark">
-      <ul>
+      <div style="height:auto;" align="right">
+        <button type="button" class="btn btn-default btn-sm closeTool" aria-label="Left Align">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        </button>
+      </div>
+      <ul style="width:150px;display:block">
         <li>书签1</li>
         <li>书签2</li>
         <li>书签3</li>
+        <li>书签4</li>
       </ul>
+      <div style="height:auto;" align="center">
+        <button type="button" class="btn btn-default btn-sm closeTool" aria-label="Left Align">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        </button>
+      </div>
     </div>
     <!-- 打印 -->
     <div class="no tool" id="print"></div>
@@ -107,12 +120,12 @@
 
     </div>
   </div>
-  <script>
-    user = JSON.parse(user);
-    console.log(user);
-    $("#greeting").html('您好：' + user.name);
-  </script>
 
+  <link rel="stylesheet" href="https://js.arcgis.com/3.22/esri/themes/calcite/dijit/calcite.css">
+  <link rel="stylesheet" href="http://182.254.152.78:8080/arcgis_js_api/library/3.22/3.22/esri/themes/calcite/esri/esri.css">
+  <!-- <script src="https://js.arcgis.com/3.22/"></script> -->
+  <script src="http://182.254.152.78:8080/arcgis_js_api/library/3.22/3.22/init.js"></script>
+  <script src="./js/index0.js"></script>
   <script src="./js/index.js"></script>
 
 </body>

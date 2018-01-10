@@ -496,7 +496,7 @@ require([
     toolId0 = toolId;
   })
   //关闭tool
-  $("#closeTool").click(function () {
+  $("button.closeTool").click(function () {
     $("#tool").hide(200);
   })
 
