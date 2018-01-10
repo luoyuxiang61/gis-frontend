@@ -8,9 +8,9 @@
   <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
   <script src="./js/jcookie/jquery.cookie.js"></script>
   <script>
-    var userInfo = JSON.parse($.cookie('user'));
-    console.log(userInfo)
-    if (userInfo == undefined) window.location.href = 'login.html';
+    var user = $.cookie('user')
+    console.log(user);
+    if (user == undefined) window.location.href = 'login.html';
   </script>
   <link rel="stylesheet" href="./css/index.css">
   <link rel="stylesheet" href="https://js.arcgis.com/3.22/esri/themes/calcite/dijit/calcite.css">
@@ -108,7 +108,7 @@
     </div>
   </div>
   <script>
-    console.log($("#greeting").html('您好：' + userInfo.name));
+    $("#greeting").html('您好：' + JSON.parse(user).name);
   </script>
 
   <script src="./js/index.js"></script>
