@@ -8,8 +8,9 @@
   <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
   <script src="./js/jcookie/jquery.cookie.js"></script>
   <script>
-    var depart = $.cookie('user');
-    if (depart == undefined) window.location.href = 'login.html';
+    var userInfo = JSON.parse($.cookie('user'));
+    console.log(userInfo)
+    if (userInfo == undefined) window.location.href = 'login.html';
   </script>
   <link rel="stylesheet" href="./css/index.css">
   <link rel="stylesheet" href="https://js.arcgis.com/3.22/esri/themes/calcite/dijit/calcite.css">
@@ -23,7 +24,7 @@
 
   <div id="topBar">
     <div style="float:right">
-      <p style="display:inline">您好，管理员</p>
+      <p id="greeting" style="display:inline">您好，管理员</p>
       <a href="./服务管理.html">后台管理</a>&nbsp;&nbsp;&nbsp;
       <a href="./login.html">退出</a>
     </div>
@@ -37,42 +38,37 @@
     <img class="icon" src="./images/print.png" alt="print" title="打印">
   </div>
 
+  <!-- 工具条下方显示的工具 -->
+  <div id="tool" class="no">
+    <!-- 画图工具 -->
+    <div class="no tool" id="draw" onselectstart="return false">
+      <button class="action-button esri-icon-blank-map-pin" id="point" type="button" title="点"></button>
+      <button class="action-button esri-icon-polyline" id="polyline" type="button" title="多段线"></button>
+      <button class="action-button esri-icon-polygon" id="polygon" type="button" title="多边形"></button>
+      <button class="action-button esri-icon-trash" id="clear" type="button" title="清除草图"></button>
+    </div>
+    <!-- 量测工具 -->
+    <div class="no tool" id="measure">
+      <div id="measurementDiv"></div>
+    </div>
+    <!-- 书签 -->
+    <div class="no tool" id="bookmark">
+      <ul>
+        <li>书签1</li>
+        <li>书签2</li>
+        <li>书签3</li>
+      </ul>
+    </div>
+    <!-- 打印 -->
+    <div class="no tool" id="print"></div>
+  </div>
+
+
+
   <div id="mainWindow" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline',gutters:false">
     <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
 
-      <!-- 工具条下方显示的工具 -->
-      <div id="tool" class="no">
-        <!-- <div>
-          <img id="closeTool" src="./images/close.png" width="20px" height="20px" onselectstart="return false">
-        </div> -->
 
-        <div>
-          <!-- 画图工具 -->
-          <div class="no tool" id="draw" onselectstart="return false">
-            <button class="action-button esri-icon-blank-map-pin" id="point" type="button" title="点"></button>
-            <button class="action-button esri-icon-polyline" id="polyline" type="button" title="多段线"></button>
-            <button class="action-button esri-icon-polygon" id="polygon" type="button" title="多边形"></button>
-            <button class="action-button esri-icon-trash" id="clear" type="button" title="清除草图"></button>
-          </div>
-
-          <!-- 量测工具 -->
-          <div class="no tool" id="measure">
-            <div id="measurementDiv"></div>
-          </div>
-
-          <!-- 书签 -->
-          <div class="no tool" id="bookmark">
-            <!-- <div id="bookmarksDiv"></div> -->
-            <div style="height:150px;width:150px;background-color:aquamarine">
-
-            </div>
-          </div>
-
-          <!-- 打印 -->
-          <div class="no tool" id="print"></div>
-        </div>
-
-      </div>
 
 
 
@@ -111,6 +107,9 @@
 
     </div>
   </div>
+  <script>
+    console.log($("#greeting").html('您好：' + userInfo.name));
+  </script>
 
   <script src="./js/index.js"></script>
 

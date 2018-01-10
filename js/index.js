@@ -97,7 +97,7 @@ require([
   var legendLayers = [];
 
   $.ajax({
-    url: "http://localhost:3000/layersForTree?depart=" + depart,
+    url: "http://localhost:3000/layersForTree?",
     async: false,
     success: function (layersForTree) {
       myLayers = layersForTree;
@@ -247,6 +247,7 @@ require([
     defaultLengthUnit: Units.KILOMETERS
   }, dom.byId("measurementDiv"));
   measurement.startup();
+  measurement.hideTool('location');
 
   var nowXy = new Object();
   map.on('click', function (evt) {
@@ -260,16 +261,22 @@ require([
 
   var mUnit;
   measurement.on('measure-start', function (evt) {
-
+    var tn = evt.toolName;
+    if (tn == 'distance') {
+      mUnit = '千米';
+    } else {
+      mUnit = '平方千米';
+    }
   })
 
   measurement.on("measure", function (evt) {
     $("#onMeasure").empty();
     $("#onMeasure").show();
 
-    $("#onMeasure").append("<p>" + evt.values.toFixed(2) + "千米" + "</p>");
+    $("#onMeasure").append("<p>" + evt.values.toFixed(2) + mUnit + "</p>");
     $("#onMeasure").css("left", nowXy.x + 10 + "px");
     $("#onMeasure").css("top", nowXy.y + 10 + "px");
+
   })
 
 
@@ -277,7 +284,7 @@ require([
   measurement.on('measure-end', function (evt) {
     $("#onMeasure").empty();
     $("#onMeasure").show();
-    $("#onMeasure").append("<p>" + evt.values.toFixed(2) + "千米" + "</p>");
+    $("#onMeasure").append("<p>" + evt.values.toFixed(2) + mUnit + "</p>");
     $("#onMeasure").css("left", nowXy.x - 10 + "px");
     $("#onMeasure").css("top", nowXy.y - 10 + "px");
     setTimeout(function () {

@@ -9,10 +9,9 @@ document.onkeydown = function (event) {
 
 function login() {
 
+
   var userName = md5(document.getElementById('username').value.trim());
   var password = md5(document.getElementById('password').value.trim());
-  console.log(userName)
-  console.log(password)
   var user;
   $.ajax({
     type: 'post',
@@ -27,12 +26,21 @@ function login() {
     }
   })
 
-  if (user === null || user == '') {
+  user = JSON.parse(user);
+
+  console.log(user)
+
+  if (user == null || user == '') {
     alert('用户名或密码错误！');
     return false;
   } else {
     $.removeCookie('user');
-    $.cookie('user', user);
+    $.cookie('user', JSON.stringify({
+      group: user.Group.name,
+      name: document.getElementById('username').value.trim(),
+      UserName: userName,
+      Password: password
+    }));
     window.location.href = './index.html';
   }
 

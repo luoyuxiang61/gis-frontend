@@ -12,14 +12,16 @@
     }
 
     #topBar {
-      height: 5%;
+      height: 40px;
       width: 100%;
       background-color: rgba(231, 234, 235, 0.822);
     }
 
     #mainWindow {
       width: 100%;
-      height: 95%;
+      position: absolute;
+      top: 40px;
+      bottom: 0px;
     }
 
     #map {
@@ -68,10 +70,10 @@
 
     #toolBar {
       position: absolute;
-      top: 5%;
+      top: 45px;
       right: 100px;
       width: auto;
-      height: auto;
+      height: 35px;
       background-color: rgb(255, 255, 255);
       z-index: 999;
       padding: 5px;
@@ -103,7 +105,7 @@
 
     #tool {
       position: absolute;
-      top: 60px;
+      top: 100px;
       right: 100px;
       height: auto;
       width: auto;
@@ -138,6 +140,15 @@
 
     #bookmark {
       background-color: #fff;
+    }
+
+    #bookmark>ul {
+      list-style: none;
+      padding: 5px;
+    }
+
+    #bookmark>ul li {
+      border-bottom: 1px solid #6e6e6e;
     }
 
     .action-button {
