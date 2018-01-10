@@ -46,7 +46,7 @@
     }
 
     .layerListItem.groupLayer {
-      margin-bottom: 5px;
+      margin-bottom: 4px;
     }
 
     .layerListItem.groupLayer:hover {
@@ -114,6 +114,10 @@
       margin-top: 15px;
     }
 
+    button.closeTool {
+      border: none;
+    }
+
     #draw {
       height: auto;
       width: 138px;
@@ -148,7 +152,13 @@
     }
 
     #bookmark>ul li {
+      margin-bottom: 10px;
       border-bottom: 1px solid #6e6e6e;
+      cursor: pointer;
+    }
+
+    #bookmark>ul li:hover {
+      background-color: rgba(170, 119, 119, 0.411)
     }
 
     .action-button {
