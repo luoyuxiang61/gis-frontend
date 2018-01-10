@@ -9,7 +9,6 @@
   <script src="./js/jcookie/jquery.cookie.js"></script>
   <script>
     var user = $.cookie('user')
-    console.log(user);
     if (user == undefined) window.location.href = 'login.html';
   </script>
   <link rel="stylesheet" href="./css/index.css">
@@ -31,7 +30,7 @@
   </div>
 
   <!-- 工具条 -->
-  <div id="toolBar">
+  <div id="toolBar" onselectstart="return false">
     <img class="icon" src="./images/measure.png" alt="measure" title="量测">
     <img class="icon" src="./images/draw.png" alt="draw" title="绘图">
     <img class="icon" src="./images/bookmark.png" alt="bookmark" title="书签">
@@ -108,7 +107,9 @@
     </div>
   </div>
   <script>
-    $("#greeting").html('您好：' + JSON.parse(user).name);
+    user = JSON.parse(user);
+    console.log(user);
+    $("#greeting").html('您好：' + user.name);
   </script>
 
   <script src="./js/index.js"></script>

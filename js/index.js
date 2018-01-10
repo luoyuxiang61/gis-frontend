@@ -97,7 +97,9 @@ require([
   var legendLayers = [];
 
   $.ajax({
-    url: "http://localhost:3000/layersForTree?",
+    type: 'post',
+    url: "http://localhost:3000/layersForTree",
+    data: user,
     async: false,
     success: function (layersForTree) {
       myLayers = layersForTree;
