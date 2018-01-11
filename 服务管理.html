@@ -115,9 +115,9 @@
   <script src="./js/jquery-3.2.1.min.js"></script>
   <script src="./bootstrap-3.3.7/js/bootstrap.min.js"></script>
   <script src="./bootstrap3-editable/js/bootstrap-editable.js"></script>
-  <script src="https://js.arcgis.com/3.22/"></script>
+  <script src="http://182.254.152.78:8080/arcgis_js_api/library/3.22/3.22/init.js"></script>
 
-  <!-- <script>
+  <script>
     var featureLayers = [];
     require(["esri/layers/FeatureLayer"], function (FeatureLayer) {
 
@@ -142,7 +142,7 @@
         }
       })
     })
-  </script> -->
+  </script>
 
 
 
@@ -226,7 +226,7 @@
           "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
           oneLayer.Id + "'> " + "</td></tr>" +
           "<tr><td>" + "透明度" + "</td><td><a href='#' id='Opacity' data-type='number' data-value='" + oneLayer
-          .Opacity.toFixed(1) + "' class='editable' data-pk='" + oneLayer.Id + "'> " + "</a></td></tr>" +
+            .Opacity.toFixed(1) + "' class='editable' data-pk='" + oneLayer.Id + "'> " + "</a></td></tr>" +
           "<tr><td>" + "服务序号" + "</td><td><a href='#' id='SortCode' data-type='number' data-value='" +
           parseInt(oneLayer.SortCode) + "' class='editable editable-click' data-pk='" + oneLayer.Id + "'> " +
           "</a></td></tr>" +

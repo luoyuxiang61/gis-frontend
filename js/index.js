@@ -512,7 +512,6 @@ require([
 
     //获取、刷新书签
     var nowBookmarks;
-
     function showBookmarks() {
 
       $("#bookmarkul").empty()
@@ -555,6 +554,7 @@ require([
         success: function (res) {
           console.log(res);
           $("#markName").val('')
+          showBookmarks()
         }
       })
     }
