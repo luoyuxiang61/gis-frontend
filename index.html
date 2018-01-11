@@ -17,8 +17,11 @@
 
 <body class="calcite">
 
+  <!-- 测量的时候弹出显示当前结果 -->
   <div id="onMeasure"></div>
 
+
+  <!-- 顶部工具栏 -->
   <div id="topBar">
     <div style="float:right">
       <p id="greeting" style="display:inline">您好，管理员</p>
@@ -27,7 +30,7 @@
     </div>
   </div>
 
-  <!-- 工具条 -->
+  <!-- 操作地图的工具条 -->
   <div id="toolBar" onselectstart="return false">
     <img class="icon" src="./images/measure.png" alt="measure" title="量测">
     <img class="icon" src="./images/draw.png" alt="draw" title="绘图">
@@ -35,7 +38,7 @@
     <img class="icon" src="./images/print.png" alt="print" title="打印">
   </div>
 
-  <!-- 工具条下方显示的工具 -->
+  <!-- 工具条下方显示具体工具 -->
   <div id="tool" class="no">
     <!-- 画图工具 -->
     <div class="no tool" id="draw" onselectstart="return false">
@@ -68,12 +71,9 @@
   </div>
 
 
-
+  <!-- 地图容器 -->
   <div id="mainWindow" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline',gutters:false">
     <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
-
-
-
 
 
       <!-- 底图切换按钮 -->
