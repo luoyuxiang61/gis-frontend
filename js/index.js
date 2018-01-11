@@ -1,4 +1,5 @@
 var map, tb;
+var addBookmark;
 require([
   "dojo/dom",
   "dojo/on",
@@ -481,9 +482,6 @@ require([
   $(".icon").click(function () {
 
     var toolId = $(this).prop("alt");
-
-
-
     if (toolId != toolId0) {
       $(".tool").hide();
       $("#tool").show();
@@ -496,7 +494,7 @@ require([
     toolId0 = toolId;
   })
   //关闭tool
-  $("button.closeTool").click(function () {
+  $("img.closeTool").click(function () {
     $("#tool").hide(200);
   })
 
@@ -505,5 +503,21 @@ require([
   $("#layersToggle").click(function () {
     $("#layerListDiv").toggle(150);
   })
+
+
+
+
+  //添加书签
+  addBookmark = function addBookmark() {
+
+    console.log(map.extent);
+
+  }
+
+
+
+
+
+
 
 });
