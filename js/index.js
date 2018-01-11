@@ -510,7 +510,24 @@ require([
   //添加书签
   addBookmark = function addBookmark() {
 
-    console.log(map.extent);
+    var mark = {};
+    mark.xmin = parseFloat(map.extent.xmin).toFixed(3);
+    mark.ymin = parseFloat(map.extent.ymin).toFixed(3);
+    mark.xmax = parseFloat(map.extent.xmax).toFixed(3);
+    mark.ymax = parseFloat(map.extent.ymax).toFixed(3);
+    mark.wkid = map.extent.spatialReference.wkid;
+
+    console.log(mark)
+    $.ajax({
+      type: 'post',
+      url: 'http://localhost:3000/addBookmark',
+      data: mark,
+      success: function () {
+        console.log('asdasdasd');
+      }
+    })
+
+
 
   }
 
