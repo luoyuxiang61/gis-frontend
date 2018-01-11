@@ -518,7 +518,7 @@ require([
 
       $.get('http://localhost:3000/bookmarks', function (marks) {
         nowBookmarks = marks;
-        for (var i = 0; i < marks.length; i++) {
+        for (var i = marks.length - 1; i >= 0; i--) {
           var mark = marks[i]
           $("#bookmarkul").append("<li index='" + i + "' onclick='gotoMark(this)'>" + mark.name + "</li>")
         }

@@ -36,6 +36,7 @@ function login() {
   } else {
     $.removeCookie('user');
     $.cookie('user', JSON.stringify({
+      userId: user.id,
       group: user.Group.name,
       name: document.getElementById('username').value.trim(),
       UserName: userName,
