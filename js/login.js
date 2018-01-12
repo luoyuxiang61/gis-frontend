@@ -37,7 +37,7 @@ function login() {
     $.removeCookie('user');
     $.cookie('user', JSON.stringify({
       userId: user.id,
-      group: user.Group.name,
+      groupId: user.Group.id,
       name: document.getElementById('username').value.trim(),
       UserName: userName,
       Password: password
