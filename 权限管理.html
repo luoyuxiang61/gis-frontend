@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+  <title>用户管理</title>
+  <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+  <link rel="stylesheet" href="./bootstrap-3.3.7/css/bootstrap.min.css">
+  <style media="screen">
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+    }
+
+    a.list-group-item {
+      padding: 2px;
+      text-align: center;
+    }
+
+    .btn-group-lg>.btn,
+    .btn-lg {
+      padding: 10px 8px;
+      font-size: 18px;
+      line-height: 1.3333333;
+      border-radius: 0px;
+      font-size: 100%;
+      font-style: oblique;
+      font-weight: bold;
+      text-align: left;
+    }
+
+
+    .table {
+      margin-bottom: 0px;
+    }
+
+    tr.clicked {
+      background-color: rgb(173, 255, 163);
+    }
+
+    .list-group {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    .table-striped>tbody>tr.clicked:nth-of-type(odd) {
+      background-color: rgb(173, 255, 163);
+    }
+
+    .table-striped>tbody>tr:nth-of-type(even) {
+      background-color: rgb(241, 241, 241);
+    }
+
+    .table-striped>tbody>tr.clicked:nth-of-type(even) {
+      background-color: rgb(173, 255, 163);
+    }
+
+    .table-striped>tbody>tr:hover {
+      background-color: rgb(201, 202, 200);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 最上方横条装饰 -->
+  <div class="" style="height:5%;background-color:rgb(218, 180, 202);">
+  </div>
+
+  <!-- 第二行，导航栏 -->
+  <ul class="nav nav-tabs">
+    <li role="presentation" class="active">
+      <a href="#">用户管理</a>
+    </li>
+    <li role="presentation">
+      <a href="服务管理.html">服务管理</a>
+    </li>
+    <li role="presentation">
+      <a href="#">设备管理</a>
+    </li>
+    <li role="presentation">
+      <a href="#">数据字典</a>
+    </li>
+  </ul>
+
+
+  <!-- 主界面容器 -->
+  <div class="container-fluid" style="height:89%;">
+    <!-- 容器一分为二，横向排列-->
+    <div class="row" style="height:100%">
+      <!-- 左边的目录树，在PC上占比为2/12，在移动端占比为4/12，主要是为了在移动端是还能看全目录树上的元素的字 -->
+      <div id="sideTree" class="col-xs-4 col-md-2" style="height:100%;padding:0;background-color:#efefff">
+      </div>
+      <!-- 右边的表格以及操作表格的工作，在PC端占比为10/12，在移动端占比为8/12 -->
+      <div class="col-xs-8 col-md-10" style="height:100%;padding:0;">
+
+        <!-- 修改表记录的工具集合，增删改，待完善。 -->
+        <div id="tools">
+          <button type="button" class="btn btn-default btn-lg" id="addUser">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true" style="color:rgb(5, 30, 254)"></span> 增加
+          </button>
+          <button type="button" class="btn btn-default btn-lg" id="dropUser">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true" style="color:rgb(204, 36, 36)"></span>删除
+          </button>
+          <button type="button" class="btn btn-default btn-lg" id="editUser">
+            <span class="glyphicon glyphicon-pencil" aria-hidden="true" style="color:rgb(241, 123, 13)"></span>修改
+          </button>
+          <button type="button" class="btn btn-default btn-lg" id="saveUser">
+            <span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:rgb(68, 189, 65)"></span> 保存
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 弹出窗口，用于在增加或修改用户时填入信息 -->
+  <div class="" id="userdlg" style="width:30%;display:none;position:absolute;left:35%;top:10%;background-color:rgb(230, 232, 231);padding:10px;">
+    <form>
+      <div class="form-group">
+        <label for="dlm">登录名</label>
+        <input type="text" class="form-control" id="dlm" placeholder="">
+      </div>
+      <div class="form-group">
+        <label for="yhm">用户名</label>
+        <input type="text" class="form-control" id="yhm" placeholder="">
+      </div>
+      <div class="form-group">
+        <label for="mm">密码</label>
+        <input type="password" class="form-control" id="mm">
+      </div>
+      <div class="form-group">
+        <label for="qrmm">确认密码</label>
+        <input type="password" class="form-control" id="qrmm">
+      </div>
+      <div class="form-group">
+        <label for="bmmc">部门名称</label>
+        <select class="form-control" name="">
+          <option value="1">规划房产局</option>
+          <option value="2">系统管理局</option>
+          <option value="3">离线组</option>
+          <option value="4">招商局</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="yhyx">用户邮箱</label>
+        <input type="email" class="form-control" id="yhyx">
+      </div>
+      <div class="form-group">
+        <label for="yhdh">用户电话</label>
+        <input type="text" class="form-control" id="yhdh">
+      </div>
+
+      <button type="submit" class="btn btn-primary">确定</button>
+      <button type="button" name="button" class="btn btn-default cancel">取消</button>
+    </form>
+  </div>
+
+
+
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="./js/jquery-3.2.1.min.js"></script>
+  <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+  <script src="./bootstrap-3.3.7/js/bootstrap.min.js"></script>
+
+  <script>
+    var departments = []
+
+    $.ajax({
+      type: 'get',
+      async: false,
+      url: 'http://localhost:3000/departmentsForTree',
+      success: function (departmentsForTree) {
+        for (var i = 0; i < departmentsForTree.length; i++) {
+
+          var item = departmentsForTree[i];
+          var sonshtml = "<div class='list-group' style='display:none'>";
+          for (var j = 0; j < item.grps.length; j++) {
+            sonshtml += "<a href='#' class='list-group-item sonli' grpId=" + item.grps[j].id + ">" + item.grps[
+              j].name + "</a>";
+          }
+          sonshtml += "</div>";
+          $("#sideTree").append(
+            "<button type='button' class='btn btn-default btn-lg btn-block'><span class='glyphicon glyphicon-chevron-right' aria-hidden='true'</span>" +
+            item.depa.name + "</button>" + sonshtml)
+        }
+      }
+
+    })
+
+  </script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    // 左边子元素点击变为深蓝色
+    $(".sonli").click(function () {
+      $(".list-group-item").removeClass("active");
+      $(this).addClass("active");
+      var grpId = $(this).attr('grpId')
+      console.log('grpId' + grpId);
+
+      console.log('ssssssssssssssssssssssssssssssssssssssss');
+    })
+
+    // 左边树状图点击父元素显示或者关闭子元素
+    $("button.btn-block").click(function () {
+      if ($(this).is(".active")) {
+        $(this).removeClass("active");
+        $(this).next().hide();
+        $(this).children("span").removeClass("glyphicon-chevron-down");
+        $(this).children("span").addClass("glyphicon-chevron-right");
+      } else {
+        $("button.btn-block").removeClass("active");
+        $(this).addClass("active");
+        $(".list-group").hide();
+        $(this).next().show();
+        $("button.btn-block").children("span").removeClass("glyphicon-chevron-down");
+        $("button.btn-block").children("span").addClass("glyphicon-chevron-right");
+        $(this).children("span").removeClass("glyphicon-chevron-right");
+        $(this).children("span").addClass("glyphicon-chevron-down");
+      }
+
+    })
+
+
+    // 表格的每一行点击之后高亮显示
+    $("tbody>tr").click(function () {
+      // $("tbody>tr").removeClass("active");
+      // $(this).addClass("active");
+      $("tbody>tr").removeClass("clicked");
+      $(this).addClass("clicked");
+    })
+
+
+    //双击触发修改事件,待开发
+    $("tbody>tr").dblclick(function () {
+      // $("tbody>tr").removeClass("active");
+      // $(this).addClass("active");
+      // alert("double click!");
+    })
+
+    //点击新增按钮之后弹出一个表单让用户填写新增的信息保存提交
+    $("#addUser").click(function () {
+
+      $("#userdlg").show();
+
+    })
+
+    //点击修改按钮之后弹出一个表单，有些输入项可以更改，有的不能更改
+    $("#editUser").click(function () {
+
+
+
+      $("#userdlg").show();
+
+    })
+
+    //点击cancel关闭新增用户、修改用户的弹出框
+    $(".cancel").click(function () {
+      $("#userdlg input").val("");
+      $("#userdlg").hide();
+    })
+  </script>
+</body>
+
+</html>
