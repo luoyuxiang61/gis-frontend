@@ -101,7 +101,7 @@
       <div class="col-xs-8 col-md-10" style="height:100%;padding:0;">
         <div class="row" style="height:100%;margin:0px;padding:5px;">
           <div class="col-md-3" style="height:100%;background-color:rgba(127, 255, 212, 0.301);">
-            <ul id="layerList" style="list-style:none;padding-left:0px;max-height:100%;overflow:auto">
+            <ul id="layerList" style="list-style:none;padding-left:0px;max-height:100%;overflow:auto" onselectstart='return false'>
             </ul>
           </div>
           <div class="col-md-3" style="height:100%;background-color:rgba(127, 255, 212, 0.575);">
@@ -151,6 +151,60 @@
             "<button type='button' class='btn btn-default btn-lg btn-block'><span class='glyphicon glyphicon-chevron-right' aria-hidden='true'</span>" +
             item.depa.name + "</button>" + sonshtml)
         }
+
+        // 左边子元素点击变为深蓝色
+        $(".sonli").click(function () {
+          $(".list-group-item.depa").removeClass("active");
+          $(this).addClass("active");
+          var grpId = $(this).attr('grpId')
+          var user = JSON.parse($.cookie('user'))
+          console.log(user);
+          $.ajax({
+            type: 'post',
+            url: 'http://localhost:3000/layersForGroup',
+            data: {
+              groupId: user.groupId
+            },
+            success: function (res) {
+              console.log(res)
+
+            }
+          })
+
+          $.ajax({
+            type: 'post',
+            url: 'http://localhost:3000/fieldsForGroup',
+            data: {
+              groupId: user.groupId
+            },
+            success: function (res) {
+              console.log(res)
+            }
+          })
+
+
+
+        })
+
+        // 左边树状图点击父元素显示或者关闭子元素
+        $("button.btn-block").click(function () {
+          if ($(this).is(".active")) {
+            $(this).removeClass("active");
+            $(this).next().hide();
+            $(this).children("span").removeClass("glyphicon-chevron-down");
+            $(this).children("span").addClass("glyphicon-chevron-right");
+          } else {
+            $("button.btn-block").removeClass("active");
+            $(this).addClass("active");
+            $(".list-group.depa").hide();
+            $(this).next().show();
+            $("button.btn-block").children("span").removeClass("glyphicon-chevron-down");
+            $("button.btn-block").children("span").addClass("glyphicon-chevron-right");
+            $(this).children("span").removeClass("glyphicon-chevron-right");
+            $(this).children("span").addClass("glyphicon-chevron-down");
+          }
+
+        })
       }
     })
 
@@ -171,7 +225,7 @@
 
             var oneLayer = item.sons[j];
             $("#layerList").append("<li class='layerListItem  layer " + nowGroup +
-              "' style='padding-left:8px;'><input class='inputItem layer' type='checkbox'><label class='labelItem layer'>" +
+              "' style='display:none;padding-left:8px;'><input class='inputItem layer' type='checkbox'><label class='labelItem layer'>" +
               oneLayer.DisplayName + "</label></li>");
           }
         }
@@ -234,7 +288,7 @@
           var liLabel = liCheckbox.next();
           var layerName = liLabel.text();
           if (checked) {
-            $(".layerListItem.layer." + layerName).show(200);
+            $(".layerListItem.layer." + layerName).show(50);
             var subLayers = $($(".layerListItem.layer." + layerName));
             for (var i = 0; i < subLayers.length; i++) {
               var checkbox = $(subLayers[i]).children()[0];
@@ -258,7 +312,7 @@
           var label = $(this);
           var layerName = label.text();
           var display = $(".layerListItem.layer." + layerName).css("display");
-          if (display == "none") $(".layerListItem.layer." + layerName).show(150);
+          if (display == "none") $(".layerListItem.layer." + layerName).show(50);
           else $(".layerListItem.layer." + layerName).hide(150);
         })
       }
@@ -266,10 +320,7 @@
 
   </script>
 
-  <script>
 
-
-  </script>
 
 
 
@@ -278,59 +329,7 @@
 
 
   <script type="text/javascript">
-    // 左边子元素点击变为深蓝色
-    $(".sonli").click(function () {
-      $(".list-group-item.depa").removeClass("active");
-      $(this).addClass("active");
-      var grpId = $(this).attr('grpId')
-      var user = JSON.parse($.cookie('user'))
-      console.log(user);
-      $.ajax({
-        type: 'post',
-        url: 'http://localhost:3000/layersForGroup',
-        data: {
-          groupId: user.groupId
-        },
-        success: function (res) {
-          console.log(res)
 
-        }
-      })
-
-      $.ajax({
-        type: 'post',
-        url: 'http://localhost:3000/fieldsForGroup',
-        data: {
-          groupId: user.groupId
-        },
-        success: function (res) {
-          console.log(res)
-        }
-      })
-
-
-
-    })
-
-    // 左边树状图点击父元素显示或者关闭子元素
-    $("button.btn-block").click(function () {
-      if ($(this).is(".active")) {
-        $(this).removeClass("active");
-        $(this).next().hide();
-        $(this).children("span").removeClass("glyphicon-chevron-down");
-        $(this).children("span").addClass("glyphicon-chevron-right");
-      } else {
-        $("button.btn-block").removeClass("active");
-        $(this).addClass("active");
-        $(".list-group.depa").hide();
-        $(this).next().show();
-        $("button.btn-block").children("span").removeClass("glyphicon-chevron-down");
-        $("button.btn-block").children("span").addClass("glyphicon-chevron-right");
-        $(this).children("span").removeClass("glyphicon-chevron-right");
-        $(this).children("span").addClass("glyphicon-chevron-down");
-      }
-
-    })
 
 
   </script>
