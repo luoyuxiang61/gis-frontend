@@ -169,8 +169,7 @@ require([
           })
 
 
-          console.log(otf);
-          console.log(ift);
+
 
           var lyr = new FeatureLayer(oneLayer.ServiceUrl, {
             id: oneLayer.DisplayName,
@@ -180,10 +179,6 @@ require([
             opacity: oneLayer.Opacity
           });
 
-          lyr.on('load', function (lyr) {
-
-            console.log(lyr.layer.id + lyr.layer.opacity);
-          })
           if (oneLayer.IsLegend == 1) {
             legendLayers.push(lyr);
           };
