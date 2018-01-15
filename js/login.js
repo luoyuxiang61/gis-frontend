@@ -15,7 +15,7 @@ function login() {
   var user;
   $.ajax({
     type: 'post',
-    url: 'http://localhost:3000/login',
+    url: 'http://120.78.146.16:3000/login',
     data: {
       userName: userName,
       password: password

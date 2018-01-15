@@ -28,7 +28,7 @@
          
           $.ajax({
             type:"POST",
-            url:"http://localhost:3000",
+            url:"http://120.78.146.16:3000",
             data:data,
             success:function(){
               alert("成功")

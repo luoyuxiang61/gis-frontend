@@ -122,7 +122,7 @@
     var featureLayers = [];
     require(["esri/layers/FeatureLayer"], function (FeatureLayer) {
 
-      $.get('http://localhost:3000/featureLayers', function (result) {
+      $.get('http://120.78.146.16:3000/featureLayers', function (result) {
 
         for (var i = 0; i < result.length; i++) {
           var fl = new FeatureLayer(result[i].ServiceUrl, {
@@ -130,7 +130,7 @@
           });
 
           fl.on('load', function (fl1) {
-            $.post('http://localhost:3000/addFields', {
+            $.post('http://120.78.146.16:3000/addFields', {
               id: fl1.layer.id,
               fields: JSON.stringify(fl1.layer.fields)
             }, function (res) {
@@ -152,7 +152,7 @@
     $.ajax({
       type: 'post',
       async: false,
-      url: 'http://localhost:3000/layersForTree',
+      url: 'http://120.78.146.16:3000/layersForTree',
       success: function (layersForTree) {
         for (var i = 0; i < layersForTree.length; i++) {
 
@@ -181,7 +181,7 @@
 
       var layerId = $(this).attr('layerId');
 
-      $.get('http://localhost:3000/oneLayer?layerId=' + layerId, function (oneLayer) {
+      $.get('http://120.78.146.16:3000/oneLayer?layerId=' + layerId, function (oneLayer) {
 
         console.log(oneLayer.Opacity);
 
@@ -213,7 +213,7 @@
           "</td><td><a href='#' id='ServiceUrl' data-type='text' class='editable editable-click' data-pk='" +
           oneLayer.Id + "'> " + oneLayer.ServiceUrl + "</a></td></tr>" +
           "<tr><td>" + "图层类型" + "</td><td><a href='#' id='LayerType' data-type='select' data-value='" + lt +
-          "'  data-source='http://localhost:3000/layerType'  class='editable editable-click editable-open' data-pk='" +
+          "'  data-source='http://120.78.146.16:3000/layerType'  class='editable editable-click editable-open' data-pk='" +
           oneLayer.Id + "'> " + oneLayer.LayerType + "</td></tr>" +
           "<tr><td>" + "TokenUserName" +
           "</td><td><a href='#' id='TokenUserName' data-type='text' class='editable editable-click' data-pk='" +
@@ -226,7 +226,7 @@
           oneLayer.Id + "'> " + oneLayer.TokenURL + "</a></td></tr>" +
           "<tr><td>" + "是否显示" + "</td><td><a href='#' id='IsVisble' data-type='select' data-value='" +
           oneLayer.IsVisble +
-          "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
+          "'  data-source='http://120.78.146.16:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
           oneLayer.Id + "'> " + "</td></tr>" +
           "<tr><td>" + "透明度" + "</td><td><a href='#' id='Opacity' data-type='number' data-value='" + oneLayer.Opacity
           + "' class='editable' data-pk='" + oneLayer.Id + "'> " + "</a></td></tr>" +
@@ -235,7 +235,7 @@
           "</a></td></tr>" +
           "<tr><td>" + "显示图例" + "</td><td><a href='#' id='IsLegend' data-type='select' data-value='" +
           oneLayer.IsLegend +
-          "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
+          "'  data-source='http://120.78.146.16:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
           oneLayer.Id + "'> " + "</td></tr>" +
           "<tr><td>" + "CacheName" +
           "</td><td><a href='#' id='CacheName' data-type='text' class='editable editable-click' data-pk='" +
@@ -245,14 +245,14 @@
           oneLayer.Id + "'> " + oneLayer.MobileServiceUrl + "</a></td></tr>" +
           "<tr><td>" + "是否在移动端显示" +
           "</td><td><a href='#' id='IsShowInMobile' data-type='select' data-value='" + oneLayer.IsShowInMobile +
-          "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
+          "'  data-source='http://120.78.146.16:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
           oneLayer.Id + "'> " + "</td></tr>"
         )
 
 
         if (oneLayer.LayerType == 'FeatureLayer') {
 
-          $.get('http://localhost:3000/fields?id=' + oneLayer.Id, function (fields) {
+          $.get('http://120.78.146.16:3000/fields?id=' + oneLayer.Id, function (fields) {
 
             for (var i = 0; i < fields.length; i++) {
               var field = fields[i];
@@ -306,26 +306,26 @@
                 "<td><a href='#' id='DisplayName' data-type='text'  class='editable editable-click' data-pk='" +
                 field.id + "'> " + field.DisplayName + "</a></td>" +
                 "<td><a href='#' id='UnitName' data-type='select' data-value='" + un +
-                "'  data-source='http://localhost:3000/unitName'  class='editable editable-click editable-open' data-pk='" +
+                "'  data-source='http://120.78.146.16:3000/unitName'  class='editable editable-click editable-open' data-pk='" +
                 field.id + "' data-value='" + un + "'> " + "</td>" +
                 "<td><a href='#' id='IsDisplay' data-type='select' data-value='" + field.IsDisplay +
-                "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
+                "'  data-source='http://120.78.146.16:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
                 field.id + "'> " + "</td>" +
                 "<td><a href='#' id='IsSearch' data-type='select' data-value='" + field.IsSearch +
-                "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
+                "'  data-source='http://120.78.146.16:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
                 field.id + "'> " + "</td>" +
                 "<td><a href='#' id='IsLabel' data-type='select' data-value='" + field.IsLabel +
-                "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
+                "'  data-source='http://120.78.146.16:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
                 field.id + "'> " + "</td>" +
                 "<td><a href='#' id='IsShowMuFormSquareMeters' data-type='select' data-value='" + tomu +
-                "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
+                "'  data-source='http://120.78.146.16:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
                 field.id + "'> " + "</td>"
               )
             }
 
             $("#fields>tbody .editable.editable-click").editable({
               showbuttons: false,
-              url: 'http://localhost:3000/updateField',
+              url: 'http://120.78.146.16:3000/updateField',
               ajaxOptions: {
                 dataType: 'json'
               },
@@ -363,7 +363,7 @@
         $("#service>tbody #Opacity").editable({
           step: 0.1,
           showbuttons: false,
-          url: 'http://localhost:3000/updateLayer',
+          url: 'http://120.78.146.16:3000/updateLayer',
           ajaxOptions: {
             dataType: 'json'
           },
@@ -380,7 +380,7 @@
 
         $('#service>tbody .editable.editable-click').editable({
           showbuttons: false,
-          url: 'http://localhost:3000/updateLayer',
+          url: 'http://120.78.146.16:3000/updateLayer',
           ajaxOptions: {
             dataType: 'json'
           },
