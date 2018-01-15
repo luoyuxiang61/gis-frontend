@@ -122,6 +122,9 @@ require([
       for (var j = 0; j < item.sons.length; j++) {
 
         var oneLayer = item.sons[j];
+        oneLayer.IsVisble = oneLayer.IsVisble == 1 ? true : false
+        console.log(oneLayer);
+
 
         //瓦片地图服务
         if (oneLayer.LayerType == "TiledService") {
@@ -136,7 +139,8 @@ require([
             oneLayer.DisplayName + "</label></li>");
           var lyr = new ArcGISTiledMapServiceLayer(oneLayer.ServiceUrl, {
             id: oneLayer.DisplayName,
-            visible: false
+            visible: oneLayer.IsVisble,
+            opacity: oneLayer.Opacity
           })
           showLayers.push(lyr);
         }
@@ -145,12 +149,41 @@ require([
           $("#layerList").append("<li class='layerListItem layer " + nowGroup +
             "' style='padding-left:8px;display:none'><input class='inputItem layer' type='checkbox'><label class='labelItem layer'>" +
             oneLayer.DisplayName + "</label></li>");
+
+
+          var otf = [];
+          var ift = ""
+          $.ajax({
+            type: 'get',
+            url: 'http://localhost:3000/fields?id=' + oneLayer.Id,
+            async: false,
+            success: function (res) {
+              console.log(res);
+              for (var k = 0; k < res.length; k++) {
+                if (res[k].IsDisplay == 1) {
+                  otf.push(res[k].FieldName);
+                  ift += (res[k].FieldName + ": ${" + res[k].FieldName + "}<br>")
+                }
+              }
+            }
+          })
+
+
+          console.log(otf);
+          console.log(ift);
+
           var lyr = new FeatureLayer(oneLayer.ServiceUrl, {
             id: oneLayer.DisplayName,
-            visible: false,
-            outFields: ["*"],
-            infoTemplate: infoTemplate
+            visible: oneLayer.IsVisble,
+            outFields: otf,
+            infoTemplate: new InfoTemplate('信息', ift),
+            opacity: oneLayer.Opacity
           });
+
+          lyr.on('load', function (lyr) {
+
+            console.log(lyr.layer.id + lyr.layer.opacity);
+          })
           if (oneLayer.IsLegend == 1) {
             legendLayers.push(lyr);
           };
@@ -527,6 +560,8 @@ require([
 
     gotoMark = function (ele) {
       var nowBookmark = nowBookmarks[$(ele).attr('index')]
+
+      console.log(nowBookmark)
       map.setExtent(new Extent(nowBookmark.xmin, nowBookmark.ymin, nowBookmark.xmax, nowBookmark.ymax, new SpatialReference(nowBookmark.wkid)))
     }
 

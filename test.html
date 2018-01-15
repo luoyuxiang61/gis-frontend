@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <script src="https://cdn.bootcss.com/vue/2.5.13/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
 </head>
+
 <body>
     <div id="leftSide" v-bind:style="style">
         <service-tree v-bind:services="services"></service-tree>
@@ -18,7 +20,7 @@
         Vue.component('serviceTree', {
             props: ['services'],
             template: "<ul v-bind:style='style'><li v-for='service in services' > {{service.DisplayName}} </li></ul>",
-            data: function() {
+            data: function () {
                 return {
                     style: {
                         'color': 'green',
@@ -27,18 +29,18 @@
                         'padding': '0px'
                     }
                 }
-            }            
+            }
         })
 
 
 
         var leftSide = new Vue({
             el: '#leftSide',
-            created: function() {
+            created: function () {
                 this.getData()
             },
             data: {
-                style:{
+                style: {
                     'position': 'absolute',
                     'top': '80px',
                     'left': '0px',
@@ -73,4 +75,5 @@
 
 
 </body>
+
 </html>

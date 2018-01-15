@@ -49,6 +49,7 @@
 <body>
   <!-- 最上方横条装饰 -->
   <div class="" style="height:5%;background-color:rgb(218, 180, 202);">
+    <a href="./index.html">返回</a>
   </div>
 
   <!-- 第二行，导航栏 -->
@@ -182,6 +183,8 @@
 
       $.get('http://localhost:3000/oneLayer?layerId=' + layerId, function (oneLayer) {
 
+        console.log(oneLayer.Opacity);
+
         var lt = 0;
         switch (oneLayer.LayerType) {
           case 'GroupLayer':
@@ -225,8 +228,8 @@
           oneLayer.IsVisble +
           "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
           oneLayer.Id + "'> " + "</td></tr>" +
-          "<tr><td>" + "透明度" + "</td><td><a href='#' id='Opacity' data-type='number' data-value='" + oneLayer
-            .Opacity.toFixed(1) + "' class='editable' data-pk='" + oneLayer.Id + "'> " + "</a></td></tr>" +
+          "<tr><td>" + "透明度" + "</td><td><a href='#' id='Opacity' data-type='number' data-value='" + oneLayer.Opacity
+          + "' class='editable' data-pk='" + oneLayer.Id + "'> " + "</a></td></tr>" +
           "<tr><td>" + "服务序号" + "</td><td><a href='#' id='SortCode' data-type='number' data-value='" +
           parseInt(oneLayer.SortCode) + "' class='editable editable-click' data-pk='" + oneLayer.Id + "'> " +
           "</a></td></tr>" +
@@ -253,7 +256,7 @@
 
             for (var i = 0; i < fields.length; i++) {
               var field = fields[i];
-              console.log(field)
+
 
               var un = 4;
               switch (field.UnitName) {
@@ -321,7 +324,7 @@
             }
 
             $("#fields>tbody .editable.editable-click").editable({
-              showbuttons: true,
+              showbuttons: false,
               url: 'http://localhost:3000/updateField',
               ajaxOptions: {
                 dataType: 'json'
@@ -359,7 +362,7 @@
 
         $("#service>tbody #Opacity").editable({
           step: 0.1,
-          showbuttons: true,
+          showbuttons: false,
           url: 'http://localhost:3000/updateLayer',
           ajaxOptions: {
             dataType: 'json'
@@ -376,7 +379,7 @@
         })
 
         $('#service>tbody .editable.editable-click').editable({
-          showbuttons: true,
+          showbuttons: false,
           url: 'http://localhost:3000/updateLayer',
           ajaxOptions: {
             dataType: 'json'
