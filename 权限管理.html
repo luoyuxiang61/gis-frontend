@@ -207,15 +207,17 @@
     var checkFlag = false;
     function showSons(el) {
 
-      var checked = $(el).children()[0].checked;
+      var checked = $($(el).children()[0]).prop('checked');
+      console.log(checked);
       if (checkFlag != checked) {
-        console.log('changed!');
         checkFlag = checked;
+        var sonLis = $($(el).next().children());
+        for (var i = 0; i < sonLis.length; i++) {
+          $(sonLis[i].children[0]).prop('checked', checkFlag);
+        }
       } else {
         $(el).next().toggle()
       }
-
-
     }
 
     function showFields(el) {
