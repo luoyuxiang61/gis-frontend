@@ -190,7 +190,7 @@
       success: function (layersForTree) {
         var sonshtml = '';
         for (var i = 0; i < layersForTree.length; i++) {
-          sonshtml += "<div class='list-group-item father' onclick='showSons(this)'><input type='checkbox'>" + "<strong>" + layersForTree[i].father.DisplayName + "</strong></div>"
+          sonshtml += "<div class='list-group-item father' flag='0' onclick='showSons(this)'><input type='checkbox'>" + "<strong>" + layersForTree[i].father.DisplayName + "</strong></div>"
           sonshtml += "<ul class='list-group son' style='padding-left:15px;margin-bottom:3px'>"
           for (var j = 0; j < layersForTree[i].sons.length; j++) {
             sonshtml += "<li class='list-group-item' onclick='clickSon(this)'>" + "<input type='checkbox'>" + "<a href='#' onclick='showFields(this)'>" + layersForTree[i].sons[j].DisplayName + "</a></li>"
@@ -204,11 +204,12 @@
     })
 
 
-    var checkFlag = false;
+
     function showSons(el) {
 
+      var checkFlag = $(el).attr('flag') == '1' ? true : false
+
       var checked = $($(el).children()[0]).prop('checked');
-      console.log(checked);
       if (checkFlag != checked) {
         if (checked) {
           $(el).next().show()
@@ -217,10 +218,10 @@
         }
 
 
-        checkFlag = checked;
+        $(el).attr('flag', checked == true ? '1' : '0');
         var sonLis = $($(el).next().children());
         for (var i = 0; i < sonLis.length; i++) {
-          $(sonLis[i].children[0]).prop('checked', checkFlag);
+          $(sonLis[i].children[0]).prop('checked', checked);
         }
       } else {
         $(el).next().toggle()
@@ -238,17 +239,17 @@
 
       if (sonChecked) {
         fatherCheckbox.prop('checked', true);
-        checkFlag = true;
+        $(el).attr('flag', '1');
       } else {
         fatherCheckbox.prop('checked', false);
-        checkFlag = false;
+        $(el).attr('flag', '0');
 
         var sonLis1 = $(el).parent().children()
         console.log(sonLis1);
         for (var i = 0; i < sonLis1.length; i++) {
           if ($($(sonLis1[i]).children()[0]).prop('checked')) {
             fatherCheckbox.prop('checked', true);
-            checkFlag = true;
+            $(el).attr('flag', '1');
           }
           // console.log($($(sonLis1[i]).children()[0]).prop('checked'));
         }
