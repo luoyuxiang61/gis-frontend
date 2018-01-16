@@ -100,44 +100,9 @@
 
       <div class="col-xs-8 col-md-10" style="height:100%;padding:0;">
         <div class="row" style="height:100%;margin:0px;padding:5px;">
-          <div class="col-md-3" style="height:100%;background-color:rgba(127, 255, 212, 0.301);">
-            <ul id="layerList" style="list-style:none;padding-left:0px;max-height:100%;overflow:auto" onselectstart='return false'>
-            </ul>
-          </div>
-          <div class="col-md-3" style="height:100%;background-color:rgba(127, 255, 212, 0.575);">
-            <div class="list-group">
-              <div class="list-group-item">
-                <input type="checkbox" name="" id=""> 全选
-              </div>
-              <div class="list-group-item">
-                <input type="checkbox" name="" id="">
-                <a href="#">Dapibus ac facilisis in</a>
-              </div>
 
-              <ul class="list-group" style="padding-left:10px;margin-bottom:3px">
-                <div class="list-group-item">
-                  <input type="checkbox" name="" id="">
-                  <a href="#">Dapibus ac facilisis in</a>
-                </div>
-                <div class="list-group-item">
-                  <input type="checkbox" name="" id="">
-                  <a href="#">Dapibus ac facilisis in</a>
-                </div>
-              </ul>
+          <div id="layerList" class="col-md-3" style="overflow:auto;max-height:100%;background-color:rgba(127, 255, 212, 0.575);">
 
-              <div class="list-group-item">
-                <input type="checkbox" name="" id="">
-                <a href="#">Dapibus ac facilisis in</a>
-              </div>
-              <div class="list-group-item">
-                <input type="checkbox" name="" id="">
-                <a href="#">Dapibus ac facilisis in</a>
-              </div>
-              <div class="list-group-item">
-                <input type="checkbox" name="" id="">
-                <a href="#">Dapibus ac facilisis in</a>
-              </div>
-            </div>
           </div>
           <div class="col-md-3" style="height:100%;background-color:aquamarine;">
 
@@ -214,8 +179,6 @@
             }
           })
 
-
-
         })
 
         // 左边树状图点击父元素显示或者关闭子元素
@@ -245,108 +208,22 @@
       type: 'post',
       url: 'http://localhost:3000/layersForTree',
       success: function (layersForTree) {
-
+        var sonshtml = '';
         for (var i = 0; i < layersForTree.length; i++) {
-          var item = layersForTree[i];
-          var nowGroup = item.father.DisplayName;
-          $("#layerList").append("<li class='layerListItem  groupLayer " + nowGroup +
-            "'><input class='inputItem groupLayer' type='checkbox'><label class='labelItem groupLayer'><strong>" +
-            item.father.DisplayName + "</strong></label></li>");
+          sonshtml += "<div class='list-group-item'><input type='checkbox'>" + layersForTree[i].father.DisplayName + "</div>"
 
-          for (var j = 0; j < item.sons.length; j++) {
-
-            var oneLayer = item.sons[j];
-            $("#layerList").append("<li class='layerListItem  layer " + nowGroup +
-              "' style='display:none;padding-left:8px;'><input class='inputItem layer' type='checkbox'><label class='labelItem layer'>" +
-              oneLayer.DisplayName + "</label></li>");
+          sonshtml += "<ul class='list-group' style='padding-left:10px;margin-bottom:3px'>"
+          for (var j = 0; j < layersForTree[i].sons.length; j++) {
+            sonshtml += "<li class='list-group-item'>" + "<input type='checkbox'>" + layersForTree[i].sons[j].DisplayName + "</li>"
           }
+          sonshtml += "</ul>"
+
         }
+        $("#layerList").append(
+          "<div class='list-group'> <div class='list-group-item'><input type='checkbox'>全选</div>" + sonshtml + "</div>"
+        )
 
 
-        //图层控制点击之后
-        //非图层组（点击前面的checkbox)
-        $(".inputItem.layer").click(function () {
-          var liCheckbox = $(this);
-          var groupLayerName = liCheckbox.parent().attr('class').substr(20, 10).trim();
-          var checked = liCheckbox.prop('checked');
-          var liLabel = liCheckbox.next();
-          var layerName = liLabel.text();
-          if (checked) {
-            liCheckbox.prop('checked', true);
-            var groupLi = $(".layerListItem.groupLayer." + groupLayerName);
-            $(groupLi.children()[0]).prop('checked', true);
-          } else {
-            liCheckbox.prop('checked', false);
-            var subLayers = $(".layerListItem.layer." + groupLayerName);
-
-            var groupLi = $(".layerListItem.groupLayer." + groupLayerName);
-            $(groupLi.children()[0]).prop('checked', false);
-
-            for (var i = 0; i < subLayers.length; i++) {
-              var checked = $($(subLayers[i]).children()[0]).prop('checked');
-              if (checked) $(groupLi.children()[0]).prop('checked', true);
-            }
-          }
-        })
-        //非图层组（点击后面的label)
-        $(".labelItem.layer").click(function () {
-          var label = $(this);
-          var groupLayerName = label.parent().attr('class').substr(20, 10).trim();
-          var layerName = label.text();
-          var checkbox = label.prev();
-          var checked = checkbox.prop('checked');
-          if (!checked) {
-            checkbox.prop('checked', true);
-            var groupLi = $(".layerListItem.groupLayer." + groupLayerName);
-            $(groupLi.children()[0]).prop('checked', true);
-
-          } else {
-            checkbox.prop('checked', false);
-            var subLayers = $(".layerListItem.layer." + groupLayerName);
-            var groupLi = $(".layerListItem.groupLayer." + groupLayerName);
-            $(groupLi.children()[0]).prop('checked', false);
-            for (var i = 0; i < subLayers.length; i++) {
-              var checked = $($(subLayers[i]).children()[0]).prop('checked');
-              if (checked) $(groupLi.children()[0]).prop('checked', true);
-            }
-          }
-        })
-
-        //图层组
-        //点击前面的checkbox
-        $(".inputItem.groupLayer").click(function () {
-          var liCheckbox = $(this);
-          var checked = liCheckbox.prop('checked');
-          var liLabel = liCheckbox.next();
-          var layerName = liLabel.text();
-          if (checked) {
-            $(".layerListItem.layer." + layerName).show(50);
-            var subLayers = $($(".layerListItem.layer." + layerName));
-            for (var i = 0; i < subLayers.length; i++) {
-              var checkbox = $(subLayers[i]).children()[0];
-              var label = $(subLayers[i]).children()[1];
-              $(checkbox).prop('checked', true);
-              var sLayerName = $(label).text();
-            }
-          } else {
-            $(".layerListItem.layer." + layerName).hide(200);
-            var subLayers = $($(".layerListItem.layer." + layerName));
-            for (var i = 0; i < subLayers.length; i++) {
-              var checkbox = $(subLayers[i]).children()[0];
-              var label = $(subLayers[i]).children()[1];
-              $(checkbox).prop('checked', false);
-              var sLayerName = $(label).text();
-            }
-          };
-        })
-        //点击后面的label
-        $(".labelItem.groupLayer").click(function () {
-          var label = $(this);
-          var layerName = label.text();
-          var display = $(".layerListItem.layer." + layerName).css("display");
-          if (display == "none") $(".layerListItem.layer." + layerName).show(50);
-          else $(".layerListItem.layer." + layerName).hide(150);
-        })
       }
     })
 
@@ -356,15 +233,6 @@
 
 
 
-
-
-
-
-  <script type="text/javascript">
-
-
-
-  </script>
 </body>
 
 </html>
