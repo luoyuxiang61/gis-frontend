@@ -58,7 +58,7 @@
                 getData: function () {
                     this.loading = true
 
-                    this.$http.get('http://120.78.146.16:3000/myLayers').then(response => {
+                    this.$http.get('http://localhost:3000/myLayers').then(response => {
                         this.loading = false
                         this.services = response.body
                     }, response => {

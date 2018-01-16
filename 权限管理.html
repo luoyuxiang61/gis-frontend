@@ -168,7 +168,7 @@
     $.ajax({
       type: 'get',
       async: false,
-      url: 'http://120.78.146.16:3000/departmentsForTree',
+      url: 'http://localhost:3000/departmentsForTree',
       success: function (departmentsForTree) {
         for (var i = 0; i < departmentsForTree.length; i++) {
 
@@ -193,7 +193,7 @@
           console.log(user);
           $.ajax({
             type: 'post',
-            url: 'http://120.78.146.16:3000/layersForGroup',
+            url: 'http://localhost:3000/layersForGroup',
             data: {
               groupId: user.groupId
             },
@@ -205,7 +205,7 @@
 
           $.ajax({
             type: 'post',
-            url: 'http://120.78.146.16:3000/fieldsForGroup',
+            url: 'http://localhost:3000/fieldsForGroup',
             data: {
               groupId: user.groupId
             },
@@ -243,7 +243,7 @@
 
     $.ajax({
       type: 'post',
-      url: 'http://120.78.146.16:3000/layersForTree',
+      url: 'http://localhost:3000/layersForTree',
       success: function (layersForTree) {
 
         for (var i = 0; i < layersForTree.length; i++) {

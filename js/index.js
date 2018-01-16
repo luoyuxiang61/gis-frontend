@@ -67,7 +67,7 @@ require([
 
     //This service is for development and testing purposes only. We recommend that you create your own geometry service for use within your applications
     esriConfig.defaults.geometryService = new GeometryService(
-      "http://120.78.146.16:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+      "http://localhost:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
 
 
     /*底图部分*/
@@ -100,7 +100,7 @@ require([
 
     $.ajax({
       type: 'post',
-      url: "http://120.78.146.16:3000/layersForTree",
+      url: "http://localhost:3000/layersForTree",
       data: user,
       async: false,
       success: function (layersForTree) {
@@ -155,7 +155,7 @@ require([
           var ift = ""
           $.ajax({
             type: 'get',
-            url: 'http://120.78.146.16:3000/fields?id=' + oneLayer.Id,
+            url: 'http://localhost:3000/fields?id=' + oneLayer.Id,
             async: false,
             success: function (res) {
               console.log(res);
@@ -373,7 +373,7 @@ require([
     //打印
     var printer = new Print({
       map: map,
-      url: "http://120.78.146.16:6080/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
+      url: "http://localhost:6080/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
     }, dom.byId("print"));
     printer.startup();
 
@@ -544,7 +544,7 @@ require([
 
       $("#bookmarkul").empty()
 
-      $.get('http://120.78.146.16:3000/bookmarks', function (marks) {
+      $.get('http://localhost:3000/bookmarks', function (marks) {
         nowBookmarks = marks;
         for (var i = marks.length - 1; i >= 0; i--) {
           var mark = marks[i]
@@ -585,7 +585,7 @@ require([
       }
       $.ajax({
         type: 'post',
-        url: 'http://120.78.146.16:3000/addBookmark',
+        url: 'http://localhost:3000/addBookmark',
         data: mark,
         success: function (res) {
           console.log(res);
