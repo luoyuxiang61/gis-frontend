@@ -38,31 +38,8 @@
       margin-bottom: 10px;
     }
 
-    li.list-group-item {
-      padding: 5px 7px;
-    }
-
-    .layerListItem.groupLayer {
-      margin-bottom: 4px;
-    }
-
-    .layerListItem.groupLayer:hover {
-      background-color: rgba(177, 174, 169, 0.815);
-    }
-
-    .layerListItem.layer:hover {
-      background-color: rgba(218, 217, 216, 0.685);
-    }
-
-    .labelItem {
-      display: inline-block;
-      width: 85%;
-    }
-
-    .labelItem.groupLayer {
-      display: inline-block;
-      width: 85%;
-      cursor: pointer;
+    ul.son {
+      display: none
     }
   </style>
 </head>
@@ -101,7 +78,7 @@
       <div class="col-xs-8 col-md-10" style="height:100%;padding:0;">
         <div class="row" style="height:100%;margin:0px;padding:5px;">
 
-          <div id="layerList" class="col-md-3" style="overflow:auto;max-height:100%;background-color:rgba(127, 255, 212, 0.575);">
+          <div id="layerList" class="col-md-3" style="overflow:auto;height:100%;max-height:100%;background-color:rgba(127, 255, 212, 0.575);">
 
           </div>
           <div class="col-md-3" style="height:100%;background-color:aquamarine;">
@@ -210,23 +187,28 @@
       success: function (layersForTree) {
         var sonshtml = '';
         for (var i = 0; i < layersForTree.length; i++) {
-          sonshtml += "<div class='list-group-item'><input type='checkbox'>" + layersForTree[i].father.DisplayName + "</div>"
-
-          sonshtml += "<ul class='list-group' style='padding-left:10px;margin-bottom:3px'>"
+          sonshtml += "<div class='list-group-item father'><input type='checkbox'>" + "<a href='#' onclick='showSons(this)'><strong>" + layersForTree[i].father.DisplayName + "</strong></a></div>"
+          sonshtml += "<ul class='list-group son' style='padding-left:15px;margin-bottom:3px'>"
           for (var j = 0; j < layersForTree[i].sons.length; j++) {
-            sonshtml += "<li class='list-group-item'>" + "<input type='checkbox'>" + layersForTree[i].sons[j].DisplayName + "</li>"
+            sonshtml += "<li class='list-group-item'>" + "<input type='checkbox'>" + "<a href='#' onclick='showFields(this)'>" + layersForTree[i].sons[j].DisplayName + "</a></li>"
           }
           sonshtml += "</ul>"
-
         }
         $("#layerList").append(
           "<div class='list-group'> <div class='list-group-item'><input type='checkbox'>全选</div>" + sonshtml + "</div>"
         )
-
-
       }
     })
 
+
+    function showSons(el) {
+      console.log($(el).parent().next());
+      $(el).parent().next().toggle()
+    }
+
+    function showFields(el) {
+      console.log('1111111111111111111111111111');
+    }
   </script>
 
 
