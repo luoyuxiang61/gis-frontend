@@ -5,9 +5,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
   <title>用户管理</title>
-  <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+  <script src="./js/config.js"></script>
   <link rel="stylesheet" href="./lib/bootstrap-3.3.7/css/bootstrap.min.css">
   <style media="screen">
     html,
@@ -112,7 +111,7 @@
     $.ajax({
       type: 'get',
       async: false,
-      url: 'http://localhost:3000/departmentsForTree',
+      url: "http://" + serverIP + ":" + serverPort + "/departmentsForTree",
       success: function (departmentsForTree) {
         for (var i = 0; i < departmentsForTree.length; i++) {
 
@@ -137,7 +136,7 @@
           console.log(user);
           $.ajax({
             type: 'post',
-            url: 'http://localhost:3000/layersForGroup',
+            url: "http://" + serverIP + ":" + serverPort + "/layersForGroup",
             data: {
               groupId: user.groupId
             },
@@ -149,7 +148,7 @@
 
           $.ajax({
             type: 'post',
-            url: 'http://localhost:3000/fieldsForGroup',
+            url: "http://" + serverIP + ":" + serverPort + "/fieldsForGroup",
             data: {
               groupId: user.groupId
             },
@@ -185,7 +184,7 @@
 
     $.ajax({
       type: 'post',
-      url: 'http://localhost:3000/layersForTree',
+      url: "http://" + serverIP + ":" + serverPort + "/layersForTree",
       success: function (layersForTree) {
         var sonshtml = '';
         for (var i = 0; i < layersForTree.length; i++) {

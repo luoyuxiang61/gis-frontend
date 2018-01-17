@@ -59,15 +59,11 @@ require([
 
 ) {
     parser.parse();
-    //This sample may require a proxy page to handle communications with the ArcGIS Server services. You will need to
-    //replace the url below with the location of a proxy on your machine. See the 'Using the proxy page' help topic
-    //for details on setting up a proxy page.
-    esriConfig.defaults.io.proxyUrl = "/proxy/";
-    esriConfig.defaults.io.alwaysUseProxy = false;
+
 
     //This service is for development and testing purposes only. We recommend that you create your own geometry service for use within your applications
-    esriConfig.defaults.geometryService = new GeometryService(
-      "http://localhost:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+    // esriConfig.defaults.geometryService = new GeometryService(
+    //   "http://" + gisServerIP + ":" + gisServerPort + "/arcgis/rest/services/Utilities/Geometry/GeometryServer");
 
 
     /*底图部分*/
@@ -98,19 +94,23 @@ require([
     var showLayers = [];
     var legendLayers = [];
 
+
+    console.log("#################################################");
     $.ajax({
       type: 'post',
-      url: "http://localhost:3000/layersForTree",
+      url: "http://" + serverIP + ":" + serverPort + "/layersForTree",
       data: user,
       async: false,
       success: function (layersForTree) {
         myLayers = layersForTree;
-        console.log(myLayers);
+
       }
     })
 
 
+
     for (var i = 0; i < myLayers.length; i++) {
+      console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
       var item = myLayers[i];
       var nowGroup = item.father.DisplayName;
       $("#layerList").append("<li class='layerListItem groupLayer " + nowGroup +
@@ -155,7 +155,7 @@ require([
           var ift = ""
           $.ajax({
             type: 'get',
-            url: 'http://localhost:3000/fields?id=' + oneLayer.id,
+            url: "http://" + serverIP + ":" + serverPort + "/fields?id=" + oneLayer.id,
             async: false,
             success: function (res) {
 
@@ -345,12 +345,7 @@ require([
     });
     overviewMapDijit.startup();
 
-    //书签
-    // var bookmarks = new Bookmarks({
-    //   map: map,
-    //   bookmarks: [],
-    //   editable: true
-    // }, "bookmarksDiv");
+
 
 
     //比例尺
@@ -373,7 +368,7 @@ require([
     //打印
     var printer = new Print({
       map: map,
-      url: "http://localhost:6080/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
+      url: "http://" + gisServerIP + ":" + gisServerPort + "/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
     }, dom.byId("print"));
     printer.startup();
 
@@ -544,7 +539,7 @@ require([
 
       $("#bookmarkul").empty()
 
-      $.get('http://localhost:3000/bookmarks', function (marks) {
+      $.get("http://" + serverIP + ":" + serverPort + "/bookmarks", function (marks) {
         nowBookmarks = marks;
         for (var i = marks.length - 1; i >= 0; i--) {
           var mark = marks[i]
@@ -585,7 +580,7 @@ require([
       }
       $.ajax({
         type: 'post',
-        url: 'http://localhost:3000/addBookmark',
+        url: "http://" + serverIP + ":" + serverPort + "/addBookmark",
         data: mark,
         success: function (res) {
 
