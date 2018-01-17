@@ -126,7 +126,7 @@
 
         for (var i = 0; i < result.length; i++) {
           var fl = new FeatureLayer(result[i].ServiceUrl, {
-            id: result[i].Id
+            id: result[i].id
           });
 
           fl.on('load', function (fl1) {
@@ -159,7 +159,7 @@
           var item = layersForTree[i];
           var sonshtml = "<div class='list-group' style='display:none'>";
           for (var j = 0; j < item.sons.length; j++) {
-            sonshtml += "<a href='#' class='list-group-item sonli' layerId=" + item.sons[j].Id + ">" + item.sons[
+            sonshtml += "<a href='#' class='list-group-item sonli' layerId=" + item.sons[j].id + ">" + item.sons[
               j].DisplayName + "</a>";
           }
           sonshtml += "</div>";
@@ -205,54 +205,54 @@
 
         $("#service>tbody").append("<tr><td>" + "服务名称" +
           "</td><td><a href='#' id='LayerName' data-type='text'  class='editable editable-click' data-pk='" +
-          oneLayer.Id + "'> " + oneLayer.LayerName + "</a></td></tr>" +
+          oneLayer.id + "'> " + oneLayer.LayerName + "</a></td></tr>" +
           "<tr><td>" + "显示名称" +
           "</td><td><a href='#' id='DisplayName' data-type='text'  class='editable editable-click' data-pk='" +
-          oneLayer.Id + "'> " + oneLayer.DisplayName + "</a></td></tr>" +
+          oneLayer.id + "'> " + oneLayer.DisplayName + "</a></td></tr>" +
           "<tr><td>" + "服务url" +
           "</td><td><a href='#' id='ServiceUrl' data-type='text' class='editable editable-click' data-pk='" +
-          oneLayer.Id + "'> " + oneLayer.ServiceUrl + "</a></td></tr>" +
+          oneLayer.id + "'> " + oneLayer.ServiceUrl + "</a></td></tr>" +
           "<tr><td>" + "图层类型" + "</td><td><a href='#' id='LayerType' data-type='select' data-value='" + lt +
           "'  data-source='http://localhost:3000/layerType'  class='editable editable-click editable-open' data-pk='" +
-          oneLayer.Id + "'> " + oneLayer.LayerType + "</td></tr>" +
+          oneLayer.id + "'> " + oneLayer.LayerType + "</td></tr>" +
           "<tr><td>" + "TokenUserName" +
           "</td><td><a href='#' id='TokenUserName' data-type='text' class='editable editable-click' data-pk='" +
-          oneLayer.Id + "'> " + oneLayer.TokenUserName + "</a></td></tr>" +
+          oneLayer.id + "'> " + oneLayer.TokenUserName + "</a></td></tr>" +
           "<tr><td>" + "TokenPassword" +
           "</td><td><a href='#' id='TokenPassword' data-type='text' class='editable editable-click' data-pk='" +
-          oneLayer.Id + "'> " + oneLayer.TokenPassword + "</a></td></tr>" +
+          oneLayer.id + "'> " + oneLayer.TokenPassword + "</a></td></tr>" +
           "<tr><td>" + "TokenURL" +
           "</td><td><a href='#' id='TokenURL' data-type='text' class='editable editable-click' data-pk='" +
-          oneLayer.Id + "'> " + oneLayer.TokenURL + "</a></td></tr>" +
+          oneLayer.id + "'> " + oneLayer.TokenURL + "</a></td></tr>" +
           "<tr><td>" + "是否显示" + "</td><td><a href='#' id='IsVisble' data-type='select' data-value='" +
           oneLayer.IsVisble +
           "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
-          oneLayer.Id + "'> " + "</td></tr>" +
+          oneLayer.id + "'> " + "</td></tr>" +
           "<tr><td>" + "透明度" + "</td><td><a href='#' id='Opacity' data-type='number' data-value='" + oneLayer.Opacity
-          + "' class='editable' data-pk='" + oneLayer.Id + "'> " + "</a></td></tr>" +
+          + "' class='editable' data-pk='" + oneLayer.id + "'> " + "</a></td></tr>" +
           "<tr><td>" + "服务序号" + "</td><td><a href='#' id='SortCode' data-type='number' data-value='" +
-          parseInt(oneLayer.SortCode) + "' class='editable editable-click' data-pk='" + oneLayer.Id + "'> " +
+          parseInt(oneLayer.SortCode) + "' class='editable editable-click' data-pk='" + oneLayer.id + "'> " +
           "</a></td></tr>" +
           "<tr><td>" + "显示图例" + "</td><td><a href='#' id='IsLegend' data-type='select' data-value='" +
           oneLayer.IsLegend +
           "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
-          oneLayer.Id + "'> " + "</td></tr>" +
+          oneLayer.id + "'> " + "</td></tr>" +
           "<tr><td>" + "CacheName" +
           "</td><td><a href='#' id='CacheName' data-type='text' class='editable editable-click' data-pk='" +
-          oneLayer.Id + "'> " + oneLayer.CacheName + "</a></td></tr>" +
+          oneLayer.id + "'> " + oneLayer.CacheName + "</a></td></tr>" +
           "<tr><td>" + "移动端服务url" +
           "</td><td><a href='#' id='MobileServiceUrl' data-type='text' class='editable editable-click' data-pk='" +
-          oneLayer.Id + "'> " + oneLayer.MobileServiceUrl + "</a></td></tr>" +
+          oneLayer.id + "'> " + oneLayer.MobileServiceUrl + "</a></td></tr>" +
           "<tr><td>" + "是否在移动端显示" +
           "</td><td><a href='#' id='IsShowInMobile' data-type='select' data-value='" + oneLayer.IsShowInMobile +
           "'  data-source='http://localhost:3000/yesno'  class='editable editable-click editable-open' data-pk='" +
-          oneLayer.Id + "'> " + "</td></tr>"
+          oneLayer.id + "'> " + "</td></tr>"
         )
 
 
         if (oneLayer.LayerType == 'FeatureLayer') {
 
-          $.get('http://localhost:3000/fields?id=' + oneLayer.Id, function (fields) {
+          $.get('http://localhost:3000/fields?id=' + oneLayer.id, function (fields) {
 
             for (var i = 0; i < fields.length; i++) {
               var field = fields[i];

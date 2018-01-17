@@ -155,7 +155,7 @@ require([
           var ift = ""
           $.ajax({
             type: 'get',
-            url: 'http://localhost:3000/fields?id=' + oneLayer.Id,
+            url: 'http://localhost:3000/fields?id=' + oneLayer.id,
             async: false,
             success: function (res) {
               console.log(res);
