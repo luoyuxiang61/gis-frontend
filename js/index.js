@@ -105,7 +105,7 @@ require([
       async: false,
       success: function (layersForTree) {
         myLayers = layersForTree;
-        console.log(myLayers)
+        console.log(myLayers);
       }
     })
 
@@ -123,7 +123,7 @@ require([
 
         var oneLayer = item.sons[j];
         oneLayer.IsVisble = oneLayer.IsVisble == 1 ? true : false
-        console.log(oneLayer);
+
 
 
         //瓦片地图服务
@@ -158,7 +158,7 @@ require([
             url: 'http://localhost:3000/fields?id=' + oneLayer.id,
             async: false,
             success: function (res) {
-              console.log(res);
+
               for (var k = 0; k < res.length; k++) {
                 if (res[k].IsDisplay == 1) {
                   otf.push(res[k].FieldName);
@@ -556,7 +556,7 @@ require([
     gotoMark = function (ele) {
       var nowBookmark = nowBookmarks[$(ele).attr('index')]
 
-      console.log(nowBookmark)
+
 
       if (typeof (nowBookmark.xmin == String)) {
         map.setExtent(new Extent(parseFloat(nowBookmark.xmin), parseFloat(nowBookmark.ymin), parseFloat(nowBookmark.xmax), parseFloat(nowBookmark.ymax), new SpatialReference(nowBookmark.wkid)))
@@ -588,7 +588,7 @@ require([
         url: 'http://localhost:3000/addBookmark',
         data: mark,
         success: function (res) {
-          console.log(res);
+
           $("#markName").val('')
           showBookmarks()
         }
