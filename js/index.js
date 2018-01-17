@@ -95,7 +95,7 @@ require([
     var legendLayers = [];
 
 
-    console.log("#################################################");
+
     $.ajax({
       type: 'post',
       url: "http://" + serverIP + ":" + serverPort + "/layersForTree",
@@ -110,7 +110,7 @@ require([
 
 
     for (var i = 0; i < myLayers.length; i++) {
-      console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+
       var item = myLayers[i];
       var nowGroup = item.father.DisplayName;
       $("#layerList").append("<li class='layerListItem groupLayer " + nowGroup +
