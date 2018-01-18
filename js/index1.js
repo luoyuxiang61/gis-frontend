@@ -1,4 +1,5 @@
 var map;
+console.log(user);
 require([
     "dojo/dom",
     "dojo/on",
@@ -141,7 +142,7 @@ require([
                             }
 
                             var lyr = new FeatureLayer(oneLayer.ServiceUrl, {
-                                id: oneLayer.DisplayName,
+                                id: "" + oneLayer.id,
                                 visible: oneLayer.IsVisible,
                                 outFields: otf,
                                 infoTemplate: new InfoTemplate("Attributes", ift),
@@ -151,6 +152,7 @@ require([
                             if (oneLayer.IsLegend == 1) {
                                 legendLayers.push(lyr);
                             };
+
                             showLayers.push(lyr);
                         }
                     }
