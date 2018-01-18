@@ -1,4 +1,5 @@
 var map;
+console.log(user);
 require([
     "dojo/dom",
     "dojo/on",
@@ -85,14 +86,15 @@ require([
 
         $.ajax({
             type: 'post',
-            url: "http://" + serverIP + ":" + serverPort + "/layersForTree",
-            success: function (layersForTree) {
+            url: "http://" + serverIP + ":" + serverPort + "/layersForGroup",
+            data: { groupId: user.groupId },
+            success: function (layersForGroup) {
                 var sonshtml = '';
-                for (var i = 0; i < layersForTree.length; i++) {
-                    sonshtml += "<div class='list-group-item father' flag='0' onclick='showSons(this)'><input type='checkbox'>" + "<strong>" + layersForTree[i].father.DisplayName + "</strong></div>"
+                for (var i = 0; i < layersForGroup.length; i++) {
+                    sonshtml += "<div class='list-group-item father' flag='0' onclick='showSons(this)'><input type='checkbox'>" + "<strong>" + layersForGroup[i].father.DisplayName + "</strong></div>"
                     sonshtml += "<ul class='list-group son' style='padding-left:15px;margin-bottom:3px'>"
-                    for (var j = 0; j < layersForTree[i].sons.length; j++) {
-                        sonshtml += "<li class='list-group-item' flag='0' onclick='clickSon(this)'>" + "<input type='checkbox'>" + layersForTree[i].sons[j].DisplayName + "</li>"
+                    for (var j = 0; j < layersForGroup[i].sons.length; j++) {
+                        sonshtml += "<li class='list-group-item' flag='0' onclick='clickSon(this)'>" + "<input type='checkbox'>" + layersForGroup[i].sons[j].DisplayName + "</li>"
                     }
                     sonshtml += "</ul>"
                 }
@@ -101,9 +103,9 @@ require([
                 )
 
 
-                for (var i = 0; i < layersForTree.length; i++) {
+                for (var i = 0; i < layersForGroup.length; i++) {
 
-                    var item = layersForTree[i];
+                    var item = layersForGroup[i];
 
                     for (var j = 0; j < item.sons.length; j++) {
 
@@ -129,24 +131,9 @@ require([
                         }
                         //要素图层
                         if (oneLayer.LayerType === "FeatureLayer" && oneLayer.ServiceUrl != null) {
-                            // var otf = [];
-                            // var ift = ""
-                            // $.ajax({
-                            //     type: 'get',
-                            //     url: "http://" + serverIP + ":" + serverPort + "/fields?id=" + oneLayer.id,
-                            //     async: false,
-                            //     success: function (res) {
-                            //         for (var k = 0; k < res.length; k++) {
-                            //             if (res[k].IsDisplay == 1) {
-                            //                 otf.push(res[k].FieldName);
-                            //                 ift += (res[k].FieldName + ": ${" + res[k].FieldName + "}<br>")
-                            //             }
-                            //         }
-                            //     }
-                            // })
 
                             var lyr = new FeatureLayer(oneLayer.ServiceUrl, {
-                                id: oneLayer.DisplayName,
+                                id: "" + oneLayer.id,
                                 visible: oneLayer.IsVisible,
                                 outFields: ["*"],
                                 infoTemplate: new InfoTemplate("Attributes", "${*}"),
@@ -156,6 +143,7 @@ require([
                             if (oneLayer.IsLegend == 1) {
                                 legendLayers.push(lyr);
                             };
+
                             showLayers.push(lyr);
                         }
                     }
