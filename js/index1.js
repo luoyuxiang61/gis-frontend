@@ -129,27 +129,27 @@ require([
                         }
                         //要素图层
                         if (oneLayer.LayerType === "FeatureLayer" && oneLayer.ServiceUrl != null) {
-                            // var otf = [];
-                            // var ift = ""
-                            // $.ajax({
-                            //     type: 'get',
-                            //     url: "http://" + serverIP + ":" + serverPort + "/fields?id=" + oneLayer.id,
-                            //     async: false,
-                            //     success: function (res) {
-                            //         for (var k = 0; k < res.length; k++) {
-                            //             if (res[k].IsDisplay == 1) {
-                            //                 otf.push(res[k].FieldName);
-                            //                 ift += (res[k].FieldName + ": ${" + res[k].FieldName + "}<br>")
-                            //             }
-                            //         }
-                            //     }
-                            // })
+                            var otf = [];
+                            var ift = ""
+                            $.ajax({
+                                type: 'get',
+                                url: "http://" + serverIP + ":" + serverPort + "/fields?id=" + oneLayer.id,
+                                async: false,
+                                success: function (res) {
+                                    for (var k = 0; k < res.length; k++) {
+                                        if (res[k].IsDisplay == 1) {
+                                            otf.push(res[k].FieldName);
+                                            ift += (res[k].FieldName + ": ${" + res[k].FieldName + "}<br>")
+                                        }
+                                    }
+                                }
+                            })
 
                             var lyr = new FeatureLayer(oneLayer.ServiceUrl, {
                                 id: oneLayer.DisplayName,
                                 visible: oneLayer.IsVisible,
-                                outFields: ["*"],
-                                infoTemplate: new InfoTemplate("Attributes", "${*}"),
+                                outFields: otf,
+                                infoTemplate: new InfoTemplate("Attributes", ift),
                                 opacity: oneLayer.Opacity
                             });
 
