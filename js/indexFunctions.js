@@ -25,6 +25,7 @@ function showSons(el) {
 
 //点击子图层
 function clickSon(el) {
+    console.log(map);
     var sonCheckFlag = $(el).attr('flag')
     var sonChecked = $($(el).children()[0]).prop('checked');
     var fatherCheckbox = $($($(el).parent().prev()).children()[0]);
@@ -47,3 +48,11 @@ function clickSon(el) {
         }
     }
 }
+
+function mapLoaded() {
+    $("#loading").hide();
+
+}
+
+
+

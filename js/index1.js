@@ -1,4 +1,4 @@
-
+var map;
 require([
     "dojo/dom",
     "dojo/on",
@@ -52,6 +52,7 @@ require([
 
 
 ) {
+        //几何服务
         esriConfig.defaults.geometryService = new GeometryService(
             "http://" + gisServerIP + ":" + gisServerPort + "/arcgis/rest/services/Utilities/Geometry/GeometryServer");
 
@@ -75,8 +76,10 @@ require([
             title: "影像底图"
         };
 
-        /*数据图层部分*/
-        var infoTemplate = new InfoTemplate("属性", "${*}");
+
+
+
+        /*瓦片图层、要素图层*/
         var showLayers = [];
         var legendLayers = [];
 
@@ -119,7 +122,7 @@ require([
                             }
                             var lyr = new ArcGISTiledMapServiceLayer(oneLayer.ServiceUrl, {
                                 id: oneLayer.DisplayName,
-                                visible: true,
+                                visible: oneLayer.IsVisble,
                                 opacity: oneLayer.Opacity
                             })
                             showLayers.push(lyr);
@@ -141,11 +144,13 @@ require([
                                         }
                                     }
                                 }
+
+
                             })
 
                             var lyr = new FeatureLayer(oneLayer.ServiceUrl, {
                                 id: oneLayer.DisplayName,
-                                visible: true,
+                                visible: oneLayer.IsVisble,
                                 outFields: otf,
                                 infoTemplate: new InfoTemplate('信息', ift),
                                 opacity: oneLayer.Opacity
@@ -167,7 +172,7 @@ require([
 
 
                 map.addLayers(showLayers);
-
+                map.on('layers-add-result', mapLoaded())
 
 
 
