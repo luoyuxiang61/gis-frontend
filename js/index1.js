@@ -108,7 +108,7 @@ require([
                     for (var j = 0; j < item.sons.length; j++) {
 
                         var oneLayer = item.sons[j];
-                        oneLayer.IsVisble = oneLayer.IsVisble == 1 ? true : false
+                        oneLayer.IsVisible = oneLayer.IsVisible == 1 ? true : false
 
 
 
@@ -122,37 +122,34 @@ require([
                             }
                             var lyr = new ArcGISTiledMapServiceLayer(oneLayer.ServiceUrl, {
                                 id: oneLayer.DisplayName,
-                                visible: oneLayer.IsVisble,
+                                visible: oneLayer.IsVisible,
                                 opacity: oneLayer.Opacity
                             })
                             showLayers.push(lyr);
                         }
                         //要素图层
                         if (oneLayer.LayerType === "FeatureLayer" && oneLayer.ServiceUrl != null) {
-                            var otf = [];
-                            var ift = ""
-                            $.ajax({
-                                type: 'get',
-                                url: "http://" + serverIP + ":" + serverPort + "/fields?id=" + oneLayer.id,
-                                async: false,
-                                success: function (res) {
-
-                                    for (var k = 0; k < res.length; k++) {
-                                        if (res[k].IsDisplay == 1) {
-                                            otf.push(res[k].FieldName);
-                                            ift += (res[k].FieldName + ": ${" + res[k].FieldName + "}<br>")
-                                        }
-                                    }
-                                }
-
-
-                            })
+                            // var otf = [];
+                            // var ift = ""
+                            // $.ajax({
+                            //     type: 'get',
+                            //     url: "http://" + serverIP + ":" + serverPort + "/fields?id=" + oneLayer.id,
+                            //     async: false,
+                            //     success: function (res) {
+                            //         for (var k = 0; k < res.length; k++) {
+                            //             if (res[k].IsDisplay == 1) {
+                            //                 otf.push(res[k].FieldName);
+                            //                 ift += (res[k].FieldName + ": ${" + res[k].FieldName + "}<br>")
+                            //             }
+                            //         }
+                            //     }
+                            // })
 
                             var lyr = new FeatureLayer(oneLayer.ServiceUrl, {
                                 id: oneLayer.DisplayName,
-                                visible: oneLayer.IsVisble,
-                                outFields: otf,
-                                infoTemplate: new InfoTemplate('信息', ift),
+                                visible: oneLayer.IsVisible,
+                                outFields: ["*"],
+                                infoTemplate: new InfoTemplate("Attributes", "${*}"),
                                 opacity: oneLayer.Opacity
                             });
 
