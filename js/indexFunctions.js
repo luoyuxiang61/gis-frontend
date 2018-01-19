@@ -51,8 +51,24 @@ function clickSon(el) {
             }
         }
     } else {
-        console.log('nothing');
-
+        if (sonChecked) {
+            $(el).attr('flag', '0');
+            $($(el).children()[0]).prop('checked', false)
+            fatherCheckbox.parent().attr('flag', '0');
+            fatherCheckbox.prop('checked', false);
+            var sonLis1 = $(el).parent().children()
+            for (var i = 0; i < sonLis1.length; i++) {
+                if ($($(sonLis1[i]).children()[0]).prop('checked')) {
+                    fatherCheckbox.parent().attr('flag', '1');
+                    fatherCheckbox.prop('checked', true);
+                }
+            }
+        } else {
+            $(el).attr('flag', '1');
+            $($(el).children()[0]).prop('checked', true)
+            fatherCheckbox.parent().attr('flag', '1');
+            fatherCheckbox.prop('checked', true);
+        }
 
     }
 
