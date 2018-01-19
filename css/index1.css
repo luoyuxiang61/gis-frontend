@@ -49,6 +49,12 @@ body {
     height: auto;
     z-index: 999;
 }
+#layerList>.list-group {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+
 ul.son {
     display: none
 }

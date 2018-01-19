@@ -1,5 +1,4 @@
 var map;
-console.log(user);
 require([
     "dojo/dom",
     "dojo/on",
@@ -50,7 +49,6 @@ require([
     CartographicLineSymbol, esriBasemaps, BasemapToggle, InfoTemplate, Units, OverviewMap, Bookmarks, Scalebar,
     HomeButton, Draw, Graphic, LayerList, Legend, ArcGISTiledMapServiceLayer,
     Print, Query, QueryTask, Extent, SpatialReference
-
 
 ) {
         //几何服务
