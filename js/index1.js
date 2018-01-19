@@ -94,7 +94,7 @@ require([
                     sonshtml += "<div class='list-group-item father' flag='0' onclick='showSons(this)'><input type='checkbox'>" + "<strong>" + layersForGroup[i].father.DisplayName + "</strong></div>"
                     sonshtml += "<ul class='list-group son' style='padding-left:15px;margin-bottom:3px'>"
                     for (var j = 0; j < layersForGroup[i].sons.length; j++) {
-                        sonshtml += "<li class='list-group-item' flag='0' onclick='clickSon(this)'>" + "<input type='checkbox'>" + layersForGroup[i].sons[j].DisplayName + "</li>"
+                        sonshtml += "<li class='list-group-item' flag='0' layerId='" + layersForGroup[i].sons[j].id + "' onclick='clickSon(this)'>" + "<input type='checkbox'>" + layersForGroup[i].sons[j].DisplayName + "</li>"
                     }
                     sonshtml += "</ul>"
                 }
@@ -112,6 +112,11 @@ require([
                         var oneLayer = item.sons[j];
                         oneLayer.IsVisible = oneLayer.IsVisible == 1 ? true : false
 
+                        if (oneLayer.IsVisible == 1) {
+                            var el = $("[layerId='" + oneLayer.id + "']");
+                            $(el.children()[0]).prop('checked', true);
+                            clickSon(el)
+                        }
 
 
                         //瓦片地图服务
@@ -145,14 +150,13 @@ require([
                                 id: "" + oneLayer.id,
                                 visible: oneLayer.IsVisible,
                                 outFields: otf,
-                                infoTemplate: new InfoTemplate("Attributes", ift),
+                                infoTemplate: new InfoTemplate("信息", ift),
                                 opacity: oneLayer.Opacity
                             });
 
                             if (oneLayer.IsLegend == 1) {
                                 legendLayers.push(lyr);
                             };
-
                             showLayers.push(lyr);
                         }
                     }

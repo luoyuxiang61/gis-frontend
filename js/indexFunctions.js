@@ -8,7 +8,7 @@ function showSons(el) {
         if (checked) {
             $(el).next().show()
         } else {
-            $(el).next().hide()
+            // $(el).next().hide()
         }
         $(el).attr('flag', checked == true ? '1' : '0');
         var sonLis = $($(el).next().children());
