@@ -54,6 +54,11 @@ body {
     overflow-y: auto;
 }
 
+#basemapGalleryDiv {
+    position: absolute;
+    right: 200px;
+    top: 200px;
+}
 
 ul.son {
     display: none

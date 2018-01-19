@@ -37,6 +37,9 @@ require([
     "esri/tasks/QueryTask",
     "esri/geometry/Extent",
     "esri/SpatialReference",
+    "esri/dijit/BasemapGallery",
+    "esri/dijit/Basemap",
+    "esri/dijit/BasemapLayer",
     "dijit/layout/BorderContainer",
     "dijit/layout/ContentPane",
     "dijit/TitlePane",
@@ -48,7 +51,7 @@ require([
     SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol, PictureFillSymbol,
     CartographicLineSymbol, esriBasemaps, BasemapToggle, InfoTemplate, Units, OverviewMap, Bookmarks, Scalebar,
     HomeButton, Draw, Graphic, LayerList, Legend, ArcGISTiledMapServiceLayer,
-    Print, Query, QueryTask, Extent, SpatialReference
+    Print, Query, QueryTask, Extent, SpatialReference, BasemapGallery, Basemap, BasemapLayer
 
 ) {
         //几何服务
@@ -57,28 +60,10 @@ require([
 
 
 
-        /*底图部分*/
-        //基础底图
-        esriBasemaps.jcdt = {
-            baseMapLayers: [{
-                url: ""
-            }],
-            thumbnailUrl: "https://js.arcgis.com/3.15/esri/images/basemap/streets.jpg",
-            title: "基础底图"
-        };
-        //影像底图
-        esriBasemaps.yxdt = {
-            baseMapLayers: [{
-                url: ""
-            }],
-            thumbnailUrl: "https://js.arcgis.com/3.15/esri/images/basemap/satellite.jpg",
-            title: "影像底图"
-        };
 
 
 
-
-        /*瓦片图层、要素图层*/
+        var basemaps = [];
         var showLayers = [];
         var legendLayers = [];
 
@@ -119,12 +104,19 @@ require([
 
                         //瓦片地图服务
                         if (oneLayer.LayerType == "TiledService") {
-                            if (oneLayer.DisplayName === "基础底图") {
-                                esriBasemaps.jcdt.baseMapLayers[0].url = oneLayer.ServiceUrl;
+
+                            var IsBasemap = oneLayer.DisplayName.indexOf('底图');
+                            if (IsBasemap != -1) {
+                                basemaps.push(new Basemap({
+                                    layers: [new BasemapLayer({
+                                        url: oneLayer.ServiceUrl
+                                    })],
+                                    thumbnailUrl: "http://" + serverIP + ":" + serverPort + "/" + oneLayer.DisplayName + ".PNG",
+                                    title: oneLayer.DisplayName
+                                }))
                             }
-                            if (oneLayer.DisplayName === "影像底图") {
-                                esriBasemaps.yxdt.baseMapLayers[0].url = oneLayer.ServiceUrl;
-                            }
+
+
                             var lyr = new ArcGISTiledMapServiceLayer(oneLayer.ServiceUrl, {
                                 id: "" + oneLayer.id,
                                 visible: oneLayer.IsVisible,
@@ -162,9 +154,19 @@ require([
 
 
                 map = new Map("map", {
-                    basemap: "jcdt",
+                    basemap: basemaps[0],
                     logo: false
                 });
+
+
+
+                var basemapGallery = new BasemapGallery({
+                    showArcGISBasemaps: false,
+                    map: map,
+                    basemaps: basemaps
+                }, "basemapGalleryDiv");
+                basemapGallery.startup();
+
 
 
                 map.addLayers(showLayers);

@@ -12,6 +12,9 @@
   <script src="./js/checkLogin.js"></script>
   <link rel="stylesheet" href="./lib/bootstrap-3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="./lib/bootstrap3-editable/css/bootstrap-editable.css">
+  <script src="./lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+  <script src="./lib/bootstrap3-editable/js/bootstrap-editable.js"></script>
+  <script src="http://192.168.0.163:8007/arcgis_js_api/library/3.22/3.22compact/init.js"></script>
 
   <style media="screen">
     html,
@@ -20,37 +23,22 @@
       width: 100%;
     }
 
-    #mainWindow {
+    #mainView {
       position: absolute;
-      top: 53px;
+      top: 52px;
       bottom: 0px;
       width: 100%;
     }
 
-    a.list-group-item {
-      padding: 2px;
-      text-align: center;
+    #mainView>.row {
+      height: 100%;
+      margin-left: 50px;
+      margin-right: 50px;
     }
 
-    .btn-group-lg>.btn,
-    .btn-lg {
-      padding: 10px 8px;
-      font-size: 18px;
-      line-height: 1.3333333;
-      border-radius: 0px;
-      font-size: 100%;
-      font-style: oblique;
-      font-weight: bold;
-      text-align: left;
-    }
-
-    .table {
-      margin-bottom: 0px;
-    }
-
-    .list-group {
-      margin-top: 10px;
-      margin-bottom: 10px;
+    #mainView>.row>#tree {
+      height: 100%;
+      background-color: antiquewhite;
     }
   </style>
 </head>
@@ -131,363 +119,16 @@
 
 
   <!-- 主界面容器 -->
-  <div class="container-fluid" id="mainWindow">
-    <!-- 容器一分为二，横向排列-->
-    <div class="row" style="height:100%">
-      <!-- 左边的目录树，在PC上占比为2/12，在移动端占比为4/12，主要是为了在移动端是还能看全目录树上的元素的字 -->
-      <div id="sideTree" class="col-xs-4 col-md-2" style="height:100%;padding:0;background-color:#efefff;overflow:scroll">
-      </div>
-
-
-      <!-- 右边的可修改的详细信息，在PC端占比为10/12，在移动端占比为8/12 -->
-      <div class="col-xs-8 col-md-10" style="height:100%;padding:0;">
-        <div class="row" style="height:100%;margin-left:0px;margin-right:0px">
-          <div class="col-md-6" style="height:100%;overflow:auto;">
-            <table id="service" class="table table-bordered table-striped">
-              <tbody>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="col-md-6" style="height:100%;padding-left:20px;overflow:auto;">
-            <table id="fields" class="table table-bordered table-striped" style="clear:both;">
-              <thead>
-                <tr>
-                  <th>字段名称</th>
-                  <th>序号</th>
-                  <th>显示名称</th>
-                  <th>单位</th>
-                  <th>显示</th>
-                  <th>搜索</th>
-                  <th>标注</th>
-                  <th>转换为亩</th>
-                </tr>
-              </thead>
-              <tbody>
-
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
+  <div class="container-fluid" id="mainView">
+    <div class="row">
+      <div class="col-md-2" id="tree"></div>
+      <div class="col-md-10" id="table"></div>
     </div>
   </div>
 
 
-  <script src="./lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
-  <script src="./lib/bootstrap3-editable/js/bootstrap-editable.js"></script>
-  <script src="http://192.168.0.163:8007/arcgis_js_api/library/3.22/3.22compact/init.js"></script>
-
-  <script>
-    var featureLayers = [];
-    require(["esri/layers/FeatureLayer"], function (FeatureLayer) {
-
-      $.get("http://" + serverIP + ":" + serverPort + "/featureLayers", function (result) {
-
-        for (var i = 0; i < result.length; i++) {
-          var fl = new FeatureLayer(result[i].ServiceUrl, {
-            id: result[i].id
-          });
-
-          fl.on('load', function (fl1) {
-            $.post("http://" + serverIP + ":" + serverPort + "/addFields", {
-              id: fl1.layer.id,
-              fields: JSON.stringify(fl1.layer.fields)
-            }, function (res) {
-              console.log(res)
-            })
-
-            featureLayers.push(fl1.layer)
-          })
-
-        }
-      })
-    })
-  </script>
 
 
-
-
-  <script type="text/javascript">
-    $.ajax({
-      type: 'post',
-      async: false,
-      url: "http://" + serverIP + ":" + serverPort + "/layersForTree",
-      success: function (layersForTree) {
-        for (var i = 0; i < layersForTree.length; i++) {
-
-          var item = layersForTree[i];
-          var sonshtml = "<div class='list-group' style='display:none'>";
-          for (var j = 0; j < item.sons.length; j++) {
-            sonshtml += "<a href='#' class='list-group-item sonli' layerId=" + item.sons[j].id + ">" + item.sons[
-              j].DisplayName + "</a>";
-          }
-          sonshtml += "</div>";
-          $("#sideTree").append(
-            "<button type='button' class='btn btn-default btn-lg btn-block'><span class='glyphicon glyphicon-chevron-right' aria-hidden='true'</span>" +
-            item.father.DisplayName + "</button>" + sonshtml)
-        }
-      }
-
-    })
-
-    // 点击服务名，高亮，右侧进行相应的更新
-    $(".sonli").click(function () {
-      $(".sonli").removeClass("active");
-      $(this).addClass("active");
-
-      $("#service>tbody").empty();
-      $("#fields>tbody").empty();
-
-      var layerId = $(this).attr('layerId');
-
-      $.get("http://" + serverIP + ":" + serverPort + "/oneLayer?layerId=" + layerId, function (oneLayer) {
-
-        console.log(oneLayer.Opacity);
-
-        var lt = 0;
-        switch (oneLayer.LayerType) {
-          case 'GroupLayer':
-            lt = 0;
-            break;
-          case 'TiledService':
-            lt = 1;
-            break;
-          case 'FeatureLayer':
-            lt = 2;
-            break;
-          case 'GeometryService':
-            lt = 3
-            break;
-          default:
-            lt = 0;
-        }
-
-        $("#service>tbody").append("<tr><td>" + "服务名称" +
-          "</td><td><a href='#' id='LayerName' data-type='text'  class='editable editable-click' data-pk='" +
-          oneLayer.id + "'> " + oneLayer.LayerName + "</a></td></tr>" +
-          "<tr><td>" + "显示名称" +
-          "</td><td><a href='#' id='DisplayName' data-type='text'  class='editable editable-click' data-pk='" +
-          oneLayer.id + "'> " + oneLayer.DisplayName + "</a></td></tr>" +
-          "<tr><td>" + "服务url" +
-          "</td><td><a href='#' id='ServiceUrl' data-type='text' class='editable editable-click' data-pk='" +
-          oneLayer.id + "'> " + oneLayer.ServiceUrl + "</a></td></tr>" +
-          "<tr><td>" + "图层类型" + "</td><td><a href='#' id='LayerType' data-type='select' data-value='" + lt +
-          "'  data-source='http://" + serverIP + ":" + serverPort + "/layerType'  class='editable editable-click editable-open' data-pk='" +
-          oneLayer.id + "'> " + oneLayer.LayerType + "</td></tr>" +
-          "<tr><td>" + "TokenUserName" +
-          "</td><td><a href='#' id='TokenUserName' data-type='text' class='editable editable-click' data-pk='" +
-          oneLayer.id + "'> " + oneLayer.TokenUserName + "</a></td></tr>" +
-          "<tr><td>" + "TokenPassword" +
-          "</td><td><a href='#' id='TokenPassword' data-type='text' class='editable editable-click' data-pk='" +
-          oneLayer.id + "'> " + oneLayer.TokenPassword + "</a></td></tr>" +
-          "<tr><td>" + "TokenURL" +
-          "</td><td><a href='#' id='TokenURL' data-type='text' class='editable editable-click' data-pk='" +
-          oneLayer.id + "'> " + oneLayer.TokenURL + "</a></td></tr>" +
-          "<tr><td>" + "是否显示" + "</td><td><a href='#' id='IsVisible' data-type='select' data-value='" +
-          oneLayer.IsVisible +
-          "'  data-source='http://" + serverIP + ":" + serverPort + "/yesno'  class='editable editable-click editable-open' data-pk='" +
-          oneLayer.id + "'> " + "</td></tr>" +
-          "<tr><td>" + "透明度" + "</td><td><a href='#' id='Opacity' data-type='number' data-value='" + oneLayer.Opacity
-          + "' class='editable' data-pk='" + oneLayer.id + "'> " + "</a></td></tr>" +
-          "<tr><td>" + "服务序号" + "</td><td><a href='#' id='SortCode' data-type='number' data-value='" +
-          parseInt(oneLayer.SortCode) + "' class='editable editable-click' data-pk='" + oneLayer.id + "'> " +
-          "</a></td></tr>" +
-          "<tr><td>" + "显示图例" + "</td><td><a href='#' id='IsLegend' data-type='select' data-value='" +
-          oneLayer.IsLegend +
-          "'  data-source='http://" + serverIP + ":" + serverPort + "/yesno'  class='editable editable-click editable-open' data-pk='" +
-          oneLayer.id + "'> " + "</td></tr>" +
-          "<tr><td>" + "CacheName" +
-          "</td><td><a href='#' id='CacheName' data-type='text' class='editable editable-click' data-pk='" +
-          oneLayer.id + "'> " + oneLayer.CacheName + "</a></td></tr>" +
-          "<tr><td>" + "移动端服务url" +
-          "</td><td><a href='#' id='MobileServiceUrl' data-type='text' class='editable editable-click' data-pk='" +
-          oneLayer.id + "'> " + oneLayer.MobileServiceUrl + "</a></td></tr>" +
-          "<tr><td>" + "是否在移动端显示" +
-          "</td><td><a href='#' id='IsShowInMobile' data-type='select' data-value='" + oneLayer.IsShowInMobile +
-          "'  data-source='http://" + serverIP + ":" + serverPort + "/yesno'  class='editable editable-click editable-open' data-pk='" +
-          oneLayer.id + "'> " + "</td></tr>"
-        )
-
-
-        if (oneLayer.LayerType == 'FeatureLayer') {
-
-          $.get("http://" + serverIP + ":" + serverPort + "/fields?id=" + oneLayer.id, function (fields) {
-
-            for (var i = 0; i < fields.length; i++) {
-              var field = fields[i];
-
-
-              var un = 4;
-              switch (field.UnitName) {
-                case 'm':
-                  un = 0;
-                  break;
-                case '米':
-                  un = 0;
-                  break;
-                case '㎡':
-                  un = 2;
-                  break;
-                case '平方米':
-                  un = 2;
-                  break;
-                case 'km':
-                  un = 1;
-                  break;
-                case '千米':
-                  un = 1;
-                  break;
-                case 'k㎡':
-                  un = 3;
-                  break;
-                case '平方千米':
-                  un = 3;
-                  break;
-                default:
-                  un = 4;
-                  break;
-              }
-
-
-              console.log(un + "xxxxxxxxxxxxxxx")
-
-              var tomu = field.IsShowMuFormSquareMeters == 1 ? 1 : 0
-
-
-
-
-              $("#fields>tbody").append(
-                "<tr>" +
-                "<td><a href='#' id='FieldName' data-type='text'  class='editable editable-click' data-pk='" +
-                field.id + "'> " + field.FieldName + "</a></td>" +
-                "<td><a href='#' id='SortCode' data-type='number' data-value='" + parseInt(field.SortCode) +
-                "' class='editable editable-click' data-pk='" + field.id + "'> " + "</a></td>" +
-                "<td><a href='#' id='DisplayName' data-type='text'  class='editable editable-click' data-pk='" +
-                field.id + "'> " + field.DisplayName + "</a></td>" +
-                "<td><a href='#' id='UnitName' data-type='select' data-value='" + un +
-                "'  data-source='http://" + serverIP + ":" + serverPort + "/unitName'  class='editable editable-click editable-open' data-pk='" +
-                field.id + "' data-value='" + un + "'> " + "</td>" +
-                "<td><a href='#' id='IsDisplay' data-type='select' data-value='" + field.IsDisplay +
-                "'  data-source='http://" + serverIP + ":" + serverPort + "/yesno'  class='editable editable-click editable-open' data-pk='" +
-                field.id + "'> " + "</td>" +
-                "<td><a href='#' id='IsSearch' data-type='select' data-value='" + field.IsSearch +
-                "'  data-source='http://" + serverIP + ":" + serverPort + "/yesno'  class='editable editable-click editable-open' data-pk='" +
-                field.id + "'> " + "</td>" +
-                "<td><a href='#' id='IsLabel' data-type='select' data-value='" + field.IsLabel +
-                "'  data-source='http://" + serverIP + ":" + serverPort + "/yesno'  class='editable editable-click editable-open' data-pk='" +
-                field.id + "'> " + "</td>" +
-                "<td><a href='#' id='IsShowMuFormSquareMeters' data-type='select' data-value='" + tomu +
-                "'  data-source='http://" + serverIP + ":" + serverPort + "/yesno'  class='editable editable-click editable-open' data-pk='" +
-                field.id + "'> " + "</td>"
-              )
-            }
-
-            $("#fields>tbody .editable.editable-click").editable({
-              showbuttons: false,
-              url: "http://" + serverIP + ":" + serverPort + "/updateField",
-              ajaxOptions: {
-                dataType: 'json'
-              },
-              success: function (response) {
-                if (!(response[0] == 1)) {
-                  return "发生错误";
-                }
-                if (response.success === false) {
-                  return response.msg;
-                }
-              }
-            })
-
-
-          })
-
-
-
-
-        }
-
-
-
-
-
-        $.fn.editable.defaults.mode = 'inline';
-        var original = $.fn.editableutils.setCursorPosition;
-        $.fn.editableutils.setCursorPosition = function () {
-          try {
-            original.apply(this, Array.prototype.slice.call(arguments));
-          } catch (e) { /* noop */ }
-        };
-
-
-        $("#service>tbody #Opacity").editable({
-          step: 0.1,
-          showbuttons: false,
-          url: "http://" + serverIP + ":" + serverPort + "/updateLayer",
-          ajaxOptions: {
-            dataType: 'json'
-          },
-          success: function (response) {
-            if (!(response[0] == 1)) {
-              return "发生错误";
-            }
-
-            if (response.success === false) {
-              return response.msg;
-            }
-          }
-        })
-
-        $('#service>tbody .editable.editable-click').editable({
-          showbuttons: false,
-          url: "http://" + serverIP + ":" + serverPort + "/updateLayer",
-          ajaxOptions: {
-            dataType: 'json'
-          },
-          success: function (response) {
-            if (!(response[0] == 1)) {
-              return "发生错误";
-            }
-            if (response.success === false) {
-              return response.msg;
-            }
-          }
-
-        })
-      })
-    })
-
-    // 左边树状图点击父元素显示或者关闭子元素
-    $("button.btn-block").click(function () {
-      if ($(this).is(".active")) {
-        $(this).removeClass("active");
-        $(this).next().hide();
-        $(this).children("span").removeClass("glyphicon-chevron-down");
-        $(this).children("span").addClass("glyphicon-chevron-right");
-      } else {
-        $("button.btn-block").removeClass("active");
-        $(this).addClass("active");
-        $(".list-group").hide();
-        $(this).next().show();
-        $("button.btn-block").children("span").removeClass("glyphicon-chevron-down");
-        $("button.btn-block").children("span").addClass("glyphicon-chevron-right");
-        $(this).children("span").removeClass("glyphicon-chevron-right");
-        $(this).children("span").addClass("glyphicon-chevron-down");
-      }
-
-    })
-
-
-    //表格编辑
-    $('#group').editable({
-      showbuttons: false,
-      url: function (params) {
-        console.log(params)
-      }
-
-    });
-  </script>
 </body>
 
 </html>
