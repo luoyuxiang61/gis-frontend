@@ -10,12 +10,11 @@ function showSons(el) {
         } else {
             $(el).next().hide()
         }
-
-
         $(el).attr('flag', checked == true ? '1' : '0');
         var sonLis = $($(el).next().children());
         for (var i = 0; i < sonLis.length; i++) {
             $(sonLis[i].children[0]).prop('checked', checked);
+            $(sonLis[i]).attr('flag', checked ? '1' : '0');
         }
     } else {
         $(el).next().toggle()
@@ -25,28 +24,38 @@ function showSons(el) {
 
 //点击子图层
 function clickSon(el) {
-    console.log(map);
-    var sonCheckFlag = $(el).attr('flag')
+
+    var sonCheckFlag = $(el).attr('flag') == '1' ? true : false;
     var sonChecked = $($(el).children()[0]).prop('checked');
     var fatherCheckbox = $($($(el).parent().prev()).children()[0]);
 
-    if (sonChecked) {
-        fatherCheckbox.prop('checked', true);
-        $(el).attr('flag', '1');
-    } else {
-        fatherCheckbox.prop('checked', false);
-        $(el).attr('flag', '0');
 
-        var sonLis1 = $(el).parent().children()
-        console.log(sonLis1);
-        for (var i = 0; i < sonLis1.length; i++) {
-            if ($($(sonLis1[i]).children()[0]).prop('checked')) {
-                fatherCheckbox.prop('checked', true);
-                $(el).attr('flag', '1');
+
+    if (sonChecked != sonCheckFlag) {
+        if (sonChecked) {
+            $(el).attr('flag', '1');
+            fatherCheckbox.parent().attr('flag', '1');
+            fatherCheckbox.prop('checked', true);
+        } else {
+            $(el).attr('flag', '0');
+            fatherCheckbox.parent().attr('flag', '0');
+            fatherCheckbox.prop('checked', false);
+
+
+            var sonLis1 = $(el).parent().children()
+            for (var i = 0; i < sonLis1.length; i++) {
+                if ($($(sonLis1[i]).children()[0]).prop('checked')) {
+                    fatherCheckbox.parent().attr('flag', '1');
+                    fatherCheckbox.prop('checked', true);
+                }
             }
-            // console.log($($(sonLis1[i]).children()[0]).prop('checked'));
         }
+    } else {
+        console.log('nothing');
+
+
     }
+
 }
 
 function mapLoaded() {
@@ -61,10 +70,6 @@ function mapLoaded() {
             type: "post",
             data: { groupId: user.groupId, baseMapLayerId: flId },
             success: function (res) {
-
-
-
-
 
             }
         })
