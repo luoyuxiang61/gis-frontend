@@ -54,12 +54,6 @@ body {
     overflow-y: auto;
 }
 
-#basemapGalleryDiv {
-    position: absolute;
-    right: 200px;
-    top: 200px;
-}
-
 #toolContainer {
     position: absolute;
     top: 50px;
@@ -141,6 +135,20 @@ body {
     color: #3a3939;
     margin-right: 3px;
 }
+
+#toolGround {
+    display: none;
+    position: absolute;
+    top: 100px;
+    right: 50px;
+    width: 474px;
+    height: 100px;
+    background-color: white;
+    text-align: center;
+}
+
+
+
 
 ul.son {
     display: none
