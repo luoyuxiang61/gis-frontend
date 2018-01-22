@@ -64,8 +64,10 @@ body {
     position: absolute;
     top: 50px;
     right: 200px;
-    
+    padding-top: 4px;
+    padding-left: 4px;
     float: right;
+    box-shadow: 1px 2px 1px rgba(0,0,0,.15);
     
 }
 
@@ -76,13 +78,17 @@ body {
     cursor: pointer;
     display: inline-block;
 }
+#toolContainer #searchTool:hover {
+    color: blue;
+}
+
 #toolContainer #searchTool>span {
     float: left;
     height: 34px;
     width: 29px;
     background-image: url('../images/search.png');
     background-repeat: no-repeat;
-    background-size: 30px 30px;
+    background-size: 26px 26px;
 }
 
 #toolContainer i {
@@ -102,6 +108,16 @@ body {
     background-image: url(//webmap1.bdimg.com/wolfman/static/common/images/ui3/tools/newtools_9ddbaad.png);
     background-repeat: no-repeat;
     background-position: -13px -17px;
+}
+
+#toolContainer b.left {
+    float: left;
+    height: 21px;
+    display: inline-block;
+    border-right: 1px solid #eee;
+    top: 7px;
+    position: relative;
+    color: #3a3939;
 }
 
 ul.son {
