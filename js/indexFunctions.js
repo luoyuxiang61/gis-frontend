@@ -88,22 +88,13 @@ function clickSon(el) {
 }
 
 function mapLoaded() {
+    //取消loading画面
     $("#loading").hide();
-    var flIds = map.graphicsLayerIds;
-    for (var i = 0; i < flIds.length; i++) {
-        var flId = flIds[i];
-        var fl = map.getLayer(flId);
 
-        $.ajax({
-            url: "http://" + serverIP + ":" + serverPort + "/fieldsForGroupInLayer",
-            type: "post",
-            data: { groupId: user.groupId, baseMapLayerId: flId },
-            success: function (res) {
 
-            }
-        })
 
-    }
+    //获取书签
+    getBookmarks()
 }
 
 

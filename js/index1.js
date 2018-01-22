@@ -170,7 +170,11 @@ require([
 
 
                 map.addLayers(showLayers);
+                map.on('click', function () {
+                    console.log(map.extent);
+                })
                 map.on('layers-add-result', mapLoaded())
+
 
 
 
