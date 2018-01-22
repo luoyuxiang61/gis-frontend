@@ -119,7 +119,16 @@
 
     <div id="toolGround">
         <div id="basemapToolDiv"></div>
-        <div id="searchToolDiv" style="width:20px;height:20px;display:block;background-color:aqua"></div>
+        <div id="searchToolDiv" class="clearfix">
+            <div id="searchbox-container">
+                <div id="sole-searchbox-content" class="searchbox-content">
+                    <input id="sole-input" class="searchbox-content-common" type="text" name="word" autocomplete="off" maxlength="256" placeholder="地名"
+                        value="">
+                    <div class="input-clear" title="清空" style="display: none;"></div>
+                </div>
+            </div>
+            <button id="search-button" data-title="搜索" data-tooltip="2"></button>
+        </div>
     </div>
 
 

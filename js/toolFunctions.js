@@ -28,12 +28,13 @@ $("#toolContainer>div").click(function (e) {
 
         toolDivs.css('display', 'none')
         clickedToolDiv.css('display', 'block')
-        toolGround.show();
+        toolGround.hide();
+        toolGround.slideDown(250);
     } else {
         tools.attr('show', '0')
         ems.css('background-position', '-13px -17px');
         toolDivs.css('display', 'none')
-        toolGround.hide()
+        toolGround.hide(50)
     }
 
 })
