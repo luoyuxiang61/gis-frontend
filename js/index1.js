@@ -164,7 +164,7 @@ require([
                     showArcGISBasemaps: false,
                     map: map,
                     basemaps: basemaps
-                }, "basemapGalleryDiv");
+                }, "basemapToolDiv");
                 basemapGallery.startup();
 
 
