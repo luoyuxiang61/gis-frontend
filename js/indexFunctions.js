@@ -87,6 +87,8 @@ function clickSon(el) {
 
 }
 
+
+//地图加载完成后
 function mapLoaded() {
     //取消loading画面
     $("#loading").hide();
@@ -95,6 +97,9 @@ function mapLoaded() {
 
     //获取书签
     getBookmarks()
+
+    //初始化绘图工具
+    createToolbar()
 }
 
 

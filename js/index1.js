@@ -1,5 +1,5 @@
-var map;
-var aExtent, aSpatialReference;
+var map, toolbar, symbol, geomTask;
+var aExtent, aSpatialReference, aSimpleFillSymbol, aSimpleLineSymbol, aSimpleMarkerSymbol, aDraw, aGraphic;
 require([
     "dojo/dom",
     "dojo/on",
@@ -57,6 +57,12 @@ require([
 ) {
         aExtent = Extent;
         aSpatialReference = SpatialReference;
+        aSimpleFillSymbol = SimpleFillSymbol;
+        aSimpleLineSymbol = SimpleLineSymbol;
+        aSimpleMarkerSymbol = SimpleMarkerSymbol;
+        aDraw = Draw;
+        aGraphic = Graphic;
+
 
 
         //几何服务
