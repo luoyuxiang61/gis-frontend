@@ -140,23 +140,38 @@
         <!-- 绘图 -->
         <div id="drawToolDiv" class="container-fluid">
             <div class="row">
-                <button class="drawButton col-xs-3" onclick="startDraw(this)" shape="point">点</button>
-                <button class="drawButton col-xs-3" onclick="startDraw(this)" shape="Multi Point">多个点</button>
+                <button class="drawButton col-md-3 btn btn-default" onclick="startDraw(this)" shape="point">
+                    <img class="small" src="./images/point.png">点</button>
+                <button class="drawButton col-md-3 btn btn-default" onclick="startDraw(this)" shape="Multi Point">
+                    <img src="./images/points.png" alt="" srcset=""> 多个点</button>
             </div>
             <div class="row">
-                <button class="drawButton col-md-3" onclick="startDraw(this)" shape="Line">线段</button>
-                <button class="drawButton col-md-3" onclick="startDraw(this)" shape="Polyline">多段线</button>
-                <button class="drawButton col-md-3" onclick="startDraw(this)" shape="Freehand Polyline">手绘线</button>
+                <button class="drawButton col-md-3 btn btn-default" onclick="startDraw(this)" shape="Line">
+                    <img src="./images/line.ico" alt="" srcset=""> 线段</button>
+                <button class="drawButton col-md-3 btn btn-default" onclick="startDraw(this)" shape="Polyline">
+                    <img src="./images/polyline.png" alt="" srcset="">多段线</button>
+                <button class="drawButton col-md-3 btn btn-default" onclick="startDraw(this)" shape="Freehand Polyline">
+                    <img src="./images/handline.png" alt="" srcset="">手绘线</button>
             </div>
             <div class="row">
-                <button class="drawButton col-md-3" onclick="startDraw(this)" shape="Polygon">多边形</button>
-                <button class="drawButton col-md-3" onclick="startDraw(this)" shape="Freehand Polygon">手绘多边形</button>
+                <button class="drawButton col-md-3 btn btn-default" onclick="startDraw(this)" shape="Polygon">
+                    <img src="./images/polygon.png" alt="" srcset="">多边形</button>
+                <button class="drawButton col-md-3 btn btn-default" onclick="startDraw(this)" shape="Freehand Polygon">
+                    <img class="small" src="./images/handpolygon.png" alt="" srcset="">手绘多边形</button>
             </div>
             <div class="row">
-                <button class="drawButton col-md-3" onclick="startDraw(this)" shape="Arrow">箭头符号</button>
-                <button class="drawButton col-md-3" onclick="startDraw(this)" shape="Triangle">三角形</button>
-                <button class="drawButton col-md-3" onclick="startDraw(this)" shape="Circle">圆</button>
-                <button class="drawButton col-md-3" onclick="startDraw(this)" shape="Ellipse">椭圆</button>
+                <button class="drawButton col-md-3 btn btn-default" onclick="startDraw(this)" shape="Arrow">
+                    <img src="./images/arrow.png">箭头</button>
+                <button class="drawButton col-md-3 btn btn-default" onclick="startDraw(this)" shape="Triangle">
+                    <img src="./images/triangle.png" alt="" srcset="">三角形</button>
+                <button class="drawButton col-md-3 btn btn-default" onclick="startDraw(this)" shape="Circle">
+                    <img src="./images/circle.png" alt="" srcset="">圆</button>
+                <button class="drawButton col-md-3 btn btn-default" onclick="startDraw(this)" shape="Ellipse">
+                    <img src="./images/ellipse.ico" alt="" srcset="">椭圆</button>
+            </div>
+            <div class="row">
+                <button class="clearButton col-md-3 col-md-offset-4 btn btn-default">
+                    <img src="./images/clear.png" alt="" srcset=""> 清除</button>
             </div>
         </div>
     </div>

@@ -244,13 +244,28 @@ body {
 
 
 
-
+#drawToolDiv .row {
+    margin-top: 5px;
+}
 
 #drawToolDiv .drawButton {
     background-color: white;
     display: block;
     height:50px;
-
+}
+#drawToolDiv .drawButton:hover {
+    color:blue;
+}
+#drawToolDiv .drawButton>img, #drawToolDiv .clearButton>img{
+    height: 40px;
+    width: 40px;
+}
+#drawToolDiv .drawButton>img.small {
+    width: 30px;
+    height: 30px;
+}
+#drawToolDiv .clearButton {
+    margin-top: 15px;
 }
 
 
