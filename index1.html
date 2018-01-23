@@ -138,18 +138,26 @@
         <div id="starToolDiv" class="list-group"></div>
 
         <!-- 绘图 -->
-        <div id="drawToolDiv">
-            <button class="drawButton" onclick="startDraw(this)" shape="point">点</button>
-            <button class="drawButton" onclick="startDraw(this)" shape="Multi Point">多个点</button>
-            <button class="drawButton" onclick="startDraw(this)" shape="Line">线段</button>
-            <button class="drawButton" onclick="startDraw(this)" shape="Polyline">多段线</button>
-            <button class="drawButton" onclick="startDraw(this)" shape="Polygon">多边形</button>
-            <button class="drawButton" onclick="startDraw(this)" shape="Freehand Polyline">手绘线</button>
-            <button class="drawButton" onclick="startDraw(this)" shape="Freehand Polygon">手绘多边形</button>
-            <button class="drawButton" onclick="startDraw(this)" shape="Arrow">箭头符号</button>
-            <button class="drawButton" onclick="startDraw(this)" shape="Triangle">三角形</button>
-            <button class="drawButton" onclick="startDraw(this)" shape="Circle">圆</button>
-            <button class="drawButton" onclick="startDraw(this)" shape="Ellipse">椭圆</button>
+        <div id="drawToolDiv" class="container-fluid">
+            <div class="row">
+                <button class="drawButton col-xs-3" onclick="startDraw(this)" shape="point">点</button>
+                <button class="drawButton col-xs-3" onclick="startDraw(this)" shape="Multi Point">多个点</button>
+            </div>
+            <div class="row">
+                <button class="drawButton col-md-3" onclick="startDraw(this)" shape="Line">线段</button>
+                <button class="drawButton col-md-3" onclick="startDraw(this)" shape="Polyline">多段线</button>
+                <button class="drawButton col-md-3" onclick="startDraw(this)" shape="Freehand Polyline">手绘线</button>
+            </div>
+            <div class="row">
+                <button class="drawButton col-md-3" onclick="startDraw(this)" shape="Polygon">多边形</button>
+                <button class="drawButton col-md-3" onclick="startDraw(this)" shape="Freehand Polygon">手绘多边形</button>
+            </div>
+            <div class="row">
+                <button class="drawButton col-md-3" onclick="startDraw(this)" shape="Arrow">箭头符号</button>
+                <button class="drawButton col-md-3" onclick="startDraw(this)" shape="Triangle">三角形</button>
+                <button class="drawButton col-md-3" onclick="startDraw(this)" shape="Circle">圆</button>
+                <button class="drawButton col-md-3" onclick="startDraw(this)" shape="Ellipse">椭圆</button>
+            </div>
         </div>
     </div>
 

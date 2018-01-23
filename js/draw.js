@@ -3,7 +3,6 @@ function startDraw(el) {
     activateTool(shape);
 }
 
-
 function activateTool(shape) {
     toolbar.activate(aDraw[shape]);
     map.hideZoomSlider();
@@ -32,4 +31,8 @@ function addToMap(evt) {
     }
     var graphic = new aGraphic(evt.geometry, symbol);
     map.graphics.add(graphic);
+}
+
+function clearGra() {
+    map.graphics.clear();
 }
