@@ -1,4 +1,5 @@
 var map;
+var aExtent, aSpatialReference;
 require([
     "dojo/dom",
     "dojo/on",
@@ -54,6 +55,10 @@ require([
     Print, Query, QueryTask, Extent, SpatialReference, BasemapGallery, Basemap, BasemapLayer
 
 ) {
+        aExtent = Extent;
+        aSpatialReference = SpatialReference;
+
+
         //几何服务
         esriConfig.defaults.geometryService = new GeometryService(
             "http://" + gisServerIP + ":" + gisServerPort + "/arcgis/rest/services/Utilities/Geometry/GeometryServer");
