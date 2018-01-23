@@ -160,6 +160,7 @@ require([
 
 
 
+                //底图切换控件
                 var basemapGallery = new BasemapGallery({
                     showArcGISBasemaps: false,
                     map: map,
@@ -167,12 +168,17 @@ require([
                 }, "basemapToolDiv");
                 basemapGallery.startup();
 
+                //全局视图控件(homebutton)
+                var homeButton = new HomeButton({
+                    map: map,
+                    theme: "HomeButton",
+                    visible: true
+                }, dom.byId('homeButton'))
+                homeButton.startup();
+
 
 
                 map.addLayers(showLayers);
-                map.on('click', function () {
-                    console.log(map.extent);
-                })
                 map.on('layers-add-result', mapLoaded())
 
 
