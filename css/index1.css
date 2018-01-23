@@ -45,14 +45,21 @@ body {
     left: 21px;
     z-index:30;
 }
-.HomeButton .home {
-
-}
 
 
+#layerListToggle {
+    position :absolute;
+    top: 150px;
+    left: 21px;
+    z-index: 30;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    background-color: white;
+ }
 #layerList {
     position: absolute;
-    top: 150px;
+    top: 190px;
     left:20px;
     width: 200px;
     height: auto;
@@ -156,7 +163,7 @@ body {
     top: 100px;
     right: 50px;
     width: 474px;
-    height: 500px;
+    height: auto;
     background-color: white;
     text-align: center;
 }

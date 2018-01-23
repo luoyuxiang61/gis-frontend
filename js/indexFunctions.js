@@ -153,5 +153,9 @@ function visibleSon(el) {
 
 }
 
+function toggleLayerList() {
+    $("#layerList").toggle(150)
+}
+
 
 

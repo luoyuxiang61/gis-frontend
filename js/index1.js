@@ -1,5 +1,6 @@
 var map, toolbar, symbol, geomTask;
-var aExtent, aSpatialReference, aSimpleFillSymbol, aSimpleLineSymbol, aSimpleMarkerSymbol, aDraw, aGraphic;
+var aExtent, aSpatialReference, aSimpleFillSymbol, aSimpleLineSymbol, aSimpleMarkerSymbol, aDraw, aGraphic,
+    aCartographicLineSymbol, aColor;
 require([
     "dojo/dom",
     "dojo/on",
@@ -41,6 +42,9 @@ require([
     "esri/dijit/BasemapGallery",
     "esri/dijit/Basemap",
     "esri/dijit/BasemapLayer",
+    "esri/symbols/CartographicLineSymbol",
+
+
     "dijit/layout/BorderContainer",
     "dijit/layout/ContentPane",
     "dijit/TitlePane",
@@ -52,7 +56,7 @@ require([
     SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol, PictureFillSymbol,
     CartographicLineSymbol, esriBasemaps, BasemapToggle, InfoTemplate, Units, OverviewMap, Bookmarks, Scalebar,
     HomeButton, Draw, Graphic, LayerList, Legend, ArcGISTiledMapServiceLayer,
-    Print, Query, QueryTask, Extent, SpatialReference, BasemapGallery, Basemap, BasemapLayer
+    Print, Query, QueryTask, Extent, SpatialReference, BasemapGallery, Basemap, BasemapLayer, CartographicLineSymbol
 
 ) {
         aExtent = Extent;
@@ -62,6 +66,8 @@ require([
         aSimpleMarkerSymbol = SimpleMarkerSymbol;
         aDraw = Draw;
         aGraphic = Graphic;
+        aCartographicLineSymbol = CartographicLineSymbol;
+        aColor = Color;
 
 
 

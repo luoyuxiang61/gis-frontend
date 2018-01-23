@@ -23,7 +23,12 @@ function addToMap(evt) {
             symbol = new aSimpleMarkerSymbol();
             break;
         case "polyline":
-            symbol = new aSimpleLineSymbol();
+            symbol = new aCartographicLineSymbol(
+                aCartographicLineSymbol.STYLE_SOLID,
+                new aColor([255, 0, 0]), 10,
+                aCartographicLineSymbol.CAP_ROUND,
+                aCartographicLineSymbol.JOIN_MITER, 5
+            );
             break;
         default:
             symbol = new aSimpleFillSymbol();
