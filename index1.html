@@ -119,7 +119,10 @@
     </div>
 
     <div id="toolGround">
+        <!-- 底图切换 -->
         <div id="basemapToolDiv"></div>
+
+        <!-- 搜索 -->
         <div id="searchToolDiv">
             <div id="searchbox-container">
                 <div id="sole-searchbox-content" class="searchbox-content">
@@ -130,7 +133,24 @@
             </div>
             <button id="search-button" data-title="搜索" data-tooltip="2"></button>
         </div>
+
+        <!-- 收藏 -->
         <div id="starToolDiv" class="list-group"></div>
+
+        <!-- 绘图 -->
+        <div id="drawToolDiv">
+            <button class="drawButton" onclick="startDraw()">Point</button>
+            <button class="drawButton" onclick="startDraw()">Multi Point</button>
+            <button class="drawButton" onclick="startDraw()">Line</button>
+            <button class="drawButton" onclick="startDraw()">Polyline</button>
+            <button class="drawButton" onclick="startDraw()">Polygon</button>
+            <button class="drawButton" onclick="startDraw()">Freehand Polyline</button>
+            <button class="drawButton" onclick="startDraw()">Freehand Polygon</button>
+            <button class="drawButton" onclick="startDraw()">Arrow</button>
+            <button class="drawButton" onclick="startDraw()">Triangle</button>
+            <button class="drawButton" onclick="startDraw()">Circle</button>
+            <button class="drawButton" onclick="startDraw()">Ellipse</button>
+        </div>
     </div>
 
 
@@ -138,6 +158,7 @@
     <script src="./js/indexFunctions.js"></script>
     <script src="./js/toolFunctions.js"></script>
     <script src="./js/bookmark.js"></script>
+    <script src="./js/draw.js"></script>
 </body>
 
 </html>
