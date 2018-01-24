@@ -1,6 +1,6 @@
 var map, toolbar, symbol, geomTask;
 var aExtent, aSpatialReference, aSimpleFillSymbol, aSimpleLineSymbol, aSimpleMarkerSymbol, aDraw, aGraphic,
-    aCartographicLineSymbol, aColor;
+    aCartographicLineSymbol, aColor, ageometryEngine;
 require([
     "dojo/dom",
     "dojo/on",
@@ -43,8 +43,8 @@ require([
     "esri/dijit/Basemap",
     "esri/dijit/BasemapLayer",
     "esri/symbols/CartographicLineSymbol",
-
-
+    "esri/geometry/geometryEngine",
+    "esri/geometry/Polyline",
     "dijit/layout/BorderContainer",
     "dijit/layout/ContentPane",
     "dijit/TitlePane",
@@ -56,7 +56,8 @@ require([
     SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol, PictureFillSymbol,
     CartographicLineSymbol, esriBasemaps, BasemapToggle, InfoTemplate, Units, OverviewMap, Bookmarks, Scalebar,
     HomeButton, Draw, Graphic, LayerList, Legend, ArcGISTiledMapServiceLayer,
-    Print, Query, QueryTask, Extent, SpatialReference, BasemapGallery, Basemap, BasemapLayer, CartographicLineSymbol
+    Print, Query, QueryTask, Extent, SpatialReference, BasemapGallery, Basemap, BasemapLayer, CartographicLineSymbol,
+    geometryEngine, Polyline
 
 ) {
         aExtent = Extent;
@@ -68,6 +69,8 @@ require([
         aGraphic = Graphic;
         aCartographicLineSymbol = CartographicLineSymbol;
         aColor = Color;
+        ageometryEngine = geometryEngine;
+        aPolyLine = Polyline;
 
 
 
@@ -198,7 +201,20 @@ require([
                 map.addLayers(showLayers);
                 map.on('layers-add-result', mapLoaded())
 
+                var me = 0;
+                var pt2 = [];
+                map.on('click', function (e) {
+                    pt2.push(e.mapPoint)
+                    console.log(pt2);
+                    me += 1;
+                    if (me % 2 == 0) {
+                        var line = new Polyline(new SpatialReference({ wkid: 2437 }))
+                        line.addPath([pt2[pt2.length - 1], pt2[pt2.length - 2]])
+                        console.log(line);
+                        console.log(geometryEngine.planarLength(line, 'meters'));
+                    }
 
+                })
 
 
             }
