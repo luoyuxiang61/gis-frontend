@@ -1,3 +1,5 @@
+var area = 0;
+
 function  startMeasure(shape) {
     activateTool(shape.toUpperCase().replace(/ /g, "_"))
 }
@@ -47,7 +49,9 @@ function addToMap(evt) {
     map.graphics.add(graphic);
 
     if(nowMeasure === 'area') {
-        console.log(evt.geometry)
+        console.log(ageometryEngine.planarArea(evt.geometry,'square-meters'))
+        area = ageometryEngine.planarArea(evt.geometry,'square-meters');
+        showArea();
     }
 }
 

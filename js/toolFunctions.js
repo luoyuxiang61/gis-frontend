@@ -1,5 +1,7 @@
 var pts = [];
 var nowMeasure = null;
+var distance = 0;
+var nowPageX,nowPageY;
 
 $("#toolContainer>div").click(function (e) {
 
@@ -25,8 +27,11 @@ $("#toolContainer>div").click(function (e) {
     var tools = $($("#toolContainer>div"));
 
 
-    //如果该tool没有显示，就关闭其他的tool显示这个
+
+
+   //如果该tool没有显示，就关闭其他的tool显示这个
     if (!isShow) {
+        clearGra();
         isMeasuring = false;
         nowMeasure = null;
         tools.attr('show', '0');
@@ -61,8 +66,10 @@ $("#toolContainer>div").click(function (e) {
             $(clickedToolDiv[0]).empty();
             isMeasuring = true;
             nowMeasure = 'distance';
+            distance = 0;
             pts = [];
             startMeasure('polyline');
+
         }
     }else if(toolName === 'areaTool'){
         if (isShow) {
@@ -96,15 +103,31 @@ function enableMeasure() {
                 var line = new aPolyline(new aSpatialReference({ wkid: 2437 }));
                 line.addPath([pts[pts.length - 1], pts[pts.length - 2]]);
 
-                console.log(ageometryEngine.planarLength(line,'meters'))
+                distance += ageometryEngine.planarLength(line,'meters')
+                var toast =  $("#toast");
+                toast[0].innerText = "总长度" + distance.toFixed(2).toString()+"米";
+                toast.css('left', (e.pageX+5) +"px")
+                toast.css('top', (e.pageY+5) +"px")
+
             }
         }
     });
 
-    map.on('dbl-click',function () {
-        if(isMeasuring)  {
+    map.on('dbl-click',function (e) {
+        if(isMeasuring && nowMeasure === 'distance')  {
             isMeasuring = false;
             pts = [];
+        }else if(isMeasuring && nowMeasure === 'area') {
+            isMeasuring = false;
+            nowPageX = (e.pageX+5) +"px";
+            nowPageY = (e.pageY+5) +"px"
         }
     })
+}
+
+function showArea() {
+    var toast =  $("#toast");
+    toast[0].innerText = "总面积" + area.toFixed(2).toString()+"平方米";
+    toast.css('left', nowPageX)
+    toast.css('top', nowPageY)
 }
