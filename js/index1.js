@@ -91,7 +91,7 @@ require([
             success: function (layersForGroup) {
                 var sonshtml = '';
                 for (var i = 0; i < layersForGroup.length; i++) {
-                    sonshtml += "<div class='list-group-item father' flag='0' onclick='showSons(this)' style='cursor:pointer'><input type='checkbox' style='cursor:pointer'>" + "<strong>" + layersForGroup[i].father.DisplayName + "</strong></div>"
+                    sonshtml += "<div class='list-group-item father' flag='0' onclick='showSons(this)' style='cursor:pointer'><input type='checkbox' style='cursor:pointer'>" + "<strong>" + layersForGroup[i].father.DisplayName + "</strong><span class='glyphicon glyphicon-chevron-right' aria-hidden='true'></span></div>"
                     sonshtml += "<ul class='list-group son' style='padding-left:15px;margin-bottom:3px'>"
                     for (var j = 0; j < layersForGroup[i].sons.length; j++) {
                         sonshtml += "<li class='list-group-item' flag='0' layerId='" + layersForGroup[i].sons[j].id + "' onclick='clickSon(this)' style='cursor:default'>" + "<input type='checkbox' style='cursor:pointer'>" + layersForGroup[i].sons[j].DisplayName + "</li>"

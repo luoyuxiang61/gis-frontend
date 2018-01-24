@@ -290,3 +290,7 @@ ul.son li:hover {
 .list-group-item.father:hover {
     background-color: bisque
 }
+
+.list-group-item.father span {
+    float: right;
+}

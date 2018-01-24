@@ -1,15 +1,17 @@
 
 //点击图层组
 function showSons(el) {
-
+    var span = $($(el).children()[2])
     var checkFlag = $(el).attr('flag') == '1' ? true : false
 
     var checked = $($(el).children()[0]).prop('checked');
     if (checkFlag != checked) {
         if (checked) {
             $(el).next().show()
+            span.removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-down');
         } else {
-            // $(el).next().hide()
+            $(el).next().hide()
+            span.removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right');
         }
         $(el).attr('flag', checked == true ? '1' : '0');
         var sonLis = $($(el).next().children());
@@ -21,6 +23,11 @@ function showSons(el) {
         }
     } else {
         $(el).next().toggle()
+        if (span.hasClass('glyphicon-chevron-right')) {
+            span.removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-down');
+        } else {
+            span.removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right');
+        }
     }
 }
 
