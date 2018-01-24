@@ -164,8 +164,10 @@ body {
     right: 50px;
     width: 474px;
     height: auto;
+    max-height: 500px;
     background-color: white;
     text-align: center;
+    overflow: auto;
 }
 
 

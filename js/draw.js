@@ -1,3 +1,7 @@
+function  startMeasure(shape) {
+    activateTool(shape.toUpperCase().replace(/ /g, "_"))
+}
+
 function startDraw(el) {
     var shape = $(el).attr('shape').toUpperCase().replace(/ /g, "_");
     activateTool(shape);
@@ -8,12 +12,17 @@ function activateTool(shape) {
     map.hideZoomSlider();
 }
 
-function createToolbar(themap) {
+function deactivateTool() {
+    toolbar.deactivate();
+}
+
+function createToolbar() {
     toolbar = new aDraw(map);
     toolbar.on("draw-end", addToMap);
 }
 
 function addToMap(evt) {
+
     var symbol;
     toolbar.deactivate();
     map.showZoomSlider();
@@ -25,7 +34,7 @@ function addToMap(evt) {
         case "polyline":
             symbol = new aCartographicLineSymbol(
                 aCartographicLineSymbol.STYLE_SOLID,
-                new aColor([255, 0, 0]), 10,
+                new aColor([255, 0, 0]), 5,
                 aCartographicLineSymbol.CAP_ROUND,
                 aCartographicLineSymbol.JOIN_MITER, 5
             );
@@ -36,6 +45,10 @@ function addToMap(evt) {
     }
     var graphic = new aGraphic(evt.geometry, symbol);
     map.graphics.add(graphic);
+
+    if(nowMeasure === 'area') {
+        console.log(evt.geometry)
+    }
 }
 
 function clearGra() {

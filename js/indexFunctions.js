@@ -1,3 +1,20 @@
+//地图加载完成后
+function mapLoaded() {
+    //取消loading画面
+    $("#loading").hide();
+
+
+
+    //获取书签
+    getBookmarks()
+
+    //初始化绘图工具
+    createToolbar()
+
+    //允许量测
+    enableMeasure()
+}
+
 
 //点击图层组
 function showSons(el) {
@@ -95,19 +112,7 @@ function clickSon(el) {
 }
 
 
-//地图加载完成后
-function mapLoaded() {
-    //取消loading画面
-    $("#loading").hide();
 
-
-
-    //获取书签
-    getBookmarks()
-
-    //初始化绘图工具
-    createToolbar()
-}
 
 
 

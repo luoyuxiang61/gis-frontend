@@ -1,6 +1,7 @@
-var map, toolbar, symbol, geomTask;
+var map, toolbar;
 var aExtent, aSpatialReference, aSimpleFillSymbol, aSimpleLineSymbol, aSimpleMarkerSymbol, aDraw, aGraphic,
-    aCartographicLineSymbol, aColor, ageometryEngine;
+    aCartographicLineSymbol, aColor, ageometryEngine,aPolyline;
+var isMeasuring = false;
 require([
     "dojo/dom",
     "dojo/on",
@@ -70,7 +71,7 @@ require([
         aCartographicLineSymbol = CartographicLineSymbol;
         aColor = Color;
         ageometryEngine = geometryEngine;
-        aPolyLine = Polyline;
+        aPolyline = Polyline;
 
 
 
@@ -201,20 +202,7 @@ require([
                 map.addLayers(showLayers);
                 map.on('layers-add-result', mapLoaded())
 
-                var me = 0;
-                var pt2 = [];
-                map.on('click', function (e) {
-                    pt2.push(e.mapPoint)
-                    console.log(pt2);
-                    me += 1;
-                    if (me % 2 == 0) {
-                        var line = new Polyline(new SpatialReference({ wkid: 2437 }))
-                        line.addPath([pt2[pt2.length - 1], pt2[pt2.length - 2]])
-                        console.log(line);
-                        console.log(geometryEngine.planarLength(line, 'meters'));
-                    }
 
-                })
 
 
             }
