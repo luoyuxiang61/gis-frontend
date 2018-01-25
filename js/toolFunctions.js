@@ -1,8 +1,7 @@
 var pts = [];
 var nowMeasure = null;
 var distance = 0;
-var nowPageX,nowPageY;
-
+var areaPoint;
 $("#toolContainer>div").click(function (e) {
 
     //tool容器
@@ -132,9 +131,6 @@ function enableMeasure() {
 
     map.on('dbl-click',function (e) {
 
-
-
-
         if(isMeasuring && nowMeasure === 'distance')  {
             isMeasuring = false;
             pts = [];
@@ -144,12 +140,14 @@ function enableMeasure() {
             map.graphics.add(disGra);
         }else if(isMeasuring && nowMeasure === 'area') {
             isMeasuring = false;
-            nowPageX = (e.pageX+5) +"px";
-            nowPageY = (e.pageY+5) +"px"
+            areaPoint = e.mapPoint;
         }
     })
 }
 
 function showArea() {
-
+    var font = new aFont("20px", aFont.STYLE_NORMAL, aFont.VARIANT_NORMAL, aFont.WEIGHT_BOLDER)
+    var areaSymbol = new aTextSymbol("总面积："+area.toFixed(2)+"平方米",font,new aColor([0,155,0]))
+    var areaGra = new aGraphic(areaPoint,areaSymbol);
+    map.graphics.add(areaGra);
 }

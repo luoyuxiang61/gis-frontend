@@ -36,9 +36,9 @@ function addToMap(evt) {
         case "polyline":
             symbol = new aCartographicLineSymbol(
                 aCartographicLineSymbol.STYLE_SOLID,
-                new aColor([255, 0, 0]), 5,
+                new aColor([255, 0, 0]), 2,
                 aCartographicLineSymbol.CAP_ROUND,
-                aCartographicLineSymbol.JOIN_MITER, 5
+                aCartographicLineSymbol.JOIN_MITER, 2
             );
             break;
         default:
