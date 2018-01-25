@@ -1,6 +1,6 @@
 var map, toolbar;
 var aExtent, aSpatialReference, aSimpleFillSymbol, aSimpleLineSymbol, aSimpleMarkerSymbol, aDraw, aGraphic,
-    aCartographicLineSymbol, aColor, ageometryEngine,aPolyline;
+    aCartographicLineSymbol, aColor, ageometryEngine,aPolyline,aTextSymbol,aFont,aPoint;
 var isMeasuring = false;
 require([
     "dojo/dom",
@@ -46,6 +46,9 @@ require([
     "esri/symbols/CartographicLineSymbol",
     "esri/geometry/geometryEngine",
     "esri/geometry/Polyline",
+    "esri/symbols/TextSymbol",
+    "esri/symbols/Font",
+    "esri/geometry/Point",
     "dijit/layout/BorderContainer",
     "dijit/layout/ContentPane",
     "dijit/TitlePane",
@@ -58,7 +61,7 @@ require([
     CartographicLineSymbol, esriBasemaps, BasemapToggle, InfoTemplate, Units, OverviewMap, Bookmarks, Scalebar,
     HomeButton, Draw, Graphic, LayerList, Legend, ArcGISTiledMapServiceLayer,
     Print, Query, QueryTask, Extent, SpatialReference, BasemapGallery, Basemap, BasemapLayer, CartographicLineSymbol,
-    geometryEngine, Polyline
+    geometryEngine, Polyline,TextSymbol,Font,Point
 
 ) {
         aExtent = Extent;
@@ -72,7 +75,9 @@ require([
         aColor = Color;
         ageometryEngine = geometryEngine;
         aPolyline = Polyline;
-
+        aTextSymbol = TextSymbol;
+        aFont = Font;
+        aPoint = Point;
 
 
         //几何服务
