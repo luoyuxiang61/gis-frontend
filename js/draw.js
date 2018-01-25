@@ -31,12 +31,15 @@ function addToMap(evt) {
     switch (evt.geometry.type) {
         case "point":
         case "multipoint":
-            symbol = new aSimpleMarkerSymbol();
+            symbol = new aSimpleMarkerSymbol(aSimpleMarkerSymbol.STYLE_CIRCLE, 20,
+                new aSimpleLineSymbol(aSimpleLineSymbol.STYLE_SOLID,
+                    new aColor([255,0,0]), 1),
+                new aColor([255,0,0,0.9]));
             break;
         case "polyline":
             symbol = new aCartographicLineSymbol(
                 aCartographicLineSymbol.STYLE_SOLID,
-                new aColor([255, 0, 0]), 2,
+                new aColor([255, 0, 0,0.7]), 2,
                 aCartographicLineSymbol.CAP_ROUND,
                 aCartographicLineSymbol.JOIN_MITER, 2
             );

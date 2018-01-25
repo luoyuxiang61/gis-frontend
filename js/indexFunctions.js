@@ -25,10 +25,10 @@ function showSons(el) {
     if (checkFlag != checked) {
         if (checked) {
             $(el).next().show()
-            span.removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-down');
+            span.removeClass('glyphicon-plus').addClass('glyphicon-minus');
         } else {
             $(el).next().hide()
-            span.removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right');
+            span.removeClass('glyphicon-minus').addClass('glyphicon-plus');
         }
         $(el).attr('flag', checked == true ? '1' : '0');
         var sonLis = $($(el).next().children());
@@ -40,10 +40,10 @@ function showSons(el) {
         }
     } else {
         $(el).next().toggle()
-        if (span.hasClass('glyphicon-chevron-right')) {
-            span.removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-down');
+        if (span.hasClass('glyphicon-plus')) {
+            span.removeClass('glyphicon-plus').addClass('glyphicon-minus');
         } else {
-            span.removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right');
+            span.removeClass('glyphicon-minus').addClass('glyphicon-plus');
         }
     }
 }
