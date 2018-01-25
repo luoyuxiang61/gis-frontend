@@ -98,25 +98,50 @@ $("#toolContainer>div").click(function (e) {
 function enableMeasure() {
     map.on('click', function (e) {
         if(isMeasuring && nowMeasure === 'distance') {
-            pts.push(e.mapPoint);
-            if (pts.length>=2) {
-                var line = new aPolyline(new aSpatialReference({ wkid: 2437 }));
-                line.addPath([pts[pts.length - 1], pts[pts.length - 2]]);
 
-                distance += ageometryEngine.planarLength(line,'meters')
-                var toast =  $("#toast");
-                toast[0].innerText = "总长度" + distance.toFixed(2).toString()+"米";
-                toast.css('left', (e.pageX+5) +"px")
-                toast.css('top', (e.pageY+5) +"px")
+            pts.push({
+                pageP: {left:e.pageX,top:e.pageY},
+                mapP: e.mapPoint
+            });
+
+
+
+            if (pts.length>=2) {
+                console.log(pts)
+
+
+                var line = new aPolyline(new aSpatialReference({ wkid: 2437 }));
+                var p1 = pts[pts.length - 1].mapP;
+                var p2 = pts[pts.length - 2].mapP;
+                line.addPath([p1, p2]);
+                var d0 = parseFloat(ageometryEngine.planarLength(line,'meters').toFixed(2));
+
+                console.log(p1)
+                var d0P = new aPoint((p1.x+p2.x)/2,(p1.y+p2.y)/2,new aSpatialReference({wkid:2437}));
+                var font = new aFont("20px", aFont.STYLE_NORMAL, aFont.VARIANT_NORMAL, aFont.WEIGHT_BOLDER)
+                var dSymbol = new aTextSymbol(d0,font,new aColor([0,255,0]))
+                var dGra = new aGraphic(d0P,dSymbol);
+                map.graphics.add(dGra);
+
+                distance += d0;
+
 
             }
         }
     });
 
     map.on('dbl-click',function (e) {
+
+
+
+
         if(isMeasuring && nowMeasure === 'distance')  {
             isMeasuring = false;
             pts = [];
+            var font = new aFont("20px", aFont.STYLE_NORMAL, aFont.VARIANT_NORMAL, aFont.WEIGHT_BOLDER)
+            var disSymbol = new aTextSymbol("总长度："+distance.toFixed(2)+"米",font,new aColor([0,155,0]))
+            var disGra = new aGraphic(e.mapPoint,disSymbol);
+            map.graphics.add(disGra);
         }else if(isMeasuring && nowMeasure === 'area') {
             isMeasuring = false;
             nowPageX = (e.pageX+5) +"px";
@@ -126,8 +151,5 @@ function enableMeasure() {
 }
 
 function showArea() {
-    var toast =  $("#toast");
-    toast[0].innerText = "总面积" + area.toFixed(2).toString()+"平方米";
-    toast.css('left', nowPageX)
-    toast.css('top', nowPageY)
+
 }
