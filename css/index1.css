@@ -293,9 +293,14 @@ div.star-container>* {
 
 div.star-container>span {
     padding-top: 3px;
-    font-size: 130%;
-    max-width: 250px;
+    font-size: 110%;
+    max-width: 350px;
     overflow-x: auto;
+    cursor: pointer;
+
+}
+div.star-container>span:hover {
+    background-color: rgba(132, 132, 132, 0.46);
 }
 
 div.star-container>div.edit {
