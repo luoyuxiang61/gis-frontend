@@ -292,6 +292,7 @@ div.star-container>* {
 }
 
 div.star-container>span {
+    padding-top: 3px;
     font-size: 130%;
     max-width: 250px;
     overflow-x: auto;
