@@ -282,6 +282,36 @@ body {
 
 
 
+/*书签相关*/
+div.star-container {
+    text-align: initial;
+}
+
+div.star-container>* {
+    display: inline-block;
+}
+
+div.star-container>span {
+    font-size: 130%;
+    max-width: 250px;
+    overflow-x: auto;
+}
+
+div.star-container>div.edit {
+    display: none;
+}
+
+div.star-container>button.btn-sm {
+    float: right;
+    cursor: pointer;
+}
+
+
+
+
+
+
+
 
 ul.son {
     display: none
