@@ -1,6 +1,6 @@
 var map, toolbar;
 var aExtent, aSpatialReference, aSimpleFillSymbol, aSimpleLineSymbol, aSimpleMarkerSymbol, aDraw, aGraphic,
-    aCartographicLineSymbol, aColor, ageometryEngine,aPolyline,aTextSymbol,aFont,aPoint;
+    aCartographicLineSymbol, aColor, ageometryEngine, aPolyline, aTextSymbol, aFont, aPoint;
 var isMeasuring = false;
 require([
     "dojo/dom",
@@ -61,7 +61,7 @@ require([
     CartographicLineSymbol, esriBasemaps, BasemapToggle, InfoTemplate, Units, OverviewMap, Bookmarks, Scalebar,
     HomeButton, Draw, Graphic, LayerList, Legend, ArcGISTiledMapServiceLayer,
     Print, Query, QueryTask, Extent, SpatialReference, BasemapGallery, Basemap, BasemapLayer, CartographicLineSymbol,
-    geometryEngine, Polyline,TextSymbol,Font,Point
+    geometryEngine, Polyline, TextSymbol, Font, Point
 
 ) {
         aExtent = Extent;
@@ -206,6 +206,8 @@ require([
 
                 map.addLayers(showLayers);
                 map.on('layers-add-result', mapLoaded())
+
+
 
 
 
