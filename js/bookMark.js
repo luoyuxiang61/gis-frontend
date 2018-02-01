@@ -18,6 +18,7 @@ function getBookmarks() {
             for (var i = 0; i < res.length; i++) {
                 $("#starToolDiv").append("<div class='list-group-item'>" + "<div class='star-container'>" + "<span index='" + i + "' onclick='gotoStar(this)'>" + res[i].name + "</span>" + "<div class='edit'><input type='text'><button type='button' onclick='editOver(this)' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-ok'></span></button></div>" + "<button title='取消收藏' type='button' onclick='removeBookmark(this)' class='btn btn-default btn-sm'><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span></button>" + "<button type='button' title='修改名称' class='btn btn-default btn-sm' onclick='editName(this)'><span class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></span></button>" + "</div></div>")
             }
+            $("#starToolDiv").append("<button id='starBtn' class='btn btn-primary' onclick='starHere()'><span class='glyphicon glyphicon-star-empty'></span>收藏当前地图</button>")
         }
     })
 }
@@ -78,6 +79,33 @@ function removeBookmark(el) {
     } else {
         return false;
     }
+}
+
+function starHere() {
+
+    var name = prompt("请输入该收藏的名称：");
+    var ext = map.extent;
+
+    $.ajax({
+        url: "http://" + serverIP + ":" + serverPort + "/addBookmark",
+        type: 'post',
+        data: {
+            userId: user.userId,
+            wkid: ext.spatialReference.wkid,
+            xmin: ext.xmin,
+            ymin: ext.ymin,
+            xmax: ext.xmax,
+            ymax: ext.ymax,
+            name: name
+        },
+        success: function (res) {
+            console.log(res);
+            getBookmarks();
+        }
+    })
+
+
+
 
 
 }

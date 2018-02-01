@@ -311,6 +311,9 @@ div.star-container>button.btn-sm {
     float: right;
     cursor: pointer;
 }
+#starBtn {
+    margin-top: 10px;
+}
 
 
 
