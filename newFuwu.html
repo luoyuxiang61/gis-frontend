@@ -15,8 +15,6 @@
     <script src="./lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
     <script src="./lib/bootstrap3-editable/js/bootstrap-editable.js"></script>
     <script src="http://192.168.0.163:8007/arcgis_js_api/library/3.22/3.22compact/init.js"></script>
-    <link rel="stylesheet" href="./css/fontawesome/css/font-awesome.css">
-
     <style media="screen">
         html,
         body {
@@ -41,6 +39,8 @@
             height: 100%;
             background-color: #f5f7fa;
             padding: 0;
+            background-image: linear-gradient(to bottom, #f5f7fa, #dce9fd);
+
         }
 
         #treeHead {
@@ -77,6 +77,35 @@
         #treeContainer div.clicked {
             background-color: #e8e8fb;
             color: black;
+        }
+
+
+        #mainView>.row>#mainContainer {
+            height: 100%;
+            background-color: white;
+            padding: 20px;
+        }
+
+        #mainTable {
+            padding: 0;
+            margin: 0;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        #tBody {
+            max-height: 700px;
+            height: 90%;
+            overflow-y: scroll;
+        }
+
+        #tHead {
+            overflow-y: scroll;
+            background-image: linear-gradient(to bottom, rgb(229, 244, 247), white)
+        }
+
+        #tHead>table {
+            margin: 0;
         }
     </style>
 </head>
@@ -194,7 +223,143 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-md-10 col-xs-2" id="mainContainer"></div>
+            <div class="col-md-10 col-xs-2" id="mainContainer">
+                <div id="tHead">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="col-xs-3">111</th>
+                                <th class="col-xs-3">222</th>
+                                <th class="col-xs-6">333</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+                <div id="tBody">
+                    <table class="table table-hover table-striped">
+                        <tbody id="xx">
+                            <tr id="cloneTr">
+                                <td class="col-xs-3">111</td>
+                                <td class="col-xs-3">222</td>
+                                <td class="col-xs-6">333</td>
+                            </tr>
+                            <tr id="cloneTr">
+                                <td class="col-xs-3">111</td>
+                                <td class="col-xs-3">222</td>
+                                <td class="col-xs-6">333</td>
+                            </tr>
+                            <tr id="cloneTr">
+                                <td class="col-xs-3">111</td>
+                                <td class="col-xs-3">222</td>
+                                <td class="col-xs-6">333</td>
+                            </tr>
+                            <tr id="cloneTr">
+                                <td class="col-xs-3">111</td>
+                                <td class="col-xs-3">222</td>
+                                <td class="col-xs-6">333</td>
+                            </tr>
+                            <tr id="cloneTr">
+                                <td class="col-xs-3">111</td>
+                                <td class="col-xs-3">222</td>
+                                <td class="col-xs-6">333</td>
+                            </tr>
+                            <tr id="cloneTr">
+                                <td class="col-xs-3">111</td>
+                                <td class="col-xs-3">222</td>
+                                <td class="col-xs-6">333</td>
+                            </tr>
+                            <tr id="cloneTr">
+                                <td class="col-xs-3">111</td>
+                                <td class="col-xs-3">222</td>
+                                <td class="col-xs-6">333</td>
+                            </tr>
+                            <tr id="cloneTr">
+                                <td class="col-xs-3">111</td>
+                                <td class="col-xs-3">222</td>
+                                <td class="col-xs-6">333</td>
+                            </tr>
+                            <tr id="cloneTr">
+                                <td class="col-xs-3">111</td>
+                                <td class="col-xs-3">222</td>
+                                <td class="col-xs-6">333</td>
+                            </tr>
+                            <tr id="cloneTr">
+                                <td class="col-xs-3">111</td>
+                                <td class="col-xs-3">222</td>
+                                <td class="col-xs-6">333</td>
+                            </tr>
+                            <tr id="cloneTr">
+                                <td class="col-xs-3">111</td>
+                                <td class="col-xs-3">222</td>
+                                <td class="col-xs-6">333</td>
+                            </tr>
+                            <tr id="cloneTr">
+                                <td class="col-xs-3">111</td>
+                                <td class="col-xs-3">222</td>
+                                <td class="col-xs-6">333</td>
+                            </tr>
+                            <tr id="cloneTr">
+                                <td class="col-xs-3">111</td>
+                                <td class="col-xs-3">222</td>
+                                <td class="col-xs-6">333</td>
+                            </tr>
+                            <tr id="cloneTr">
+                                <td class="col-xs-3">111</td>
+                                <td class="col-xs-3">222</td>
+                                <td class="col-xs-6">333</td>
+                            </tr>
+                            <tr id="cloneTr">
+                                <td class="col-xs-3">111</td>
+                                <td class="col-xs-3">222</td>
+                                <td class="col-xs-6">333</td>
+                            </tr>
+                            <tr id="cloneTr">
+                                <td class="col-xs-3">111</td>
+                                <td class="col-xs-3">222</td>
+                                <td class="col-xs-6">333</td>
+                            </tr>
+                            <tr id="cloneTr">
+                                <td class="col-xs-3">111</td>
+                                <td class="col-xs-3">222</td>
+                                <td class="col-xs-6">333</td>
+                            </tr>
+                            <tr id="cloneTr">
+                                <td class="col-xs-3">111</td>
+                                <td class="col-xs-3">222</td>
+                                <td class="col-xs-6">333</td>
+                            </tr>
+                            <tr id="cloneTr">
+                                <td class="col-xs-3">111</td>
+                                <td class="col-xs-3">222</td>
+                                <td class="col-xs-6">333</td>
+                            </tr>
+                            <tr id="cloneTr">
+                                <td class="col-xs-3">111</td>
+                                <td class="col-xs-3">222</td>
+                                <td class="col-xs-6">333</td>
+                            </tr>
+                            <tr id="cloneTr">
+                                <td class="col-xs-3">111</td>
+                                <td class="col-xs-3">222</td>
+                                <td class="col-xs-6">333</td>
+                            </tr>
+                            <tr id="cloneTr">
+                                <td class="col-xs-3">111</td>
+                                <td class="col-xs-3">222</td>
+                                <td class="col-xs-6">333</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
         </div>
     </div>
+
+
+    <script>
+
+
+    </script>
 </body>
