@@ -180,6 +180,12 @@ body {
     height: 400px;
 }
 
+#searchButton {
+    color: blue;
+    margin-top: -2px;
+    cursor: pointer;
+}
+
 
 
 #searchToolDiv #search-button {
