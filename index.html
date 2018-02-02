@@ -1,122 +1,203 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
-  <title>发布系统首页</title>
-  <script src="./config.js"></script>
-  <script src="./lib/jquery-3.2.1.min.js"></script>
-  <script src="./lib/jcookie/jquery.cookie.js"></script>
-  <script src="./js/checkLogin.js"></script>
-  <link rel="stylesheet" href="./css/index.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>发布系统首页</title>
+    <script src="./config.js"></script>
+    <script src="./lib/jquery-3.2.1.min.js"></script>
+    <script src="./lib/jcookie/jquery.cookie.js"></script>
+    <script src="./js/checkLogin.js"></script>
+    <script src="./js/userInfo.js"></script>
+    <script src="./lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./lib/bootstrap-3.3.7/css/bootstrap.min.css">
+    <script src="http://192.168.0.163:8007/arcgis_js_api/library/3.22/3.22compact/init.js"></script>
+    <link rel="stylesheet" href="http://192.168.0.163:8007/arcgis_js_api/library/3.22/3.22compact/esri/css/esri.css">
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/fontawesome/css/font-awesome.min.css">
 </head>
 
-<body class="calcite">
+<body>
 
-  <!-- 测量的时候弹出显示当前结果 -->
-  <div id="onMeasure"></div>
-
-
-  <!-- 顶部工具栏 -->
-  <div id="topBar">
-    <div style="float:right">
-      <p id="greeting" style="display:inline">您好，管理员</p>
-      <a href="./fuwuguanli.html">后台管理</a>&nbsp;&nbsp;&nbsp;
-      <a href="./login.html">退出</a>
+    <div id="loading">
+        <img src="./images/loading2.gif">
     </div>
-  </div>
 
-  <!-- 操作地图的工具条 -->
-  <div id="toolBar" onselectstart="return false">
-    <img class="icon" src="./images/measure.png" alt="measure" title="量测">
-    <img class="icon" src="./images/draw.png" alt="draw" title="绘图">
-    <img class="icon" src="./images/bookmark.png" alt="bookmark" title="书签">
-    <img class="icon" src="./images/print.png" alt="print" title="打印">
-  </div>
+    <!-- 上方导航栏 -->
+    <nav id="nav" class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#">信息统计
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">信息查询</a>
+                    </li>
+                    <li>
+                        <a href="#">历史影像</a>
+                    </li>
 
-  <!-- 工具条下方显示具体工具 -->
-  <div id="tool" class="no">
-    <!-- 画图工具 -->
-    <div class="no tool" id="draw" onselectstart="return false">
-      <button class="action-button esri-icon-blank-map-pin" id="point" type="button" title="点"></button>
-      <button class="action-button esri-icon-polyline" id="polyline" type="button" title="多段线"></button>
-      <button class="action-button esri-icon-polygon" id="polygon" type="button" title="多边形"></button>
-      <button class="action-button esri-icon-trash" id="clear" type="button" title="清除草图"></button>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="newFuwu.html">后台管理</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">admin
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#">个人资料</a>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="#">退出系统</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+
+
+
+
+    <div id="map">
+        <div id="homeButton"></div>
     </div>
-    <!-- 量测工具 -->
-    <div class="no tool" id="measure">
-      <div style="height:auto;" align="right">
-        <img class="closeTool" src="./images/closeicon.png" style="height:25px;width:25px;cursor:pointer" alt="">
-      </div>
-      <div id="measurementDiv"></div>
+
+    <img id="layerListToggle" src="./images/layerControl.png" onclick="toggleLayerList()"></img>
+    <div id="layerList"></div>
+
+
+
+
+    <div id="toolContainer" onselectstart='return false'>
+        <div id="searchTool" show='0'>
+            <span></span>
+            <i>搜索</i>
+            <em></em>
+        </div>
+        <b class="left"></b>
+        <div id="starTool" show='0'>
+            <span></span>
+            <i>收藏</i>
+            <em></em>
+        </div>
+        <b class="left"></b>
+        <div id="basemapTool" show='0'>
+            <span></span>
+            <i>底图</i>
+            <em></em>
+        </div>
+        <b class="left"></b>
+        <div id="distanceTool" show='0'>
+            <span></span>
+            <i>测距</i>
+            <em></em>
+        </div>
+        <b class="left"></b>
+        <div id="areaTool" show='0'>
+            <span></span>
+            <i>测面积</i>
+            <em></em>
+        </div>
+        <b class="left"></b>
+        <div id="drawTool" show='0'>
+            <span></span>
+            <i>绘图</i>
+            <em></em>
+        </div>
     </div>
-    <!-- 书签 -->
-    <div class="no tool" id="bookmark">
-      <div style="height:auto;" align="right">
-        <img class="closeTool" src="./images/closeicon.png" style="height:25px;width:25px;cursor:pointer" alt="">
-      </div>
-      <ul style="width:150px;display:block;max-height:200px;overflow:auto;margin-top:4px" id="bookmarkul">
-      </ul>
-      <div style="height:auto;" align="center">
-        <input id="markName" type="text" style="width:140px;">
-        <img id="addBookmark" src="./images/star.png" style="height:20px;width:20px;cursor:pointer;float:right" onclick="addBookmark()">
-      </div>
+
+    <div id="toolGround">
+        <!-- 底图切换 -->
+        <div id="basemapToolDiv"></div>
+
+        <!-- 搜索 -->
+        <div id="searchToolDiv">
+            <!-- <div id="searchbox-container">
+                <div id="sole-searchbox-content" class="searchbox-content">
+                    <input id="sole-input" class="searchbox-content-common" type="text" name="word" autocomplete="off" maxlength="256" placeholder="地名"
+                        value="">
+                    <div class="input-clear" title="清空" style="display: none;"></div>
+                </div>
+            </div>
+            <button id="search-button" data-title="搜索" data-tooltip="2"></button> -->
+            <button class="btn btn-default">111111111</button>
+        </div>
+
+        <!-- 收藏 -->
+        <div id="starToolDiv" class="list-group"></div>
+
+        <!-- 绘图 -->
+        <div id="drawToolDiv" class="container-fluid">
+            <div class="row">
+                <button title="点" class="drawButton col-md-2 btn btn-default" onclick="startDraw(this)" shape="point">
+                    <img class="small" src="./images/point.png">
+                </button>
+                <!--<button title="多点" class="drawButton col-md-2 btn btn-default" onclick="startDraw(this)" shape="Multi Point">-->
+                <!--<img src="./images/points.png" alt="" srcset=""></button>-->
+
+
+                <button title="线" class="drawButton col-md-2 btn btn-default" onclick="startDraw(this)" shape="Line">
+                    <img src="./images/line.ico" alt="" srcset="">
+                </button>
+                <button title="多段线" class="drawButton col-md-2 btn btn-default" onclick="startDraw(this)" shape="Polyline">
+                    <img src="./images/polyline.png" alt="" srcset="">
+                </button>
+                <button title="手绘线" class="drawButton col-md-2 btn btn-default" onclick="startDraw(this)" shape="Freehand Polyline">
+                    <img src="./images/handline.png" alt="" srcset="">
+                </button>
+
+
+                <button title="多边形" class="drawButton col-md-2 btn btn-default" onclick="startDraw(this)" shape="Polygon">
+                    <img src="./images/polygon.png" alt="" srcset="">
+                </button>
+                <button title="手绘多边形" class="drawButton col-md-2 btn btn-default" onclick="startDraw(this)" shape="Freehand Polygon">
+                    <img class="small" src="./images/handpolygon.png" alt="" srcset="">
+                </button>
+            </div>
+            <!-- <div class="row">
+                <button class="drawButton col-md-2 btn btn-default" onclick="startDraw(this)" shape="Arrow">
+                    <img src="./images/arrow.png">箭头</button>
+                <button class="drawButton col-md-2 btn btn-default" onclick="startDraw(this)" shape="Triangle">
+                    <img src="./images/triangle.png" alt="" srcset="">三角形</button>
+                <button class="drawButton col-md-2 btn btn-default" onclick="startDraw(this)" shape="Circle">
+                    <img src="./images/circle.png" alt="" srcset="">圆</button>
+                <button class="drawButton col-md-2 btn btn-default" onclick="startDraw(this)" shape="Ellipse">
+                    <img src="./images/ellipse.ico" alt="" srcset="">椭圆</button>
+            </div> -->
+            <div class="row">
+                <button class="clearButton col-md-2 col-md-offset-5 btn btn-default" onclick="clearGra()">
+                    <img src="./images/clear.png" alt="" srcset=""> </button>
+            </div>
+        </div>
+        <div id="distanceToolDiv">
+            <p style="text-align: left">总长度：</p>
+        </div>
+        <div id="areaToolDiv">
+            <p>总面积：</p>
+        </div>
     </div>
-    <!-- 打印 -->
-    <div class="no tool" id="print"></div>
-  </div>
 
 
-  <!-- 地图容器 -->
-  <div id="mainWindow" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline',gutters:false">
-    <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
-
-
-      <!-- 底图切换按钮 -->
-      <div style="position:absolute; right:10px; top:10px; z-Index:999;">
-        <div id="basemapToggleDiv"></div>
-      </div>
-
-      <!-- 比例尺 -->
-      <div style="position:absolute; right:150px; bottom:25px; z-Index:999;">
-        <div id="scaleBarDiv"></div>
-      </div>
-
-      <!-- 鹰眼视图 -->
-      <div style="position:absolute; left:10px; bottom:230px; z-Index:999;">
-        <div id="overviewDiv" style="width:200px;height:200px"></div>
-      </div>
-
-      <!-- 全局视图 -->
-      <div style="position:absolute; left:15px; top:80px; z-Index:999;">
-        <div id="homeButtonDiv"></div>
-      </div>
-
-      <!-- 图层控制 -->
-      <img id="layersToggle" src="./images/layerControl.png" style="width:30px;height:30px;background-color:#fff;position:absolute; left:15px; top:120px; z-Index:999;cursor:pointer"
-        alt="">
-      <div id="layerListDiv" onselectstart="return false">
-        <ul id="layerList" style="list-style:none;padding-left:0px">
-        </ul>
-      </div>
-
-      <!-- 图例 -->
-      <div style="position:absolute; right:0px; bottom:50px;min-height:1px;max-height:40%;z-Index:999;overflow:auto;background-color:#FFF;width:180px;">
-        <div id="legendDiv"></div>
-      </div>
-
-    </div>
-  </div>
-
-  <script src="http://192.168.0.163:8007/arcgis_js_api/library/3.22/3.22compact/init.js"></script>
-  <link rel="stylesheet" href="https://js.arcgis.com/3.22/esri/themes/calcite/dijit/calcite.css">
-  <link rel="stylesheet" href="http://192.168.0.163:8007/arcgis_js_api/library/3.22/3.22compact/esri/themes/calcite/esri/esri.css">
-
-  <script src="./js/userInfo.js"></script>
-  <script src="./js/index.js"></script>
-
+    <script src="./js/index.js"></script>
+    <script src="./js/indexFunctions.js"></script>
+    <script src="./js/toolFunctions.js"></script>
+    <script src="./js/bookmark.js"></script>
+    <script src="./js/draw.js"></script>
 </body>
 
 </html>

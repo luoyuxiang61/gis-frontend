@@ -42,7 +42,7 @@ function login() {
       UserName: userName,
       Password: password
     }));
-    window.location.href = './index1.html';
+    window.location.href = './index.html';
   }
 
 }

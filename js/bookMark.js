@@ -83,8 +83,12 @@ function removeBookmark(el) {
 
 function starHere() {
 
-    var name = prompt("请输入该收藏的名称：");
+    var name = prompt("请输入该收藏的名称：").trim();
     var ext = map.extent;
+    if (name === '' || name === null) {
+        alert('名称不能为空！')
+        return false;
+    }
 
     $.ajax({
         url: "http://" + serverIP + ":" + serverPort + "/addBookmark",

@@ -1,185 +1,339 @@
-    html,
-    body {
-      height: 100%;
-      width: 100%;
-      margin: 0;
-    }
+#loading {
+    position: absolute;
+    z-index: 9999;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    text-align: center;
+}
+#loading>img {
+    height: 200px;
+    width: 200px;
+    margin: 0 auto;
+    display: block;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    margin-top: -180px;
+    margin-left: -100px;
 
-    body {
-      background-color: #FFF;
-      overflow: hidden;
-      font-family: "Trebuchet MS";
-    }
+}
 
-    #topBar {
-      height: 40px;
-      width: 100%;
-      background-color: rgba(231, 234, 235, 0.822);
-    }
 
-    #mainWindow {
-      width: 100%;
-      position: absolute;
-      top: 40px;
-      bottom: 0px;
-    }
 
-    #map {
-      height: 100%;
-      width: 100%;
-      margin: 0px;
-      padding: 0px;
-    }
+html,
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+}
 
-    #layerListDiv {
-      height: auto;
-      max-height: 400px;
-      width: 170px;
-      background-color: rgb(255, 255, 255);
-      position: absolute;
-      left: 15px;
-      top: 152px;
-      z-index: 999;
-      overflow: auto;
-      padding-left: 5px;
-      box-shadow: 5px 5px 2px #888888;
-    }
+.navbar-nav > li > a {padding-top:5px !important; padding-bottom:5px !important;}
+.navbar {min-height:32px !important}
 
-    .layerListItem.groupLayer {
-      margin-bottom: 4px;
-    }
+#map {
+    position: absolute;
+    top: 32px;
+    bottom: 0px;
+    width: 100%;
+}
 
-    .layerListItem.groupLayer:hover {
-      background-color: rgba(177, 174, 169, 0.815);
-    }
+#homeButton {
+    position: absolute;
+    top: 85px;
+    left: 21px;
+    z-index:30;
+}
 
-    .layerListItem.layer:hover {
-      background-color: rgba(218, 217, 216, 0.685);
-    }
 
-    .labelItem {
-      display: inline-block;
-      width: 85%;
-    }
+#layerListToggle {
+    position :absolute;
+    top: 150px;
+    left: 21px;
+    z-index: 30;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    background-color: white;
+ }
+#layerList {
+    position: absolute;
+    top: 190px;
+    left:20px;
+    width: 200px;
+    height: auto;
+    z-index: 999;
+    box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.233);
+}
+#layerList>.list-group {
+    max-height: 500px;
+    overflow-y: auto;
+    margin-bottom: 0;
+}
+/* #layerList>.list-group>.list-group-item:nth-last-child(2) {
 
-    .labelItem.groupLayer {
-      display: inline-block;
-      width: 85%;
-      cursor: pointer;
-    }
+} */
 
-    #toolBar {
-      position: absolute;
-      top: 45px;
-      right: 100px;
-      width: auto;
-      height: 35px;
-      background-color: rgb(255, 255, 255);
-      z-index: 999;
-      padding: 5px;
-      padding-bottom: 0px;
-      border: 1px solid black;
-      border-radius: 3px
-    }
+#toolContainer {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    padding-top: 4px;
+    padding-left: 4px;
+    float: right;
+    box-shadow: 1px 2px 1px rgba(0,0,0,.15);
+    background-color: white;
+    
+}
 
-    .icon {
-      height: 25px;
-      width: 25px;
-      z-index: 999;
-      cursor: pointer;
-      margin-right: 10px;
-    }
+#toolContainer>div {
+    padding-right: 12px;
+    line-height: 31px;
+    float: left;
+    cursor: pointer;
+    display: inline-block;
+}
+#toolContainer>div:hover {
+    color: blue;
+}
 
-    .icon:hover {
-      background-color: lightgreen;
-    }
+#toolContainer>div>span {
+    float: left;
+    height: 31px;
+    width: 25px;
+    background-repeat: no-repeat;
+    background-size: 25px 25px;
+}
 
-    #closeTool {
-      cursor: pointer;
-      margin-left: 140px;
-    }
+#toolContainer #searchTool>span {
+    background-image: url('../images/search.png');
+}
 
-    #closeTool:hover {
-      background-color: lightgray;
-    }
+#toolContainer #starTool>span {
+    background-image: url('../images/star.ico');
+}
+#toolContainer #basemapTool>span {
+    background-image: url('../images/basemap.png');
+}
+#toolContainer #distanceTool>span {
+    background-image: url('../images/distance.png');
+}
+#toolContainer #areaTool>span {
+    background-image: url('../images/area.png');
+}
+#toolContainer #drawTool>span {
+    background-image: url('../images/draw.png');
+}
 
-    #tool {
-      position: absolute;
-      top: 100px;
-      right: 120px;
-      height: auto;
-      width: auto;
-      z-index: 999;
-      margin-right: 10px;
-      margin-top: 15px;
-    }
 
-    button.closeTool {
-      border: none;
-    }
+#toolContainer i {
+    float: left;
+    font-size: 12px;
+    font-style: normal;
+    height: 31px;
+    line-height: 31px;
+    display: inline-block;
+}
+#toolContainer em {
+    width: 7px;
+    height: 7px;
+    float: left;
+    margin-top: 13px;
+    margin-left: 5px;
+    background-image: url(//webmap1.bdimg.com/wolfman/static/common/images/ui3/tools/newtools_9ddbaad.png);
+    background-repeat: no-repeat;
+    background-position: -13px -17px;
+}
 
-    #draw {
-      height: auto;
-      width: 138px;
-      z-index: 999;
-      background-color: #fff;
-    }
+#toolContainer b.left {
+    float: left;
+    height: 21px;
+    display: inline-block;
+    border-right: 1px solid rgb(216, 215, 215);
+    top: 7px;
+    position: relative;
+    color: #3a3939;
+    margin-right: 3px;
+}
 
-    #measure {
-      height: auto;
-      z-Index: 999;
-      width: 150px;
-      background-color: #FFF;
-    }
+#toolGround {
+    display: none;
+    position: absolute;
+    top: 100px;
+    right: 50px;
+    width: 474px;
+    height: auto;
+    max-height: 500px;
+    background-color: white;
+    text-align: center;
+    overflow: auto;
+}
 
-    #onMeasure {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background-color: #fff;
-      height: auto;
-      width: auto;
-      z-index: 999;
-    }
 
-    #bookmark {
-      background-color: #fff;
-    }
 
-    #bookmark>ul {
-      list-style: none;
-      padding: 5px;
-    }
+#searchToolDiv {
+    margin-left: 5px;
+    margin-top: 5px;
+    border-radius: 2px;
+    width: 386px;
+    position: relative;
+    z-index: 5;
+    zoom: 1;
+    display: block;
+    pointer-events: none;
+    font-size: 12px;
+    color: #4c4c4c;
+}
+#searchToolDiv #searchbox-container {
+    position: relative;
+    z-index: 2;
+    pointer-events: auto;
+    width: 329px;
+    float: left;
+    box-sizing: border-box;
+    box-shadow: 1px 2px 1px rgba(0,0,0,.15);
+    border-top: 1px solid rgba(0, 0, 0, 0.301);
+    border-left: 1px solid rgba(0, 0, 0, 0.301);
+}
+#sole-searchbox-content {
+    position: relative;
+    height: 38px;
+}
+.searchbox-content {
+    width: 329px;
+    border-radius: 2px 0 0 2px;
+    background: #fff;
+}
+#sole-searchbox-content #sole-input {
+    box-sizing: border-box;
+    border: 0;
+    padding: 9px 0;
+    border-left: 10px solid transparent;
+    border-right: 27px solid transparent;
+    line-height: 20px;
+    font-size: 16px;
+    height: 38px;
+    color: #333;
+    position: relative;
+    border-radius: 2px 0 0 2px;
+}
+.searchbox-content .searchbox-content-common {
+    box-sizing: border-box;
+    float: left;
+    width: 329px;
+    height: 38px;
+}
+#sole-searchbox-content .input-clear {
+    right: 0px;
+}
+.searchbox-content .input-clear {
+    cursor: pointer;
+    position: absolute;
+    width: 27px;
+    height: 36px;
+    top: 1px;
+    background: url(//webmap1.bdimg.com/wolfman/static/common/images/new/searchbox_f175577.png) no-repeat 0 -114px #fff;
+    display: none;
+}
+#searchToolDiv #search-button {
+    pointer-events: auto;
+    background: url(//webmap1.bdimg.com/wolfman/static/common/images/new/searchbox_f175577.png) no-repeat 0 -76px #3385ff;
+    width: 57px;
+    height: 40px;
+    float: left;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    border-radius: 0 2px 2px 0;
+    box-shadow: 1px 2px 1px rgba(0,0,0,.15);
+    outline: 0;
+    font-family: inherit;
+}
 
-    #bookmark>ul li {
-      margin-bottom: 4px;
-      border-bottom: 1px solid #6e6e6e;
-      /* cursor: pointer; */
-    }
 
-    #bookmark>ul li:hover {
-      background-color: rgba(170, 119, 119, 0.411)
-    }
 
-    .action-button {
-      font-size: 16px;
-      background-color: transparent;
-      border: 1px solid #D3D3D3;
-      color: #6e6e6e;
-      height: 32px;
-      width: 32px;
-      text-align: center;
-      box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
-    }
+#drawToolDiv .row {
+    margin-top: 5px;
+}
 
-    .action-button:hover {
-      background-color: rgba(6, 121, 121, 0.637);
-    }
+#drawToolDiv .drawButton {
+    background-color: white;
+    display: block;
+    height:50px;
+}
+#drawToolDiv .drawButton:hover {
+    color:blue;
+}
+#drawToolDiv .drawButton>img, #drawToolDiv .clearButton>img{
+    height: 40px;
+    width: 40px;
+}
+#drawToolDiv .drawButton>img.small {
+    width: 30px;
+    height: 30px;
+}
+#drawToolDiv .clearButton {
+    margin-top: 15px;
+    
+}
 
-    .no {
-      display: none;
-    }
 
-    .titleButton.maximize {
-      display: none;
-    }
+
+/*书签相关*/
+div.star-container {
+    text-align: initial;
+}
+
+div.star-container>* {
+    display: inline-block;
+}
+
+div.star-container>span {
+    padding-top: 3px;
+    font-size: 110%;
+    max-width: 350px;
+    overflow-x: auto;
+    cursor: pointer;
+
+}
+div.star-container>span:hover {
+    background-color: rgba(132, 132, 132, 0.46);
+}
+
+div.star-container>div.edit {
+    display: none;
+}
+
+div.star-container>button.btn-sm {
+    float: right;
+    cursor: pointer;
+}
+#starBtn {
+    margin-top: 10px;
+}
+
+
+
+
+
+
+
+
+ul.son {
+    display: none
+}
+
+ul.son li:hover {
+    background-color: azure
+}
+
+.list-group-item.father:hover {
+    background-color: bisque
+}
+
+.list-group-item.father span {
+    float: right;
+}

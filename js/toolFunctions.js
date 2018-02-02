@@ -28,15 +28,15 @@ $("#toolContainer>div").click(function (e) {
 
 
 
-   //如果该tool没有显示，就关闭其他的tool显示这个
+    //如果该tool没有显示，就关闭其他的tool显示这个
     if (!isShow) {
         clearGra();
         isMeasuring = false;
         nowMeasure = null;
         tools.attr('show', '0');
         clickedTool.attr('show', '1');
-        tools.css('color','unset');
-        clickedTool.css('color','red');
+        tools.css('color', 'unset');
+        clickedTool.css('color', 'red');
         ems.css('background-position', '-13px -17px');
         em.css('background-position', '-12px -177px');
 
@@ -46,21 +46,29 @@ $("#toolContainer>div").click(function (e) {
         toolGround.slideDown(250);
     } else {
         tools.attr('show', '0');
-        tools.css('color','unset');
+        tools.css('color', 'unset');
         ems.css('background-position', '-13px -17px');
         toolDivs.css('display', 'none');
         toolGround.hide(50)
     }
 
+    // //点击的搜索工具
+    // if (toolName === 'searchTool') {
+
+    //     for (var i = 0; i < searchLayers.length; i++) {
+    //         $("#searchToolDiv").append("<p>" + searchLayers[i].DisplayName + "</p>");
+    //     }
+    // }
+
 
     //如果是点击的量测工具就开启量测状态
-    if(toolName === 'distanceTool') {
+    if (toolName === 'distanceTool') {
         if (isShow) {
             deactivateTool();
             clearGra();
             isMeasuring = false;
             map.showZoomSlider();
-        }else{
+        } else {
             clearGra();
             $(clickedToolDiv[0]).empty();
             isMeasuring = true;
@@ -70,13 +78,13 @@ $("#toolContainer>div").click(function (e) {
             startMeasure('polyline');
 
         }
-    }else if(toolName === 'areaTool'){
+    } else if (toolName === 'areaTool') {
         if (isShow) {
             deactivateTool();
             clearGra();
             isMeasuring = false;
             map.showZoomSlider();
-        }else{
+        } else {
             clearGra();
             $(clickedToolDiv[0]).empty();
             isMeasuring = true;
@@ -84,7 +92,7 @@ $("#toolContainer>div").click(function (e) {
             pts = [];
             startMeasure('polygon')
         }
-    }else {
+    } else {
         deactivateTool();
     }
 
@@ -96,16 +104,16 @@ $("#toolContainer>div").click(function (e) {
 //地图加载完成后调用的方法，主要是为了监听量测状态下的鼠标点击事件
 function enableMeasure() {
     map.on('click', function (e) {
-        if(isMeasuring && nowMeasure === 'distance') {
+        if (isMeasuring && nowMeasure === 'distance') {
 
             pts.push({
-                pageP: {left:e.pageX,top:e.pageY},
+                pageP: { left: e.pageX, top: e.pageY },
                 mapP: e.mapPoint
             });
 
 
 
-            if (pts.length>=2) {
+            if (pts.length >= 2) {
                 console.log(pts)
 
 
@@ -113,13 +121,13 @@ function enableMeasure() {
                 var p1 = pts[pts.length - 1].mapP;
                 var p2 = pts[pts.length - 2].mapP;
                 line.addPath([p1, p2]);
-                var d0 = parseFloat(ageometryEngine.planarLength(line,'meters').toFixed(2));
+                var d0 = parseFloat(ageometryEngine.planarLength(line, 'meters').toFixed(2));
 
                 console.log(p1)
-                var d0P = new aPoint((p1.x+p2.x)/2,(p1.y+p2.y)/2,new aSpatialReference({wkid:2437}));
+                var d0P = new aPoint((p1.x + p2.x) / 2, (p1.y + p2.y) / 2, new aSpatialReference({ wkid: 2437 }));
                 var font = new aFont("20px", aFont.STYLE_NORMAL, aFont.VARIANT_NORMAL, aFont.WEIGHT_BOLDER)
-                var dSymbol = new aTextSymbol(d0,font,new aColor([0,255,0]))
-                var dGra = new aGraphic(d0P,dSymbol);
+                var dSymbol = new aTextSymbol(d0, font, new aColor([0, 255, 0]))
+                var dGra = new aGraphic(d0P, dSymbol);
                 map.graphics.add(dGra);
 
                 distance += d0;
@@ -129,16 +137,16 @@ function enableMeasure() {
         }
     });
 
-    map.on('dbl-click',function (e) {
+    map.on('dbl-click', function (e) {
 
-        if(isMeasuring && nowMeasure === 'distance')  {
+        if (isMeasuring && nowMeasure === 'distance') {
             isMeasuring = false;
             pts = [];
             var font = new aFont("20px", aFont.STYLE_NORMAL, aFont.VARIANT_NORMAL, aFont.WEIGHT_BOLDER)
-            var disSymbol = new aTextSymbol("总长度："+distance.toFixed(2)+"米",font,new aColor([0,155,0]))
-            var disGra = new aGraphic(e.mapPoint,disSymbol);
+            var disSymbol = new aTextSymbol("总长度：" + distance.toFixed(2) + "米", font, new aColor([0, 155, 0]))
+            var disGra = new aGraphic(e.mapPoint, disSymbol);
             map.graphics.add(disGra);
-        }else if(isMeasuring && nowMeasure === 'area') {
+        } else if (isMeasuring && nowMeasure === 'area') {
             isMeasuring = false;
             areaPoint = e.mapPoint;
         }
@@ -147,7 +155,7 @@ function enableMeasure() {
 
 function showArea() {
     var font = new aFont("20px", aFont.STYLE_NORMAL, aFont.VARIANT_NORMAL, aFont.WEIGHT_BOLDER)
-    var areaSymbol = new aTextSymbol("总面积："+area.toFixed(2)+"平方米",font,new aColor([0,155,0]))
-    var areaGra = new aGraphic(areaPoint,areaSymbol);
+    var areaSymbol = new aTextSymbol("总面积：" + area.toFixed(2) + "平方米", font, new aColor([0, 155, 0]))
+    var areaGra = new aGraphic(areaPoint, areaSymbol);
     map.graphics.add(areaGra);
 }
