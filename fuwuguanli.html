@@ -389,13 +389,23 @@
             url: "http://" + serverIP + ":" + serverPort + "/layersForTree",
             success: function (layersForTree) {
                 for (var i = 0; i < layersForTree.length; i++) {
-                    $("#layerGroupList").append("<li class='layerGroup'><div><span>" + layersForTree[i].father.DisplayName + "</span></div><li>")
+                    $("#layerGroupList").append("<li index='" + i + "' class='layerGroup'><div><span>" + layersForTree[i].father.DisplayName + "</span></div><li>")
                 }
 
                 $(".layerGroup").on('click', function (e) {
                     $(".layerGroup").removeClass('active')
                     this.classList.add('active')
+
+                    var index = this.getAttribute('index')
+
+                    console.log(layersForTree[index].sons)
+                    $("mainT")
+
+
                 })
+
+
+
             }
 
         })
