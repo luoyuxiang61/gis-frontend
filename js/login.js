@@ -1,4 +1,4 @@
-//回车事件
+//监听页面的回车事件
 document.onkeydown = function (event) {
   var e = event || window.event;
   if (e && e.keyCode == 13) { //回车键的键值为13
@@ -6,10 +6,7 @@ document.onkeydown = function (event) {
   }
 };
 
-
 function login() {
-
-
   var userName = md5(document.getElementById('username').value.trim());
   var password = md5(document.getElementById('password').value.trim());
   var user;
@@ -27,8 +24,6 @@ function login() {
   })
 
   user = JSON.parse(user);
-
-  console.log(user)
 
   if (user == null || user == '') {
     alert('用户名或密码错误！');
