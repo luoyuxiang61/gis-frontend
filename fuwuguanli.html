@@ -75,8 +75,8 @@
         }
 
         #treeContainer>ul>li>div:hover,
-        #treeContainer div.clicked {
-            background-color: #e8e8fb;
+        #treeContainer li.active {
+            background-color: #dadaf8;
             color: black;
         }
 
@@ -316,37 +316,7 @@
         <div class="row">
             <div class="col-md-2 col-xs-2" id="treeContainer">
                 <!-- <div id="treeHead">服务分组</div> -->
-                <ul>
-                    <li>
-                        <div class="clicked">
-                            <span>系统服务组</span>
-                            <span class="glyphicon glyphicon-chevron-right"></span>
-                        </div>
-                    </li>
-                    <li>
-                        <div>
-                            <span>系统服务组</span>
-                            <span class="glyphicon glyphicon-chevron-right"></span>
-                        </div>
-                    </li>
-                    <li>
-                        <div>
-                            <span>系统服务组</span>
-                            <span class="glyphicon glyphicon-chevron-right"></span>
-                        </div>
-                    </li>
-                    <li>
-                        <div>
-                            <span>系统服务组</span>
-                            <span class="glyphicon glyphicon-chevron-right"></span>
-                        </div>
-                    </li>
-                    <li>
-                        <div>
-                            <span>系统服务组</span>
-                            <span class="glyphicon glyphicon-chevron-right"></span>
-                        </div>
-                    </li>
+                <ul id="layerGroupList">
                 </ul>
             </div>
             <div class="col-md-10 col-xs-2" id="mainContainer">
@@ -370,7 +340,7 @@
 
                 <div id="tBody">
                     <table class="table table-hover table-striped">
-                        <tbody id="xx">
+                        <tbody id="mainT">
                             <tr>
                                 <td class="col-xs-1">正式红线</td>
                                 <td class="col-xs-5 col-md-5">
@@ -379,10 +349,10 @@
                                 <td class="col-xs-1">要素图层</td>
                                 <td class="col-xs-1">是</td>
                                 <td title="桌面端配置" class="col-xs-1 desktop">
-                                    <i class="fas fa-laptop"></i>
+                                    <i class="fas fa-laptop desktop"></i>
                                 </td>
                                 <td title="服务端配置" class="col-xs-1 mobile">
-                                    <i class="fas fa-mobile-alt fa-1x"></i>
+                                    <i class="fas fa-mobile-alt fa-1x mobile"></i>
                                 </td>
                                 <td class="col-xs-1">up</td>
                                 <td class="col-xs-1">down</td>
@@ -395,10 +365,10 @@
                                 <td class="col-xs-1">要素图层</td>
                                 <td class="col-xs-1">是</td>
                                 <td title="桌面端配置" class="col-xs-1 desktop">
-                                    <i class="fas fa-laptop"></i>
+                                    <i class="fas fa-laptop desktop"></i>
                                 </td>
                                 <td title="服务端配置" class="col-xs-1 mobile">
-                                    <i class="fas fa-mobile-alt fa-1x"></i>
+                                    <i class="fas fa-mobile-alt fa-1x mobile"></i>
                                 </td>
                                 <td class="col-xs-1">up</td>
                                 <td class="col-xs-1">down</td>
@@ -413,6 +383,30 @@
 
 
     <script>
+        $.ajax({
+            type: 'post',
+            async: false,
+            url: "http://" + serverIP + ":" + serverPort + "/layersForTree",
+            success: function (layersForTree) {
+                for (var i = 0; i < layersForTree.length; i++) {
+                    $("#layerGroupList").append("<li class='layerGroup'><div><span>" + layersForTree[i].father.DisplayName + "</span></div><li>")
+                }
+
+                $(".layerGroup").on('click', function (e) {
+                    $(".layerGroup").removeClass('active')
+                    this.classList.add('active')
+                })
+            }
+
+        })
+
+
+
+
+
+
+
+
         $("#closeEdit").click(function () {
             var gb = document.getElementById('grayBack');
             var ec = document.getElementById('editContainer');
@@ -420,20 +414,21 @@
             ec.style.display = 'none';
         })
 
-        // $("td.mobile").click(function () {
-        //     $("#editContainer").show();
-        //     $("#grayBack").show();
-        // })
-
-        $("td.desktop,td.mobile").click(function () {
-            // $("#editContainer").show();
-            // $("#grayBack").show();
-            var gb = document.getElementById('grayBack');
-            var ec = document.getElementById('editContainer');
-            gb.style.display = 'block';
-            ec.style.display = 'block';
 
 
+        $("td.desktop,td.mobile").click(function (e) {
+
+            console.log(e)
+            if (e.target.className.indexOf('desktop') !== -1) {
+                console.log('desktop')
+                $("#editHeader>i").removeClass('fa-mobile-alt').addClass('fa-laptop')
+            } else {
+                console.log('mobile')
+                $("#editHeader>i").removeClass('fa-laptop').addClass('fa-mobile-alt')
+            }
+
+            $("#editContainer").fadeIn(500)
+            $("#grayBack").fadeIn(500)
             $("#service>tbody").empty();
             $("#fields>tbody").empty();
 

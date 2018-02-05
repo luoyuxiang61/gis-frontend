@@ -107,12 +107,4 @@ function starHere() {
             getBookmarks();
         }
     })
-
-
-
-
-
 }
-
-
-
