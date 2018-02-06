@@ -179,9 +179,6 @@ require([
                     basemap: basemaps[0],
                     logo: false
                 });
-
-
-
                 //底图切换控件
                 var basemapGallery = new BasemapGallery({
                     showArcGISBasemaps: false,
@@ -197,17 +194,8 @@ require([
                     visible: true
                 }, dom.byId('homeButton'))
                 homeButton.startup();
-
-
-
                 map.addLayers(showLayers);
                 map.on('layers-add-result', mapLoaded())
-
-
-
-
-
-
             }
         })
 

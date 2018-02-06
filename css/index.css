@@ -276,12 +276,21 @@ ul.son {
     display: none
 }
 
+
 ul.son li:hover {
     background-color: azure
 }
+ul.son li {
+    padding: 5px;
+    background-color: whitesmoke;
+}
 
 .list-group-item.father:hover {
-    background-color: bisque
+    background-color: rgb(242, 246, 250)
+}
+.list-group-item.father {
+    background-color: white;
+    cursor: default;
 }
 
 .list-group-item.father span {

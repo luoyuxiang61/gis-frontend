@@ -216,17 +216,17 @@
             </div>
 
             <div id="fieldsContainer" class="col-md-6">
-                <table id="fields" class="table table-bordered table-striped" style="clear:both;">
+                <table id="fields" class="table table-bordered table-striped" style="overflow:scroll;">
                     <thead>
                         <tr>
-                            <th>字段名称</th>
-                            <th>序号</th>
-                            <th>显示名称</th>
-                            <th>单位</th>
-                            <th>显示</th>
-                            <th>搜索</th>
-                            <th>标注</th>
-                            <th>转换为亩</th>
+                            <th class="col-xs-2">字段名称</th>
+                            <th class="col-xs-1">序号</th>
+                            <th class="col-xs-3">显示名称</th>
+                            <th class="col-xs-1">单位</th>
+                            <th class="col-xs-1">显示</th>
+                            <th class="col-xs-1">搜索</th>
+                            <th class="col-xs-1">标注</th>
+                            <th class="col-xs-2">转换为亩</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -369,10 +369,11 @@
                     $("#mainT").empty()
                     for (var j = 0; j < sons.length; j++) {
                         son = sons[j]
+                        var isVisible = son.IsVisible == 1 ? '是' : '--'
                         $("#mainT").append("<tr><td class='col-xs-1'>" + son.DisplayName +
                             "</td><td class='col-xs-5'><a target='_blank' href='" + son.ServiceUrl + "'>" + son.ServiceUrl
                             + "</a></td><td class='col=xs-1'>" + son.LayerType
-                            + "</td><td class='col-xs-1'>" + son.IsVisible
+                            + "</td><td class='col-xs-1'>" + isVisible
                             + "</td><td lid='" + son.id + "' title='桌面端配置' class='col-xs-1 desktop'><i lid='" + son.id + "' class='fa fa-laptop desktop'></i></td><td lid='" + son.id + "' class='col-xs-1 mobile'><i lid='" + son.id + "' class='fa fa-mobile-alt'></i></td>"
                             + "<td class='col-xs-1'>up</td><td class='col-xs-1'>down</td>"
                             + "</tr>")
