@@ -190,9 +190,17 @@
         }
 
         #fieldsContainer {
-            max-height: 95%;
+            height: 95%;
             padding-left: 20px;
-            overflow: auto;
+        }
+
+        #fields {
+            height: 100%;
+        }
+
+        #fieldsTb {
+            max-height: 95%;
+            overflow-y: auto;
         }
     </style>
 </head>
@@ -216,22 +224,32 @@
             </div>
 
             <div id="fieldsContainer" class="col-md-6">
-                <table id="fields" class="table table-bordered table-striped" style="clear:both;overflow:scroll;">
-                    <thead>
-                        <tr>
-                            <th class="col-xs-2">字段名称</th>
-                            <th class="col-xs-1">序号</th>
-                            <th class="col-xs-3">显示名称</th>
-                            <th class="col-xs-1">单位</th>
-                            <th class="col-xs-1">显示</th>
-                            <th class="col-xs-1">搜索</th>
-                            <th class="col-xs-1">标注</th>
-                            <th class="col-xs-2">转换为亩</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+                <div id="fields">
+                    <div id="fieldsTh" style="overflow-y:scroll;">
+                        <table class="table table-bordered" style="margin:0">
+                            <thead>
+                                <tr>
+                                    <th class="col-xs-2">字段名称</th>
+                                    <th class="col-xs-1">序号</th>
+                                    <th class="col-xs-3">显示名称</th>
+                                    <th class="col-xs-1">单位</th>
+                                    <th class="col-xs-1">显示</th>
+                                    <th class="col-xs-1">搜索</th>
+                                    <th class="col-xs-1">标注</th>
+                                    <th class="col-xs-2">转换为亩</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                    <div id="fieldsTb" style="overflow-y:scroll">
+                        <table class="table table-bordered table-striped" style="margin:0">
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+                </div>
+
             </div>
         </div>
     </div>
@@ -396,7 +414,7 @@
                         $("#editContainer").fadeIn(500)
                         $("#grayBack").fadeIn(500)
                         $("#service>tbody").empty();
-                        $("#fields>tbody").empty();
+                        $("#fields tbody").empty();
 
 
                         $.get("http://" + serverIP + ":" + serverPort + "/oneLayer?layerId=" + layerId, function (oneLayer) {
@@ -506,33 +524,33 @@
                                         }
 
                                         var tomu = field.IsShowMuFormSquareMeters == 1 ? 1 : 0
-                                        $("#fields>tbody").append(
+                                        $("#fields tbody").append(
                                             "<tr>" +
-                                            "<td><a href='#' id='FieldName' data-type='text'  class='editable editable-click' data-pk='" +
+                                            "<td class='col-xs-2'><a href='#' id='FieldName' data-type='text'  class='editable editable-click' data-pk='" +
                                             field.id + "'> " + field.FieldName + "</a></td>" +
-                                            "<td><a href='#' id='SortCode' data-type='number' data-value='" + parseInt(field.SortCode) +
+                                            "<td class='col-xs-1'><a href='#' id='SortCode' data-type='number' data-value='" + parseInt(field.SortCode) +
                                             "' class='editable editable-click' data-pk='" + field.id + "'> " + "</a></td>" +
-                                            "<td><a href='#' id='DisplayName' data-type='text'  class='editable editable-click' data-pk='" +
+                                            "<td class='col-xs-3'><a href='#' id='DisplayName' data-type='text'  class='editable editable-click' data-pk='" +
                                             field.id + "'> " + field.DisplayName + "</a></td>" +
-                                            "<td><a href='#' id='UnitName' data-type='select' data-value='" + un +
+                                            "<td class='col-xs-1'><a href='#' id='UnitName' data-type='select' data-value='" + un +
                                             "'  data-source='http://" + serverIP + ":" + serverPort + "/unitName'  class='editable editable-click editable-open' data-pk='" +
                                             field.id + "' data-value='" + un + "'> " + "</td>" +
-                                            "<td><a href='#' id='IsDisplay' data-type='select' data-value='" + field.IsDisplay +
+                                            "<td class='col-xs-1'><a href='#' id='IsDisplay' data-type='select' data-value='" + field.IsDisplay +
                                             "'  data-source='http://" + serverIP + ":" + serverPort + "/yesno'  class='editable editable-click editable-open' data-pk='" +
                                             field.id + "'> " + "</td>" +
-                                            "<td><a href='#' id='IsSearch' data-type='select' data-value='" + field.IsSearch +
+                                            "<td class='col-xs-1'><a href='#' id='IsSearch' data-type='select' data-value='" + field.IsSearch +
                                             "'  data-source='http://" + serverIP + ":" + serverPort + "/yesno'  class='editable editable-click editable-open' data-pk='" +
                                             field.id + "'> " + "</td>" +
-                                            "<td><a href='#' id='IsLabel' data-type='select' data-value='" + field.IsLabel +
+                                            "<td class='col-xs-1'><a href='#' id='IsLabel' data-type='select' data-value='" + field.IsLabel +
                                             "'  data-source='http://" + serverIP + ":" + serverPort + "/yesno'  class='editable editable-click editable-open' data-pk='" +
                                             field.id + "'> " + "</td>" +
-                                            "<td><a href='#' id='IsShowMuFormSquareMeters' data-type='select' data-value='" + tomu +
+                                            "<td class='col-xs-2'><a href='#' id='IsShowMuFormSquareMeters' data-type='select' data-value='" + tomu +
                                             "'  data-source='http://" + serverIP + ":" + serverPort + "/yesno'  class='editable editable-click editable-open' data-pk='" +
                                             field.id + "'> " + "</td>"
                                         )
                                     }
 
-                                    $("#fields>tbody .editable.editable-click").editable({
+                                    $("#fields tbody .editable.editable-click").editable({
                                         showbuttons: true,
                                         url: "http://" + serverIP + ":" + serverPort + "/updateField",
                                         ajaxOptions: {
