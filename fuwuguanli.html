@@ -171,15 +171,14 @@
 
         #editHeader {
             font-size: 2em;
-            display: block;
             width: 300px;
             text-align: center;
             margin: 0 auto;
         }
 
         #editMain {
-            height: 95%;
-            max-height: 90%;
+            height: 93%;
+            max-height: 93%;
             margin-left: 0px;
             margin-right: 0px;
         }
@@ -191,7 +190,11 @@
 
         #fieldsContainer {
             height: 95%;
-            padding-left: 20px;
+            display: none;
+        }
+
+        #goService {
+            display: none;
         }
 
         #fields {
@@ -216,40 +219,49 @@
             <i class="fas fa-laptop fa-1x"></i>
         </div>
         <div id="editMain">
-            <div id="serviceContainer" class="col-md-6">
+            <div id="serviceContainer" class="col-md-8 col-md-offset-2">
                 <table id="service" class="table table-bordered table-striped">
                     <tbody>
                     </tbody>
                 </table>
             </div>
 
-            <div id="fieldsContainer" class="col-md-6">
+            <div id="goFields" class="col-md-1">
+                <button title="查看字段属性">
+                    <span class="glyphicon glyphicon-menu-right"></span>
+                </button>
+            </div>
+
+            <div id="fieldsContainer" class="col-md-8 col-md-offset-2">
                 <div id="fields">
                     <div id="fieldsTh" style="overflow-y:scroll;">
                         <table class="table table-bordered" style="margin:0">
-                            <thead>
+                            <tbody>
                                 <tr>
-                                    <th class="col-xs-2">字段名称</th>
-                                    <th class="col-xs-1">序号</th>
-                                    <th class="col-xs-3">显示名称</th>
-                                    <th class="col-xs-1">单位</th>
-                                    <th class="col-xs-1">显示</th>
-                                    <th class="col-xs-1">搜索</th>
-                                    <th class="col-xs-1">标注</th>
-                                    <th class="col-xs-2">转换为亩</th>
+                                    <td class="col-xs-2">字段名称</td>
+                                    <td class="col-xs-1">序号</td>
+                                    <td class="col-xs-3">显示名称</td>
+                                    <td class="col-xs-1">单位</td>
+                                    <td class="col-xs-1">显示</td>
+                                    <td class="col-xs-1">搜索</td>
+                                    <td class="col-xs-1">标注</td>
+                                    <td class="col-xs-2">转换为亩</td>
                                 </tr>
-                            </thead>
+                            </tbody>
                         </table>
                     </div>
 
                     <div id="fieldsTb" style="overflow-y:scroll">
                         <table class="table table-bordered table-striped" style="margin:0">
-                            <tbody></tbody>
+                            <tbody id="tbd"></tbody>
                         </table>
                     </div>
-
                 </div>
-
+            </div>
+            <div id="goService">
+                <button title="查看图层属性">
+                    <span class="glyphicon glyphicon-menu-left"></span>
+                </button>
             </div>
         </div>
     </div>
@@ -397,29 +409,26 @@
                             + "</tr>")
                     }
 
-                    $("td.desktop,td.mobile").click(function (e) {
+                    $("td.desktop").click(function (e) {
 
-                        console.log(e.target)
+
                         var layerId = e.target.getAttribute('lid')
-                        console.log(layerId)
 
-                        if (e.target.className.indexOf('desktop') !== -1) {
-                            console.log('desktop')
-                            $("#editHeader>i").removeClass('fa-mobile-alt').addClass('fa-laptop')
-                        } else {
-                            console.log('mobile')
-                            $("#editHeader>i").removeClass('fa-laptop').addClass('fa-mobile-alt')
-                        }
+
+                        $("#fieldsContainer").hide()
+                        $("#goService").hide()
+                        $("#serviceContainer").show()
+                        $("#goFields").show()
 
                         $("#editContainer").fadeIn(500)
                         $("#grayBack").fadeIn(500)
                         $("#service>tbody").empty();
-                        $("#fields tbody").empty();
+                        $("#fields #tbd").empty();
 
 
                         $.get("http://" + serverIP + ":" + serverPort + "/oneLayer?layerId=" + layerId, function (oneLayer) {
 
-                            console.log(oneLayer.Opacity);
+                            if (oneLayer.LayerType !== 'FeatureLayer') $("#goFields").hide()
 
                             var lt = 0;
                             switch (oneLayer.LayerType) {
@@ -524,7 +533,7 @@
                                         }
 
                                         var tomu = field.IsShowMuFormSquareMeters == 1 ? 1 : 0
-                                        $("#fields tbody").append(
+                                        $("#fields #tbd").append(
                                             "<tr>" +
                                             "<td class='col-xs-2'><a href='#' id='FieldName' data-type='text'  class='editable editable-click' data-pk='" +
                                             field.id + "'> " + field.FieldName + "</a></td>" +
@@ -550,7 +559,7 @@
                                         )
                                     }
 
-                                    $("#fields tbody .editable.editable-click").editable({
+                                    $("#fields #tbd .editable.editable-click").editable({
                                         showbuttons: true,
                                         url: "http://" + serverIP + ":" + serverPort + "/updateField",
                                         ajaxOptions: {
@@ -613,8 +622,6 @@
                             })
                         })
                     })
-
-
                 })
             }
         })
@@ -624,6 +631,20 @@
             var ec = document.getElementById('editContainer');
             gb.style.display = 'none';
             ec.style.display = 'none';
+        })
+
+        $("#goFields button").click(function () {
+            $("#fieldsContainer").show()
+            $("#goService").show()
+            $("#serviceContainer").hide()
+            $("#goFields").hide()
+        })
+
+        $("#goService button").click(function () {
+            $("#fieldsContainer").hide()
+            $("#goService").hide()
+            $("#serviceContainer").show()
+            $("#goFields").show()
         })
 
     </script>

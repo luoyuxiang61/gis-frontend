@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>用户管理</title>
+    <script src="./config.js"></script>
+    <script src="./lib/jquery-3.2.1.min.js"></script>
+    <script src="./lib/jcookie/jquery.cookie.js"></script>
+    <script src="./js/checkLogin.js"></script>
+    <link rel="stylesheet" href="./lib/bootstrap-3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./lib/bootstrap3-editable/css/bootstrap-editable.css">
+    <script src="./lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script src="./lib/bootstrap3-editable/js/bootstrap-editable.js"></script>
+    <script src="http://192.168.0.163:8007/arcgis_js_api/library/3.22/3.22compact/init.js"></script>
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <!-- <link href='http://fonts.font.im/css?family=Open+Sans' rel='stylesheet' type='text/css'> -->
+    <style media="screen">
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+        }
+
+        #mainView {
+            position: absolute;
+            top: 52px;
+            bottom: 0px;
+            width: 100%;
+        }
+
+        #mainView>.row {
+            height: 100%;
+            /* margin-left: 50px;
+            margin-right: 50px; */
+        }
+
+        #mainView>.row>#treeContainer {
+            height: 100%;
+            background-color: #f5f7fa;
+            padding: 0;
+            background-image: linear-gradient(to bottom, #f5f7fa, #dce9fd);
+        }
+
+        #treeHead {
+            font-size: 120%;
+            text-align: center;
+            margin-bottom: 30px;
+            margin-top: 20px;
+        }
+
+        #treeContainer>ul {
+            padding: 0;
+            list-style: none;
+            margin-top: 50px;
+        }
+
+        #treeContainer>ul>li {
+            display: block;
+            text-align: center;
+        }
+
+        #treeContainer>ul>li>div {
+            display: block;
+            color: gray;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        #treeContainer>ul>li>div>span {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        #treeContainer>ul>li>div:hover,
+        #treeContainer li.active {
+            background-color: #dadaf8;
+            color: black;
+        }
+
+
+        #mainView>.row>#mainContainer {
+            height: 100%;
+            background-color: white;
+            padding: 0;
+        }
+
+        #mainTable {
+            padding: 0;
+            margin: 0;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        #tBody {
+            max-height: 700px;
+            height: 90%;
+            overflow-y: scroll;
+            word-break: break-all;
+            word-wrap: break-all;
+        }
+
+        #tHead {
+            overflow-y: scroll;
+            background-image: linear-gradient(to bottom, rgb(229, 244, 247), white)
+        }
+
+        #tHead>table {
+            margin: 0;
+        }
+
+        th,
+        td {
+            text-align: left;
+        }
+
+        td.desktop,
+        td.mobile {
+            cursor: pointer;
+        }
+
+        td.desktop:hover,
+        td.mobile:hover {
+            color: blue;
+        }
+
+        /* 修改图层 */
+
+        #grayBack {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            background-color: rgba(128, 128, 128, 0.548);
+            z-index: 999;
+            display: none;
+
+            transition-property: background-color;
+            transition-duration: 2s;
+            transition-timing-function: ease;
+        }
+
+        #grayBack:hover {
+            background-color: rgba(107, 107, 107, 0.623);
+        }
+
+        #closeEdit {
+            display: block;
+            float: right;
+            cursor: pointer;
+            color: black;
+        }
+
+        #closeEdit:hover {
+            color: white;
+        }
+
+        #editContainer {
+            position: absolute;
+            width: 90%;
+            height: 80%;
+            left: 5%;
+            top: 10%;
+            z-index: 1000;
+            background-color: white;
+            display: none;
+        }
+
+        #editHeader {
+            font-size: 2em;
+            display: block;
+            width: 300px;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        #editMain {
+            height: 95%;
+            max-height: 90%;
+            margin-left: 0px;
+            margin-right: 0px;
+        }
+
+        #serviceContainer {
+            height: 100%;
+            overflow: auto;
+        }
+
+        #fieldsContainer {
+            height: 95%;
+            padding-left: 20px;
+        }
+
+        #fields {
+            height: 100%;
+        }
+
+        #fieldsTb {
+            max-height: 95%;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 弹出框背景 -->
+    <div id="grayBack">
+        <i id="closeEdit" title="关闭" class="far fa-window-close fa-3x"></i>
+    </div>
+
+
+
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <img src="./images/logo.svg.png" width="100px" height="50px">
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#">服务管理</a>
+                    </li>
+                    <li>
+                        <a href="#">权限管理</a>
+                    </li>
+                    <li class="active">
+                        <a href="#">用户管理</a>
+                    </li>
+                    <li>
+                        <a href="#">设备管理</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#">Action</a>
+                            </li>
+                            <li>
+                                <a href="#">Another action</a>
+                            </li>
+                            <li>
+                                <a href="#">Something else here</a>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="#">Separated link</a>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="#">One more separated link</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="./index.html">返回</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">admin
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#">我的资料</a>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="#">退出</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+
+    <!-- 主界面容器 -->
+    <div class="container-fluid" id="mainView">
+        <div class="row">
+            <div class="col-md-2 col-xs-2" id="treeContainer">
+                <!-- <div id="treeHead">服务分组</div> -->
+                <ul id="layerGroupList">
+                </ul>
+            </div>
+            <div class="col-md-10 col-xs-2" id="mainContainer">
+                <div id="tHead">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <!-- <th class="col-xs-1">服务名称</th> -->
+                                <th class="col-xs-1">显示名称</th>
+                                <th class="col-xs-5 col-md-5">服务url</th>
+                                <th class="col-xs-1">图层类型</th>
+                                <th class="col-xs-1">是否显示</th>
+                                <th class="col-xs-1">desktop</th>
+                                <th class="col-xs-1">mobile</th>
+                                <th class="col-xs-1">up</th>
+                                <th class="col-xs-1">down</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+                <div id="tBody">
+                    <table class="table table-hover table-striped">
+                        <tbody id="mainT">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        var departments = []
+
+        $.ajax({
+            type: 'get',
+            async: false,
+            url: "http://" + serverIP + ":" + serverPort + "/departmentsForTree",
+            success: function (departmentsForTree) {
+                // for (var i = 0; i < departmentsForTree.length; i++) {
+
+                //     var item = departmentsForTree[i];
+                //     var sonshtml = "<div class='list-group depa' style='display:none'>";
+                //     for (var j = 0; j < item.grps.length; j++) {
+                //         sonshtml += "<a href='#' class='list-group-item sonli depa' grpId=" + item.grps[j].id + ">" + item.grps[
+                //             j].name + "</a>";
+                //     }
+                //     sonshtml += "</div>";
+                //     $("#sideTree").append(
+                //         "<button type='button' class='btn btn-default btn-lg btn-block'><span class='glyphicon glyphicon-chevron-right' aria-hidden='true'</span>" +
+                //         item.depa.name + "</button>" + sonshtml)
+                // }
+                console.log(departmentsForTree)
+            }
+        })
+
+
+    </script>
+</body>
