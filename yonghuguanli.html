@@ -224,7 +224,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#">服务管理</a>
+                        <a href="fuwuguanli.html">服务管理</a>
                     </li>
                     <li>
                         <a href="#">权限管理</a>
@@ -292,7 +292,7 @@
         <div class="row">
             <div class="col-md-2 col-xs-2" id="treeContainer">
                 <!-- <div id="treeHead">服务分组</div> -->
-                <ul id="layerGroupList">
+                <ul id="departmentList">
                 </ul>
             </div>
             <div class="col-md-10 col-xs-2" id="mainContainer">
@@ -333,19 +333,10 @@
             async: false,
             url: "http://" + serverIP + ":" + serverPort + "/departmentsForTree",
             success: function (departmentsForTree) {
-                // for (var i = 0; i < departmentsForTree.length; i++) {
+                for (var i = 0; i < departmentsForTree.length; i++) {
+                    $("#departmentList").append("<li index='" + i + "' class='layerGroup'><div><span>" + departmentsForTree[i].depa.name + "</span></div><li>")
+                }
 
-                //     var item = departmentsForTree[i];
-                //     var sonshtml = "<div class='list-group depa' style='display:none'>";
-                //     for (var j = 0; j < item.grps.length; j++) {
-                //         sonshtml += "<a href='#' class='list-group-item sonli depa' grpId=" + item.grps[j].id + ">" + item.grps[
-                //             j].name + "</a>";
-                //     }
-                //     sonshtml += "</div>";
-                //     $("#sideTree").append(
-                //         "<button type='button' class='btn btn-default btn-lg btn-block'><span class='glyphicon glyphicon-chevron-right' aria-hidden='true'</span>" +
-                //         item.depa.name + "</button>" + sonshtml)
-                // }
                 console.log(departmentsForTree)
             }
         })
