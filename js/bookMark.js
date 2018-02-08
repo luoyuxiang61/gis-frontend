@@ -14,7 +14,7 @@ function getBookmarks() {
             for (var i = 0; i < res.length; i++) {
                 $("#starToolDiv").append("<div index='" + i + "' class='list-group-item bookmarkItem goto'>" + "<div index='" + i + "' class='star-container goto'>" + "<span class='goto' index='" + i + "' >" + res[i].name + "</span>" + "<div class='edit'><input type='text'><button type='button' onclick='editOver(this)' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-ok'></span></button></div>" + "<button title='取消收藏' type='button' onclick='removeBookmark(this)' class='btn btn-default btn-sm'><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span></button>" + "<button type='button' title='修改名称' class='btn btn-default btn-sm' onclick='editName(this)'><span class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></span></button>" + "</div></div>")
             }
-            $("#starToolDiv").append("<button id='starBtn' class='btn btn-primary' onclick='starHere()'><span class='glyphicon glyphicon-star-empty'></span>收藏当前地图</button>")
+            $("#starToolDiv").append("<div style='text-align:center'><button id='starBtn' class='btn btn-primary' onclick='starHere()'><span class='glyphicon glyphicon-star-empty'></span>收藏当前位置</button></div>")
             var bookmarkItems = document.getElementsByClassName('bookmarkItem')
             for (var j = 0; j < bookmarkItems.length; j++) {
                 bookmarkItems[j].addEventListener('click', function (e) {

@@ -168,40 +168,37 @@ body {
     height: auto;
     max-height: 500px;
     background-color: white;
-    text-align: center;
     overflow: auto;
 }
 
+#searchInputGrp {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
 
-
-#searchToolDiv {
-    margin-top: 5px;
+#searchInput {
     border-radius: 2px;
-    height: 400px;
+    height: 38px;
+    width: 290px;
+    display: inline-block;
 }
 
 #searchButton {
-    color: blue;
-    margin-top: -2px;
-    cursor: pointer;
-}
-
-
-
-#searchToolDiv #search-button {
+    display: block;
+    float: right;
     pointer-events: auto;
     background: url(//webmap1.bdimg.com/wolfman/static/common/images/new/searchbox_f175577.png) no-repeat 0 -76px #3385ff;
     width: 57px;
-    height: 40px;
-    float: left;
+    height: 38px;
     border: 0;
     padding: 0;
     cursor: pointer;
     border-radius: 0 2px 2px 0;
     box-shadow: 1px 2px 1px rgba(0,0,0,.15);
-    outline: 0;
-    font-family: inherit;
+    margin-left: -2px
 }
+
+
 
 
 

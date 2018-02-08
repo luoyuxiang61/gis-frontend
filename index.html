@@ -127,38 +127,15 @@
 
         <!-- 搜索 -->
         <div id="searchToolDiv">
-            <div class="input-group">
-                <div class="input-group-btn">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="#">Action</a>
-                        </li>
-                        <li>
-                            <a href="#">Another action</a>
-                        </li>
-                        <li>
-                            <a href="#">Something else here</a>
-                        </li>
-                        <li role="separator" class="divider"></li>
-                        <li>
-                            <a href="#">Separated link</a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- /btn-group -->
-                <input type="text" class="form-control" aria-label="...">
-
-
-                <span id="searchButton" class="input-group-addon glyphicon glyphicon-search" style="margin-top:-3px;"></span>
-
-
+            <div id="searchInputGrp">
+                <button id="selectLayerBtn" class="btn btn-default">选 择 图 层
+                    <span class="glyphicon glyphicon-menu-down"></span>
+                </button>
+                <input id="searchInput" type="text">
+                <button class="btn" id="searchButton" title="搜索"></button>
             </div>
-
-
         </div>
+
 
         <!-- 收藏 -->
         <div id="starToolDiv" class="list-group"></div>
