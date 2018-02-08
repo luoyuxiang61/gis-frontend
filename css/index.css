@@ -198,6 +198,32 @@ body {
     margin-left: -2px
 }
 
+#grpFather {
+    list-style: none;
+    display: inline-block;
+    width: 48%;
+    margin: 0;
+    padding: 0;
+    background-color: greenyellow;
+    position: relative;
+    left: 5px;
+
+}
+
+#grpSons {
+    display: block;
+    width: 48%;
+    max-height: 300px;
+    overflow: auto;
+    float: right;
+}
+
+#grpSons ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
 
 
 
