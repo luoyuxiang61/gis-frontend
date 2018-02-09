@@ -179,7 +179,7 @@ body {
 #searchInput {
     border-radius: 2px;
     height: 38px;
-    width: 290px;
+    width: 301px;
     display: inline-block;
 }
 
@@ -198,6 +198,11 @@ body {
     margin-left: -2px
 }
 
+#layersToSelect {
+    height: 305px;
+    display: none;
+}
+
 #grpFather {
     list-style: none;
     display: inline-block;
@@ -207,7 +212,14 @@ body {
     background-color: greenyellow;
     position: relative;
     left: 5px;
-
+}
+#grpFather li {
+    cursor: pointer;
+    padding: 3px 0;
+    text-align: center;
+}
+#grpFather li:hover {
+    background-color: darkslategray;
 }
 
 #grpSons {
@@ -224,6 +236,10 @@ body {
     padding: 0;
 }
 
+#testDiv {
+    height: 30px;
+    background-color: red;
+}
 
 
 

@@ -35,7 +35,7 @@ $("#toolContainer>div").click(function (e) {
         nowMeasure = null;
         tools.attr('show', '0');
         clickedTool.attr('show', '1');
-        tools.css('color', 'unset');
+        tools.css('color', 'black');
         clickedTool.css('color', 'red');
         ems.css('background-position', '-13px -17px');
         em.css('background-position', '-12px -177px');
@@ -46,7 +46,7 @@ $("#toolContainer>div").click(function (e) {
         toolGround.slideDown(250);
     } else {
         tools.attr('show', '0');
-        tools.css('color', 'unset');
+        tools.css('color', 'black');
         ems.css('background-position', '-13px -17px');
         toolDivs.css('display', 'none');
         toolGround.hide(50)

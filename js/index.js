@@ -2,7 +2,7 @@ var map, toolbar;
 var aExtent, aSpatialReference, aSimpleFillSymbol, aSimpleLineSymbol, aSimpleMarkerSymbol, aDraw, aGraphic,
     aCartographicLineSymbol, aColor, ageometryEngine, aPolyline, aTextSymbol, aFont, aPoint;
 var isMeasuring = false;
-var searchLayers = [];
+var nowLayers = [];
 require([
     "dojo/dom",
     "dojo/on",
@@ -93,6 +93,7 @@ require([
             url: "http://" + serverIP + ":" + serverPort + "/layersForGroup",
             data: { groupId: user.groupId },
             success: function (layersForGroup) {
+                nowLayers = layersForGroup;
                 var sonshtml = '';
                 for (var i = 0; i < layersForGroup.length; i++) {
                     sonshtml += "<div class='list-group-item father' flag='0' onclick='showSons(this)' ><input type='checkbox' style='cursor:pointer'>" + "<strong>" + layersForGroup[i].father.DisplayName + "</strong><span style='cursor:pointer' class='glyphicon glyphicon-plus' aria-hidden='true'></span></div>"
@@ -147,7 +148,6 @@ require([
                         }
                         //要素图层
                         if (oneLayer.LayerType === "FeatureLayer" && oneLayer.ServiceUrl != null) {
-                            searchLayers.push(oneLayer);
                             var otf = [];
                             var ift = ""
                             var fds = oneLayer.fields;

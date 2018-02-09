@@ -1,7 +1,10 @@
-var a = undefined;
-console.log(a && true)
-if (a && true) {
-    console.log('yesy')
-} else {
-    console.log('no')
+var a = 10
+
+
+for (let a = 0; a < 99; a++) {
+
 }
+
+
+
+console.log(a)
