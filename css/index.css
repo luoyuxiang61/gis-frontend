@@ -236,6 +236,14 @@ body {
     padding: 0;
 }
 
+#grpSons ul>li {
+    cursor: pointer;
+}
+
+#grpSons ul>li:hover {
+    background-color: darksalmon;
+}
+
 #testDiv {
     height: 30px;
     background-color: red;
