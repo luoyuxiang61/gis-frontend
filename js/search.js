@@ -40,7 +40,8 @@ document.getElementById('searchButton').addEventListener('click', function (e) {
     console.log(nowSearchUrl)
     var queryTask = new aQueryTask(nowSearchUrl)
     var query = new aQuery()
-    query.where = "1 = 1"
+    // query.where = "1 = 1"
+    query.where = "redlinetype like '%预划%'"
     query.outFields = ["*"]
     query.returnGeometry = true
     queryTask.execute(query, function (result) {
