@@ -1,12 +1,10 @@
 var nowSearchUrl = '';
 document.getElementById('selectLayerBtn').addEventListener('click', function (e) {
     $("#layersToSelect").toggle()
-
     var searchLayers = nowLayers.map(function (item) {
         item.sons = item.sons.filter(function (son) {
             return son.LayerType === 'FeatureLayer'
         })
-
         return item;
     })
 
@@ -39,4 +37,15 @@ document.getElementById('selectLayerBtn').addEventListener('click', function (e)
 
 document.getElementById('searchButton').addEventListener('click', function (e) {
     console.log(nowSearchUrl)
+    var queryTask = new aQueryTask(nowSearchUrl)
+    var query = new aQuery()
+    query.where = "1 = 1"
+    query.returnGeometry = true
+    queryTask.execute(query, function (result) {
+        var features = result.features;
+        console.log(features)
+        for (var i = 0; i < features.length; i++) {
+            $("#searchResultList").append("<li class='geo'>" + i + "</li>")
+        }
+    })
 })

@@ -187,7 +187,7 @@ body {
     width: 155px;
     height: 37px;
     border-radius: 0px;
-    margin-top: -3px;
+    margin-top: -4px;
 }
 
 #searchButton {
@@ -251,9 +251,26 @@ body {
     background-color: darksalmon;
 }
 
-#testDiv {
-    height: 30px;
-    background-color: red;
+#searchResultDiv {
+    margin-top: 10px;
+    height: auto;
+    max-height: 400px;
+    overflow-y: auto;
+    background-color: whitesmoke;
+}
+
+#searchResultList{
+    list-style: none;
+    padding: 0px;
+}
+
+#searchResultList li {
+    padding: 3px;
+    text-align: center;
+}
+#searchResultList li:hover {
+    background-color: darkseagreen;
+    cursor: pointer;
 }
 
 

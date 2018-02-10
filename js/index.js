@@ -78,6 +78,8 @@ require([
         aTextSymbol = TextSymbol;
         aFont = Font;
         aPoint = Point;
+        aQuery = Query;
+        aQueryTask = QueryTask;
 
 
         //几何服务
