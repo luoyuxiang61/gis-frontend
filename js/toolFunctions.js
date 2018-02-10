@@ -52,6 +52,11 @@ $("#toolContainer>div").click(function (e) {
         toolGround.hide(50)
     }
 
+
+    if (toolName !== 'drawTool' && toolName !== 'distanceTool' && toolName !== 'areaTool') {
+        map.setInfoWindowOnClick(true)
+    }
+
     // //点击的搜索工具
     // if (toolName === 'searchTool') {
 
@@ -60,6 +65,14 @@ $("#toolContainer>div").click(function (e) {
     //     }
     // }
 
+
+    if (toolName === 'drawTool') {
+        if (isShow) {
+            map.setInfoWindowOnClick(true)
+        } else {
+            map.setInfoWindowOnClick(false)
+        }
+    }
 
     //如果是点击的量测工具就开启量测状态
     if (toolName === 'distanceTool') {
