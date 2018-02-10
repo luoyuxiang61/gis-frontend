@@ -41,8 +41,10 @@ document.getElementById('searchButton').addEventListener('click', function (e) {
     var queryTask = new aQueryTask(nowSearchUrl)
     var query = new aQuery()
     query.where = "1 = 1"
+    query.outFields = ["*"]
     query.returnGeometry = true
     queryTask.execute(query, function (result) {
+        console.log(result)
         var features = result.features;
         for (var i = 0; i < features.length; i++) {
             $("#searchResultList").append("<li class='geo' index='" + i + "'>" + i + "</li>")
@@ -51,6 +53,10 @@ document.getElementById('searchButton').addEventListener('click', function (e) {
         for (var j = 0; j < nowGeos.length; j++) {
             nowGeos[j].addEventListener('click', function (e) {
                 var geo = features[e.target.getAttribute('index')].geometry
+                if (geo.type === 'polygon') {
+                    var extent = geo.getExtent()
+                    map.setExtent(extent)
+                }
 
             })
         }
