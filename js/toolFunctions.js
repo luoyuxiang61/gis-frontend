@@ -64,11 +64,13 @@ $("#toolContainer>div").click(function (e) {
     //如果是点击的量测工具就开启量测状态
     if (toolName === 'distanceTool') {
         if (isShow) {
+            map.setInfoWindowOnClick(true)
             deactivateTool();
             clearGra();
             isMeasuring = false;
             map.showZoomSlider();
         } else {
+            map.setInfoWindowOnClick(false)
             clearGra();
             $(clickedToolDiv[0]).empty();
             isMeasuring = true;
@@ -76,15 +78,16 @@ $("#toolContainer>div").click(function (e) {
             distance = 0;
             pts = [];
             startMeasure('polyline');
-
         }
     } else if (toolName === 'areaTool') {
         if (isShow) {
+            map.setInfoWindowOnClick(true)
             deactivateTool();
             clearGra();
             isMeasuring = false;
             map.showZoomSlider();
         } else {
+            map.setInfoWindowOnClick(false)
             clearGra();
             $(clickedToolDiv[0]).empty();
             isMeasuring = true;

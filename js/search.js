@@ -1,6 +1,7 @@
 var nowSearchUrl = '';
 document.getElementById('selectLayerBtn').addEventListener('click', function (e) {
     $("#layersToSelect").toggle()
+    $("#searchResultList").empty()
     var searchLayers = nowLayers.map(function (item) {
         item.sons = item.sons.filter(function (son) {
             return son.LayerType === 'FeatureLayer'
@@ -43,9 +44,15 @@ document.getElementById('searchButton').addEventListener('click', function (e) {
     query.returnGeometry = true
     queryTask.execute(query, function (result) {
         var features = result.features;
-        console.log(features)
         for (var i = 0; i < features.length; i++) {
-            $("#searchResultList").append("<li class='geo'>" + i + "</li>")
+            $("#searchResultList").append("<li class='geo' index='" + i + "'>" + i + "</li>")
+        }
+        var nowGeos = document.getElementsByClassName('geo')
+        for (var j = 0; j < nowGeos.length; j++) {
+            nowGeos[j].addEventListener('click', function (e) {
+                var geo = features[e.target.getAttribute('index')].geometry
+
+            })
         }
     })
 })
