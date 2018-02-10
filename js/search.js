@@ -1,3 +1,4 @@
+var nowSearchUrl = '';
 document.getElementById('selectLayerBtn').addEventListener('click', function (e) {
     $("#layersToSelect").toggle()
 
@@ -23,22 +24,19 @@ document.getElementById('selectLayerBtn').addEventListener('click', function (e)
         var index = e.target.getAttribute('index')
         sons.empty()
         var nowSons = searchLayers[index].sons
-        console.log(nowSons)
         for (var j = 0; j < nowSons.length; j++) {
             sons.append("<li class='sonLi' url='" + nowSons[j].ServiceUrl + "'>" + nowSons[j].DisplayName + "</li>")
         }
 
         var sonLis = $(".sonLi")
         sonLis.on('click', function (e) {
-            console.log(e.target.getAttribute('url'))
-            console.log(e.target.innerText)
+            nowSearchUrl = e.target.getAttribute('url')
             $("#layersToSelect").hide()
             document.getElementById('selectLayerBtn').innerHTML = e.target.innerText + "<span class='glyphicon glyphicon-menu-down'><span>"
         })
-
     })
+})
 
-
-
-
+document.getElementById('searchButton').addEventListener('click', function (e) {
+    console.log(nowSearchUrl)
 })
