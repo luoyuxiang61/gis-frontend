@@ -38,6 +38,7 @@ document.getElementById('selectLayerBtn').addEventListener('click', function (e)
 })
 
 document.getElementById('searchButton').addEventListener('click', function (e) {
+    document.getElementById('searchButton').style.background = "url(../images/loading.gif) no-repeat 0 -6px #fff"
     console.log(nowSearchUrl)
     var queryTask = new aQueryTask(nowSearchUrl)
     var query = new aQuery()
@@ -45,7 +46,7 @@ document.getElementById('searchButton').addEventListener('click', function (e) {
     query.outFields = ["*"]
     query.returnGeometry = true
     queryTask.execute(query, function (result) {
-        console.log(result)
+        document.getElementById('searchButton').style.background = "url(//webmap1.bdimg.com/wolfman/static/common/images/new/searchbox_f175577.png) no-repeat 0 -76px #3385ff"
         var features = result.features;
         for (var i = 0; i < features.length; i++) {
             $("#searchResultList").append("<li class='geo' index='" + i + "'>" + i + "</li>")

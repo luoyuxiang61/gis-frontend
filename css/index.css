@@ -178,7 +178,7 @@ body {
 
 #searchInput {
     border-radius: 2px;
-    height: 38px;
+    height: 40px;
     width: 260px;
     display: inline-block;
     font-size: 150%;
@@ -188,7 +188,8 @@ body {
     width: 155px;
     height: 37px;
     border-radius: 0px;
-    margin-top: -4px;
+    margin-top: -8px;
+    overflow: hidden;
 }
 
 #searchButton {
@@ -203,7 +204,7 @@ body {
     cursor: pointer;
     border-radius: 0 2px 2px 0;
     box-shadow: 1px 2px 1px rgba(0,0,0,.15);
-    margin-left: -2px
+    margin-left: -2px;
 }
 
 #layersToSelect {
@@ -363,6 +364,7 @@ ul.son li {
 .list-group-item.father {
     background-color: white;
     cursor: default;
+    padding: 7px;
 }
 
 .list-group-item.father span {
