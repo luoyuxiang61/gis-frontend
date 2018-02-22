@@ -25,30 +25,40 @@ $.ajax({
                     + "</tr>")
             }
 
-            $("i.up").click(function (e) {
 
-                var mainT = document.getElementById("mainT")
-                var allTr = mainT.children
 
-                var nowTr = this.parentElement.parentElement
-                var nowHTML = nowTr.innerHTML
+            function upClick() {
+                $("i.up").click(function (e) {
+                    var mainT = document.getElementById("mainT")
+                    var allTr = mainT.children
 
-                var preTr = nowTr.previousElementSibling
-                if (preTr !== null) {
-                    var preHTML = preTr.innerHTML
-                    nowTr.innerHTML = preHTML
-                    preTr.innerHTML = nowHTML
-                } else {
-                    var firstHTML = allTr[0].innerHTML
-                    var lastHTML = allTr[allTr.length - 1].innerHTML
+                    var nowTr = this.parentElement.parentElement
+                    console.log(nowTr)
+                    var nowHTML = nowTr.innerHTML
 
-                    for (var x = 0; x < allTr.length - 1; x++) {
-                        allTr[x].innerHTML = allTr[x + 1].innerHTML
+
+
+
+                    var preTr = nowTr.previousElementSibling
+                    if (preTr !== null) {
+                        var preHTML = preTr.innerHTML
+                        nowTr.innerHTML = preHTML
+                        preTr.innerHTML = nowHTML
+                    } else {
+                        var firstHTML = allTr[0].innerHTML
+                        var lastHTML = allTr[allTr.length - 1].innerHTML
+
+                        for (var x = 0; x < allTr.length - 1; x++) {
+                            allTr[x].innerHTML = allTr[x + 1].innerHTML
+                        }
+                        allTr[allTr.length - 1].innerHTML = firstHTML
                     }
 
-                    allTr[allTr.length - 1].innerHTML = firstHTML
-                }
-            })
+                    upClick()
+                })
+            }
+
+            upClick()
 
 
 
