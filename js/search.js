@@ -18,7 +18,8 @@ document.getElementById('selectLayerBtn').addEventListener('click', function (e)
     }
 
     var faLis = $(".faLi")
-    faLis.on('click', function (e) {
+    faLis.hover(function (e) {
+        console.log('1111111')
         var sons = $("#grpSons>ul")
         var index = e.target.getAttribute('index')
         sons.empty()
@@ -40,8 +41,7 @@ document.getElementById('searchButton').addEventListener('click', function (e) {
     console.log(nowSearchUrl)
     var queryTask = new aQueryTask(nowSearchUrl)
     var query = new aQuery()
-    // query.where = "1 = 1"
-    query.where = "redlinetype like '%预划%'"
+    query.where = "1 = 1"
     query.outFields = ["*"]
     query.returnGeometry = true
     queryTask.execute(query, function (result) {
@@ -54,11 +54,12 @@ document.getElementById('searchButton').addEventListener('click', function (e) {
         for (var j = 0; j < nowGeos.length; j++) {
             nowGeos[j].addEventListener('click', function (e) {
                 var geo = features[e.target.getAttribute('index')].geometry
-                if (geo.type === 'polygon') {
+                if (geo.type === 'polygon' || geo.type === 'polyline') {
                     var extent = geo.getExtent()
                     map.setExtent(extent)
+                } else if (geo.type === 'point') {
+                    map.centerAndZoom(geo, 4);
                 }
-
             })
         }
     })

@@ -181,6 +181,7 @@ body {
     height: 38px;
     width: 260px;
     display: inline-block;
+    font-size: 150%;
 }
 
 #selectLayerBtn {
