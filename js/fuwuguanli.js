@@ -8,7 +8,6 @@ $.ajax({
         }
 
         $(".layerGroup").on('click', function (e) {
-
             $(".layerGroup").removeClass('active')
             this.classList.add('active')
             var index = this.getAttribute('index')
@@ -22,9 +21,50 @@ $.ajax({
                     + "</a></td><td class='col=xs-1'>" + son.LayerType
                     + "</td><td class='col-xs-1'>" + isVisible
                     + "</td><td lid='" + son.id + "' title='桌面端配置' class='col-xs-1 desktop'><i lid='" + son.id + "' class='fa fa-laptop desktop'></i></td><td lid='" + son.id + "' class='col-xs-1 mobile'><i lid='" + son.id + "' class='fa fa-mobile-alt'></i></td>"
-                    + "<td class='col-xs-1'>up</td><td class='col-xs-1'>down</td>"
+                    + "<td class='col-xs-1 up'><i class='fas fa-arrow-up up'></i></td><td class='col-xs-1 down'><i class='fas fa-arrow-down down'></i></td>"
                     + "</tr>")
             }
+
+            $("i.up").click(function (e) {
+
+                var mainT = document.getElementById("mainT")
+                var allTr = mainT.children
+
+                var nowTr = this.parentElement.parentElement
+                var nowHTML = nowTr.innerHTML
+
+                var preTr = nowTr.previousElementSibling
+                if (preTr !== null) {
+                    var preHTML = preTr.innerHTML
+                    nowTr.innerHTML = preHTML
+                    preTr.innerHTML = nowHTML
+                } else {
+                    var firstHTML = allTr[0].innerHTML
+                    var lastHTML = allTr[allTr.length - 1].innerHTML
+
+                    for (var x = 0; x < allTr.length - 1; x++) {
+                        allTr[x].innerHTML = allTr[x + 1].innerHTML
+                    }
+
+                    allTr[allTr.length - 1].innerHTML = firstHTML
+                }
+            })
+
+
+
+
+
+
+            $("i.down").click(function (e) {
+                var mainT = document.getElementById("mainT")
+
+                var nowTr = this.parentElement.parentElement
+                var nextTr = nowTr.nextElementSibling || mainT.firstElementChild
+
+                console.log(nowTr)
+                console.log(nextTr)
+            })
+
 
             $("td.desktop").click(function (e) {
                 var layerId = e.target.getAttribute('lid')
@@ -40,9 +80,7 @@ $.ajax({
 
 
                 $.get("http://" + serverIP + ":" + serverPort + "/oneLayer?layerId=" + layerId, function (oneLayer) {
-
                     if (oneLayer.LayerType !== 'FeatureLayer') $("#goFields").hide()
-
                     var lt = 0;
                     switch (oneLayer.LayerType) {
                         case 'GroupLayer':
