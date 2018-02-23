@@ -108,10 +108,6 @@
 
             <div class="col-md-10 col-xs-10" id="mainContainer">
                 <div id="grpContainer">
-                    <div class="grpBtn">所有用户</div>
-                    <div class="grpBtn">权限组1</div>
-                    <div class="grpBtn">权限组2</div>
-                    <div class="grpBtn">权限组3</div>
                 </div>
 
                 <div id="tHead">
@@ -119,7 +115,7 @@
                         <thead>
                             <tr>
                                 <th class="col-xs-2">登录名</th>
-                                <th class="col-xs-2">真实姓名</th>
+                                <th class="col-xs-2">密码</th>
                                 <th class="col-xs-4">邮箱</th>
                                 <th class="col-xs-2">手机</th>
                                 <th class="col-xs-2">是否管理员</th>
@@ -138,22 +134,5 @@
         </div>
     </div>
 
-
-    <script>
-        var departments = []
-
-        $.ajax({
-            type: 'get',
-            async: false,
-            url: "http://" + serverIP + ":" + serverPort + "/departmentsForTree",
-            success: function (departmentsForTree) {
-                for (var i = 0; i < departmentsForTree.length; i++) {
-                    $("#departmentList").append("<li index='" + i + "' class='layerGroup'><div><span>" + departmentsForTree[i].depa.name + "</span></div><li>")
-                }
-
-                console.log(departmentsForTree)
-            }
-        })
-    </script>
     <script src="./js/yonghuguanli.js"></script>
 </body>

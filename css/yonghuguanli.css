@@ -109,17 +109,15 @@
         /* 权限组 */
         #grpContainer {
             padding: 10px;
-            background-color: teal;
+            background-color: rgba(0, 128, 128, 0.767);
         }
 
         div.grpBtn {
-            /* height: 30px;
-            max-width: 100px; */
             padding: 5px;
             background-color: white;
             display: inline-block;
-            margin-bottom: -5px;
             cursor: pointer;
+            margin-right: 5px;
         }
 
         div.grpBtn.active {
