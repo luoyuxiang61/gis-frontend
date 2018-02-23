@@ -1,0 +1,209 @@
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+        }
+
+        #mainView {
+            position: absolute;
+            top: 52px;
+            bottom: 0px;
+            width: 100%;
+        }
+
+        #mainView>.row {
+            height: 100%;
+            /* margin-left: 50px;
+            margin-right: 50px; */
+        }
+
+        #mainView>.row>#treeContainer {
+            height: 100%;
+            background-color: #f5f7fa;
+            padding: 0;
+            background-image: linear-gradient(to bottom, #f5f7fa, #dce9fd);
+        }
+
+        #treeHead {
+            font-size: 120%;
+            text-align: center;
+            margin-bottom: 30px;
+            margin-top: 20px;
+        }
+
+        #treeContainer>ul {
+            padding: 0;
+            list-style: none;
+            margin-top: 50px;
+        }
+
+        #treeContainer>ul>li {
+            display: block;
+            text-align: center;
+        }
+
+        #treeContainer>ul>li>div {
+            display: block;
+            color: gray;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        #treeContainer>ul>li>div>span {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        #treeContainer>ul>li>div:hover,
+        #treeContainer li.active {
+            background-color: #dadaf8;
+            color: black;
+        }
+
+
+        #mainView>.row>#mainContainer {
+            height: 100%;
+            background-color: white;
+            padding: 0;
+        }
+
+        #mainTable {
+            padding: 0;
+            margin: 0;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        #tBody {
+            max-height: 700px;
+            height: 80%;
+            overflow-y: scroll;
+            word-break: break-all;
+            word-wrap: break-all;
+        }
+
+        #tHead {
+            overflow-y: scroll;
+            background-image: linear-gradient(to bottom, rgb(229, 244, 247), white)
+        }
+
+        #tHead>table {
+            margin: 0;
+        }
+
+        th,
+        td {
+            text-align: left;
+        }
+
+        td.desktop,
+        td.mobile {
+            cursor: pointer;
+        }
+
+        td.desktop:hover,
+        td.mobile:hover {
+            color: blue;
+        }
+
+        /* 权限组 */
+        #grpContainer {
+            padding: 10px;
+            background-color: teal;
+        }
+
+        div.grpBtn {
+            /* height: 30px;
+            max-width: 100px; */
+            padding: 5px;
+            background-color: white;
+            display: inline-block;
+            margin-bottom: -5px;
+            cursor: pointer;
+        }
+
+        div.grpBtn.active {
+            background-color: rgb(141, 184, 212);
+        }
+
+        div.grpBtn:hover {
+            background-color: slategrey;
+        }
+
+
+
+        /* 修改图层 */
+        #grayBack {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            background-color: rgba(128, 128, 128, 0.548);
+            z-index: 999;
+            display: none;
+
+            transition-property: background-color;
+            transition-duration: 2s;
+            transition-timing-function: ease;
+        }
+
+        #grayBack:hover {
+            background-color: rgba(107, 107, 107, 0.623);
+        }
+
+        #closeEdit {
+            display: block;
+            float: right;
+            cursor: pointer;
+            color: black;
+        }
+
+        #closeEdit:hover {
+            color: white;
+        }
+
+        #editContainer {
+            position: absolute;
+            width: 90%;
+            height: 80%;
+            left: 5%;
+            top: 10%;
+            z-index: 1000;
+            background-color: white;
+            display: none;
+        }
+
+        #editHeader {
+            font-size: 2em;
+            display: block;
+            width: 300px;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        #editMain {
+            height: 95%;
+            max-height: 90%;
+            margin-left: 0px;
+            margin-right: 0px;
+        }
+
+        #serviceContainer {
+            height: 100%;
+            overflow: auto;
+        }
+
+        #fieldsContainer {
+            height: 95%;
+            padding-left: 20px;
+        }
+
+        #fields {
+            height: 100%;
+        }
+
+        #fieldsTb {
+            max-height: 95%;
+            overflow-y: auto;
+        }

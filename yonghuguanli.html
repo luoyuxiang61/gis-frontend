@@ -16,193 +16,7 @@
     <script src="./lib/bootstrap3-editable/js/bootstrap-editable.js"></script>
     <script src="http://192.168.0.163:8007/arcgis_js_api/library/3.22/3.22compact/init.js"></script>
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-    <!-- <link href='http://fonts.font.im/css?family=Open+Sans' rel='stylesheet' type='text/css'> -->
-    <style media="screen">
-        html,
-        body {
-            height: 100%;
-            width: 100%;
-        }
-
-        #mainView {
-            position: absolute;
-            top: 52px;
-            bottom: 0px;
-            width: 100%;
-        }
-
-        #mainView>.row {
-            height: 100%;
-            /* margin-left: 50px;
-            margin-right: 50px; */
-        }
-
-        #mainView>.row>#treeContainer {
-            height: 100%;
-            background-color: #f5f7fa;
-            padding: 0;
-            background-image: linear-gradient(to bottom, #f5f7fa, #dce9fd);
-        }
-
-        #treeHead {
-            font-size: 120%;
-            text-align: center;
-            margin-bottom: 30px;
-            margin-top: 20px;
-        }
-
-        #treeContainer>ul {
-            padding: 0;
-            list-style: none;
-            margin-top: 50px;
-        }
-
-        #treeContainer>ul>li {
-            display: block;
-            text-align: center;
-        }
-
-        #treeContainer>ul>li>div {
-            display: block;
-            color: gray;
-            padding: 10px;
-            cursor: pointer;
-        }
-
-        #treeContainer>ul>li>div>span {
-            display: inline-block;
-            margin-right: 10px;
-        }
-
-        #treeContainer>ul>li>div:hover,
-        #treeContainer li.active {
-            background-color: #dadaf8;
-            color: black;
-        }
-
-
-        #mainView>.row>#mainContainer {
-            height: 100%;
-            background-color: white;
-            padding: 0;
-        }
-
-        #mainTable {
-            padding: 0;
-            margin: 0;
-            max-height: 500px;
-            overflow-y: auto;
-        }
-
-        #tBody {
-            max-height: 700px;
-            height: 90%;
-            overflow-y: scroll;
-            word-break: break-all;
-            word-wrap: break-all;
-        }
-
-        #tHead {
-            overflow-y: scroll;
-            background-image: linear-gradient(to bottom, rgb(229, 244, 247), white)
-        }
-
-        #tHead>table {
-            margin: 0;
-        }
-
-        th,
-        td {
-            text-align: left;
-        }
-
-        td.desktop,
-        td.mobile {
-            cursor: pointer;
-        }
-
-        td.desktop:hover,
-        td.mobile:hover {
-            color: blue;
-        }
-
-        /* 修改图层 */
-
-        #grayBack {
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 100%;
-            background-color: rgba(128, 128, 128, 0.548);
-            z-index: 999;
-            display: none;
-
-            transition-property: background-color;
-            transition-duration: 2s;
-            transition-timing-function: ease;
-        }
-
-        #grayBack:hover {
-            background-color: rgba(107, 107, 107, 0.623);
-        }
-
-        #closeEdit {
-            display: block;
-            float: right;
-            cursor: pointer;
-            color: black;
-        }
-
-        #closeEdit:hover {
-            color: white;
-        }
-
-        #editContainer {
-            position: absolute;
-            width: 90%;
-            height: 80%;
-            left: 5%;
-            top: 10%;
-            z-index: 1000;
-            background-color: white;
-            display: none;
-        }
-
-        #editHeader {
-            font-size: 2em;
-            display: block;
-            width: 300px;
-            text-align: center;
-            margin: 0 auto;
-        }
-
-        #editMain {
-            height: 95%;
-            max-height: 90%;
-            margin-left: 0px;
-            margin-right: 0px;
-        }
-
-        #serviceContainer {
-            height: 100%;
-            overflow: auto;
-        }
-
-        #fieldsContainer {
-            height: 95%;
-            padding-left: 20px;
-        }
-
-        #fields {
-            height: 100%;
-        }
-
-        #fieldsTb {
-            max-height: 95%;
-            overflow-y: auto;
-        }
-    </style>
+    <link rel="stylesheet" href="./css/yonghuguanli.css">
 </head>
 
 <body>
@@ -225,9 +39,6 @@
                 <ul class="nav navbar-nav">
                     <li>
                         <a href="fuwuguanli.html">服务管理</a>
-                    </li>
-                    <li>
-                        <a href="#">权限管理</a>
                     </li>
                     <li class="active">
                         <a href="#">用户管理</a>
@@ -291,24 +102,27 @@
     <div class="container-fluid" id="mainView">
         <div class="row">
             <div class="col-md-2 col-xs-2" id="treeContainer">
-                <!-- <div id="treeHead">服务分组</div> -->
                 <ul id="departmentList">
                 </ul>
             </div>
-            <div class="col-md-10 col-xs-2" id="mainContainer">
+
+            <div class="col-md-10 col-xs-10" id="mainContainer">
+                <div id="grpContainer">
+                    <div class="grpBtn">所有用户</div>
+                    <div class="grpBtn">权限组1</div>
+                    <div class="grpBtn">权限组2</div>
+                    <div class="grpBtn">权限组3</div>
+                </div>
+
                 <div id="tHead">
                     <table class="table">
                         <thead>
                             <tr>
-                                <!-- <th class="col-xs-1">服务名称</th> -->
-                                <th class="col-xs-1">显示名称</th>
-                                <th class="col-xs-5 col-md-5">服务url</th>
-                                <th class="col-xs-1">图层类型</th>
-                                <th class="col-xs-1">是否显示</th>
-                                <th class="col-xs-1">desktop</th>
-                                <th class="col-xs-1">mobile</th>
-                                <th class="col-xs-1">up</th>
-                                <th class="col-xs-1">down</th>
+                                <th class="col-xs-2">登录名</th>
+                                <th class="col-xs-2">真实姓名</th>
+                                <th class="col-xs-4">邮箱</th>
+                                <th class="col-xs-2">手机</th>
+                                <th class="col-xs-2">是否管理员</th>
                             </tr>
                         </thead>
                     </table>
@@ -340,7 +154,6 @@
                 console.log(departmentsForTree)
             }
         })
-
-
     </script>
+    <script src="./js/yonghuguanli.js"></script>
 </body>
