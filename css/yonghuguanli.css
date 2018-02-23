@@ -113,6 +113,8 @@
         }
 
         div.grpBtn {
+            min-width: 70px;
+            text-align: center;
             padding: 5px;
             background-color: white;
             display: inline-block;
