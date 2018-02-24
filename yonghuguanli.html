@@ -30,12 +30,32 @@
         <label for="grpName">权限组名称：</label>
         <input type="text" name="grpaName">
         <div class="row">
-            <div class="service col-xs-7">
+            <div class="col-xs-7">
                 <span class="label label-primary">服务权限</span>
-                <br> 111
+            </div>
+            <div class="col-xs-5">
+                <span class="label label-info">功能权限</span>
+            </div>
+        </div>
+        <div class="row main">
+            <div class="service col-xs-7">
+                <div class="row">
+                    <div id="layerList" class="col-xs-6"></div>
+                    <div id="fields" class="col-xs-6"></div>
+                </div>
+
             </div>
             <div class="function col-xs-5">
-                <span class="label label-primary">功能权限</span>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <input type="checkbox">搜索</li>
+                    <li class="list-group-item">
+                        <input type="checkbox">书签</li>
+                    <li class="list-group-item">
+                        <input type="checkbox">测距</li>
+                    <li class="list-group-item">
+                        <input type="checkbox">测面积</li>
+                </ul>
             </div>
         </div>
 

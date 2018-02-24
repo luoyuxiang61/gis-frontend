@@ -166,8 +166,9 @@
             background-color: whitesmoke;
             font-size: 1.2em;
             overflow-y: auto;
+            box-shadow: 2px 2px 6px black;
         }
-        #addGrpDiv div.row {
+        #addGrpDiv div.main {
             height: 85%;
             margin-top: 3px;
         }
@@ -175,10 +176,17 @@
         #addGrpDiv div.service {
             height: 100%;
             background-color: #eee;
+            font-size: 0.5em;
+            overflow-y: auto;
+        }
+        div.service>div.row {
+            height: 100%;
         }
         #addGrpDiv div.function {
             height: 100%;
-            background-color:#ddd
+            background-color:#ddd;
+            font-size: 0.8em;
+            
         }
         #addGrpDiv div.bar {
             text-align: center;
@@ -188,6 +196,25 @@
 
         div.bar button {
             border-radius: 0;
+        }
+
+        #layerList div.father {
+            background-color: tan;
+            padding: 5px;
+        }
+
+        #layerList li.son {
+            background-color: silver;
+            padding: 2px;
+        }
+
+        #layerList input[type=checkbox] {
+            cursor: pointer;
+        }
+
+        #fields {
+            height: 100%;
+            background-color: green;
         }
 
 
