@@ -75,11 +75,16 @@
         }
 
         #tBody {
-            max-height: 700px;
-            height: 80%;
+            height: auto;
+            max-height: 80%;
             overflow-y: scroll;
             word-break: break-all;
             word-wrap: break-all;
+            box-shadow: 2px 2px 3px black;
+        }
+
+        #tBody table {
+            margin:0;
         }
 
         #tHead {
@@ -106,10 +111,18 @@
             color: blue;
         }
 
+        #tBar {
+            text-align: center;
+            padding-top: 5px;
+        }
+        #tBar button {
+            border-radius: 0;
+        }
+
         /* 权限组 */
         #grpContainer {
             padding: 10px;
-            background-color: rgba(0, 128, 128, 0.767);
+            background-color: rgba(200, 211, 202, 0.767);
         }
 
         div.grpBtn {
@@ -128,6 +141,16 @@
 
         div.grpBtn:hover {
             background-color: slategrey;
+        }
+
+        .grpEdit {
+            float: right;
+            min-width: 35px;
+            display: none;
+        }
+
+        .grpCfg {
+            float: right;
         }
 
 

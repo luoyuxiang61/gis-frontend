@@ -101,12 +101,12 @@
     <!-- 主界面容器 -->
     <div class="container-fluid" id="mainView">
         <div class="row">
-            <div class="col-md-2 col-xs-2" id="treeContainer">
+            <div class="col-md-2 col-xs-2 col-lg-2" id="treeContainer">
                 <ul id="departmentList">
                 </ul>
             </div>
 
-            <div class="col-md-10 col-xs-10" id="mainContainer">
+            <div class="col-md-10 col-xs-10 col-lg-10" id="mainContainer">
                 <div id="grpContainer">
                 </div>
 
@@ -118,7 +118,7 @@
                                 <th class="col-xs-2">密码</th>
                                 <th class="col-xs-4">邮箱</th>
                                 <th class="col-xs-2">手机</th>
-                                <th class="col-xs-2">是否管理员</th>
+                                <th class="col-xs-2">操作</th>
                             </tr>
                         </thead>
                     </table>
@@ -129,6 +129,15 @@
                         <tbody id="mainT">
                         </tbody>
                     </table>
+                </div>
+
+                <div id="tBar">
+                    <button class="btn btn-default" title="设置权限">
+                        <i class="fas fa-cogs"></i>
+                    </button>
+                    <button class="btn btn-default" title="添加用户">
+                        <i class='fa fa-user-plus'></i>
+                    </button>
                 </div>
             </div>
         </div>

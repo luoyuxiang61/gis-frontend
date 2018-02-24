@@ -29,7 +29,7 @@ $.ajax({
                         console.log(users)
                         for (var k = 0; k < users.length; k++) {
                             var user = users[k]
-                            $("#mainT").append("<tr><td class='col-xs-2'>" + user.UserName + "</td><td class='col-xs-2'>" + user.Password + "</td><td class='col-xs-4'>123456@qq.com</td><td class='col-xs-2'>13309933322</td><td class='col-xs-2'>yes</td></tr>")
+                            $("#mainT").append("<tr><td class='col-xs-2'>" + user.UserName + "</td><td class='col-xs-2'>" + user.Password + "</td><td class='col-xs-4'>13123123@qq.com</td><td class='col-xs-2'>13309933322</td><td class='col-xs-2'><button class='btn btn-default btn-sm userEdit'><i class='fas fa-edit'></i></button><button class='btn btn-default btn-sm userEdit'><i class='fas fa-times'></i></button></td></tr>")
                         }
                     }
                 })
@@ -44,6 +44,7 @@ $.ajax({
             for (var j = 0; j < grps.length; j++) {
                 $("#grpContainer").append("<div class='grpBtn' grpId='" + grps[j].id + "'>" + grps[j].name + "</div>")
             }
+            $("#grpContainer").append("<button title='配置权限组' class='btn btn-primary btn-sm grpCfg'><i class='fa fa-cog'></i></button> <button title='删除权限组' class='btn btn-default btn-sm grpEdit'><i class='fa fa-trash-alt'></i></button><button title='添加权限组' class='btn btn-default btn-sm grpEdit'><i class='fa fa-plus'></i></button>")
             getUsersInDepa(depaId)
 
             $("div.grpBtn").click(function () {
@@ -68,12 +69,15 @@ $.ajax({
                             console.log(users)
                             for (var k = 0; k < users.length; k++) {
                                 var user = users[k]
-                                $("#mainT").append("<tr><td class='col-xs-2'>" + user.UserName + "</td><td class='col-xs-2'>" + user.Password + "</td><td class='col-xs-4'>123456@qq.com</td><td class='col-xs-2'>13309933322</td><td class='col-xs-2'>yes</td></tr>")
+                                $("#mainT").append("<tr><td class='col-xs-2'>" + user.UserName + "</td><td class='col-xs-2'>" + user.Password + "</td><td class='col-xs-4'>13123123@qq.com</td><td class='col-xs-2'>13309933322</td><td class='col-xs-2'><button class='btn btn-default btn-sm userEdit'><i class='fas fa-edit'></i></button><button class='btn btn-default btn-sm userEdit'><i class='fas fa-times'></i></button></td></tr>")
                             }
                         }
                     })
                 }
+            })
 
+            $(".grpCfg").click(function () {
+                $(".grpEdit").toggle(100)
             })
         })
     }
