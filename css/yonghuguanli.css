@@ -154,6 +154,44 @@
         }
 
 
+        #addGrpDiv {
+            display: none;
+            position: absolute;
+            z-index: 1001;
+            height: 80%;
+            width: 60%;
+            top: 10%;
+            left: 20%;
+            padding: 1em;
+            background-color: whitesmoke;
+            font-size: 1.2em;
+            overflow-y: auto;
+        }
+        #addGrpDiv div.row {
+            height: 85%;
+            margin-top: 3px;
+        }
+
+        #addGrpDiv div.service {
+            height: 100%;
+            background-color: #eee;
+        }
+        #addGrpDiv div.function {
+            height: 100%;
+            background-color:#ddd
+        }
+        #addGrpDiv div.bar {
+            text-align: center;
+            margin-top: 5px;
+            width: 100%;
+        }
+
+        div.bar button {
+            border-radius: 0;
+        }
+
+
+
 
         /* 修改图层 */
         #grayBack {

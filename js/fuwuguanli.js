@@ -4,7 +4,7 @@ $.ajax({
     url: "http://" + serverIP + ":" + serverPort + "/layersForTree",
     success: function (layersForTree) {
         for (var i = 0; i < layersForTree.length; i++) {
-            $("#layerGroupList").append("<li index='" + i + "' class='layerGroup'><div><span>" + layersForTree[i].father.DisplayName + "</span><span style='float:right;'>" + layersForTree[i].sons.length + "</span></div><li>")
+            $("#layerGroupList").append("<li index='" + i + "' class='layerGroup'><div><span>" + layersForTree[i].father.DisplayName + "</span><span class='badge' style='float:right;'>" + layersForTree[i].sons.length + "</span></div><li>")
         }
 
         $(".layerGroup").on('click', function (e) {
