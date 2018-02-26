@@ -7,6 +7,8 @@ var nowGrp = {
 }
 var nowDepaName = null
 
+var getUsersInGrp, getUsersInDepa
+
 $.ajax({
     type: 'get',
     async: false,
@@ -16,12 +18,13 @@ $.ajax({
             $("#departmentList").append("<li index='" + i + "' class='depa'><div><span>" + departmentsForTree[i].depa.name + "</span></div><li>")
         }
         $("li.depa").click(function () {
+            $("#tBar").empty()
             $("li.depa").removeClass('active')
             this.classList.add('active')
             var grps = departmentsForTree[$(this).attr('index')].grps
             var depaId = departmentsForTree[$(this).attr('index')].depa.id
             nowDepaName = departmentsForTree[$(this).attr('index')].depa.name
-            function getUsersInDepa(depaId) {
+            getUsersInDepa = function (depaId) {
                 $(".grpBtn").removeClass('active')
                 $(".grpBtn.all").addClass('active')
                 $("#mainT").empty()
@@ -42,7 +45,7 @@ $.ajax({
                 })
             }
 
-            function getUsersInGrp(grpId) {
+            getUsersInGrp = function (grpId) {
                 $("#mainT").empty()
                 $.ajax({
                     url: "http://" + serverIP + ":" + serverPort + "/usersInGroup",
@@ -99,6 +102,10 @@ $.ajax({
             $("#grpContainer").append("<button title='配置权限组' class='btn btn-primary btn-sm grpCfg'><i class='fa fa-cog'></i></button> <button title='删除权限组' class='btn btn-default btn-sm grpEdit'><i class='fa fa-trash-alt'></i></button><button title='添加权限组' class='btn btn-default btn-sm grpEdit'><i class='fa fa-plus'></i></button>")
             getUsersInDepa(depaId)
 
+
+
+
+
             //添加权限组
             $("[title=添加权限组]").click(function () {
                 var grayBack = $("#grayBack")
@@ -145,10 +152,37 @@ $.ajax({
             $("div.grpBtn").click(function () {
                 var depaId = $(this).attr('depaId')
                 if (depaId) {
+                    $("#tBar").empty()
                     getUsersInDepa(depaId)
                 }
 
                 else {
+
+                    $("#tBar").empty()
+                    $("#tBar").append("<button class='btn btn-default' title='设置权限' id='setPri'><i class='fas fa-cogs'></i></button> \
+                    <button class='btn btn-default' title='添加用户' id='addU'><i class='fa fa-user-plus'></i></button>")
+
+                    $("#setPri").click(function () {
+                        console.log('sssssssset')
+                    })
+                    $("#addU").click(function () {
+                        console.log('uuuuu')
+                        $("#grayBack").show()
+                        $("#uname").val('')
+                        $("#pwd").val('')
+                        $("#addUserDiv").show()
+                        document.getElementById('theGrp').value = nowDepaName + "---" + nowGrp.name
+                        $("#closeEdit").click(function () {
+                            $("#grayBack").hide()
+                            $("#addUserDiv").hide()
+                        })
+                    })
+
+
+
+
+
+
                     $(".grpBtn").removeClass('active')
                     this.classList.add('active')
                     $("#mainT").empty()
@@ -156,7 +190,6 @@ $.ajax({
                     var grpId = $(this).attr('grpId')
                     nowGrp.name = this.innerText
                     nowGrp.id = grpId
-                    console.log(nowGrp)
                     $.ajax({
                         url: "http://" + serverIP + ":" + serverPort + "/usersInGroup",
                         type: 'post',
@@ -178,20 +211,52 @@ $.ajax({
             $(".grpCfg").click(function () {
                 $(".grpEdit").toggle(100)
             })
-
-            $("[title=添加用户]").click(function () {
-                console.log(nowGrp)
-                $("#grayBack").show()
-                document.getElementById('addUserForm').reset()
-                $("#addUserDiv").show()
-                document.getElementById('theGrp').value = nowDepaName + "---" + nowGrp.name
-                $("#closeEdit").click(function () {
-                    $("#grayBack").hide()
-                    $("#addUserDiv").hide()
-                })
-            })
         })
     }
 })
+
+function saveUser() {
+    var uname = $("#uname").val().trim()
+    var pwd = $("#pwd").val().trim()
+
+    if (uname.indexOf(' ') !== -1 || pwd.indexOf(' ') !== -1) {
+        alert('用户名和密码不能含有空格！')
+        return
+    }
+
+    $.ajax({
+        url: "http://" + serverIP + ":" + serverPort + "/addUser",
+        type: 'post',
+        data: {
+            userName: uname,
+            password: pwd,
+            grpId: nowGrp.id
+        },
+        success: function (res) {
+            if (res !== 'err') {
+                getUsersInGrp(nowGrp.id)
+                $("#addUserDiv").hide()
+                $("#grayBack").hide()
+            } else {
+                alert("添加用户失败！")
+            }
+        }
+    })
+}
+
+$("#saveUser").click(function () {
+    saveUser()
+})
+$("#pwd").on('keydown', function (e) {
+    if (e.keyCode === 13) {
+        saveUser()
+    }
+})
+$("#noSaveUser").click(function () {
+    $("#addUserDiv").hide()
+    $("#grayBack").hide()
+})
+
+
 
 

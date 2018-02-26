@@ -223,14 +223,31 @@
             position: absolute;
             z-index: 1001;
             height: auto;
-            width: 50%;
+            width: 40%;
             top: 20%;
-            left: 25%;
+            left: 30%;
             padding: 2em;
             background-color: whitesmoke;
             font-size: 1.2em;
             overflow-y: auto;
             box-shadow: 2px 2px 6px black;
+        }
+
+        #addUserDiv div {
+            margin-top: 10px;
+        }
+
+        #addUserDiv div input {
+            width: 40%;
+        }
+
+        .lab {
+            width: 30%;
+            text-align: right;
+        }
+
+        #addUserDiv .btns {
+            text-align: center;
         }
 
 
