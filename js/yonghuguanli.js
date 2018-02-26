@@ -6,6 +6,8 @@ var nowGrp = {
     id: null
 }
 var nowDepaName = null
+var nowDepaId = null
+var nowUser
 
 var getUsersInGrp, getUsersInDepa
 
@@ -14,15 +16,19 @@ $.ajax({
     async: false,
     url: "http://" + serverIP + ":" + serverPort + "/departmentsForTree",
     success: function (departmentsForTree) {
+        departments = departmentsForTree
         for (var i = 0; i < departmentsForTree.length; i++) {
             $("#departmentList").append("<li index='" + i + "' class='depa'><div><span>" + departmentsForTree[i].depa.name + "</span></div><li>")
         }
         $("li.depa").click(function () {
+            nowGrp.name = ''
+            nowGrp.id = null
             $("#tBar").empty()
             $("li.depa").removeClass('active')
             this.classList.add('active')
             var grps = departmentsForTree[$(this).attr('index')].grps
             var depaId = departmentsForTree[$(this).attr('index')].depa.id
+            nowDepaId = depaId
             nowDepaName = departmentsForTree[$(this).attr('index')].depa.name
             getUsersInDepa = function (depaId) {
                 $(".grpBtn").removeClass('active')
@@ -70,7 +76,7 @@ $.ajax({
                 var btns = document.getElementsByClassName('deleteUserBtn')
                 for (var a = 0; a < btns.length; a++) {
                     btns[a].addEventListener('click', function (e) {
-                        var nowUser = nowUsers[e.currentTarget.parentElement.parentElement.getAttribute('index')]
+                        nowUser = nowUsers[e.currentTarget.parentElement.parentElement.getAttribute('index')]
                         var sure = confirm("确认要删除用户【" + nowUser.UserName + "】吗？删除后不可恢复。")
                         if (sure) {
                             $.ajax({
@@ -93,11 +99,29 @@ $.ajax({
                 var btns = document.getElementsByClassName('editUserBtn')
                 for (var b = 0; b < btns.length; b++) {
                     btns[b].addEventListener('click', function (e) {
-                        var nowUser = nowUsers[e.currentTarget.parentElement.parentElement.getAttribute('index')]
+                        nowUser = nowUsers[e.currentTarget.parentElement.parentElement.getAttribute('index')]
+
+                        var grpName = departments.filter(function (x) {
+                            var ye = false
+                            for (var l = 0; l < x.grps.length; l++) {
+                                if (x.grps[l].id === nowUser.GroupId) {
+                                    ye = true
+                                }
+                            }
+                            return ye
+                        }).map(function (y) {
+                            return y.grps
+                        })[0].filter(function (z) {
+                            return z.id === nowUser.GroupId
+                        }).map(function (x) {
+                            return x.name
+                        })[0]
+
+
                         $("#grayBack").show()
                         $("#euname").val(nowUser.UserName)
                         $("#epwd").val(nowUser.Password)
-                        $("#etheGrp").val(nowDepaName + "---" + nowGrp.name)
+                        $("#etheGrp").val(nowDepaName + "---" + grpName)
                         $("#editUserDiv").show()
                     })
                 }
@@ -166,6 +190,8 @@ $.ajax({
             $("div.grpBtn").click(function () {
                 var depaId = $(this).attr('depaId')
                 if (depaId) {
+                    nowGrp.name = ''
+                    nowGrp.id = null
                     $("#tBar").empty()
                     getUsersInDepa(depaId)
                 }
@@ -265,6 +291,42 @@ $("#pwd").on('keydown', function (e) {
 })
 $("#noSaveUser").click(function () {
     $("#addUserDiv").hide()
+    $("#grayBack").hide()
+})
+
+$("#editUser").click(function () {
+    var euname = $("#euname").val()
+    var epwd = $("#epwd").val()
+    console.log(euname, epwd, nowUser.id)
+    $.ajax({
+        url: "http://" + serverIP + ":" + serverPort + "/editUser",
+        type: 'post',
+        data: {
+            userId: nowUser.id,
+            change: JSON.stringify({
+                UserName: euname,
+                Password: epwd
+            })
+        },
+        success: function (res) {
+            if (res !== 'err') {
+                console.log(nowDepaId, nowGrp)
+                if (!nowGrp.id) {
+                    getUsersInDepa(nowDepaId)
+                } else {
+                    getUsersInGrp(nowGrp.id)
+                }
+                $("#editUserDiv").hide()
+                $("#grayBack").hide()
+            } else {
+                alert("修改用户失败！")
+            }
+        }
+    })
+})
+
+$("#noEditUser").click(function () {
+    $("#editUserDiv").hide()
     $("#grayBack").hide()
 })
 
