@@ -1,6 +1,11 @@
 var departments = []
 var layers = null
 var nowUsers = []
+var nowGrp = {
+    name: '',
+    id: null
+}
+var nowDepaName = null
 
 $.ajax({
     type: 'get',
@@ -15,8 +20,7 @@ $.ajax({
             this.classList.add('active')
             var grps = departmentsForTree[$(this).attr('index')].grps
             var depaId = departmentsForTree[$(this).attr('index')].depa.id
-
-
+            nowDepaName = departmentsForTree[$(this).attr('index')].depa.name
             function getUsersInDepa(depaId) {
                 $(".grpBtn").removeClass('active')
                 $(".grpBtn.all").addClass('active')
@@ -150,6 +154,9 @@ $.ajax({
                     $("#mainT").empty()
 
                     var grpId = $(this).attr('grpId')
+                    nowGrp.name = this.innerText
+                    nowGrp.id = grpId
+                    console.log(nowGrp)
                     $.ajax({
                         url: "http://" + serverIP + ":" + serverPort + "/usersInGroup",
                         type: 'post',
@@ -170,6 +177,18 @@ $.ajax({
 
             $(".grpCfg").click(function () {
                 $(".grpEdit").toggle(100)
+            })
+
+            $("[title=添加用户]").click(function () {
+                console.log(nowGrp)
+                $("#grayBack").show()
+                document.getElementById('addUserForm').reset()
+                $("#addUserDiv").show()
+                document.getElementById('theGrp').value = nowDepaName + "---" + nowGrp.name
+                $("#closeEdit").click(function () {
+                    $("#grayBack").hide()
+                    $("#addUserDiv").hide()
+                })
             })
         })
     }

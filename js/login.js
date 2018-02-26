@@ -7,8 +7,8 @@ document.onkeydown = function (event) {
 };
 
 function login() {
-  var userName = md5(document.getElementById('username').value.trim());
-  var password = md5(document.getElementById('password').value.trim());
+  var userName = document.getElementById('username').value.trim();
+  var password = document.getElementById('password').value.trim();
   var user;
   $.ajax({
     type: 'post',
