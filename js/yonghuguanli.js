@@ -1,5 +1,6 @@
 var departments = []
 var layers = null
+var nowUsers = []
 
 $.ajax({
     type: 'get',
@@ -27,14 +28,60 @@ $.ajax({
                         depaId: depaId
                     },
                     success: function (users) {
-                        console.log(users)
+                        nowUsers = users
                         for (var k = 0; k < users.length; k++) {
                             var user = users[k]
-                            $("#mainT").append("<tr><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.UserName + "</span></td><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.Password + "</span></td><td class='col-xs-4'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><button class='btn btn-default btn-sm userEdit'><i class='fas fa-edit'></i></button><button class='btn btn-default btn-sm userEdit'><i class='fas fa-times'></i></button></td></tr>")
+                            $("#mainT").append("<tr index='" + k + "'><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.UserName + "</span></td><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.Password + "</span></td><td class='col-xs-4'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><button class='btn btn-default btn-sm userEdit'><i class='fas fa-edit'></i></button><button class='btn btn-default btn-sm deleteUserBtn'><i class='fas fa-times'></i></button></td></tr>")
                         }
+                        enableDeleteUser(depaId, null)
                     }
                 })
             }
+
+            function getUsersInGrp(grpId) {
+                $("#mainT").empty()
+                $.ajax({
+                    url: "http://" + serverIP + ":" + serverPort + "/usersInGroup",
+                    type: 'post',
+                    data: {
+                        grpId: grpId
+                    },
+                    success: function (users) {
+                        nowUsers = users
+                        for (var k = 0; k < users.length; k++) {
+                            var user = users[k]
+                            $("#mainT").append("<tr index='" + k + "'><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.UserName + "</span></td><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.Password + "</span></td><td class='col-xs-4'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><button class='btn btn-default btn-sm userEdit'><i class='fas fa-edit'></i></button><button class='btn btn-default btn-sm deleteUserBtn'><i class='fas fa-times'></i></button></td></tr>")
+                        }
+                        enableDeleteUser(null, grpId)
+                    }
+                })
+            }
+
+            var enableDeleteUser = function (depaId, grpId) {
+                var btns = document.getElementsByClassName('deleteUserBtn')
+                for (var a = 0; a < btns.length; a++) {
+                    btns[a].addEventListener('click', function (e) {
+                        var nowUser = nowUsers[e.currentTarget.parentElement.parentElement.getAttribute('index')]
+                        var sure = confirm("确认要删除用户【" + nowUser.UserName + "】吗？删除后不可恢复。")
+                        if (sure) {
+                            $.ajax({
+                                url: "http://" + serverIP + ":" + serverPort + "/deleteUser",
+                                type: 'post',
+                                data: {
+                                    userId: nowUser.id
+                                },
+                                success: function (res) {
+                                    if (depaId) getUsersInDepa(depaId)
+                                    if (grpId) getUsersInGrp(grpId)
+                                }
+                            })
+                        }
+                    })
+                }
+            }
+
+
+
 
 
 
@@ -110,10 +157,12 @@ $.ajax({
                             grpId: grpId
                         },
                         success: function (users) {
+                            nowUsers = users
                             for (var k = 0; k < users.length; k++) {
                                 var user = users[k]
-                                $("#mainT").append("<tr><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.UserName + "</span></td><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.Password + "</span></td><td class='col-xs-4'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><button class='btn btn-default btn-sm userEdit'><i class='fas fa-edit'></i></button><button class='btn btn-default btn-sm userEdit'><i class='fas fa-times'></i></button></td></tr>")
+                                $("#mainT").append("<tr index='" + k + "'><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.UserName + "</span></td><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.Password + "</span></td><td class='col-xs-4'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><button class='btn btn-default btn-sm userEdit'><i class='fas fa-edit'></i></button><button class='btn btn-default btn-sm deleteUserBtn'><i class='fas fa-times'></i></button></td></tr>")
                             }
+                            enableDeleteUser(null, grpId)
                         }
                     })
                 }
