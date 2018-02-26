@@ -218,7 +218,8 @@
         }
 
 
-        #addUserDiv {
+        /* 增加用户 */
+        #addUserDiv,#editUserDiv {
             display: none;
             position: absolute;
             z-index: 1001;
@@ -233,11 +234,11 @@
             box-shadow: 2px 2px 6px black;
         }
 
-        #addUserDiv div {
+        #addUserDiv div,#editUserDiv div {
             margin-top: 10px;
         }
 
-        #addUserDiv div input {
+        #addUserDiv div input,#editUserDiv div input {
             width: 40%;
         }
 
@@ -246,9 +247,10 @@
             text-align: right;
         }
 
-        #addUserDiv .btns {
+        #addUserDiv .btns, #editUserDiv .btns {
             text-align: center;
         }
+
 
 
 

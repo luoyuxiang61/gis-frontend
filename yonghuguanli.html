@@ -26,7 +26,7 @@
     </div>
 
     <!-- 添加权限组 -->
-    <div id="addGrpDiv">
+    <div id="addGrpDiv" class="top">
         <label for="grpName">权限组名称：</label>
         <input type="text" name="grpaName">
         <div class="row">
@@ -67,7 +67,7 @@
 
 
     <!-- 添加用户 -->
-    <div id="addUserDiv">
+    <div id="addUserDiv" class="top">
         <div id="addUserForm">
             <div>
                 <label class="lab" for="uname">用户名:</label>
@@ -87,6 +87,31 @@
             <div class="btns">
                 <button class="btn btn-success" id="saveUser">保存</button>
                 <button class="btn btn-danger" id="noSaveUser">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 修改用户 -->
+    <div id="editUserDiv" class="top">
+        <div id="editUserForm">
+            <div>
+                <label class="lab" for="euname">用户名:</label>
+                <input type="text" id="euname" placeholder="用户名" autocomplete="off">
+            </div>
+
+            <div>
+                <label class="lab" for="epwd">密码：</label>
+                <input type="text" id="epwd" placeholder="密码" autocomplete="off">
+            </div>
+
+            <div>
+                <label class="lab" for="etheGrp">所属权限组：</label>
+                <input type="text" id="etheGrp" disabled>
+            </div>
+
+            <div class="btns">
+                <button class="btn btn-success" id="editUser">保存</button>
+                <button class="btn btn-danger" id="noEditUser">取消</button>
             </div>
         </div>
     </div>
@@ -198,12 +223,6 @@
                 </div>
 
                 <div id="tBar">
-                    <!-- <button class="btn btn-default" title="设置权限" id="setPri">
-                        <i class="fas fa-cogs"></i>
-                    </button>
-                    <button class="btn btn-default" title="添加用户" id="addU">
-                        <i class='fa fa-user-plus'></i>
-                    </button> -->
                 </div>
             </div>
         </div>

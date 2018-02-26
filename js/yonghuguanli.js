@@ -38,9 +38,10 @@ $.ajax({
                         nowUsers = users
                         for (var k = 0; k < users.length; k++) {
                             var user = users[k]
-                            $("#mainT").append("<tr index='" + k + "'><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.UserName + "</span></td><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.Password + "</span></td><td class='col-xs-4'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><button class='btn btn-default btn-sm userEdit'><i class='fas fa-edit'></i></button><button class='btn btn-default btn-sm deleteUserBtn'><i class='fas fa-times'></i></button></td></tr>")
+                            $("#mainT").append("<tr index='" + k + "'><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.UserName + "</span></td><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.Password + "</span></td><td class='col-xs-4'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><button class='btn btn-default btn-sm editUserBtn'><i class='fas fa-edit'></i></button><button class='btn btn-default btn-sm deleteUserBtn'><i class='fas fa-times'></i></button></td></tr>")
                         }
                         enableDeleteUser(depaId, null)
+                        enableEditUser(depaId, null)
                     }
                 })
             }
@@ -60,6 +61,7 @@ $.ajax({
                             $("#mainT").append("<tr index='" + k + "'><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.UserName + "</span></td><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.Password + "</span></td><td class='col-xs-4'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><button class='btn btn-default btn-sm userEdit'><i class='fas fa-edit'></i></button><button class='btn btn-default btn-sm deleteUserBtn'><i class='fas fa-times'></i></button></td></tr>")
                         }
                         enableDeleteUser(null, grpId)
+                        enableEditUser(null, grpId)
                     }
                 })
             }
@@ -86,6 +88,22 @@ $.ajax({
                     })
                 }
             }
+
+            var enableEditUser = function (depaId, grpId) {
+                var btns = document.getElementsByClassName('editUserBtn')
+                for (var b = 0; b < btns.length; b++) {
+                    btns[b].addEventListener('click', function (e) {
+                        var nowUser = nowUsers[e.currentTarget.parentElement.parentElement.getAttribute('index')]
+                        $("#grayBack").show()
+                        $("#euname").val(nowUser.UserName)
+                        $("#epwd").val(nowUser.Password)
+                        $("#etheGrp").val(nowDepaName + "---" + nowGrp.name)
+                        $("#editUserDiv").show()
+                    })
+                }
+            }
+
+
 
 
 
@@ -142,10 +160,6 @@ $.ajax({
 
                 grayBack.show()
                 addGrpDiv.show()
-                $("#closeEdit").click(function () {
-                    grayBack.hide()
-                    addGrpDiv.hide()
-                })
             })
 
 
@@ -172,10 +186,6 @@ $.ajax({
                         $("#pwd").val('')
                         $("#addUserDiv").show()
                         document.getElementById('theGrp').value = nowDepaName + "---" + nowGrp.name
-                        $("#closeEdit").click(function () {
-                            $("#grayBack").hide()
-                            $("#addUserDiv").hide()
-                        })
                     })
 
 
@@ -200,9 +210,10 @@ $.ajax({
                             nowUsers = users
                             for (var k = 0; k < users.length; k++) {
                                 var user = users[k]
-                                $("#mainT").append("<tr index='" + k + "'><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.UserName + "</span></td><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.Password + "</span></td><td class='col-xs-4'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><button class='btn btn-default btn-sm userEdit'><i class='fas fa-edit'></i></button><button class='btn btn-default btn-sm deleteUserBtn'><i class='fas fa-times'></i></button></td></tr>")
+                                $("#mainT").append("<tr index='" + k + "'><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.UserName + "</span></td><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.Password + "</span></td><td class='col-xs-4'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><button class='btn btn-default btn-sm editUserBtn'><i class='fas fa-edit'></i></button><button class='btn btn-default btn-sm deleteUserBtn'><i class='fas fa-times'></i></button></td></tr>")
                             }
                             enableDeleteUser(null, grpId)
+                            enableEditUser(null, grpId)
                         }
                     })
                 }
@@ -254,6 +265,11 @@ $("#pwd").on('keydown', function (e) {
 })
 $("#noSaveUser").click(function () {
     $("#addUserDiv").hide()
+    $("#grayBack").hide()
+})
+
+$("#closeEdit").click(function () {
+    $(".top").hide()
     $("#grayBack").hide()
 })
 
