@@ -294,10 +294,10 @@ $("#noSaveUser").click(function () {
     $("#grayBack").hide()
 })
 
-$("#editUser").click(function () {
+
+function editUser() {
     var euname = $("#euname").val()
     var epwd = $("#epwd").val()
-    console.log(euname, epwd, nowUser.id)
     $.ajax({
         url: "http://" + serverIP + ":" + serverPort + "/editUser",
         type: 'post',
@@ -323,6 +323,17 @@ $("#editUser").click(function () {
             }
         }
     })
+}
+
+
+$("#epwd,#euname").keydown(function (e) {
+    if (e.keyCode === 13) {
+        editUser()
+    }
+})
+
+$("#editUser").click(function () {
+    editUser()
 })
 
 $("#noEditUser").click(function () {
