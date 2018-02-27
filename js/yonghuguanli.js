@@ -184,10 +184,10 @@ $.ajax({
 
                 var refreshLayers = function (layersForTree) {
                     layers = layersForTree;
-                    var sonshtml = "<div class='list-group-item father'><input class='changeAllLayers' type='checkbox'>全选</div>";
+                    var sonshtml = "<div class='list-group-item father' ><input class='changeAllLayers' type='checkbox'>全选</div>";
 
                     for (var i = 0; i < layersForTree.length; i++) {
-                        sonshtml += "<div class='list-group-item father'><input class='changeGrpLayer' type='checkbox' >" + "<strong>" + layersForTree[i].father.DisplayName + "</strong></div>"
+                        sonshtml += "<div class='list-group-item father' layerId='" + layersForTree[i].father.id + "'><input class='changeGrpLayer' type='checkbox' >" + "<strong>" + layersForTree[i].father.DisplayName + "</strong></div>"
                         sonshtml += "<ul class='list-group son' style='padding-left:15px;margin-bottom:3px'>"
                         for (var j = 0; j < layersForTree[i].sons.length; j++) {
                             sonshtml += "<li layerType='" + layersForTree[i].sons[j].LayerType + "' class='list-group-item son' layerId='" + layersForTree[i].sons[j].id + "'>" + "<input class='changeLayer' type='checkbox'>" + layersForTree[i].sons[j].DisplayName + "</li>"
@@ -202,9 +202,49 @@ $.ajax({
 
                     $(".changeAllLayers").click(function (e) {
                         var checked = e.currentTarget.checked
+                        if (checked) {
+                            for (var a = 0; a < layers.length; a++) {
+                                for (var b = 0; b < layers[a].sons.length; b++) {
+
+                                    newGrp.addLayer(layers[a].sons[b].id)
+                                    $("li[layerId=" + layers[a].sons[b].id + "] input").attr('checked', true)
+                                }
+                            }
+                            console.log(newGrp)
+                        }
+
+
                     })
                     $(".changeGrpLayer").click(function (e) {
+                        var el = e.currentTarget
+                        var lid = parseInt(el.parentElement.getAttribute("layerId"))
                         var checked = e.currentTarget.checked
+                        var sons = layers.filter(function (x) {
+                            return x.father.id === lid
+                        })[0].sons.map(function (x) {
+                            return x.id
+                        })
+
+                        if (checked) {
+                            console.log(sons)
+                            for (var k = 0; k < sons.length; k++) {
+                                newGrp.addLayer(sons[k])
+                                console.log($("li.son[layerId=" + sons[k] + "] input"))
+                                $("li.son[layerId=" + sons[k] + "] input").attr('checked', true)
+                            }
+                            console.log(newGrp)
+                        } else {
+                            for (var k = 0; k < sons.length; k++) {
+                                newGrp.removeLayer(sons[k])
+                                $("li.son[layerId=" + sons[k] + "] input").attr('checked', false)
+                            }
+                            console.log(newGrp)
+                        }
+
+
+
+
+
                     })
                     $(".changeLayer").click(function (e) {
                         var el = e.currentTarget
