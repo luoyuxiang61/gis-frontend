@@ -1,5 +1,6 @@
 var departments = []
 var layers = null
+var allFunctions = [{ id: 1, name: "书签" }, { id: 2, name: "绘图" }, { id: 3, name: "测距离" }, { id: 4, name: "测面积" }]
 var nowUsers = []
 var nowGrp = {
     name: '',
@@ -150,17 +151,46 @@ $.ajax({
 
             //添加权限组
             $("[title=添加权限组]").click(function () {
+
+                function NewGrp(nGrpName, nLayers, nFields, nFunctions) {
+                    this.nDepaId = nowDepaId;
+                    this.nGrpName = nGrpName;
+                    this.nLayers = nLayers || [];
+                    this.nFields = nFields || [];
+                    this.nFunctions = nFunctions || [];
+                }
+
+                NewGrp.prototype = {
+                    addLayer: function (lid) {
+                        this.nLayers.push(lid)
+                    },
+                    removeLayer: function (lid) {
+                        this.nLayers.splice(this.nLayers.indexOf(lid), 1)
+                    },
+                    addField: function (fid) {
+                        this.nFields.push(fid)
+                    },
+                    removeField: function (fid) {
+                        this.nFields.splice(this.nFields.indexOf(fid), 1)
+                    }
+                }
+
+                var newGrp = new NewGrp()
+
+                console.log(newGrp)
+
                 var grayBack = $("#grayBack")
                 var addGrpDiv = $("#addGrpDiv")
 
                 var refreshLayers = function (layersForTree) {
                     layers = layersForTree;
-                    var sonshtml = '';
+                    var sonshtml = "<div class='list-group-item father'><input class='changeAllLayers' type='checkbox'>全选</div>";
+
                     for (var i = 0; i < layersForTree.length; i++) {
-                        sonshtml += "<div class='list-group-item father'><input type='checkbox' >" + "<strong>" + layersForTree[i].father.DisplayName + "</strong></div>"
+                        sonshtml += "<div class='list-group-item father'><input class='changeGrpLayer' type='checkbox' >" + "<strong>" + layersForTree[i].father.DisplayName + "</strong></div>"
                         sonshtml += "<ul class='list-group son' style='padding-left:15px;margin-bottom:3px'>"
                         for (var j = 0; j < layersForTree[i].sons.length; j++) {
-                            sonshtml += "<li layerType='" + layersForTree[i].sons[j].LayerType + "' class='list-group-item son' layerId='" + layersForTree[i].sons[j].id + "'>" + "<input type='checkbox'>" + layersForTree[i].sons[j].DisplayName + "</li>"
+                            sonshtml += "<li layerType='" + layersForTree[i].sons[j].LayerType + "' class='list-group-item son' layerId='" + layersForTree[i].sons[j].id + "'>" + "<input class='changeLayer' type='checkbox'>" + layersForTree[i].sons[j].DisplayName + "</li>"
                         }
                         sonshtml += "</ul>"
                     }
@@ -169,21 +199,61 @@ $.ajax({
                     $("#layerList").append(
                         "<div class='list-group' onselectstart='return false'> " + sonshtml + "</div>"
                     )
+
+                    $(".changeAllLayers").click(function (e) {
+                        var checked = e.currentTarget.checked
+                    })
+                    $(".changeGrpLayer").click(function (e) {
+                        var checked = e.currentTarget.checked
+                    })
+                    $(".changeLayer").click(function (e) {
+                        var el = e.currentTarget
+                        var lid = el.parentElement.getAttribute("layerId")
+                        var checked = e.currentTarget.checked
+                        if (checked) {
+                            newGrp.addLayer(lid)
+                        } else {
+                            newGrp.removeLayer(lid)
+                        }
+                    })
+                }
+
+                var refreshFunctions = function () {
+                    $("#funList").empty()
+                    $("#funList").append("<li class='list-group-item'><input type='checkbox' class='changeAllFunctions'>全选</li>")
+                    for (var j = 0; j < allFunctions.length; j++) {
+                        $("#funList").append("<li class='list-group-item' funid='" + allFunctions[j].id + "'><input class='changeFunction' type='checkbox'>" + allFunctions[j].name + "</li>")
+                    }
+
+                    $(".changeAllFunctions").click(function (e) {
+                        var checked = e.currentTarget.checked
+                    })
+                    $(".changeFunction").click(function (e) {
+                        var checked = e.currentTarget.checked
+                    })
                 }
 
                 if (!layers) {
                     $.ajax({
                         type: 'post',
                         url: "http://" + serverIP + ":" + serverPort + "/layersForTree",
-                        success: refreshLayers
+                        success: function (layersForTree) {
+                            refreshLayers(layersForTree)
+                            refreshFunctions()
+                        }
                     })
                 } else {
                     refreshLayers(layers)
+                    refreshFunctions()
                 }
 
 
                 grayBack.show()
                 addGrpDiv.show()
+
+
+
+
             })
 
 

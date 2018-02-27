@@ -202,13 +202,17 @@
             background-color: tan;
             padding: 5px;
         }
+        
+        #layerList div.father:nth-child(1) {
+            background: yellowgreen;
+        }
 
         #layerList li.son {
             background-color: silver;
             padding: 2px;
         }
 
-        #layerList input[type=checkbox] {
+        #layerList input[type=checkbox],#funList input[type=checkbox]  {
             cursor: pointer;
         }
 
