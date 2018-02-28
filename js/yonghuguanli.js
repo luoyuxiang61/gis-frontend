@@ -199,11 +199,6 @@ $.ajax({
                         "<div class='list-group' onselectstart='return false'> " + sonshtml + "</div>"
                     )
 
-                    $("#grpName").keydown(function (e) {
-                        newGrp.name = e.currentTarget.value
-                    })
-
-
                     $(".changeAllLayers").click(function (e) {
                         var checked = e.currentTarget.checked
                         var allLI = $("[layerId] input")
@@ -213,6 +208,7 @@ $.ajax({
                             }
 
                             for (var a = 0; a < layers.length; a++) {
+                                newGrp.addLayer(layers[a].father.id)
                                 for (var b = 0; b < layers[a].sons.length; b++) {
                                     newGrp.addLayer(layers[a].sons[b].id)
                                 }
@@ -223,6 +219,7 @@ $.ajax({
                             }
 
                             for (var a = 0; a < layers.length; a++) {
+                                newGrp.removeLayer(layers[a].father.id)
                                 for (var b = 0; b < layers[a].sons.length; b++) {
                                     newGrp.removeLayer(layers[a].sons[b].id)
                                 }
@@ -244,11 +241,13 @@ $.ajax({
                         })
 
                         if (checked) {
+                            newGrp.addLayer(lid)
                             for (var k = 0; k < sons.length; k++) {
                                 newGrp.addLayer(sons[k])
                                 $("li.son[layerId=" + sons[k] + "] input")[0].checked = true
                             }
                         } else {
+                            newGrp.removeLayer(lid)
                             for (var k = 0; k < sons.length; k++) {
                                 newGrp.removeLayer(sons[k])
                                 $("li.son[layerId=" + sons[k] + "] input")[0].checked = false
@@ -262,8 +261,10 @@ $.ajax({
                     $(".changeLayer").click(function (e) {
                         var el = e.currentTarget
                         var lid = + el.parentElement.getAttribute("layerId")
+                        var glid = + el.parentElement.parentElement.previousElementSibling.getAttribute('layerId')
                         var checked = e.currentTarget.checked
                         if (checked) {
+                            newGrp.addLayer(glid)
                             newGrp.addLayer(lid)
                         } else {
                             newGrp.removeLayer(lid)
@@ -467,35 +468,22 @@ $("#noEditUser").click(function () {
 
 // 点击保存权限组
 $("#saveGrp").click(function (e) {
+    newGrp.name = document.getElementById("grpName").value.trim()
     if (!newGrp.name) {
         alert('请输入权限组名！')
         return
     }
     else {
-        console.log(newGrp.name)
         $.ajax({
             url: "http://" + serverIP + ":" + serverPort + "/addGroup",
             type: 'post',
-            data: {
-                depaId: nowDepaId,
-                grpName: newGrp.name
-            },
+            data: { newGrp: JSON.stringify(newGrp) },
             success: function (res) {
                 console.log(res)
             }
         })
-
     }
 })
-
-
-
-
-
-
-
-
-
 
 
 
