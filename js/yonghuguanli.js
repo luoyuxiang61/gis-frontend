@@ -6,6 +6,8 @@ var nowGrp = {
     name: '',
     id: null
 }
+
+var newGrp = null
 var nowDepaName = null
 var nowDepaId = null
 var nowUser
@@ -128,13 +130,6 @@ $.ajax({
                 }
             }
 
-
-
-
-
-
-
-
             $("#mainT").empty()
 
             $("#grpContainer").empty()
@@ -179,7 +174,7 @@ $.ajax({
                     }
                 }
 
-                var newGrp = new NewGrp()
+                newGrp = new NewGrp()
 
                 console.log(newGrp)
 
@@ -203,6 +198,11 @@ $.ajax({
                     $("#layerList").append(
                         "<div class='list-group' onselectstart='return false'> " + sonshtml + "</div>"
                     )
+
+                    $("#grpName").keydown(function (e) {
+                        newGrp.name = e.currentTarget.value
+                    })
+
 
                     $(".changeAllLayers").click(function (e) {
                         var checked = e.currentTarget.checked
@@ -464,6 +464,40 @@ $("#noEditUser").click(function () {
     $("#editUserDiv").hide()
     $("#grayBack").hide()
 })
+
+// 点击保存权限组
+$("#saveGrp").click(function (e) {
+    if (!newGrp.name) {
+        alert('请输入权限组名！')
+        return
+    }
+    else {
+        console.log(newGrp.name)
+        $.ajax({
+            url: "http://" + serverIP + ":" + serverPort + "/addGroup",
+            type: 'post',
+            data: {
+                depaId: nowDepaId,
+                grpName: newGrp.name
+            },
+            success: function (res) {
+                console.log(res)
+            }
+        })
+
+    }
+})
+
+
+
+
+
+
+
+
+
+
+
 
 $("#closeEdit").click(function () {
     $(".top").hide()
