@@ -162,7 +162,11 @@ $.ajax({
 
                 NewGrp.prototype = {
                     addLayer: function (lid) {
-                        this.nLayers.push(lid)
+                        if (this.nLayers.indexOf(lid) !== -1) {
+                            return
+                        } else {
+                            this.nLayers.push(lid)
+                        }
                     },
                     removeLayer: function (lid) {
                         this.nLayers.splice(this.nLayers.indexOf(lid), 1)
@@ -202,19 +206,33 @@ $.ajax({
 
                     $(".changeAllLayers").click(function (e) {
                         var checked = e.currentTarget.checked
+                        var allLI = $("[layerId] input")
                         if (checked) {
+                            for (var k = 0; k < allLI.length; k++) {
+                                allLI[k].checked = true
+                            }
+
                             for (var a = 0; a < layers.length; a++) {
                                 for (var b = 0; b < layers[a].sons.length; b++) {
-
                                     newGrp.addLayer(layers[a].sons[b].id)
-                                    $("li[layerId=" + layers[a].sons[b].id + "] input").attr('checked', true)
                                 }
                             }
-                            console.log(newGrp)
+                        } else {
+                            for (var k = 0; k < allLI.length; k++) {
+                                allLI[k].checked = false
+                            }
+
+                            for (var a = 0; a < layers.length; a++) {
+                                for (var b = 0; b < layers[a].sons.length; b++) {
+                                    newGrp.removeLayer(layers[a].sons[b].id)
+                                }
+                            }
                         }
 
-
+                        console.log(newGrp.nLayers)
                     })
+
+
                     $(".changeGrpLayer").click(function (e) {
                         var el = e.currentTarget
                         var lid = parseInt(el.parentElement.getAttribute("layerId"))
@@ -226,35 +244,31 @@ $.ajax({
                         })
 
                         if (checked) {
-                            console.log(sons)
                             for (var k = 0; k < sons.length; k++) {
                                 newGrp.addLayer(sons[k])
-                                console.log($("li.son[layerId=" + sons[k] + "] input"))
-                                $("li.son[layerId=" + sons[k] + "] input").attr('checked', true)
+                                $("li.son[layerId=" + sons[k] + "] input")[0].checked = true
                             }
-                            console.log(newGrp)
                         } else {
                             for (var k = 0; k < sons.length; k++) {
                                 newGrp.removeLayer(sons[k])
-                                $("li.son[layerId=" + sons[k] + "] input").attr('checked', false)
+                                $("li.son[layerId=" + sons[k] + "] input")[0].checked = false
                             }
-                            console.log(newGrp)
                         }
 
-
-
-
+                        console.log(newGrp.nLayers)
 
                     })
+
                     $(".changeLayer").click(function (e) {
                         var el = e.currentTarget
-                        var lid = el.parentElement.getAttribute("layerId")
+                        var lid = + el.parentElement.getAttribute("layerId")
                         var checked = e.currentTarget.checked
                         if (checked) {
                             newGrp.addLayer(lid)
                         } else {
                             newGrp.removeLayer(lid)
                         }
+                        console.log(newGrp.nLayers)
                     })
                 }
 
