@@ -186,10 +186,10 @@ $.ajax({
                     var sonshtml = "<div class='list-group-item father' ><input class='changeAllLayers' type='checkbox'>全选</div>";
 
                     for (var i = 0; i < layersForTree.length; i++) {
-                        sonshtml += "<div class='list-group-item father' layerId='" + layersForTree[i].father.id + "'><input class='changeGrpLayer' type='checkbox' >" + "<strong>" + layersForTree[i].father.DisplayName + "</strong></div>"
+                        sonshtml += "<div class='list-group-item father grp' layerId='" + layersForTree[i].father.id + "'><input class='changeGrpLayer' type='checkbox' >" + "<strong>" + layersForTree[i].father.DisplayName + "</strong></div>"
                         sonshtml += "<ul class='list-group son' style='padding-left:15px;margin-bottom:3px'>"
                         for (var j = 0; j < layersForTree[i].sons.length; j++) {
-                            sonshtml += "<li layerType='" + layersForTree[i].sons[j].LayerType + "' class='list-group-item son' layerId='" + layersForTree[i].sons[j].id + "'>" + "<input class='changeLayer' type='checkbox'>" + layersForTree[i].sons[j].DisplayName + "</li>"
+                            sonshtml += "<li layerType='" + layersForTree[i].sons[j].LayerType + "' class='list-group-item son changeLayer' layerId='" + layersForTree[i].sons[j].id + "'>" + "<input class='changeLayer' type='checkbox'>" + layersForTree[i].sons[j].DisplayName + "</li>"
                         }
                         sonshtml += "</ul>"
                     }
@@ -259,17 +259,43 @@ $.ajax({
                     })
 
                     $(".changeLayer").click(function (e) {
-                        var el = e.currentTarget
+                        var el = e.target.tagName === 'INPUT' ? e.target : e.target.children[0]
+
+                        if (e.target.tagName !== 'INPUT') {
+                            el.checked = !el.checked
+                        }
+
+                        var siblings = el.parentElement.parentElement.children
                         var lid = + el.parentElement.getAttribute("layerId")
+                        var gl = el.parentElement.parentElement.previousElementSibling
                         var glid = + el.parentElement.parentElement.previousElementSibling.getAttribute('layerId')
-                        var checked = e.currentTarget.checked
+                        var checked = el.checked
                         if (checked) {
+                            gl.children[0].checked = true
                             newGrp.addLayer(glid)
                             newGrp.addLayer(lid)
                         } else {
+                            $("input.changeAllLayers")[0].checked = false
+                            var ns = true
+                            for (var k = 0; k < siblings.length; k++) {
+                                if (siblings[k].children[0].checked) {
+                                    ns = false
+                                }
+                            }
+                            if (ns) {
+                                gl.children[0].checked = false
+                                newGrp.removeLayer(glid)
+                            }
+
                             newGrp.removeLayer(lid)
                         }
                         console.log(newGrp.nLayers)
+                    })
+
+                    $("div.father.grp").click(function (e) {
+                        if (e.target.tagName !== 'INPUT') {
+                            e.currentTarget.nextElementSibling.style.display = e.currentTarget.nextElementSibling.style.display === 'block' ? 'none' : 'block'
+                        }
                     })
                 }
 

@@ -207,14 +207,24 @@
             background: yellowgreen;
         }
 
+        #layerList ul.son {
+            display: none;
+        }
+
         #layerList li.son {
             background-color: silver;
             padding: 2px;
+            cursor: default;
+        }
+        #layerList li.son:hover {
+            background: #eee;
         }
 
         #layerList input[type=checkbox],#funList input[type=checkbox]  {
             cursor: pointer;
         }
+
+
 
         #fields {
             height: 100%;
