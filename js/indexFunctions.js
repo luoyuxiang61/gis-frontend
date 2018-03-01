@@ -169,5 +169,10 @@ function toggleLayerList() {
     $("#layerList").toggle(150)
 }
 
+$("#logOut").click(function () {
+    $.removeCookie('user');
+    window.location.href = 'login.html'
+})
+
 
 

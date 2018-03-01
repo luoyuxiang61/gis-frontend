@@ -14,6 +14,8 @@ var nowUser
 
 var getUsersInGrp, getUsersInDepa
 
+var grpClick
+
 $.ajax({
     type: 'get',
     async: false,
@@ -143,262 +145,255 @@ $.ajax({
 
 
 
+            grpClick = function () {
+                //添加权限组
+                $("[title=添加权限组]").click(function () {
 
-            //添加权限组
-            $("[title=添加权限组]").click(function () {
-
-                function NewGrp(nGrpName, nLayers, nFields, nFunctions) {
-                    this.nDepaId = nowDepaId;
-                    this.nGrpName = nGrpName;
-                    this.nLayers = nLayers || [];
-                    this.nFields = nFields || [];
-                    this.nFunctions = nFunctions || [];
-                }
-
-                NewGrp.prototype = {
-                    addLayer: function (lid) {
-                        if (this.nLayers.indexOf(lid) !== -1) {
-                            return
-                        } else {
-                            this.nLayers.push(lid)
-                        }
-                    },
-                    removeLayer: function (lid) {
-                        this.nLayers.splice(this.nLayers.indexOf(lid), 1)
-                    },
-                    addField: function (fid) {
-                        this.nFields.push(fid)
-                    },
-                    removeField: function (fid) {
-                        this.nFields.splice(this.nFields.indexOf(fid), 1)
-                    }
-                }
-
-                newGrp = new NewGrp()
-
-                console.log(newGrp)
-
-                var grayBack = $("#grayBack")
-                var addGrpDiv = $("#addGrpDiv")
-
-                var refreshLayers = function (layersForTree) {
-                    layers = layersForTree;
-                    var sonshtml = "<div class='list-group-item father' ><input class='changeAllLayers' type='checkbox'>全选</div>";
-
-                    for (var i = 0; i < layersForTree.length; i++) {
-                        sonshtml += "<div class='list-group-item father grp' layerId='" + layersForTree[i].father.id + "'><input class='changeGrpLayer' type='checkbox' >" + "<strong>" + layersForTree[i].father.DisplayName + "</strong></div>"
-                        sonshtml += "<ul class='list-group son' style='padding-left:15px;margin-bottom:3px'>"
-                        for (var j = 0; j < layersForTree[i].sons.length; j++) {
-                            sonshtml += "<li layerType='" + layersForTree[i].sons[j].LayerType + "' class='list-group-item son changeLayer' layerId='" + layersForTree[i].sons[j].id + "'>" + "<input class='changeLayer' type='checkbox'>" + layersForTree[i].sons[j].DisplayName + "</li>"
-                        }
-                        sonshtml += "</ul>"
+                    function NewGrp(nGrpName, nLayers, nFields, nFunctions) {
+                        this.nDepaId = nowDepaId;
+                        this.nGrpName = nGrpName;
+                        this.nLayers = nLayers || [];
+                        this.nFields = nFields || [];
+                        this.nFunctions = nFunctions || [];
                     }
 
-                    $("#layerList").empty()
-                    $("#layerList").append(
-                        "<div class='list-group' onselectstart='return false'> " + sonshtml + "</div>"
-                    )
+                    NewGrp.prototype = {
+                        addLayer: function (lid) {
+                            if (this.nLayers.indexOf(lid) !== -1) {
+                                return
+                            } else {
+                                this.nLayers.push(lid)
+                            }
+                        },
+                        removeLayer: function (lid) {
+                            this.nLayers.splice(this.nLayers.indexOf(lid), 1)
+                        },
+                        addField: function (fid) {
+                            this.nFields.push(fid)
+                        },
+                        removeField: function (fid) {
+                            this.nFields.splice(this.nFields.indexOf(fid), 1)
+                        }
+                    }
 
-                    $(".changeAllLayers").click(function (e) {
-                        var checked = e.currentTarget.checked
-                        var allLI = $("[layerId] input")
-                        if (checked) {
-                            for (var k = 0; k < allLI.length; k++) {
-                                allLI[k].checked = true
-                            }
+                    newGrp = new NewGrp()
 
-                            for (var a = 0; a < layers.length; a++) {
-                                newGrp.addLayer(layers[a].father.id)
-                                for (var b = 0; b < layers[a].sons.length; b++) {
-                                    newGrp.addLayer(layers[a].sons[b].id)
-                                }
-                            }
-                        } else {
-                            for (var k = 0; k < allLI.length; k++) {
-                                allLI[k].checked = false
-                            }
+                    console.log(newGrp)
 
-                            for (var a = 0; a < layers.length; a++) {
-                                newGrp.removeLayer(layers[a].father.id)
-                                for (var b = 0; b < layers[a].sons.length; b++) {
-                                    newGrp.removeLayer(layers[a].sons[b].id)
-                                }
+                    var grayBack = $("#grayBack")
+                    var addGrpDiv = $("#addGrpDiv")
+
+                    var refreshLayers = function (layersForTree) {
+                        layers = layersForTree;
+                        var sonshtml = "<div class='list-group-item father' ><input class='changeAllLayers' type='checkbox'>全选</div>";
+
+                        for (var i = 0; i < layersForTree.length; i++) {
+                            sonshtml += "<div class='list-group-item father grp' layerId='" + layersForTree[i].father.id + "'><input class='changeGrpLayer' type='checkbox' >" + "<strong>" + layersForTree[i].father.DisplayName + "</strong></div>"
+                            sonshtml += "<ul class='list-group son' style='padding-left:15px;margin-bottom:3px'>"
+                            for (var j = 0; j < layersForTree[i].sons.length; j++) {
+                                sonshtml += "<li layerType='" + layersForTree[i].sons[j].LayerType + "' class='list-group-item son changeLayer' layerId='" + layersForTree[i].sons[j].id + "'>" + "<input class='changeLayer' type='checkbox'>" + layersForTree[i].sons[j].DisplayName + "</li>"
                             }
+                            sonshtml += "</ul>"
                         }
 
-                        console.log(newGrp.nLayers)
-                    })
+                        $("#layerList").empty()
+                        $("#layerList").append(
+                            "<div class='list-group' onselectstart='return false'> " + sonshtml + "</div>"
+                        )
 
+                        $(".changeAllLayers").click(function (e) {
+                            var checked = e.currentTarget.checked
+                            var allLI = $("[layerId] input")
+                            if (checked) {
+                                for (var k = 0; k < allLI.length; k++) {
+                                    allLI[k].checked = true
+                                }
 
-                    $(".changeGrpLayer").click(function (e) {
-                        var el = e.currentTarget
-                        var lid = parseInt(el.parentElement.getAttribute("layerId"))
-                        var checked = e.currentTarget.checked
-                        var sons = layers.filter(function (x) {
-                            return x.father.id === lid
-                        })[0].sons.map(function (x) {
-                            return x.id
+                                for (var a = 0; a < layers.length; a++) {
+                                    newGrp.addLayer(layers[a].father.id)
+                                    for (var b = 0; b < layers[a].sons.length; b++) {
+                                        newGrp.addLayer(layers[a].sons[b].id)
+                                    }
+                                }
+                            } else {
+                                for (var k = 0; k < allLI.length; k++) {
+                                    allLI[k].checked = false
+                                }
+
+                                for (var a = 0; a < layers.length; a++) {
+                                    newGrp.removeLayer(layers[a].father.id)
+                                    for (var b = 0; b < layers[a].sons.length; b++) {
+                                        newGrp.removeLayer(layers[a].sons[b].id)
+                                    }
+                                }
+                            }
+
+                            console.log(newGrp.nLayers)
                         })
 
-                        if (checked) {
-                            newGrp.addLayer(lid)
-                            for (var k = 0; k < sons.length; k++) {
-                                newGrp.addLayer(sons[k])
-                                $("li.son[layerId=" + sons[k] + "] input")[0].checked = true
-                            }
-                        } else {
-                            newGrp.removeLayer(lid)
-                            for (var k = 0; k < sons.length; k++) {
-                                newGrp.removeLayer(sons[k])
-                                $("li.son[layerId=" + sons[k] + "] input")[0].checked = false
-                            }
-                        }
 
-                        console.log(newGrp.nLayers)
+                        $(".changeGrpLayer").click(function (e) {
+                            var el = e.currentTarget
+                            var lid = parseInt(el.parentElement.getAttribute("layerId"))
+                            var checked = e.currentTarget.checked
+                            var sons = layers.filter(function (x) {
+                                return x.father.id === lid
+                            })[0].sons.map(function (x) {
+                                return x.id
+                            })
 
-                    })
-
-                    $(".changeLayer").click(function (e) {
-                        var el = e.target.tagName === 'INPUT' ? e.target : e.target.children[0]
-
-                        if (e.target.tagName !== 'INPUT') {
-                            el.checked = !el.checked
-                        }
-
-                        var siblings = el.parentElement.parentElement.children
-                        var lid = + el.parentElement.getAttribute("layerId")
-                        var gl = el.parentElement.parentElement.previousElementSibling
-                        var glid = + el.parentElement.parentElement.previousElementSibling.getAttribute('layerId')
-                        var checked = el.checked
-                        if (checked) {
-                            gl.children[0].checked = true
-                            newGrp.addLayer(glid)
-                            newGrp.addLayer(lid)
-                        } else {
-                            $("input.changeAllLayers")[0].checked = false
-                            var ns = true
-                            for (var k = 0; k < siblings.length; k++) {
-                                if (siblings[k].children[0].checked) {
-                                    ns = false
+                            if (checked) {
+                                newGrp.addLayer(lid)
+                                for (var k = 0; k < sons.length; k++) {
+                                    newGrp.addLayer(sons[k])
+                                    $("li.son[layerId=" + sons[k] + "] input")[0].checked = true
+                                }
+                            } else {
+                                newGrp.removeLayer(lid)
+                                for (var k = 0; k < sons.length; k++) {
+                                    newGrp.removeLayer(sons[k])
+                                    $("li.son[layerId=" + sons[k] + "] input")[0].checked = false
                                 }
                             }
-                            if (ns) {
-                                gl.children[0].checked = false
-                                newGrp.removeLayer(glid)
+
+                            console.log(newGrp.nLayers)
+
+                        })
+
+                        $(".changeLayer").click(function (e) {
+                            var el = e.target.tagName === 'INPUT' ? e.target : e.target.children[0]
+
+                            if (e.target.tagName !== 'INPUT') {
+                                el.checked = !el.checked
                             }
 
-                            newGrp.removeLayer(lid)
-                        }
-                        console.log(newGrp.nLayers)
-                    })
+                            var siblings = el.parentElement.parentElement.children
+                            var lid = + el.parentElement.getAttribute("layerId")
+                            var gl = el.parentElement.parentElement.previousElementSibling
+                            var glid = + el.parentElement.parentElement.previousElementSibling.getAttribute('layerId')
+                            var checked = el.checked
+                            if (checked) {
+                                gl.children[0].checked = true
+                                newGrp.addLayer(glid)
+                                newGrp.addLayer(lid)
+                            } else {
+                                $("input.changeAllLayers")[0].checked = false
+                                var ns = true
+                                for (var k = 0; k < siblings.length; k++) {
+                                    if (siblings[k].children[0].checked) {
+                                        ns = false
+                                    }
+                                }
+                                if (ns) {
+                                    gl.children[0].checked = false
+                                    newGrp.removeLayer(glid)
+                                }
 
-                    $("div.father.grp").click(function (e) {
-                        if (e.target.tagName !== 'INPUT') {
-                            e.currentTarget.nextElementSibling.style.display = e.currentTarget.nextElementSibling.style.display === 'block' ? 'none' : 'block'
-                        }
-                    })
-                }
+                                newGrp.removeLayer(lid)
+                            }
+                            console.log(newGrp.nLayers)
+                        })
 
-                var refreshFunctions = function () {
-                    $("#funList").empty()
-                    $("#funList").append("<li class='list-group-item'><input type='checkbox' class='changeAllFunctions'>全选</li>")
-                    for (var j = 0; j < allFunctions.length; j++) {
-                        $("#funList").append("<li class='list-group-item' funid='" + allFunctions[j].id + "'><input class='changeFunction' type='checkbox'>" + allFunctions[j].name + "</li>")
+                        $("div.father.grp").click(function (e) {
+                            if (e.target.tagName !== 'INPUT') {
+                                e.currentTarget.nextElementSibling.style.display = e.currentTarget.nextElementSibling.style.display === 'block' ? 'none' : 'block'
+                            }
+                        })
                     }
 
-                    $(".changeAllFunctions").click(function (e) {
-                        var checked = e.currentTarget.checked
-                    })
-                    $(".changeFunction").click(function (e) {
-                        var checked = e.currentTarget.checked
-                    })
-                }
-
-                if (!layers) {
-                    $.ajax({
-                        type: 'post',
-                        url: "http://" + serverIP + ":" + serverPort + "/layersForTree",
-                        success: function (layersForTree) {
-                            refreshLayers(layersForTree)
-                            refreshFunctions()
+                    var refreshFunctions = function () {
+                        $("#funList").empty()
+                        $("#funList").append("<li class='list-group-item'><input type='checkbox' class='changeAllFunctions'>全选</li>")
+                        for (var j = 0; j < allFunctions.length; j++) {
+                            $("#funList").append("<li class='list-group-item' funid='" + allFunctions[j].id + "'><input class='changeFunction' type='checkbox'>" + allFunctions[j].name + "</li>")
                         }
-                    })
-                } else {
-                    refreshLayers(layers)
-                    refreshFunctions()
-                }
+
+                        $(".changeAllFunctions").click(function (e) {
+                            var checked = e.currentTarget.checked
+                        })
+                        $(".changeFunction").click(function (e) {
+                            var checked = e.currentTarget.checked
+                        })
+                    }
+
+                    if (!layers) {
+                        $.ajax({
+                            type: 'post',
+                            url: "http://" + serverIP + ":" + serverPort + "/layersForTree",
+                            success: function (layersForTree) {
+                                refreshLayers(layersForTree)
+                                refreshFunctions()
+                            }
+                        })
+                    } else {
+                        refreshLayers(layers)
+                        refreshFunctions()
+                    }
+                    grayBack.show()
+                    addGrpDiv.show()
+                })
 
 
-                grayBack.show()
-                addGrpDiv.show()
+                $("div.grpBtn").click(function () {
+                    var depaId = $(this).attr('depaId')
+                    if (depaId) {
+                        nowGrp.name = ''
+                        nowGrp.id = null
+                        $("#tBar").empty()
+                        getUsersInDepa(depaId)
+                    }
 
+                    else {
 
-
-
-            })
-
-
-            $("div.grpBtn").click(function () {
-                var depaId = $(this).attr('depaId')
-                if (depaId) {
-                    nowGrp.name = ''
-                    nowGrp.id = null
-                    $("#tBar").empty()
-                    getUsersInDepa(depaId)
-                }
-
-                else {
-
-                    $("#tBar").empty()
-                    $("#tBar").append("<button class='btn btn-default' title='设置权限' id='setPri'><i class='fas fa-cogs'></i></button> \
+                        $("#tBar").empty()
+                        $("#tBar").append("<button class='btn btn-default' title='设置权限' id='setPri'><i class='fas fa-cogs'></i></button> \
                     <button class='btn btn-default' title='添加用户' id='addU'><i class='fa fa-user-plus'></i></button>")
 
-                    $("#setPri").click(function () {
-                        console.log('sssssssset')
-                    })
-                    $("#addU").click(function () {
-                        console.log('uuuuu')
-                        $("#grayBack").show()
-                        $("#uname").val('')
-                        $("#pwd").val('')
-                        $("#addUserDiv").show()
-                        document.getElementById('theGrp').value = nowDepaName + "---" + nowGrp.name
-                    })
+                        $("#setPri").click(function () {
+                            console.log('sssssssset')
+                        })
+                        $("#addU").click(function () {
+                            console.log('uuuuu')
+                            $("#grayBack").show()
+                            $("#uname").val('')
+                            $("#pwd").val('')
+                            $("#addUserDiv").show()
+                            document.getElementById('theGrp').value = nowDepaName + "---" + nowGrp.name
+                        })
 
+                        $(".grpBtn").removeClass('active')
+                        this.classList.add('active')
+                        $("#mainT").empty()
 
-
-
-
-
-                    $(".grpBtn").removeClass('active')
-                    this.classList.add('active')
-                    $("#mainT").empty()
-
-                    var grpId = $(this).attr('grpId')
-                    nowGrp.name = this.innerText
-                    nowGrp.id = grpId
-                    $.ajax({
-                        url: "http://" + serverIP + ":" + serverPort + "/usersInGroup",
-                        type: 'post',
-                        data: {
-                            grpId: grpId
-                        },
-                        success: function (users) {
-                            nowUsers = users
-                            for (var k = 0; k < users.length; k++) {
-                                var user = users[k]
-                                $("#mainT").append("<tr index='" + k + "'><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.UserName + "</span></td><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.Password + "</span></td><td class='col-xs-4'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><button class='btn btn-default btn-sm editUserBtn'><i class='fas fa-edit'></i></button><button class='btn btn-default btn-sm deleteUserBtn'><i class='fas fa-times'></i></button></td></tr>")
+                        var grpId = $(this).attr('grpId')
+                        nowGrp.name = this.innerText
+                        nowGrp.id = grpId
+                        $.ajax({
+                            url: "http://" + serverIP + ":" + serverPort + "/usersInGroup",
+                            type: 'post',
+                            data: {
+                                grpId: grpId
+                            },
+                            success: function (users) {
+                                nowUsers = users
+                                for (var k = 0; k < users.length; k++) {
+                                    var user = users[k]
+                                    $("#mainT").append("<tr index='" + k + "'><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.UserName + "</span></td><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.Password + "</span></td><td class='col-xs-4'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><button class='btn btn-default btn-sm editUserBtn'><i class='fas fa-edit'></i></button><button class='btn btn-default btn-sm deleteUserBtn'><i class='fas fa-times'></i></button></td></tr>")
+                                }
+                                enableDeleteUser(null, grpId)
+                                enableEditUser(null, grpId)
                             }
-                            enableDeleteUser(null, grpId)
-                            enableEditUser(null, grpId)
-                        }
-                    })
-                }
-            })
+                        })
+                    }
+                })
 
-            $(".grpCfg").click(function () {
-                $(".grpEdit").toggle(100)
-            })
+                $(".grpCfg").click(function () {
+                    $(".grpEdit").toggle(100)
+                })
+            }
+
+            grpClick()
+
         })
     }
 })
@@ -505,7 +500,24 @@ $("#saveGrp").click(function (e) {
             type: 'post',
             data: { newGrp: JSON.stringify(newGrp) },
             success: function (res) {
-                console.log(res)
+                if (res === 'ok') {
+                    $("#addGrpDiv").hide()
+                    $("#grayBack").hide()
+                    $.ajax({
+                        url: "http://" + serverIP + ":" + serverPort + "/grpsInDepa",
+                        type: 'post',
+                        data: { depaId: nowDepaId },
+                        success: function (res) {
+                            $("#grpContainer").empty()
+                            $("#grpContainer").append("<div depaId='" + nowDepaId + "' class='grpBtn all'>全部</div>")
+                            for (var j = 0; j < res.length; j++) {
+                                $("#grpContainer").append("<div class='grpBtn' grpId='" + res[j].id + "'>" + res[j].name + "</div>")
+                            }
+                            $("#grpContainer").append("<button title='配置权限组' class='btn btn-primary btn-sm grpCfg'><i class='fa fa-cog'></i></button> <button title='删除权限组' class='btn btn-default btn-sm grpEdit'><i class='fa fa-trash-alt'></i></button><button title='添加权限组' class='btn btn-default btn-sm grpEdit'><i class='fa fa-plus'></i></button>")
+                            grpClick()
+                        }
+                    })
+                }
             }
         })
     }
@@ -516,6 +528,12 @@ $("#saveGrp").click(function (e) {
 $("#closeEdit").click(function () {
     $(".top").hide()
     $("#grayBack").hide()
+})
+
+$("#logOut").click(function () {
+    $.removeCookie('user');
+    console.log('hahahah')
+    window.location.href = 'login.html'
 })
 
 

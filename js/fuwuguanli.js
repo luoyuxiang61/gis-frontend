@@ -517,3 +517,9 @@ $("#goService button").click(function () {
     $("#serviceContainer").show()
     $("#goFields").show()
 })
+
+$("#logOut").click(function () {
+    $.removeCookie('user');
+    console.log('hahahah')
+    window.location.href = 'login.html'
+})

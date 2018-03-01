@@ -200,7 +200,4 @@ require([
                 map.on('layers-add-result', mapLoaded())
             }
         })
-
-
-
     })
