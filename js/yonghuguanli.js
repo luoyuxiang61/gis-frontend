@@ -508,6 +508,11 @@ $("#saveGrp").click(function (e) {
                         type: 'post',
                         data: { depaId: nowDepaId },
                         success: function (res) {
+                            for (var p = 0; p < departments.length; p++) {
+                                if (departments[p].depa.id === nowDepaId) {
+                                    departments[p].grps = res
+                                }
+                            }
                             $("#grpContainer").empty()
                             $("#grpContainer").append("<div depaId='" + nowDepaId + "' class='grpBtn all'>全部</div>")
                             for (var j = 0; j < res.length; j++) {
