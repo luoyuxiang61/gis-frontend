@@ -18,6 +18,7 @@ var grpClick
 var reloadGrps
 var NewGrp
 var refreshLayers, refreshFunctions
+var initSetPri
 
 $.ajax({
     type: 'get',
@@ -201,6 +202,13 @@ $.ajax({
 
 
 
+                initSetPri = function (xGrp) {
+                    var lids = xGrp.nLayers
+                    for (var l = 0; l < lids.length; l++) {
+                        $("[layerId=" + lids[l] + "] input")[0].checked = true
+                    }
+                }
+
                 refreshLayers = function (layersForTree) {
                     layers = layersForTree;
                     var sonshtml = "<div class='list-group-item father' ><input class='changeAllLayers' type='checkbox'>全选</div>";
@@ -379,24 +387,39 @@ $.ajax({
                         $("#setPri").click(function () {
                             newGrp = new NewGrp()
 
-
-
-
-                            if (!layers) {
-                                $.ajax({
-                                    type: 'post',
-                                    url: "http://" + serverIP + ":" + serverPort + "/layersForTree",
-                                    success: function (layersForTree) {
-                                        refreshLayers(layersForTree)
-                                        refreshFunctions()
+                            $.ajax({
+                                type: 'post',
+                                url: "http://" + serverIP + ":" + serverPort + "/layersForGroup",
+                                data: { groupId: nowGrp.id },
+                                success: function (res) {
+                                    for (var r = 0; r < res.length; r++) {
+                                        newGrp.nLayers.push(res[r].father.id)
+                                        for (var rr = 0; rr < res[r].sons.length; rr++) {
+                                            newGrp.nLayers.push(res[r].sons[rr].id)
+                                        }
                                     }
-                                })
-                            } else {
-                                refreshLayers(layers)
-                                refreshFunctions()
-                            }
-                            $("#addGrpDiv").show()
-                            $("#grayBack").show()
+
+                                    if (!layers) {
+                                        $.ajax({
+                                            type: 'post',
+                                            url: "http://" + serverIP + ":" + serverPort + "/layersForTree",
+                                            success: function (layersForTree) {
+                                                refreshLayers(layersForTree)
+                                                refreshFunctions()
+                                                initSetPri(newGrp)
+                                            }
+                                        })
+                                    } else {
+                                        refreshLayers(layers)
+                                        refreshFunctions()
+                                        initSetPri(newGrp)
+                                    }
+                                    $("#addGrpDiv").show()
+                                    $("#grayBack").show()
+                                }
+                            })
+
+
                         })
                         $("#addU").click(function () {
                             console.log('uuuuu')
