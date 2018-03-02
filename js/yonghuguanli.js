@@ -341,6 +341,7 @@ $.ajax({
                 }
 
                 refreshFunctions = function () {
+                    console.log('rrrrrrrr')
                     $("#funList").empty()
                     function changeFunc(e) {
                         var el = e.target
@@ -368,12 +369,12 @@ $.ajax({
                             if (e.target.checked) {
                                 for (var f = 0; f < $("[funid]").length; f++) {
                                     $("[funid] input")[f].checked = true
-                                    newGrp.addLayer(+ $("[funid]")[f].getAttribute('funid'))
+                                    newGrp.addFun(+ $("[funid]")[f].getAttribute('funid'))
                                 }
                             } else {
                                 for (var ff = 0; ff < $("[funid]").length; ff++) {
                                     $("[funid] input")[ff].checked = false
-                                    newGrp.removeLayer(+ $("[funid]")[ff].getAttribute('funid'))
+                                    newGrp.removeFun(+ $("[funid]")[ff].getAttribute('funid'))
                                 }
                             }
                         } else if (e.target.tagName === 'LI') {
@@ -381,13 +382,13 @@ $.ajax({
                                 e.target.children[0].checked = false
                                 for (var g = 0; g < $("[funid]").length; g++) {
                                     $("[funid] input")[g].checked = false
-                                    newGrp.removeLayer(+ $("[funid]")[g].getAttribute('funid'))
+                                    newGrp.removeFun(+ $("[funid]")[g].getAttribute('funid'))
                                 }
                             } else {
                                 e.target.children[0].checked = true
                                 for (var gg = 0; gg < $("[funid]").length; gg++) {
                                     $("[funid] input")[gg].checked = true
-                                    newGrp.addLayer(+ $("[funid]")[gg].getAttribute('funid'))
+                                    newGrp.addFun(+ $("[funid]")[gg].getAttribute('funid'))
                                 }
                             }
                         }
@@ -398,9 +399,7 @@ $.ajax({
                             type: 'get',
                             url: "http://" + serverIP + ":" + serverPort + "/allFunctions",
                             success: function (res) {
-
                                 allFunctions = res
-
                                 $("#funList").append("<li class='list-group-item changeAllFunctions'><input type='checkbox'>全选</li>")
                                 for (var j = 0; j < allFunctions.length; j++) {
                                     $("#funList").append("<li class='list-group-item changeFunction' funid='" + allFunctions[j].id + "'><input type='checkbox'>" + allFunctions[j].name + "</li>")
@@ -408,17 +407,15 @@ $.ajax({
 
                                 $(".changeAllFunctions").click(function (e) {
                                     changeAllFuncs(e)
-                                    console.log(newGrp.nFunctions)
                                 })
                                 $(".changeFunction").click(function (e) {
                                     changeFunc(e)
-                                    console.log(newGrp.nFunctions)
                                 })
                             }
                         })
                     } else {
 
-                        $("#funList").append("<li class='list-group-item changeFunctions'><input type='checkbox'>全选</li>")
+                        $("#funList").append("<li class='list-group-item changeAllFunctions'><input type='checkbox'>全选</li>")
                         for (var j = 0; j < allFunctions.length; j++) {
                             $("#funList").append("<li class='list-group-item changeFunction' funid='" + allFunctions[j].id + "'><input type='checkbox'>" + allFunctions[j].name + "</li>")
                         }
@@ -426,12 +423,11 @@ $.ajax({
                         $(".changeAllFunctions").click(function (e) {
                             changeAllFuncs(e)
                         })
+
                         $(".changeFunction").click(function (e) {
                             changeFunc(e)
-                            console.log(newGrp.nFunctions)
                         })
                     }
-
                 }
 
                 //添加权限组
@@ -477,6 +473,8 @@ $.ajax({
                         $("#tBar").append("<button class='btn btn-default' title='设置权限' id='setPri'><i class='fas fa-cogs'></i></button> \
                     <button class='btn btn-default' title='添加用户' id='addU'><i class='fa fa-user-plus'></i></button>")
 
+
+                        // 配置权限组
                         $("#setPri").click(function () {
                             newGrp = new NewGrp()
                             newGrp.type = 'update'
