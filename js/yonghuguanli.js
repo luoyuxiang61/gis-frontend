@@ -704,6 +704,7 @@ $("#saveGrp").click(function (e) {
             type: 'post',
             data: { newGrp: JSON.stringify(newGrp) },
             success: function (res) {
+                console.log(res)
                 if (res === 'ok') {
                     $("#addGrpDiv").hide()
                     $("#grayBack").hide()
