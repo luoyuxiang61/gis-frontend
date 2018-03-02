@@ -17,7 +17,7 @@ var getUsersInGrp, getUsersInDepa
 var grpClick
 var reloadGrps
 var NewGrp
-var refreshLayers, refreshFunctions
+var refreshLayers, refreshFunctions, refreshFields
 var initSetPri
 
 $.ajax({
@@ -226,6 +226,21 @@ $.ajax({
                     }
                 }
 
+                refreshFields = function (fds) {
+                    var fieldList = $("#fieldList")
+                    fieldList.empty()
+                    for (var f = 0; f < fds.length; f++) {
+                        fieldList.append("<li class='list-group-item' fdid='" + fds[f].id + "'><input type='checkbox'>" + fds[f].DisplayName + "</li>")
+                    }
+
+
+
+
+
+                }
+
+
+
                 refreshLayers = function (layersForTree) {
                     layers = layersForTree;
                     var sonshtml = "<div class='list-group-item father' ><input class='changeAllLayers' type='checkbox'>全选</div>";
@@ -271,7 +286,6 @@ $.ajax({
                             }
                         }
 
-                        console.log(newGrp.nLayers)
                     })
 
 
@@ -299,15 +313,26 @@ $.ajax({
                             }
                         }
 
-                        console.log(newGrp.nLayers)
-
                     })
 
                     $(".changeLayer").click(function (e) {
                         var el = e.target.tagName === 'INPUT' ? e.target : e.target.children[0]
 
                         if (e.target.tagName !== 'INPUT') {
-                            el.checked = !el.checked
+                            $("#fieldList").empty()
+                            if (e.target.getAttribute('layerType') === 'FeatureLayer') {
+                                var flid = + e.target.getAttribute('layerId')
+                                $.ajax({
+                                    type: 'post',
+                                    url: "http://" + serverIP + ":" + serverPort + "/fieldsInLayer",
+                                    data: {
+                                        baseMapLayerId: flid
+                                    },
+                                    success: function (fds) {
+                                        refreshFields(fds)
+                                    }
+                                })
+                            }
                         }
 
                         var siblings = el.parentElement.parentElement.children
@@ -334,7 +359,6 @@ $.ajax({
 
                             newGrp.removeLayer(lid)
                         }
-                        console.log(newGrp.nLayers)
                     })
 
                     $("div.father.grp").click(function (e) {
@@ -345,7 +369,6 @@ $.ajax({
                 }
 
                 refreshFunctions = function () {
-                    console.log(newGrp)
                     $("#funList").empty()
                     function changeFunc(e) {
                         var el = e.target
@@ -367,7 +390,6 @@ $.ajax({
                             }
                         }
 
-                        console.log(newGrp.nFunctions)
                     }
 
                     function changeAllFuncs(e) {
@@ -398,8 +420,6 @@ $.ajax({
                                 }
                             }
                         }
-
-                        console.log(newGrp.nFunctions)
                     }
 
                     if (!allFunctions) {
@@ -446,7 +466,6 @@ $.ajax({
                 $("[title=添加权限组]").click(function () {
                     newGrp = new NewGrp()
                     newGrp.type = 'add'
-                    console.log(newGrp)
 
                     var grayBack = $("#grayBack")
                     var addGrpDiv = $("#addGrpDiv")

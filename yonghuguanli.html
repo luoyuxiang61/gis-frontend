@@ -26,7 +26,7 @@
         <i id="closeEdit" title="关闭" class="far fa-window-close fa-3x"></i>
     </div>
 
-    <!-- 添加权限组 -->
+    <!-- 添加/修改权限组 -->
     <div id="addGrpDiv" class="top">
         <label for="grpName">权限组名称：</label>
         <input type="text" name="grpName" id="grpName">
@@ -42,7 +42,10 @@
             <div class="service col-xs-7">
                 <div class="row">
                     <div id="layerList" class="col-xs-6"></div>
-                    <div id="fields" class="col-xs-6"></div>
+                    <div class="col-xs-6">
+                        <ul class="list-group" id="fieldList">
+                        </ul>
+                    </div>
                 </div>
 
             </div>
