@@ -173,9 +173,8 @@ $.ajax({
 
 
 
-                NewGrp = function (nGrpName, nLayers, nFields, nFunctions) {
+                NewGrp = function (nLayers, nFields, nFunctions) {
                     this.nDepaId = nowDepaId;
-                    this.nGrpName = nGrpName;
                     this.nLayers = nLayers || [];
                     this.nFields = nFields || [];
                     this.nFunctions = nFunctions || [];
@@ -345,7 +344,7 @@ $.ajax({
                 //添加权限组
                 $("[title=添加权限组]").click(function () {
                     newGrp = new NewGrp()
-
+                    newGrp.type = 'add'
                     console.log(newGrp)
 
                     var grayBack = $("#grayBack")
@@ -365,6 +364,7 @@ $.ajax({
                         refreshFunctions()
                     }
                     grayBack.show()
+                    $("#grpName").val('')
                     addGrpDiv.show()
                 })
 
@@ -386,7 +386,8 @@ $.ajax({
 
                         $("#setPri").click(function () {
                             newGrp = new NewGrp()
-
+                            newGrp.type = 'update'
+                            newGrp.id = nowGrp.id
                             $.ajax({
                                 type: 'post',
                                 url: "http://" + serverIP + ":" + serverPort + "/layersForGroup",
@@ -414,6 +415,7 @@ $.ajax({
                                         refreshFunctions()
                                         initSetPri(newGrp)
                                     }
+                                    $("#grpName")[0].value = nowGrp.name
                                     $("#addGrpDiv").show()
                                     $("#grayBack").show()
                                 }
@@ -589,7 +591,8 @@ $("#saveGrp").click(function (e) {
         alert('请输入权限组名！')
         return
     }
-    else {
+
+    if (newGrp.type === 'add') {
         $.ajax({
             url: "http://" + serverIP + ":" + serverPort + "/addGroup",
             type: 'post',
@@ -603,6 +606,26 @@ $("#saveGrp").click(function (e) {
             }
         })
     }
+
+    if (newGrp.type === 'update') {
+        $.ajax({
+            url: "http://" + serverIP + ":" + serverPort + "/updateGroup",
+            type: 'post',
+            data: { newGrp: JSON.stringify(newGrp) },
+            success: function (res) {
+                if (res === 'ok') {
+                    $("#addGrpDiv").hide()
+                    $("#grayBack").hide()
+                    $(".grpBtn[grpId=" + nowGrp.id + "]")[0].innerText = newGrp.name
+                }
+                else {
+                    alert("发生错误！")
+                }
+            }
+        })
+    }
+
+
 })
 
 
