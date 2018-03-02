@@ -216,6 +216,7 @@ $.ajax({
 
 
                 initSetPri = function (xGrp) {
+                    console.log(xGrp)
                     var lids = xGrp.nLayers
                     for (var l = 0; l < lids.length; l++) {
                         $("[layerId=" + lids[l] + "] input")[0].checked = true
@@ -481,14 +482,20 @@ $.ajax({
                             newGrp.id = nowGrp.id
                             $.ajax({
                                 type: 'post',
-                                url: "http://" + serverIP + ":" + serverPort + "/layersForGroup",
-                                data: { groupId: nowGrp.id },
-                                success: function (res) {
-                                    for (var r = 0; r < res.length; r++) {
-                                        newGrp.nLayers.push(res[r].father.id)
-                                        for (var rr = 0; rr < res[r].sons.length; rr++) {
-                                            newGrp.nLayers.push(res[r].sons[rr].id)
-                                        }
+                                url: "http://" + serverIP + ":" + serverPort + "/quanxianForGroup",
+                                data: { grpId: nowGrp.id },
+                                success: function (quanxian) {
+                                    var qx = JSON.parse(quanxian)
+                                    for (var r = 0; r < qx.layers.length; r++) {
+                                        newGrp.addLayer(qx.layers[r].id)
+                                    }
+
+                                    for (var r = 0; r < qx.fields.length; r++) {
+                                        newGrp.addField(qx.fields[r].id)
+                                    }
+
+                                    for (var r = 0; r < qx.functions.length; r++) {
+                                        newGrp.addFun(qx.functions[r].id)
                                     }
 
                                     if (!layers) {
