@@ -216,10 +216,13 @@ $.ajax({
 
 
                 initSetPri = function (xGrp) {
-                    console.log(xGrp)
                     var lids = xGrp.nLayers
                     for (var l = 0; l < lids.length; l++) {
                         $("[layerId=" + lids[l] + "] input")[0].checked = true
+                    }
+
+                    for (var l = 0; l < xGrp.nFunctions.length; l++) {
+                        $("[funid=" + xGrp.nFunctions[l] + "] input")[0].checked = true
                     }
                 }
 
@@ -342,7 +345,7 @@ $.ajax({
                 }
 
                 refreshFunctions = function () {
-                    console.log('rrrrrrrr')
+                    console.log(newGrp)
                     $("#funList").empty()
                     function changeFunc(e) {
                         var el = e.target
@@ -363,6 +366,8 @@ $.ajax({
                                 newGrp.addFun(+ el.getAttribute('funid'))
                             }
                         }
+
+                        console.log(newGrp.nFunctions)
                     }
 
                     function changeAllFuncs(e) {
@@ -393,6 +398,8 @@ $.ajax({
                                 }
                             }
                         }
+
+                        console.log(newGrp.nFunctions)
                     }
 
                     if (!allFunctions) {
@@ -412,6 +419,8 @@ $.ajax({
                                 $(".changeFunction").click(function (e) {
                                     changeFunc(e)
                                 })
+
+                                initSetPri(newGrp)
                             }
                         })
                     } else {
@@ -428,6 +437,8 @@ $.ajax({
                         $(".changeFunction").click(function (e) {
                             changeFunc(e)
                         })
+
+                        initSetPri(newGrp)
                     }
                 }
 
@@ -505,13 +516,13 @@ $.ajax({
                                             success: function (layersForTree) {
                                                 refreshLayers(layersForTree)
                                                 refreshFunctions()
-                                                initSetPri(newGrp)
+
                                             }
                                         })
                                     } else {
                                         refreshLayers(layers)
                                         refreshFunctions()
-                                        initSetPri(newGrp)
+
                                     }
                                     $("#grpName")[0].value = nowGrp.name
                                     $("#addGrpDiv").show()
