@@ -1,6 +1,6 @@
 var departments = []
 var layers = null
-var allFunctions = [{ id: 1, name: "书签" }, { id: 2, name: "绘图" }, { id: 3, name: "测距离" }, { id: 4, name: "测面积" }]
+var allFunctions = null
 var nowUsers = []
 var nowGrp = {
     name: '',
@@ -192,10 +192,24 @@ $.ajax({
                         this.nLayers.splice(this.nLayers.indexOf(lid), 1)
                     },
                     addField: function (fid) {
-                        this.nFields.push(fid)
+                        if (this.nFields.indexOf(fid) !== -1) {
+                            return
+                        } else {
+                            this.nFields.push(fid)
+                        }
                     },
                     removeField: function (fid) {
                         this.nFields.splice(this.nFields.indexOf(fid), 1)
+                    },
+                    addFun: function (funid) {
+                        if (this.nFunctions.indexOf(funid) !== -1) {
+                            return
+                        } else {
+                            this.nFunctions.push(funid)
+                        }
+                    },
+                    removeFun: function (funid) {
+                        this.nFunctions.splice(this.nFunctions.indexOf(funid), 1)
                     }
                 }
 
@@ -328,17 +342,96 @@ $.ajax({
 
                 refreshFunctions = function () {
                     $("#funList").empty()
-                    $("#funList").append("<li class='list-group-item'><input type='checkbox' class='changeAllFunctions'>全选</li>")
-                    for (var j = 0; j < allFunctions.length; j++) {
-                        $("#funList").append("<li class='list-group-item' funid='" + allFunctions[j].id + "'><input class='changeFunction' type='checkbox'>" + allFunctions[j].name + "</li>")
+                    function changeFunc(e) {
+                        var el = e.target
+                        var elp = e.target.parentElement
+                        var elc = e.target.children[0]
+                        if (el.tagName === 'INPUT') {
+                            if (el.checked === true) {
+                                newGrp.addFun(+ elp.getAttribute('funid'))
+                            } else {
+                                newGrp.removeFun(+ elp.getAttribute('funid'))
+                            }
+                        } else if (el.tagName === 'LI') {
+                            if (elc.checked) {
+                                elc.checked = false
+                                newGrp.removeFun(+ el.getAttribute('funid'))
+                            } else {
+                                elc.checked = true
+                                newGrp.addFun(+ el.getAttribute('funid'))
+                            }
+                        }
                     }
 
-                    $(".changeAllFunctions").click(function (e) {
-                        var checked = e.currentTarget.checked
-                    })
-                    $(".changeFunction").click(function (e) {
-                        var checked = e.currentTarget.checked
-                    })
+                    function changeAllFuncs(e) {
+                        if (e.target.tagName === 'INPUT') {
+                            if (e.target.checked) {
+                                for (var f = 0; f < $("[funid]").length; f++) {
+                                    $("[funid] input")[f].checked = true
+                                    newGrp.addLayer(+ $("[funid]")[f].getAttribute('funid'))
+                                }
+                            } else {
+                                for (var ff = 0; ff < $("[funid]").length; ff++) {
+                                    $("[funid] input")[ff].checked = false
+                                    newGrp.removeLayer(+ $("[funid]")[ff].getAttribute('funid'))
+                                }
+                            }
+                        } else if (e.target.tagName === 'LI') {
+                            if (e.target.children[0].checked) {
+                                e.target.children[0].checked = false
+                                for (var g = 0; g < $("[funid]").length; g++) {
+                                    $("[funid] input")[g].checked = false
+                                    newGrp.removeLayer(+ $("[funid]")[g].getAttribute('funid'))
+                                }
+                            } else {
+                                e.target.children[0].checked = true
+                                for (var gg = 0; gg < $("[funid]").length; gg++) {
+                                    $("[funid] input")[gg].checked = true
+                                    newGrp.addLayer(+ $("[funid]")[gg].getAttribute('funid'))
+                                }
+                            }
+                        }
+                    }
+
+                    if (!allFunctions) {
+                        $.ajax({
+                            type: 'get',
+                            url: "http://" + serverIP + ":" + serverPort + "/allFunctions",
+                            success: function (res) {
+
+                                allFunctions = res
+
+                                $("#funList").append("<li class='list-group-item changeAllFunctions'><input type='checkbox'>全选</li>")
+                                for (var j = 0; j < allFunctions.length; j++) {
+                                    $("#funList").append("<li class='list-group-item changeFunction' funid='" + allFunctions[j].id + "'><input type='checkbox'>" + allFunctions[j].name + "</li>")
+                                }
+
+                                $(".changeAllFunctions").click(function (e) {
+                                    changeAllFuncs(e)
+                                    console.log(newGrp.nFunctions)
+                                })
+                                $(".changeFunction").click(function (e) {
+                                    changeFunc(e)
+                                    console.log(newGrp.nFunctions)
+                                })
+                            }
+                        })
+                    } else {
+
+                        $("#funList").append("<li class='list-group-item changeFunctions'><input type='checkbox'>全选</li>")
+                        for (var j = 0; j < allFunctions.length; j++) {
+                            $("#funList").append("<li class='list-group-item changeFunction' funid='" + allFunctions[j].id + "'><input type='checkbox'>" + allFunctions[j].name + "</li>")
+                        }
+
+                        $(".changeAllFunctions").click(function (e) {
+                            changeAllFuncs(e)
+                        })
+                        $(".changeFunction").click(function (e) {
+                            changeFunc(e)
+                            console.log(newGrp.nFunctions)
+                        })
+                    }
+
                 }
 
                 //添加权限组
