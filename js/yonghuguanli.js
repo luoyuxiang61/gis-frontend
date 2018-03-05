@@ -237,10 +237,33 @@ $.ajax({
                     var fieldList = $("#fieldList")
                     fieldList.empty()
                     for (var f = 0; f < fds.length; f++) {
-                        fieldList.append("<li class='list-group-item' fdid='" + fds[f].id + "'><input type='checkbox'>" + fds[f].DisplayName + "</li>")
+                        var chc = newGrp.nFields.indexOf(fds[f].id) !== -1
+                        if (chc) {
+                            fieldList.append("<li class='list-group-item' fdid='" + fds[f].id + "'><input checked type='checkbox'>" + fds[f].DisplayName + "</li>")
+                        } else {
+                            fieldList.append("<li class='list-group-item' fdid='" + fds[f].id + "'><input type='checkbox'>" + fds[f].DisplayName + "</li>")
+                        }
+
                     }
                     $("li[fdid]").click(function (e) {
-                        console.log(+ e.currentTarget.getAttribute('fdid'))
+                        if (e.target.tagName === 'INPUT') {
+                            checked = e.target.checked
+                        } else {
+                            e.target.children[0].checked = !e.target.children[0].checked
+                            checked = e.target.children[0].checked
+                        }
+
+                        var fdid = + e.currentTarget.getAttribute('fdid')
+
+                        if (checked) {
+                            newGrp.addField(fdid)
+                        } else {
+                            newGrp.removeField(fdid)
+                        }
+
+                        console.log(newGrp.nFields)
+
+
                     })
 
 
