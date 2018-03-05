@@ -232,7 +232,9 @@ $.ajax({
                     for (var f = 0; f < fds.length; f++) {
                         fieldList.append("<li class='list-group-item' fdid='" + fds[f].id + "'><input type='checkbox'>" + fds[f].DisplayName + "</li>")
                     }
-
+                    $("li[fdid]").click(function (e) {
+                        console.log(+ e.currentTarget.getAttribute('fdid'))
+                    })
 
 
 
