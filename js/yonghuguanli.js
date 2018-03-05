@@ -321,6 +321,9 @@ $.ajax({
                         var el = e.target.tagName === 'INPUT' ? e.target : e.target.children[0]
 
                         if (e.target.tagName !== 'INPUT') {
+                            $(".changeLayer").removeClass('active')
+                            e.target.classList.add('active')
+
                             $("#fieldList").empty()
                             if (e.target.getAttribute('layerType') === 'FeatureLayer') {
                                 var flid = + e.target.getAttribute('layerId')

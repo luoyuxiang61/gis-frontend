@@ -205,12 +205,14 @@
         }
 
         #layerList div.father {
-            background-color: tan;
+            background-color: rgb(247, 253, 250);
             padding: 5px;
+            margin-bottom: 5px;
+            cursor: pointer;
         }
         
         #layerList div.father:nth-child(1) {
-            background: yellowgreen;
+            background: rgb(247, 253, 250);
         }
 
         #layerList ul.son {
@@ -218,13 +220,25 @@
         }
 
         #layerList li.son {
-            background-color: silver;
             padding: 2px;
             cursor: default;
         }
+
         #layerList li.son:hover {
             background: #eee;
+            color: black;
         }
+
+        #layerList li.son.active {
+            color: white;
+        }
+
+        #layerList li.son.active:hover {
+            color: white;
+            background: #337ab7;
+        }
+
+
 
         #layerList input[type=checkbox],#funList input[type=checkbox]  {
             cursor: pointer;
