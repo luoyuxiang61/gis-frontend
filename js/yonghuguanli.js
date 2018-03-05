@@ -143,7 +143,7 @@ $.ajax({
             for (var j = 0; j < grps.length; j++) {
                 $("#grpContainer").append("<div class='grpBtn' grpId='" + grps[j].id + "'>" + grps[j].name + "</div>")
             }
-            $("#grpContainer").append("<button title='配置权限组' class='btn btn-primary btn-sm grpCfg'><i class='fa fa-cog'></i></button> <button title='删除权限组' class='btn btn-default btn-sm grpEdit'><i class='fa fa-trash-alt'></i></button><button title='添加权限组' class='btn btn-default btn-sm grpEdit'><i class='fa fa-plus'></i></button>")
+            $("#grpContainer").append("<button title='添加权限组' class='btn btn-default btn-sm grpEdit'><i class='fa fa-plus'></i></button>")
             getUsersInDepa(depaId)
 
 
@@ -151,25 +151,25 @@ $.ajax({
 
             grpClick = function () {
                 //删除权限组
-                $("[title=删除权限组]").click(function () {
-                    if (!nowGrp.id) {
-                        alert('请先选中一个权限组。')
-                        return
-                    } else {
-                        if (confirm("确定要删除【" + nowDepaName + "】的权限组【" + nowGrp.name + "】吗？")) {
-                            $.ajax({
-                                url: "http://" + serverIP + ":" + serverPort + "/deleteGroup",
-                                type: 'post',
-                                data: {
-                                    grpId: nowGrp.id
-                                },
-                                success: function (res) {
-                                    setTimeout(reloadGrps, 1000)
-                                }
-                            })
-                        }
-                    }
-                })
+                // $("[title=删除权限组]").click(function () {
+                //     if (!nowGrp.id) {
+                //         alert('请先选中一个权限组。')
+                //         return
+                //     } else {
+                //         if (confirm("确定要删除【" + nowDepaName + "】的权限组【" + nowGrp.name + "】吗？")) {
+                //             $.ajax({
+                //                 url: "http://" + serverIP + ":" + serverPort + "/deleteGroup",
+                //                 type: 'post',
+                //                 data: {
+                //                     grpId: nowGrp.id
+                //                 },
+                //                 success: function (res) {
+                //                     setTimeout(reloadGrps, 1000)
+                //                 }
+                //             })
+                //         }
+                //     }
+                // })
 
 
 
@@ -420,6 +420,8 @@ $.ajax({
                                 }
                             }
                         }
+
+                        console.log(newGrp)
                     }
 
                     if (!allFunctions) {
@@ -703,7 +705,7 @@ reloadGrps = function () {
             for (var j = 0; j < res.length; j++) {
                 $("#grpContainer").append("<div class='grpBtn' grpId='" + res[j].id + "'>" + res[j].name + "</div>")
             }
-            $("#grpContainer").append("<button title='配置权限组' class='btn btn-primary btn-sm grpCfg'><i class='fa fa-cog'></i></button> <button title='删除权限组' class='btn btn-default btn-sm grpEdit'><i class='fa fa-trash-alt'></i></button><button title='添加权限组' class='btn btn-default btn-sm grpEdit'><i class='fa fa-plus'></i></button>")
+            $("#grpContainer").append("<button title='添加权限组' class='btn btn-default btn-sm grpEdit'><i class='fa fa-plus'></i></button>")
             nowGrp.name = ''
             nowGrp.id = null
             grpClick()
@@ -730,6 +732,8 @@ $("#saveGrp").click(function (e) {
                     $("#addGrpDiv").hide()
                     $("#grayBack").hide()
                     reloadGrps()
+                } else {
+                    alert("发生错误！")
                 }
             }
         })
