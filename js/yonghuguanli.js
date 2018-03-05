@@ -217,13 +217,20 @@ $.ajax({
 
                 initSetPri = function (xGrp) {
                     var lids = xGrp.nLayers
-                    for (var l = 0; l < lids.length; l++) {
-                        $("[layerId=" + lids[l] + "] input")[0].checked = true
+                    if (lids.length >= 1) {
+                        for (var l = 0; l < lids.length; l++) {
+                            if ($("[layerId=" + lids[l] + "] input")[0]) {
+                                $("[layerId=" + lids[l] + "] input")[0].checked = true
+                            }
+                        }
                     }
 
-                    for (var l = 0; l < xGrp.nFunctions.length; l++) {
-                        $("[funid=" + xGrp.nFunctions[l] + "] input")[0].checked = true
+                    if (xGrp.nFunctions.length >= 1) {
+                        for (var l = 0; l < xGrp.nFunctions.length; l++) {
+                            $("[funid=" + xGrp.nFunctions[l] + "] input")[0].checked = true
+                        }
                     }
+
                 }
 
                 refreshFields = function (fds) {
