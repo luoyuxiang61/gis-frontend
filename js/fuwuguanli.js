@@ -8,6 +8,10 @@ $.ajax({
         }
 
         $(".layerGroup").on('click', function (e) {
+
+            let sort = []
+
+
             $(".layerGroup").removeClass('active')
             this.classList.add('active')
             var index = this.getAttribute('index')
@@ -15,12 +19,13 @@ $.ajax({
             $("#mainT").empty()
             for (var j = 0; j < sons.length; j++) {
                 son = sons[j]
+                sort.push(son.id)
                 var isVisible = son.IsVisible == 1 ? '是' : '--'
-                $("#mainT").append("<tr><td class='col-xs-1'>" + son.DisplayName +
+                $("#mainT").append("<tr lid='" + son.id + "'><td class='col-xs-1'>" + son.DisplayName +
                     "</td><td class='col-xs-5'><a target='_blank' href='" + son.ServiceUrl + "'>" + son.ServiceUrl
                     + "</a></td><td class='col=xs-1'>" + son.LayerType
                     + "</td><td class='col-xs-1'>" + isVisible
-                    + "</td><td lid='" + son.id + "' title='桌面端配置' class='col-xs-1 desktop'><i lid='" + son.id + "' class='fa fa-laptop desktop'></i></td><td lid='" + son.id + "' class='col-xs-1 mobile'><i lid='" + son.id + "' class='fa fa-mobile-alt'></i></td>"
+                    + "</td><td index='" + j + "' lid='" + son.id + "' title='桌面端配置' class='col-xs-1 desktop'><i lid='" + son.id + "' class='fa fa-laptop desktop'></i></td><td index='" + j + "' lid='" + son.id + "' class='col-xs-1 mobile'><i lid='" + son.id + "' class='fa fa-mobile-alt'></i></td>"
                     + "<td class='col-xs-1 up'><i class='fas fa-arrow-up up'></i></td><td class='col-xs-1 down'><i class='fas fa-arrow-down down'></i></td>"
                     + "</tr>")
             }

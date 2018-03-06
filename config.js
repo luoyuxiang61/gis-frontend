@@ -1,6 +1,6 @@
 //后台服务器地址
-// var serverIP = "192.168.0.163"
-var serverIP = "localhost"
+var serverIP = "192.168.0.163"
+// var serverIP = "localhost"
 var serverPort = "3000"
 
 
