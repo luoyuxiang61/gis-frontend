@@ -751,6 +751,7 @@ reloadGrps = function () {
 
 // 点击保存权限组
 $("#saveGrp").click(function (e) {
+    e.currentTarget.disabled = true
     newGrp.name = document.getElementById("grpName").value.trim()
     if (!newGrp.name) {
         alert('请输入权限组名！')

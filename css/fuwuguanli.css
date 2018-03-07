@@ -65,6 +65,7 @@
             height: 100%;
             background-color: white;
             padding: 0;
+            position: relative;
         }
 
         #mainTable {
@@ -75,11 +76,29 @@
         }
 
         #tBody {
-            max-height: 700px;
-            height: 90%;
+            position: absolute;
+            left: 0px;
+            right: 0px;
+            top: 40px;
+            bottom: 60px;
             overflow-y: scroll;
             word-break: break-all;
             word-wrap: break-all;
+        }
+
+        #tBar {
+            position: absolute;
+            left: 0px;
+            right: 0px;
+            bottom: 10px;
+            height: 48px;
+            border-top: 2px solid gray;
+            text-align: center;
+            padding-top: 5px;
+        }
+
+        #tBar button {
+            margin-right: 15px;
         }
 
         #tHead {
