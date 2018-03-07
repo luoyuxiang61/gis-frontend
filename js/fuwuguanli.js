@@ -8,10 +8,7 @@ $.ajax({
         }
 
         $(".layerGroup").on('click', function (e) {
-
-            let sort = []
-
-
+            var sort = []
             $(".layerGroup").removeClass('active')
             this.classList.add('active')
             var index = this.getAttribute('index')
@@ -19,9 +16,8 @@ $.ajax({
             $("#mainT").empty()
             for (var j = 0; j < sons.length; j++) {
                 son = sons[j]
-                sort.push(son.id)
                 var isVisible = son.IsVisible == 1 ? '是' : '--'
-                $("#mainT").append("<tr lid='" + son.id + "'><td class='col-xs-1'>" + son.DisplayName +
+                $("#mainT").append("<tr lid='" + son.id + "' class='oneLayer'><td class='col-xs-1'>" + son.DisplayName +
                     "</td><td class='col-xs-5'><a target='_blank' href='" + son.ServiceUrl + "'>" + son.ServiceUrl
                     + "</a></td><td class='col=xs-1'>" + son.LayerType
                     + "</td><td class='col-xs-1'>" + isVisible
@@ -30,48 +26,56 @@ $.ajax({
                     + "</tr>")
             }
 
+            $("i.up").click(function (e) {
+                var mt = document.getElementById('mainT')
+                var nowTr = e.currentTarget.parentElement.parentElement
+                var preTr = nowTr.previousElementSibling
+                if (preTr) {
+                    mt.insertBefore(nowTr, preTr)
+                } else {
+                    mt.appendChild(nowTr)
+                }
+                nowTr.style.backgroundColor = 'greenyellow'
+                setTimeout(function () {
+                    nowTr.style.backgroundColor = ''
+                }, 600)
 
+                sort = Array.prototype.slice.call(document.getElementsByClassName('oneLayer'))
+                    .map(function (x) {
+                        return + x.getAttribute('lid')
+                    })
 
-            function upClick() {
-                $("i.up").click(function (e) {
-                    var mainT = document.getElementById("mainT")
-                    var allTr = mainT.children
-                    var nowTr = this.parentElement.parentElement
-                    console.log(nowTr)
-                    var nowHTML = nowTr.innerHTML
-                    var preTr = nowTr.previousElementSibling
-                    if (preTr !== null) {
-                        var preHTML = preTr.innerHTML
-                        nowTr.innerHTML = preHTML
-                        preTr.innerHTML = nowHTML
-                    } else {
-                        var firstHTML = allTr[0].innerHTML
-                        var lastHTML = allTr[allTr.length - 1].innerHTML
-
-                        for (var x = 0; x < allTr.length - 1; x++) {
-                            allTr[x].innerHTML = allTr[x + 1].innerHTML
-                        }
-                        allTr[allTr.length - 1].innerHTML = firstHTML
-                    }
-                    upClick()
-                })
-            }
-            upClick()
-
-
-
-
-
+                console.log(sort)
+            })
 
             $("i.down").click(function (e) {
-                var mainT = document.getElementById("mainT")
+                var mt = document.getElementById('mainT')
+                var nowTr = e.currentTarget.parentElement.parentElement
+                var nextTr = nowTr.nextElementSibling
+                if (nextTr) {
+                    mt.insertBefore(nextTr, nowTr)
+                } else {
+                    mt.insertBefore(nowTr, mt.firstElementChild)
+                }
 
-                var nowTr = this.parentElement.parentElement
-                var nextTr = nowTr.nextElementSibling || mainT.firstElementChild
+                nowTr.style.backgroundColor = 'greenyellow'
+                setTimeout(function () {
+                    nowTr.style.backgroundColor = ''
+                }, 600)
 
-                console.log(nowTr)
-                console.log(nextTr)
+                sort = Array.prototype.slice.call(document.getElementsByClassName('oneLayer'))
+                    .map(function (x) {
+                        return + x.getAttribute('lid')
+                    })
+
+                console.log(sort)
+
             })
+
+
+
+
+
 
             $("td.desktop").click(function (e) {
                 $("#editHeader i").addClass('fas fa-laptop')
