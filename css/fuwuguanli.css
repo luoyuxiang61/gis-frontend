@@ -215,3 +215,13 @@
             max-height: 95%;
             overflow-y: auto;
         }
+
+
+        #okTip {
+            position: fixed;
+            color: green;
+            top: 40%;
+            left: 49%;
+            z-index: 99999;
+            display: none;
+        }

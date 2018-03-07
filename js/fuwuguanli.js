@@ -535,7 +535,13 @@ $("#saveOrder").click(function () {
                 sort: JSON.stringify(sort)
             },
             success: function (res) {
-                console.log(res)
+                if (res === 'ok') {
+                    var okTip = document.getElementById('okTip')
+                    okTip.style.display = 'block'
+                    setTimeout(function () {
+                        okTip.style.display = 'none'
+                    }, 1000)
+                }
             }
         })
     }
