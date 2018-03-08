@@ -1,89 +1,23 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-cn">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>服务管理</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>设备管理</title>
     <script src="./config.js"></script>
     <script src="./lib/jquery-3.2.1.min.js"></script>
     <script src="./lib/jcookie/jquery.cookie.js"></script>
-    <script src="./js/checkLogin.js"></script>
     <link rel="stylesheet" href="./lib/bootstrap-3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="./lib/bootstrap3-editable/css/bootstrap-editable.css">
     <script src="./lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
     <script src="./lib/bootstrap3-editable/js/bootstrap-editable.js"></script>
-    <script src="http://192.168.0.163:8007/arcgis_js_api/library/3.22/3.22compact/init.js"></script>
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-    <link rel="stylesheet" href="./css/fuwuguanli.css">
+    <link rel="stylesheet" href="./css/shebeiguanli.css">
 </head>
 
 <body>
-
-    <!-- 成功提示 -->
-    <div id="okTip">
-        <i class="fas fa-check fa-9x"></i>
-    </div>
-
-    <!-- 弹出框背景 -->
-    <div id="grayBack">
-        <i id="closeEdit" title="关闭" class="far fa-window-close fa-3x"></i>
-    </div>
-    <!-- 编辑图层的弹出框 -->
-    <div id="editContainer">
-        <div id="editHeader">
-            <i class="fas fa-laptop fa-1x"></i>
-        </div>
-        <div id="editMain">
-            <div id="serviceContainer" class="col-md-8 col-md-offset-2">
-                <table id="service" class="table table-bordered table-striped table-hover">
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-
-            <div id="goFields" class="col-md-1">
-                <button title="查看字段属性">
-                    <span class="glyphicon glyphicon-menu-right"></span>
-                </button>
-            </div>
-
-            <div id="fieldsContainer" class="col-md-8 col-md-offset-2">
-                <div id="fields">
-                    <div id="fieldsTh" style="overflow-y:scroll;">
-                        <table class="table table-bordered" style="margin:0">
-                            <tbody>
-                                <tr>
-                                    <td class="col-xs-2">字段名称</td>
-                                    <td class="col-xs-1">序号</td>
-                                    <td class="col-xs-3">显示名称</td>
-                                    <td class="col-xs-1">单位</td>
-                                    <td class="col-xs-1">显示</td>
-                                    <td class="col-xs-1">搜索</td>
-                                    <td class="col-xs-1">标注</td>
-                                    <td class="col-xs-2">转换为亩</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div id="fieldsTb" style="overflow-y:scroll">
-                        <table class="table table-bordered table-striped table-hover" style="margin:0">
-                            <tbody id="tbd"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div id="goService">
-                <button title="查看图层属性">
-                    <span class="glyphicon glyphicon-menu-left"></span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -94,13 +28,13 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="active">
-                        <a href="#">服务管理</a>
+                    <li>
+                        <a href="fuwuguanli.html">服务管理</a>
                     </li>
                     <li>
                         <a href="yonghuguanli.html">用户管理</a>
                     </li>
-                    <li>
+                    <li class="active">
                         <a href="shebeiguanli.html">设备管理</a>
                     </li>
                     <li class="dropdown">
@@ -149,34 +83,48 @@
                     </li>
                 </ul>
             </div>
-            <!-- /.navbar-collapse -->
         </div>
-        <!-- /.container-fluid -->
     </nav>
+
 
 
     <!-- 主界面容器 -->
     <div class="container-fluid" id="mainView">
         <div class="row">
-            <div class="col-md-2 col-xs-2" id="treeContainer">
-                <!-- <div id="treeHead">服务分组</div> -->
-                <ul id="layerGroupList">
+            <div class="col-md-2 col-xs-2 col-lg-2" id="treeContainer">
+                <ul id="deviceType">
+                    <li>
+                        <div>
+                            <span>android</span>
+                            <i class="fab fa-android fa-2x"></i>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <span>iphone</span>
+                            <i class="fas fa-mobile fa-2x"></i>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <span>ipad</span>
+                            <i class="fas fa-tablet fa-2x"></i>
+                        </div>
+                    </li>
                 </ul>
             </div>
-            <div class="col-md-10 col-xs-2" id="mainContainer">
+
+            <div class="col-md-10 col-xs-10 col-lg-10" id="mainContainer">
                 <div id="tHead">
                     <table class="table">
                         <thead>
                             <tr>
-                                <!-- <th class="col-xs-1">服务名称</th> -->
-                                <th class="col-xs-1">显示名称</th>
-                                <th class="col-xs-5 col-md-5">服务url</th>
-                                <th class="col-xs-1">图层类型</th>
-                                <th class="col-xs-1">是否显示</th>
-                                <th class="col-xs-1">desktop</th>
-                                <th class="col-xs-1">mobile</th>
-                                <th class="col-xs-1">up</th>
-                                <th class="col-xs-1">down</th>
+                                <th class="col-xs-3">UUID</th>
+                                <th class="col-xs-2">设备型号</th>
+                                <th class="col-xs-3">操作系统版本</th>
+                                <th class="col-xs-2">使用者</th>
+                                <th class="col-xs-1">在线</th>
+                                <th class="col-xs-1">离线</th>
                             </tr>
                         </thead>
                     </table>
@@ -185,21 +133,35 @@
                 <div id="tBody">
                     <table class="table table-hover table-striped">
                         <tbody id="mainT">
+                            <tr>
+                                <td class="col-xs-3">asdasdasdasdasdasfdcdfvzdcwsfde</td>
+                                <td class="col-xs-2">mi 7</td>
+                                <td class="col-xs-3">android 8.0 oreo</td>
+                                <td class="col-xs-2">
+                                    <i class="fas fa-users"></i>
+                                </td>
+                                <td class="col-xs-1">
+                                    <i class="fas fa-check"></i>
+                                </td>
+                                <td class="col-xs-1">
+                                    <i class="fas fa-check"></i>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
 
                 <div id="tBar">
-                    <button id="syncLayers" title="刷新" class="btn btn-primary">
+                    <button id="syncDevices" title="刷新" class="btn btn-primary">
                         <i class="fas fa-sync fa-2x"></i>
-                    </button>
-                    <button id="saveOrder" title="保存图层顺序" class="btn btn-success">
-                        <i class="fas fa-list-ol fa-2x"></i>
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="./js/fuwuguanli.js"></script>
+
+    <script src="./js/shebeiguanli.js"></script>
 </body>
+
+</html>
