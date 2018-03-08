@@ -16,7 +16,8 @@
 <body>
 
   <div class="wrapper">
-    <img src="./images/login-title.png" id="logo">
+    <div id="logo">
+    </div>
     <form class="form-signin">
       <div class="inner-addon left-addon">
         <label class="control-label">用户名</label>
@@ -35,6 +36,13 @@
   </div>
 
 
+  <script>
+    var span = document.createElement('span')
+    span.innerHTML = "<b>" + systemName + "</b>"
+    var logo = document.getElementById('logo')
+    logo.innerHTML = ''
+    logo.appendChild(span)
+  </script>
   <script src="./lib/jquery-3.2.1.min.js"></script>
   <script src="./lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
   <script src="./lib/jcookie/jquery.cookie.js"></script>

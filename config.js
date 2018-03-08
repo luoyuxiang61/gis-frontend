@@ -9,6 +9,13 @@ var gisServerIP = "192.168.0.163"
 var gisServerPort = "6080"
 
 
+
 // jsapi服务器地址（不可在此修改，须修改index.html最下src的地址)
 var jsApiServerIP = "192.168.0.163"
 var jsApiServerPort = "8007"
+
+
+
+
+//系统名称
+var systemName = "苏州市高新区GIS发布系统"

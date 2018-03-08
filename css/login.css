@@ -5,6 +5,8 @@ body {
 
 #logo{
   margin-bottom: 15px;
+  color: steelblue;
+  font-size: 40px;
 }
 
 .wrapper {	
