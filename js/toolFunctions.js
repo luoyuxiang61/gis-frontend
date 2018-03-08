@@ -142,7 +142,7 @@ function enableMeasure() {
                 console.log(p1)
                 var d0P = new aPoint((p1.x + p2.x) / 2, (p1.y + p2.y) / 2, new aSpatialReference({ wkid: 2437 }));
                 var font = new aFont("20px", aFont.STYLE_NORMAL, aFont.VARIANT_NORMAL, aFont.WEIGHT_BOLDER)
-                var dSymbol = new aTextSymbol(d0, font, new aColor([0, 255, 0]))
+                var dSymbol = new aTextSymbol(d0 + "km", font, new aColor([0, 255, 0]))
                 var dGra = new aGraphic(d0P, dSymbol);
                 map.graphics.add(dGra);
 
