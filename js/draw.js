@@ -1,6 +1,6 @@
 var area = 0;
 
-function  startMeasure(shape) {
+function startMeasure(shape) {
     activateTool(shape.toUpperCase().replace(/ /g, "_"))
 }
 
@@ -33,13 +33,13 @@ function addToMap(evt) {
         case "multipoint":
             symbol = new aSimpleMarkerSymbol(aSimpleMarkerSymbol.STYLE_CIRCLE, 20,
                 new aSimpleLineSymbol(aSimpleLineSymbol.STYLE_SOLID,
-                    new aColor([255,0,0]), 1),
-                new aColor([255,0,0,0.9]));
+                    new aColor([255, 0, 0]), 1),
+                new aColor([255, 0, 0, 0.9]));
             break;
         case "polyline":
             symbol = new aCartographicLineSymbol(
                 aCartographicLineSymbol.STYLE_SOLID,
-                new aColor([255, 0, 0,0.7]), 2,
+                new aColor([255, 0, 0, 0.7]), 2,
                 aCartographicLineSymbol.CAP_ROUND,
                 aCartographicLineSymbol.JOIN_MITER, 2
             );
@@ -51,9 +51,9 @@ function addToMap(evt) {
     var graphic = new aGraphic(evt.geometry, symbol);
     map.graphics.add(graphic);
 
-    if(nowMeasure === 'area') {
-        console.log(ageometryEngine.planarArea(evt.geometry,'square-meters'))
-        area = ageometryEngine.planarArea(evt.geometry,'square-meters');
+    if (nowMeasure === 'area') {
+        console.log(ageometryEngine.planarArea(evt.geometry, 'square-kilometers'))
+        area = ageometryEngine.planarArea(evt.geometry, 'square-kilometers');
         showArea();
     }
 }
