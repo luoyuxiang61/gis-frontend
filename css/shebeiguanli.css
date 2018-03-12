@@ -102,6 +102,11 @@
             text-align: left;
         }
 
+        i.editDevice:hover {
+            cursor: pointer;
+            color: blue;
+        }
+
 
         #tBar {
             position: absolute;
@@ -109,7 +114,6 @@
             right: 0px;
             bottom: 10px;
             height: 48px;
-            border-top: 2px solid gray;
             text-align: center;
             padding-top: 5px;
         }
