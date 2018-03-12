@@ -18,6 +18,31 @@
 </head>
 
 <body>
+    <!-- 灰色背景 -->
+    <div id="grayBack">
+        <i id="closeEdit" title="关闭" class="far fa-window-close fa-3x"></i>
+    </div>
+
+    <!-- 弹出框，管理当前设备 -->
+    <div class="top" id="editDeviceDiv">
+        <div class="form-grp">
+            <label for="">开启在线版</label>
+            <input type="checkbox">
+        </div>
+        <div class="form-grp">
+            <label for="">开启离线版</label>
+            <input type="checkbox">
+        </div>
+
+        <div class="btns">
+            <button id="saveDevice" class="btn btn-success btn-sm">保存</button>
+            <button id="canelEdit" class="btn btn-default btn-sm">取消</button>
+        </div>
+    </div>
+
+
+
+
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -129,8 +154,8 @@
                                 <th class="col-xs-2">设备型号</th>
                                 <th class="col-xs-2">操作系统</th>
                                 <th class="col-xs-2">使用者</th>
-                                <th class="col-xs-1">在线</th>
-                                <th class="col-xs-1">离线</th>
+                                <th class="col-xs-1">在线版</th>
+                                <th class="col-xs-1">离线版</th>
                                 <th class="col-xs-1">管理</th>
                             </tr>
                         </thead>

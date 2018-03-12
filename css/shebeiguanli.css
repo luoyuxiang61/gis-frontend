@@ -102,11 +102,10 @@
             text-align: left;
         }
 
-        i.editDevice:hover {
+        i.editDeviceBtn:hover,i.fa-users:hover {
             cursor: pointer;
             color: blue;
         }
-
 
         #tBar {
             position: absolute;
@@ -121,3 +120,61 @@
         #tBar button {
             margin-right: 15px;
         }
+
+
+        #editDeviceDiv {
+            text-align: center;
+            display: none;
+            position: absolute;
+            width: 30%;
+            height: 300px;
+            left: 35%;
+            top: 10%;
+            background: white;
+            z-index: 1200;
+        }
+
+        #editDeviceDiv div.form-grp {
+            margin-bottom: 15px;
+        }
+
+        #editDeviceDiv div.btns {
+            position: absolute;
+            width: 100%;
+            bottom: 2px;
+        }
+
+        #saveDevice {
+            margin-right: 40px;
+        }
+
+        #grayBack {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            background-color: rgba(128, 128, 128, 0.548);
+            z-index: 999;
+            display: none;
+
+            transition-property: background-color;
+            transition-duration: 2s;
+            transition-timing-function: ease;
+        }
+
+        #grayBack:hover {
+            background-color: rgba(107, 107, 107, 0.623);
+        }
+
+        #closeEdit {
+            display: block;
+            float: right;
+            cursor: pointer;
+            color: black;
+        }
+
+        #closeEdit:hover {
+            color: white;
+        }
+
