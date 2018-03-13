@@ -220,12 +220,7 @@ var refreshLayers = function (lgid) {
                                 dataType: 'json'
                             },
                             success: function (response) {
-                                if (!(response[0] == 1)) {
-                                    return "发生错误";
-                                }
-                                if (response.success === false) {
-                                    return response.msg;
-                                }
+                                if (response === 'err') return '发生错误'
                             }
                         })
                     })
@@ -248,13 +243,7 @@ var refreshLayers = function (lgid) {
                         dataType: 'json'
                     },
                     success: function (response) {
-                        if (!(response[0] == 1)) {
-                            return "发生错误";
-                        }
-
-                        if (response.success === false) {
-                            return response.msg;
-                        }
+                        if (response === 'err') return '发生错误'
                     }
                 })
 
@@ -265,12 +254,7 @@ var refreshLayers = function (lgid) {
                         dataType: 'json'
                     },
                     success: function (response) {
-                        if (!(response[0] == 1)) {
-                            return "发生错误";
-                        }
-                        if (response.success === false) {
-                            return response.msg;
-                        }
+                        if (response === 'err') return '发生错误'
                     }
 
                 })
@@ -431,12 +415,7 @@ var refreshLayers = function (lgid) {
                                 dataType: 'json'
                             },
                             success: function (response) {
-                                if (!(response[0] == 1)) {
-                                    return "发生错误";
-                                }
-                                if (response.success === false) {
-                                    return response.msg;
-                                }
+                                if (response === 'err') return '发生错误'
                             }
                         })
                     })
@@ -459,13 +438,7 @@ var refreshLayers = function (lgid) {
                         dataType: 'json'
                     },
                     success: function (response) {
-                        if (!(response[0] == 1)) {
-                            return "发生错误";
-                        }
-
-                        if (response.success === false) {
-                            return response.msg;
-                        }
+                        if (response === 'err') return '发生错误'
                     }
                 })
 
@@ -476,12 +449,7 @@ var refreshLayers = function (lgid) {
                         dataType: 'json'
                     },
                     success: function (response) {
-                        if (!(response[0] == 1)) {
-                            return "发生错误";
-                        }
-                        if (response.success === false) {
-                            return response.msg;
-                        }
+                        if (response === 'err') return '发生错误'
                     }
                 })
             })
@@ -490,7 +458,7 @@ var refreshLayers = function (lgid) {
 }
 
 $.ajax({
-    type: 'post',
+    type: 'get',
     async: false,
     url: "http://" + serverIP + ":" + serverPort + "/layersForTree",
     success: function (layersForTree) {

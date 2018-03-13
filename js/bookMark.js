@@ -99,13 +99,15 @@ function starHere() {
         url: "http://" + serverIP + ":" + serverPort + "/addBookmark",
         type: 'post',
         data: {
-            userId: user.userId,
-            wkid: ext.spatialReference.wkid,
-            xmin: ext.xmin,
-            ymin: ext.ymin,
-            xmax: ext.xmax,
-            ymax: ext.ymax,
-            name: name
+            mark: JSON.stringify({
+                wkid: ext.spatialReference.wkid,
+                xmin: ext.xmin,
+                ymin: ext.ymin,
+                xmax: ext.xmax,
+                ymax: ext.ymax
+            }),
+            name: name,
+            userId: user.userId
         },
         success: function (res) {
             console.log(res);
