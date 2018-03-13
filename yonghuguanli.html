@@ -26,6 +26,18 @@
         <i id="closeEdit" title="关闭" class="far fa-window-close fa-3x"></i>
     </div>
 
+    <!-- 添加/修改部门 -->
+    <div id="addDepaDiv" class="top">
+        <div>
+            <label for="depaName">部门名称：</label>
+            <input type="text" name="depaName" id="depaName">
+        </div>
+        <div class="btns">
+            <button id="saveDepa" class="btn btn-success">保存</button>
+            <button id="cancelDepa" class="btn btn-danger">取消</button>
+        </div>
+    </div>
+
     <!-- 添加/修改权限组 -->
     <div id="addGrpDiv" class="top">
         <label for="grpName">权限组名称：</label>
@@ -202,6 +214,17 @@
             <div class="col-md-2 col-xs-2 col-lg-2" id="treeContainer">
                 <ul id="departmentList">
                 </ul>
+                <div class="btns">
+                    <button id="addDepa" class="btn btn-default">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <button id="editDepa" class="btn btn-default">
+                        <i class="far fa-edit"></i>
+                    </button>
+                    <button id="deleteDepa" class="btn btn-default">
+                        <i class="far fa-trash-alt"></i>
+                    </button>
+                </div>
             </div>
 
             <div class="col-md-10 col-xs-10 col-lg-10" id="mainContainer">

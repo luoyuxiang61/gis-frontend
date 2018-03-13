@@ -22,6 +22,7 @@
             background-color: #f5f7fa;
             padding: 0;
             background-image: linear-gradient(to bottom, #f5f7fa, #dce9fd);
+            position: relative;
         }
 
         #treeHead {
@@ -59,6 +60,14 @@
             background-color: #dadaf8;
             color: black;
         }
+
+        #treeContainer div.btns {
+            position: absolute;
+            width: 100%;
+            bottom: 5px;
+            text-align: center;
+        }
+        
 
 
         #mainView>.row>#mainContainer {
@@ -117,6 +126,7 @@
         }
         #tBar button {
             border-radius: 0;
+            margin-right: 15px;
         }
 
         /* 权限组 */
@@ -146,13 +156,42 @@
         }
 
         .grpEdit {
-            float: right;
+            margin-left: 10px;
             min-width: 35px;
         }
 
         .grpCfg {
             float: right;
         }
+
+
+        #addDepaDiv {
+            display: none;
+            position: absolute;
+            z-index: 1001;
+            height: 20%;
+            width: 40%;
+            top: 5%;
+            left: 30%;
+            background-color: whitesmoke;
+            font-size: 1.2em;
+            overflow-y: auto;
+            box-shadow: 2px 2px 6px black;
+            position: relative;
+        }
+        
+        #addDepaDiv div {
+            padding: 1em;
+            text-align: center;
+        }
+
+        #addDepaDiv div.btns {
+            position: absolute;
+            width: 100%;
+            bottom: 2px;
+            
+        }
+
 
 
         #addGrpDiv {

@@ -150,29 +150,6 @@ $.ajax({
 
 
             grpClick = function () {
-                //删除权限组
-                // $("[title=删除权限组]").click(function () {
-                //     if (!nowGrp.id) {
-                //         alert('请先选中一个权限组。')
-                //         return
-                //     } else {
-                //         if (confirm("确定要删除【" + nowDepaName + "】的权限组【" + nowGrp.name + "】吗？")) {
-                //             $.ajax({
-                //                 url: "http://" + serverIP + ":" + serverPort + "/deleteGroup",
-                //                 type: 'post',
-                //                 data: {
-                //                     grpId: nowGrp.id
-                //                 },
-                //                 success: function (res) {
-                //                     setTimeout(reloadGrps, 1000)
-                //                 }
-                //             })
-                //         }
-                //     }
-                // })
-
-
-
                 NewGrp = function (nLayers, nFields, nFunctions) {
                     this.nDepaId = nowDepaId;
                     this.nLayers = nLayers || [];
@@ -501,6 +478,7 @@ $.ajax({
 
                 //添加权限组
                 $("[title=添加权限组]").click(function () {
+                    $("#saveGrp")[0].disabled = false
                     newGrp = new NewGrp()
                     newGrp.type = 'add'
 
@@ -539,11 +517,12 @@ $.ajax({
 
                         $("#tBar").empty()
                         $("#tBar").append("<button class='btn btn-default' title='设置权限' id='setPri'><i class='fas fa-cogs'></i></button> \
-                    <button class='btn btn-default' title='添加用户' id='addU'><i class='fa fa-user-plus'></i></button>")
+                    <button class='btn btn-default' title='添加用户' id='addU'><i class='fa fa-user-plus'></i></button><button id='deleteGrp' class='btn btn-default' title='删除权限组'><i class='far fa-trash-alt'></i></button>")
 
 
                         // 配置权限组
                         $("#setPri").click(function () {
+                            $("#saveGrp")[0].disabled = false
                             newGrp = new NewGrp()
                             newGrp.type = 'update'
                             newGrp.id = nowGrp.id
@@ -595,6 +574,21 @@ $.ajax({
                             $("#pwd").val('')
                             $("#addUserDiv").show()
                             document.getElementById('theGrp').value = nowDepaName + "---" + nowGrp.name
+                        })
+
+                        $("#deleteGrp").click(function () {
+                            if (confirm("确定要删除【" + nowDepaName + "】的权限组【" + nowGrp.name + "】吗？")) {
+                                $.ajax({
+                                    url: "http://" + serverIP + ":" + serverPort + "/deleteGroup",
+                                    type: 'post',
+                                    data: {
+                                        grpId: nowGrp.id
+                                    },
+                                    success: function (res) {
+                                        setTimeout(reloadGrps, 600)
+                                    }
+                                })
+                            }
                         })
 
                         $(".grpBtn").removeClass('active')
@@ -796,6 +790,90 @@ $("#saveGrp").click(function (e) {
 
 
 })
+
+var isEdit = false
+
+$("#addDepa").click(function () {
+    isEdit = false
+    $("#grayBack").show()
+    $("#addDepaDiv").show()
+})
+
+$("#editDepa").click(function () {
+    isEdit = true
+    if (!nowDepaName) {
+        alert('请先选中一个部门')
+        return
+    }
+    $("#grayBack").show()
+    $("#addDepaDiv").show()
+    document.getElementById('depaName').value = nowDepaName
+})
+
+var saveDepaFun = function () {
+    var depaName = document.getElementById('depaName').value
+    if (!isEdit) {
+        $.ajax({
+            url: "http://" + serverIP + ":" + serverPort + "/addDepa",
+            type: 'post',
+            data: {
+                depaName: depaName
+            },
+            success: function (res) {
+                if (res === 'ok') {
+                    $("#addDepa").hide()
+                    $("#grayBack").hide()
+                    window.location.reload()
+                }
+            }
+        })
+    } else {
+        $.ajax({
+            url: "http://" + serverIP + ":" + serverPort + "/editDepa",
+            type: 'post',
+            data: {
+                depaName: depaName,
+                depaId: nowDepaId
+            },
+            success: function (res) {
+                if (res === 'ok') {
+                    $("#addDepa").hide()
+                    $("#grayBack").hide()
+                    window.location.reload()
+                }
+            }
+        })
+    }
+
+}
+
+$("#saveDepa").click(saveDepaFun)
+$("input#depaName").on('keydown', function (e) {
+    if (e.keyCode === 13) saveDepaFun()
+})
+
+$("#deleteDepa").click(function () {
+    if (!nowDepaName) {
+        alert('请先选中一个部门')
+        return
+    }
+    if (confirm("确认要删除部门" + nowDepaName + "吗？")) {
+        $.ajax({
+            url: "http://" + serverIP + ":" + serverPort + "/deleteDepa",
+            type: 'post',
+            data: {
+                depaId: nowDepaId
+            },
+            success: function (res) {
+                if (res === 'ok') {
+                    window.location.reload()
+                }
+            }
+        })
+    }
+})
+
+
 
 
 $("#closeEdit").click(function () {
