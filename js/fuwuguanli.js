@@ -151,7 +151,7 @@ var refreshLayers = function (lgid) {
 
                 if (oneLayer.LayerType == 'FeatureLayer') {
 
-                    $.get("http://" + serverIP + ":" + serverPort + "/fields?id=" + oneLayer.id, function (fields) {
+                    $.get("http://" + serverIP + ":" + serverPort + "/fields?layerId=" + oneLayer.id, function (fields) {
 
                         for (var i = 0; i < fields.length; i++) {
                             var field = fields[i];
@@ -215,7 +215,7 @@ var refreshLayers = function (lgid) {
 
                         $("#fields #tbd .editable.editable-click").editable({
                             showbuttons: true,
-                            url: "http://" + serverIP + ":" + serverPort + "/updateField",
+                            url: "http://" + serverIP + ":" + serverPort + "/fields/update",
                             ajaxOptions: {
                                 dataType: 'json'
                             },
@@ -346,7 +346,7 @@ var refreshLayers = function (lgid) {
 
                 if (oneLayer.LayerType == 'FeatureLayer') {
 
-                    $.get("http://" + serverIP + ":" + serverPort + "/fields?id=" + oneLayer.id, function (fields) {
+                    $.get("http://" + serverIP + ":" + serverPort + "/fields?layerId=" + oneLayer.id, function (fields) {
 
                         for (var i = 0; i < fields.length; i++) {
                             var field = fields[i];
@@ -415,7 +415,7 @@ var refreshLayers = function (lgid) {
                                 dataType: 'json'
                             },
                             success: function (response) {
-                                if (response === 'err') return '发生错误'
+                                // if (response === 'err') return '发生错误'
                             }
                         })
                     })

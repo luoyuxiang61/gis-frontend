@@ -335,11 +335,8 @@ $.ajax({
                             if (e.target.getAttribute('layerType') === 'FeatureLayer') {
                                 var flid = + e.target.getAttribute('layerId')
                                 $.ajax({
-                                    type: 'post',
-                                    url: "http://" + serverIP + ":" + serverPort + "/fieldsInLayer",
-                                    data: {
-                                        baseMapLayerId: flid
-                                    },
+                                    type: 'get',
+                                    url: "http://" + serverIP + ":" + serverPort + "/fields?layerId=" + flid,
                                     success: function (fds) {
                                         refreshFields(fds)
                                     }
@@ -478,6 +475,7 @@ $.ajax({
 
                 //添加权限组
                 $("[title=添加权限组]").click(function () {
+                    $("#fieldList").empty()
                     $("#saveGrp")[0].disabled = false
                     newGrp = new NewGrp()
                     newGrp.type = 'add'
@@ -487,7 +485,7 @@ $.ajax({
 
                     if (!layers) {
                         $.ajax({
-                            type: 'post',
+                            type: 'get',
                             url: "http://" + serverIP + ":" + serverPort + "/layersForTree",
                             success: function (layersForTree) {
                                 refreshLayers(layersForTree)
@@ -522,6 +520,7 @@ $.ajax({
 
                         // 配置权限组
                         $("#setPri").click(function () {
+                            $("#fieldList").empty()
                             $("#saveGrp")[0].disabled = false
                             newGrp = new NewGrp()
                             newGrp.type = 'update'
@@ -546,7 +545,7 @@ $.ajax({
 
                                     if (!layers) {
                                         $.ajax({
-                                            type: 'post',
+                                            type: 'get',
                                             url: "http://" + serverIP + ":" + serverPort + "/layersForTree",
                                             success: function (layersForTree) {
                                                 refreshLayers(layersForTree)
