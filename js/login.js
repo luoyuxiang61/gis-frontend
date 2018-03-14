@@ -12,7 +12,7 @@ function login() {
   var user;
   $.ajax({
     type: 'post',
-    url: "http://" + serverIP + ":" + serverPort + "/login",
+    url: "http://" + serverIP + ":" + serverPort + "/common/login",
     data: {
       userName: userName,
       password: password
