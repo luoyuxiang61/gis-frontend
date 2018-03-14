@@ -2,7 +2,7 @@ var lyrGrpId;
 var sort = [];
 var refreshLayers = function (lgid) {
     lyrGrpId = lgid
-    $.get("http://" + serverIP + ":" + serverPort + "/layersInLyrGrp?lyrGrpId=" + lgid, function (sons) {
+    $.get("http://" + serverIP + ":" + serverPort + "/layers/" + lgid + "/sons", function (sons) {
         $("#mainT").empty()
         for (var j = 0; j < sons.length; j++) {
             son = sons[j]
@@ -82,7 +82,7 @@ var refreshLayers = function (lgid) {
             $("#fields #tbd").empty();
 
 
-            $.get("http://" + serverIP + ":" + serverPort + "/oneLayer?layerId=" + layerId, function (oneLayer) {
+            $.get("http://" + serverIP + ":" + serverPort + "/layers?id=" + layerId, function (oneLayer) {
                 if (oneLayer.LayerType !== 'FeatureLayer') $("#goFields").hide()
                 var lt = 0;
                 switch (oneLayer.LayerType) {
@@ -238,7 +238,7 @@ var refreshLayers = function (lgid) {
                 $("#service>tbody #Opacity").editable({
                     step: 0.1,
                     showbuttons: true,
-                    url: "http://" + serverIP + ":" + serverPort + "/updateLayer",
+                    url: "http://" + serverIP + ":" + serverPort + "/layers/update",
                     ajaxOptions: {
                         dataType: 'json'
                     },
@@ -249,7 +249,7 @@ var refreshLayers = function (lgid) {
 
                 $('#service>tbody .editable.editable-click').editable({
                     showbuttons: true,
-                    url: "http://" + serverIP + ":" + serverPort + "/updateLayer",
+                    url: "http://" + serverIP + ":" + serverPort + "/layers/update",
                     ajaxOptions: {
                         dataType: 'json'
                     },
@@ -277,7 +277,7 @@ var refreshLayers = function (lgid) {
             $("#fields #tbd").empty();
 
 
-            $.get("http://" + serverIP + ":" + serverPort + "/oneLayer?layerId=" + layerId, function (oneLayer) {
+            $.get("http://" + serverIP + ":" + serverPort + "/layers?id=" + layerId, function (oneLayer) {
                 if (oneLayer.LayerType !== 'FeatureLayer') $("#goFields").hide()
                 var lt = 0;
                 switch (oneLayer.LayerType) {
@@ -433,7 +433,7 @@ var refreshLayers = function (lgid) {
                 $("#service>tbody #Opacity").editable({
                     step: 0.1,
                     showbuttons: true,
-                    url: "http://" + serverIP + ":" + serverPort + "/updateLayer",
+                    url: "http://" + serverIP + ":" + serverPort + "/layers/update",
                     ajaxOptions: {
                         dataType: 'json'
                     },
@@ -444,7 +444,7 @@ var refreshLayers = function (lgid) {
 
                 $('#service>tbody .editable.editable-click').editable({
                     showbuttons: true,
-                    url: "http://" + serverIP + ":" + serverPort + "/updateLayer",
+                    url: "http://" + serverIP + ":" + serverPort + "/layers/update",
                     ajaxOptions: {
                         dataType: 'json'
                     },
@@ -460,7 +460,7 @@ var refreshLayers = function (lgid) {
 $.ajax({
     type: 'get',
     async: false,
-    url: "http://" + serverIP + ":" + serverPort + "/layersForTree",
+    url: "http://" + serverIP + ":" + serverPort + "/layers",
     success: function (layersForTree) {
         for (var i = 0; i < layersForTree.length; i++) {
             $("#layerGroupList").append("<li lyrGrpId='" + layersForTree[i].father.id + "' class='layerGroup'><div><span>" + layersForTree[i].father.DisplayName + "</span><span class='badge' style='float:right;'>" + layersForTree[i].sons.length + "</span></div></li>")
@@ -497,7 +497,7 @@ $("#saveOrder").click(function () {
         return
     } else {
         $.post({
-            url: "http://" + serverIP + ":" + serverPort + "/changeSort",
+            url: "http://" + serverIP + ":" + serverPort + "/layers/sort",
             type: 'post',
             data: {
                 sort: JSON.stringify(sort)

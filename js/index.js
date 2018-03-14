@@ -91,9 +91,8 @@ require([
         var legendLayers = [];
 
         $.ajax({
-            type: 'post',
-            url: "http://" + serverIP + ":" + serverPort + "/layersForGroup",
-            data: { groupId: user.groupId },
+            type: 'get',
+            url: "http://" + serverIP + ":" + serverPort + "/layers?groupId=" + user.groupId,
             success: function (layersForGroup) {
                 nowLayers = layersForGroup;
                 var sonshtml = '';

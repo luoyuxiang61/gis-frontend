@@ -546,7 +546,7 @@ $.ajax({
                                     if (!layers) {
                                         $.ajax({
                                             type: 'get',
-                                            url: "http://" + serverIP + ":" + serverPort + "/layersForTree",
+                                            url: "http://" + serverIP + ":" + serverPort + "/layers",
                                             success: function (layersForTree) {
                                                 refreshLayers(layersForTree)
                                                 refreshFunctions()
