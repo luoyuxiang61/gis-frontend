@@ -4,11 +4,8 @@ function getBookmarks() {
     $("#starToolDiv").empty();
 
     $.ajax({
-        url: "http://" + serverIP + ":" + serverPort + "/bookmarks",
-        type: 'post',
-        data: {
-            userId: user.userId
-        },
+        url: "http://" + serverIP + ":" + serverPort + "/bookmarks?userId=" + user.userId,
+        type: 'get',
         success: function (res) {
             nowBookmarks = res;
             for (var i = 0; i < res.length; i++) {
@@ -44,10 +41,9 @@ function editOver(el) {
     var bookmarkId = nowBookmarks[index].id;
 
     $.ajax({
-        url: "http://" + serverIP + ":" + serverPort + "/editBookmark",
-        type: 'post',
+        url: "http://" + serverIP + ":" + serverPort + "/bookmarks/" + bookmarkId,
+        type: 'put',
         data: {
-            bookmarkId: bookmarkId,
             newName: newName
         },
         success: function (res) {
@@ -70,14 +66,9 @@ function removeBookmark(el) {
         var bookmarkId = nowBookmarks[index].id;
 
         $.ajax({
-            url: "http://" + serverIP + ":" + serverPort + "/removeBookmark",
-            type: 'post',
-            data: {
-                bookmarkId: bookmarkId,
-                userId: user.userId
-            },
+            url: "http://" + serverIP + ":" + serverPort + "/bookmarks/" + bookmarkId,
+            type: 'delete',
             success: function (res) {
-                console.log(res);
                 getBookmarks();
             }
         })
@@ -96,7 +87,7 @@ function starHere() {
     }
 
     $.ajax({
-        url: "http://" + serverIP + ":" + serverPort + "/addBookmark",
+        url: "http://" + serverIP + ":" + serverPort + "/bookmarks",
         type: 'post',
         data: {
             mark: JSON.stringify({

@@ -436,7 +436,7 @@ $.ajax({
                     if (!allFunctions) {
                         $.ajax({
                             type: 'get',
-                            url: "http://" + serverIP + ":" + serverPort + "/allFunctions",
+                            url: "http://" + serverIP + ":" + serverPort + "/functions",
                             success: function (res) {
                                 allFunctions = res
                                 $("#funList").append("<li class='list-group-item changeAllFunctions'><input type='checkbox'>全选</li>")
