@@ -9,35 +9,32 @@ document.onkeydown = function (event) {
 function login() {
   var userName = document.getElementById('username').value.trim();
   var password = document.getElementById('password').value.trim();
-  var user;
   $.ajax({
     type: 'post',
-    url: "http://" + serverIP + ":" + serverPort + "/common/login",
+    url: "http://" + serverIP + ":" + serverPort + "/auth/authenticate",
     data: {
       userName: userName,
       password: password
     },
-    async: false,
     success: function (res) {
-      user = res;
+      if (res.success) {
+        var user = JSON.parse(res.user);
+        var token = res.token
+        $.removeCookie('user');
+        $.cookie('user', JSON.stringify({
+          userId: user.id,
+          groupId: user.Group.id,
+          name: document.getElementById('username').value.trim(),
+          UserName: userName,
+          Password: password
+        }));
+
+        $.removeCookie('token');
+        $.cookie('token', token)
+        window.location.href = './index.html';
+      } else {
+        alert("用户名或密码错误！")
+      }
     }
   })
-
-  user = JSON.parse(user);
-
-  if (user == null || user == '') {
-    alert('用户名或密码错误！');
-    return false;
-  } else {
-    $.removeCookie('user');
-    $.cookie('user', JSON.stringify({
-      userId: user.id,
-      groupId: user.Group.id,
-      name: document.getElementById('username').value.trim(),
-      UserName: userName,
-      Password: password
-    }));
-    window.location.href = './index.html';
-  }
-
 }

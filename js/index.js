@@ -92,7 +92,7 @@ require([
 
         $.ajax({
             type: 'get',
-            url: "http://" + serverIP + ":" + serverPort + "/layers?groupId=" + user.groupId,
+            url: "http://" + serverIP + ":" + serverPort + "/layers?groupId=" + user.groupId + "&token=" + token,
             success: function (layersForGroup) {
                 nowLayers = layersForGroup;
                 var sonshtml = '';

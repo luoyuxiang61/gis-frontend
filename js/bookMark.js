@@ -4,7 +4,7 @@ function getBookmarks() {
     $("#starToolDiv").empty();
 
     $.ajax({
-        url: "http://" + serverIP + ":" + serverPort + "/bookmarks?userId=" + user.userId,
+        url: "http://" + serverIP + ":" + serverPort + "/bookmarks?userId=" + user.userId + "&token=" + token,
         type: 'get',
         success: function (res) {
             nowBookmarks = res;
@@ -41,7 +41,7 @@ function editOver(el) {
     var bookmarkId = nowBookmarks[index].id;
 
     $.ajax({
-        url: "http://" + serverIP + ":" + serverPort + "/bookmarks/" + bookmarkId,
+        url: "http://" + serverIP + ":" + serverPort + "/bookmarks/" + bookmarkId + "?token=" + token,
         type: 'put',
         data: {
             newName: newName
@@ -66,7 +66,7 @@ function removeBookmark(el) {
         var bookmarkId = nowBookmarks[index].id;
 
         $.ajax({
-            url: "http://" + serverIP + ":" + serverPort + "/bookmarks/" + bookmarkId,
+            url: "http://" + serverIP + ":" + serverPort + "/bookmarks/" + bookmarkId + "?token=" + token,
             type: 'delete',
             success: function (res) {
                 getBookmarks();
@@ -98,7 +98,8 @@ function starHere() {
                 ymax: ext.ymax
             }),
             name: name,
-            userId: user.userId
+            userId: user.userId,
+            token: token
         },
         success: function (res) {
             console.log(res);
