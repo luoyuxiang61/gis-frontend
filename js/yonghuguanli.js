@@ -23,7 +23,7 @@ var initSetPri
 $.ajax({
     type: 'get',
     async: false,
-    url: "http://" + serverIP + ":" + serverPort + "/quanxian/departments",
+    url: "http://" + serverIP + ":" + serverPort + "/quanxian/departments" + "?token=" + token,
     success: function (departmentsForTree) {
         departments = departmentsForTree
         for (var i = 0; i < departmentsForTree.length; i++) {
@@ -44,7 +44,7 @@ $.ajax({
                 $(".grpBtn.all").addClass('active')
                 $("#mainT").empty()
                 $.ajax({
-                    url: "http://" + serverIP + ":" + serverPort + "/quanxian/users?depaId=" + depaId,
+                    url: "http://" + serverIP + ":" + serverPort + "/quanxian/users?depaId=" + depaId + "&token=" + token,
                     type: 'get',
                     success: function (users) {
                         nowUsers = users
@@ -61,7 +61,7 @@ $.ajax({
             getUsersInGrp = function (grpId) {
                 $("#mainT").empty()
                 $.ajax({
-                    url: "http://" + serverIP + ":" + serverPort + "/quanxian/users?groupId=" + grpId,
+                    url: "http://" + serverIP + ":" + serverPort + "/quanxian/users?groupId=" + grpId + "&token=" + token,
                     type: 'get',
                     success: function (users) {
                         nowUsers = users
@@ -83,7 +83,7 @@ $.ajax({
                         var sure = confirm("确认要删除用户【" + nowUser.UserName + "】吗？删除后不可恢复。")
                         if (sure) {
                             $.ajax({
-                                url: "http://" + serverIP + ":" + serverPort + "/quanxian/users/" + nowUser.id,
+                                url: "http://" + serverIP + ":" + serverPort + "/quanxian/users/" + nowUser.id + "?token=" + token,
                                 type: 'delete',
                                 success: function (res) {
                                     if (depaId) getUsersInDepa(depaId)
@@ -228,15 +228,7 @@ $.ajax({
                         } else {
                             newGrp.removeField(fdid)
                         }
-
-                        console.log(newGrp.nFields)
-
-
                     })
-
-
-
-
                 }
 
 
@@ -249,7 +241,7 @@ $.ajax({
                         sonshtml += "<div class='list-group-item father grp' layerId='" + layersForTree[i].father.id + "'><input class='changeGrpLayer' type='checkbox' >" + "<strong>" + layersForTree[i].father.DisplayName + "</strong></div>"
                         sonshtml += "<ul class='list-group son' style='padding-left:15px;margin-bottom:3px'>"
                         for (var j = 0; j < layersForTree[i].sons.length; j++) {
-                            sonshtml += "<li layerType='" + layersForTree[i].sons[j].LayerType + "' class='list-group-item son changeLayer' layerId='" + layersForTree[i].sons[j].id + "'>" + "<input class='changeLayer' type='checkbox'>" + layersForTree[i].sons[j].DisplayName + "</li>"
+                            sonshtml += "<li layerType='" + layersForTree[i].sons[j].LayerType + "' class='list-group-item son changeLayer' layerId='" + layersForTree[i].sons[j].id + "'>" + "<input type='checkbox'>" + layersForTree[i].sons[j].DisplayName + "</li>"
                         }
                         sonshtml += "</ul>"
                     }
@@ -312,7 +304,6 @@ $.ajax({
                                 $("li.son[layerId=" + sons[k] + "] input")[0].checked = false
                             }
                         }
-
                     })
 
                     $(".changeLayer").click(function (e) {
@@ -327,38 +318,39 @@ $.ajax({
                                 var flid = + e.target.getAttribute('layerId')
                                 $.ajax({
                                     type: 'get',
-                                    url: "http://" + serverIP + ":" + serverPort + "/fields?layerId=" + flid,
+                                    url: "http://" + serverIP + ":" + serverPort + "/fields?layerId=" + flid + "&token=" + token,
                                     success: function (fds) {
                                         refreshFields(fds)
                                     }
                                 })
                             }
-                        }
-
-                        var siblings = el.parentElement.parentElement.children
-                        var lid = + el.parentElement.getAttribute("layerId")
-                        var gl = el.parentElement.parentElement.previousElementSibling
-                        var glid = + el.parentElement.parentElement.previousElementSibling.getAttribute('layerId')
-                        var checked = el.checked
-                        if (checked) {
-                            gl.children[0].checked = true
-                            newGrp.addLayer(glid)
-                            newGrp.addLayer(lid)
                         } else {
-                            $("input.changeAllLayers")[0].checked = false
-                            var ns = true
-                            for (var k = 0; k < siblings.length; k++) {
-                                if (siblings[k].children[0].checked) {
-                                    ns = false
+                            var siblings = el.parentElement.parentElement.children
+                            var lid = + el.parentElement.getAttribute("layerId")
+                            var gl = el.parentElement.parentElement.previousElementSibling
+                            var glid = + el.parentElement.parentElement.previousElementSibling.getAttribute('layerId')
+                            var checked = e.target.checked
+                            if (checked) {
+                                gl.children[0].checked = true
+                                newGrp.addLayer(glid)
+                                newGrp.addLayer(lid)
+                            } else {
+                                $("input.changeAllLayers")[0].checked = false
+                                var ns = true
+                                for (var k = 0; k < siblings.length; k++) {
+                                    if (siblings[k].children[0].checked) {
+                                        ns = false
+                                    }
                                 }
+                                if (ns) {
+                                    gl.children[0].checked = false
+                                    newGrp.removeLayer(glid)
+                                }
+                                newGrp.removeLayer(lid)
                             }
-                            if (ns) {
-                                gl.children[0].checked = false
-                                newGrp.removeLayer(glid)
-                            }
-
-                            newGrp.removeLayer(lid)
                         }
+
+
                     })
 
                     $("div.father.grp").click(function (e) {
@@ -420,14 +412,12 @@ $.ajax({
                                 }
                             }
                         }
-
-                        console.log(newGrp)
                     }
 
                     if (!allFunctions) {
                         $.ajax({
                             type: 'get',
-                            url: "http://" + serverIP + ":" + serverPort + "/functions",
+                            url: "http://" + serverIP + ":" + serverPort + "/functions" + "?token=" + token,
                             success: function (res) {
                                 allFunctions = res
                                 $("#funList").append("<li class='list-group-item changeAllFunctions'><input type='checkbox'>全选</li>")
@@ -477,7 +467,7 @@ $.ajax({
                     if (!layers) {
                         $.ajax({
                             type: 'get',
-                            url: "http://" + serverIP + ":" + serverPort + "/layers",
+                            url: "http://" + serverIP + ":" + serverPort + "/layers" + "?token=" + token,
                             success: function (layersForTree) {
                                 refreshLayers(layersForTree)
                                 refreshFunctions()
@@ -518,9 +508,8 @@ $.ajax({
                             newGrp.id = nowGrp.id
                             $.ajax({
                                 type: 'get',
-                                url: "http://" + serverIP + ":" + serverPort + "/quanxian?groupId=" + nowGrp.id,
+                                url: "http://" + serverIP + ":" + serverPort + "/quanxian?groupId=" + nowGrp.id + "&token=" + token,
                                 success: function (quanxian) {
-                                    console.log(quanxian)
                                     var qx = JSON.parse(quanxian)
                                     for (var r = 0; r < qx.layers.length; r++) {
                                         newGrp.addLayer(qx.layers[r].id)
@@ -537,7 +526,7 @@ $.ajax({
                                     if (!layers) {
                                         $.ajax({
                                             type: 'get',
-                                            url: "http://" + serverIP + ":" + serverPort + "/layers",
+                                            url: "http://" + serverIP + ":" + serverPort + "/layers" + "?token=" + token,
                                             success: function (layersForTree) {
                                                 refreshLayers(layersForTree)
                                                 refreshFunctions()
@@ -558,7 +547,6 @@ $.ajax({
 
                         })
                         $("#addU").click(function () {
-                            console.log('uuuuu')
                             $("#grayBack").show()
                             $("#uname").val('')
                             $("#pwd").val('')
@@ -569,7 +557,7 @@ $.ajax({
                         $("#deleteGrp").click(function () {
                             if (confirm("确定要删除【" + nowDepaName + "】的权限组【" + nowGrp.name + "】吗？")) {
                                 $.ajax({
-                                    url: "http://" + serverIP + ":" + serverPort + "/quanxian/groups/" + nowGrp.id,
+                                    url: "http://" + serverIP + ":" + serverPort + "/quanxian/groups/" + nowGrp.id + "?token=" + token,
                                     type: 'delete',
                                     success: function (res) {
                                         setTimeout(reloadGrps, 600)
@@ -586,7 +574,7 @@ $.ajax({
                         nowGrp.name = this.innerText
                         nowGrp.id = grpId
                         $.ajax({
-                            url: "http://" + serverIP + ":" + serverPort + "/quanxian/users?groupId=" + grpId,
+                            url: "http://" + serverIP + ":" + serverPort + "/quanxian/users?groupId=" + grpId + "&token=" + token,
                             type: 'get',
                             success: function (users) {
                                 nowUsers = users
@@ -622,7 +610,7 @@ function saveUser() {
     }
 
     $.ajax({
-        url: "http://" + serverIP + ":" + serverPort + "/quanxian/users",
+        url: "http://" + serverIP + ":" + serverPort + "/quanxian/users" + "?token=" + token,
         type: 'post',
         data: {
             userName: uname,
@@ -659,7 +647,7 @@ function editUser() {
     var euname = $("#euname").val()
     var epwd = $("#epwd").val()
     $.ajax({
-        url: "http://" + serverIP + ":" + serverPort + "/quanxian/users/" + nowUser.id,
+        url: "http://" + serverIP + ":" + serverPort + "/quanxian/users/" + nowUser.id + "?token=" + token,
         type: 'put',
         data: {
             change: JSON.stringify({
@@ -669,7 +657,6 @@ function editUser() {
         },
         success: function (res) {
             if (res !== 'err') {
-                console.log(nowDepaId, nowGrp)
                 if (!nowGrp.id) {
                     getUsersInDepa(nowDepaId)
                 } else {
@@ -703,7 +690,7 @@ $("#noEditUser").click(function () {
 
 reloadGrps = function () {
     $.ajax({
-        url: "http://" + serverIP + ":" + serverPort + "/quanxian/groups?depaId=" + nowDepaId,
+        url: "http://" + serverIP + ":" + serverPort + "/quanxian/groups?depaId=" + nowDepaId + "&token=" + token,
         type: 'get',
         success: function (res) {
             for (var p = 0; p < departments.length; p++) {
@@ -736,7 +723,7 @@ $("#saveGrp").click(function (e) {
 
     if (newGrp.type === 'add') {
         $.ajax({
-            url: "http://" + serverIP + ":" + serverPort + "/quanxian/groups",
+            url: "http://" + serverIP + ":" + serverPort + "/quanxian/groups" + "?token=" + token,
             type: 'post',
             data: { newGrp: JSON.stringify(newGrp) },
             success: function (res) {
@@ -753,11 +740,10 @@ $("#saveGrp").click(function (e) {
 
     if (newGrp.type === 'update') {
         $.ajax({
-            url: "http://" + serverIP + ":" + serverPort + "/quanxian/groups/" + newGrp.id,
+            url: "http://" + serverIP + ":" + serverPort + "/quanxian/groups/" + newGrp.id + "?token=" + token,
             type: 'put',
             data: { newGrp: JSON.stringify(newGrp) },
             success: function (res) {
-                console.log(res)
                 if (res === 'ok') {
                     $("#addGrpDiv").hide()
                     $("#grayBack").hide()
@@ -796,7 +782,7 @@ var saveDepaFun = function () {
     var depaName = document.getElementById('depaName').value
     if (!isEdit) {
         $.ajax({
-            url: "http://" + serverIP + ":" + serverPort + "/quanxian/departments",
+            url: "http://" + serverIP + ":" + serverPort + "/quanxian/departments" + "?token=" + token,
             type: 'post',
             data: {
                 depaName: depaName
@@ -811,7 +797,7 @@ var saveDepaFun = function () {
         })
     } else {
         $.ajax({
-            url: "http://" + serverIP + ":" + serverPort + "/quanxian/departments/" + nowDepaId,
+            url: "http://" + serverIP + ":" + serverPort + "/quanxian/departments/" + nowDepaId + "?token=" + token,
             type: 'put',
             data: {
                 depaName: depaName,
@@ -840,7 +826,7 @@ $("#deleteDepa").click(function () {
     }
     if (confirm("确认要删除部门" + nowDepaName + "吗？")) {
         $.ajax({
-            url: "http://" + serverIP + ":" + serverPort + "/quanxian/departments/" + nowDepaId,
+            url: "http://" + serverIP + ":" + serverPort + "/quanxian/departments/" + nowDepaId + "?token=" + token,
             type: 'delete',
             success: function (res) {
                 if (res === 'ok') {
@@ -861,7 +847,6 @@ $("#closeEdit").click(function () {
 
 $("#logOut").click(function () {
     $.removeCookie('user');
-    console.log('hahahah')
     window.location.href = 'login.html'
 })
 

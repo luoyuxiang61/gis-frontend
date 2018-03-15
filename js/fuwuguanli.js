@@ -2,7 +2,7 @@ var lyrGrpId;
 var sort = [];
 var refreshLayers = function (lgid) {
     lyrGrpId = lgid
-    $.get("http://" + serverIP + ":" + serverPort + "/layers/" + lgid + "/sons", function (sons) {
+    $.get("http://" + serverIP + ":" + serverPort + "/layers/" + lgid + "/sons" + "?token=" + token, function (sons) {
         $("#mainT").empty()
         for (var j = 0; j < sons.length; j++) {
             son = sons[j]
@@ -82,7 +82,7 @@ var refreshLayers = function (lgid) {
             $("#fields #tbd").empty();
 
 
-            $.get("http://" + serverIP + ":" + serverPort + "/layers?id=" + layerId, function (oneLayer) {
+            $.get("http://" + serverIP + ":" + serverPort + "/layers?id=" + layerId + "&token=" + token, function (oneLayer) {
                 if (oneLayer.LayerType !== 'FeatureLayer') $("#goFields").hide()
                 var lt = 0;
                 switch (oneLayer.LayerType) {
@@ -151,7 +151,7 @@ var refreshLayers = function (lgid) {
 
                 if (oneLayer.LayerType == 'FeatureLayer') {
 
-                    $.get("http://" + serverIP + ":" + serverPort + "/fields?layerId=" + oneLayer.id, function (fields) {
+                    $.get("http://" + serverIP + ":" + serverPort + "/fields?layerId=" + oneLayer.id + "&token=" + token, function (fields) {
 
                         for (var i = 0; i < fields.length; i++) {
                             var field = fields[i];
@@ -215,7 +215,7 @@ var refreshLayers = function (lgid) {
 
                         $("#fields #tbd .editable.editable-click").editable({
                             showbuttons: true,
-                            url: "http://" + serverIP + ":" + serverPort + "/fields/update",
+                            url: "http://" + serverIP + ":" + serverPort + "/fields/update" + "?token=" + token,
                             ajaxOptions: {
                                 dataType: 'json'
                             },
@@ -238,7 +238,7 @@ var refreshLayers = function (lgid) {
                 $("#service>tbody #Opacity").editable({
                     step: 0.1,
                     showbuttons: true,
-                    url: "http://" + serverIP + ":" + serverPort + "/layers/update",
+                    url: "http://" + serverIP + ":" + serverPort + "/layers/update" + "?token=" + token,
                     ajaxOptions: {
                         dataType: 'json'
                     },
@@ -249,7 +249,7 @@ var refreshLayers = function (lgid) {
 
                 $('#service>tbody .editable.editable-click').editable({
                     showbuttons: true,
-                    url: "http://" + serverIP + ":" + serverPort + "/layers/update",
+                    url: "http://" + serverIP + ":" + serverPort + "/layers/update" + "?token=" + token,
                     ajaxOptions: {
                         dataType: 'json'
                     },
@@ -277,7 +277,7 @@ var refreshLayers = function (lgid) {
             $("#fields #tbd").empty();
 
 
-            $.get("http://" + serverIP + ":" + serverPort + "/layers?id=" + layerId, function (oneLayer) {
+            $.get("http://" + serverIP + ":" + serverPort + "/layers?id=" + layerId + "&token=" + token, function (oneLayer) {
                 if (oneLayer.LayerType !== 'FeatureLayer') $("#goFields").hide()
                 var lt = 0;
                 switch (oneLayer.LayerType) {
@@ -346,7 +346,7 @@ var refreshLayers = function (lgid) {
 
                 if (oneLayer.LayerType == 'FeatureLayer') {
 
-                    $.get("http://" + serverIP + ":" + serverPort + "/fields?layerId=" + oneLayer.id, function (fields) {
+                    $.get("http://" + serverIP + ":" + serverPort + "/fields?layerId=" + oneLayer.id + "&token=" + token, function (fields) {
 
                         for (var i = 0; i < fields.length; i++) {
                             var field = fields[i];
@@ -410,7 +410,7 @@ var refreshLayers = function (lgid) {
 
                         $("#fields #tbd .editable.editable-click").editable({
                             showbuttons: true,
-                            url: "http://" + serverIP + ":" + serverPort + "/updateField",
+                            url: "http://" + serverIP + ":" + serverPort + "/updateField" + "?token=" + token,
                             ajaxOptions: {
                                 dataType: 'json'
                             },
@@ -433,7 +433,7 @@ var refreshLayers = function (lgid) {
                 $("#service>tbody #Opacity").editable({
                     step: 0.1,
                     showbuttons: true,
-                    url: "http://" + serverIP + ":" + serverPort + "/layers/update",
+                    url: "http://" + serverIP + ":" + serverPort + "/layers/update" + "?token=" + token,
                     ajaxOptions: {
                         dataType: 'json'
                     },
@@ -444,7 +444,7 @@ var refreshLayers = function (lgid) {
 
                 $('#service>tbody .editable.editable-click').editable({
                     showbuttons: true,
-                    url: "http://" + serverIP + ":" + serverPort + "/layers/update",
+                    url: "http://" + serverIP + ":" + serverPort + "/layers/update" + "?token=" + token,
                     ajaxOptions: {
                         dataType: 'json'
                     },
@@ -460,7 +460,7 @@ var refreshLayers = function (lgid) {
 $.ajax({
     type: 'get',
     async: false,
-    url: "http://" + serverIP + ":" + serverPort + "/layers",
+    url: "http://" + serverIP + ":" + serverPort + "/layers" + "?token=" + token,
     success: function (layersForTree) {
         for (var i = 0; i < layersForTree.length; i++) {
             $("#layerGroupList").append("<li lyrGrpId='" + layersForTree[i].father.id + "' class='layerGroup'><div><span>" + layersForTree[i].father.DisplayName + "</span><span class='badge' style='float:right;'>" + layersForTree[i].sons.length + "</span></div></li>")
@@ -496,11 +496,12 @@ $("#saveOrder").click(function () {
     if (sort.length === 0) {
         return
     } else {
-        $.post({
+        $.ajax({
             url: "http://" + serverIP + ":" + serverPort + "/layers/sort",
             type: 'post',
             data: {
-                sort: JSON.stringify(sort)
+                sort: JSON.stringify(sort),
+                token: token
             },
             success: function (res) {
                 if (res === 'ok') {
