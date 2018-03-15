@@ -1,7 +1,7 @@
 function getDevices() {
     var args = Array.prototype.slice.call(arguments)
     $.ajax({
-        url: "http://" + serverIP + ":" + serverPort + "/devices?os=" + args[0] + "&type=" + args[1],
+        url: "http://" + serverIP + ":" + serverPort + "/devices?os=" + args[0] + "&type=" + args[1] + "&token=" + token,
         type: 'get',
         success: function (devices) {
             var mt = $("#mainT")
