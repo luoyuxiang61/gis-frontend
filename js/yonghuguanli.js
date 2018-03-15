@@ -50,7 +50,7 @@ $.ajax({
                         nowUsers = users
                         for (var k = 0; k < users.length; k++) {
                             var user = users[k]
-                            $("#mainT").append("<tr index='" + k + "'><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.UserName + "</span></td><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.Password + "</span></td><td class='col-xs-4'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><button class='btn btn-default btn-sm editUserBtn'><i class='fas fa-edit'></i></button><button class='btn btn-default btn-sm deleteUserBtn'><i class='fas fa-times'></i></button></td></tr>")
+                            $("#mainT").append("<tr index='" + k + "'><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.UserName + "</span></td><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.Password + "</span></td><td class='col-xs-3'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-1'>" + user.Group.name + "</td><td class='col-xs-2'><button class='btn btn-default btn-sm editUserBtn'><i class='fas fa-edit'></i></button><button class='btn btn-default btn-sm deleteUserBtn'><i class='fas fa-times'></i></button></td></tr>")
                         }
                         enableDeleteUser(depaId, null)
                         enableEditUser(depaId, null)
@@ -67,7 +67,7 @@ $.ajax({
                         nowUsers = users
                         for (var k = 0; k < users.length; k++) {
                             var user = users[k]
-                            $("#mainT").append("<tr index='" + k + "'><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.UserName + "</span></td><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.Password + "</span></td><td class='col-xs-4'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><button class='btn btn-default btn-sm userEdit'><i class='fas fa-edit'></i></button><button class='btn btn-default btn-sm deleteUserBtn'><i class='fas fa-times'></i></button></td></tr>")
+                            $("#mainT").append("<tr index='" + k + "'><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.UserName + "</span></td><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.Password + "</span></td><td class='col-xs-3'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-1'>" + user.Group.name + "</td><td class='col-xs-2'><button class='btn btn-default btn-sm editUserBtn'><i class='fas fa-edit'></i></button><button class='btn btn-default btn-sm deleteUserBtn'><i class='fas fa-times'></i></button></td></tr>")
                         }
                         enableDeleteUser(null, grpId)
                         enableEditUser(null, grpId)
@@ -520,6 +520,7 @@ $.ajax({
                                 type: 'get',
                                 url: "http://" + serverIP + ":" + serverPort + "/quanxian?groupId=" + nowGrp.id,
                                 success: function (quanxian) {
+                                    console.log(quanxian)
                                     var qx = JSON.parse(quanxian)
                                     for (var r = 0; r < qx.layers.length; r++) {
                                         newGrp.addLayer(qx.layers[r].id)
@@ -591,7 +592,7 @@ $.ajax({
                                 nowUsers = users
                                 for (var k = 0; k < users.length; k++) {
                                     var user = users[k]
-                                    $("#mainT").append("<tr index='" + k + "'><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.UserName + "</span></td><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.Password + "</span></td><td class='col-xs-4'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><button class='btn btn-default btn-sm editUserBtn'><i class='fas fa-edit'></i></button><button class='btn btn-default btn-sm deleteUserBtn'><i class='fas fa-times'></i></button></td></tr>")
+                                    $("#mainT").append("<tr index='" + k + "'><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.UserName + "</span></td><td class='col-xs-2'>" + "<span style='line-height:30px;display:inline-block;height:30px;width:auto;'>" + user.Password + "</span></td><td class='col-xs-3'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-2'><span style='line-height:30px;display:inline-block;height:30px;width:auto;'>sss</span></td><td class='col-xs-1'>" + user.Group.name + "</td><td class='col-xs-2'><button class='btn btn-default btn-sm editUserBtn'><i class='fas fa-edit'></i></button><button class='btn btn-default btn-sm deleteUserBtn'><i class='fas fa-times'></i></button></td></tr>")
                                 }
                                 enableDeleteUser(null, grpId)
                                 enableEditUser(null, grpId)
