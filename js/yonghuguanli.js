@@ -718,6 +718,7 @@ $("#saveGrp").click(function (e) {
     newGrp.name = document.getElementById("grpName").value.trim()
     if (!newGrp.name) {
         alert('请输入权限组名！')
+        e.currentTarget.disabled = false
         return
     }
 

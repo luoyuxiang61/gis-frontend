@@ -1,2 +1,2 @@
-user = JSON.parse(user);
+
 
